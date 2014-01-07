@@ -10,7 +10,7 @@ module.exports = {
      * GET pricing page.
      */
     pricing: function(req, res){
-        res.render('index', { title: 'CubbyHole' });
+        res.render('pricing', { title: 'CubbyHole' });
     },
 
     /*

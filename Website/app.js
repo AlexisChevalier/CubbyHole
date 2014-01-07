@@ -1,28 +1,34 @@
-
 /**
  * Module dependencies.
  */
 
-var express = require('express');
-var https = require('https');
-var http = require('http');
-var swig = require('swig');
-var path = require('path');
-var fs = require('fs');
-var key = fs.readFileSync('./ssl_elems/web_app_key.pem');
-var cert = fs.readFileSync('./ssl_elems/web_app_cert.pem');
-var https_options = {
-    key: key,
-    cert: cert
-};
+var express = require('express')
+    , https = require('https')
+    , http = require('http')
+    , swig = require('swig')
+    , path = require('path')
+    , fs = require('fs')
+    , I18n = require('i18n-2')
+    , locale = require("locale")
+    , supportedLocales = ["en", "fr"]
+    , defaultRoutes = require('./routes/default')
+    , fileBrowserRoutes = require('./routes/fileBrowser')
+    , app = express();
 
-/* CHARGEMENT DES ROUTES */
-var defaultRoutes = require('./routes/default');
+/**
+ * SSL parameters.
+ */
 
+var key = fs.readFileSync('./ssl_elems/web_app_key.pem')
+    , cert = fs.readFileSync('./ssl_elems/web_app_cert.pem')
+    , https_options = {
+        key: key,
+        cert: cert
+    };
 
-var app = express();
-
-// all environments
+/**
+ * App configuration.
+ */
 app.set('sslport', process.env.SSLPORT || 8443);
 app.set('port', process.env.PORT || 8080);
 app.set('domain', 'localhost');
@@ -39,6 +45,7 @@ app.use(function(req, res, next) {
   }
   next();
 });
+
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
@@ -46,18 +53,35 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('5cJ435umRC2lL76o27J4T8Aw8425Qgf2'));
 app.use(express.session());
+app.use(locale(supportedLocales));
+I18n.expressBind(app, {
+    locales: supportedLocales
+});
+app.use(function(req, res, next) {
+    req.i18n.setLocale(req.locale);
+    next();
+});
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-// development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', defaultRoutes.home);
+/**
+ * Routes definitions.
+ */
 
-http.createServer(app).listen(app.get('port'), function(){
-});
+//Default Routes
+app.get('/', defaultRoutes.home);
+app.get('/pricing', defaultRoutes.pricing);
+
+
+/**
+ * Server initialization.
+ */
+
+http.createServer(app).listen(app.get('port'));
 https.createServer(https_options, app).listen(app.get('sslport'), app.get('domain'), function(){
   console.log('HTTPS Express server listening on port ' + app.get('sslport') + ' | Don\'t forget to use HTTPS ');
 });
