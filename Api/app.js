@@ -10,6 +10,7 @@ var express = require('express')
     , passport = require('passport')
     , fs = require('fs')
     , accountRoutes = require('./routes/account')
+    , publicRoutes = require('./routes/public')
     , oauth2routes = require('./oauth2/routes')
     , oauth2core = require('./oauth2/oauth2')
     , app = express();
@@ -55,6 +56,7 @@ app.use(express.session());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(app.router);
+app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
@@ -66,7 +68,10 @@ if ('development' == app.get('env')) {
  */
 
 //Default Routes
-app.get('/api/account/details/:userId', accountRoutes.userDetails);
+app.get('/', publicRoutes.home);
+app.get('/api', publicRoutes.apiHome);
+
+app.get('/api/account/details', accountRoutes.userDetails);
 
 /**
  * OAUTH2 Routes definitions.

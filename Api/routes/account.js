@@ -1,22 +1,13 @@
-
-
-/**
- * GET logged user details
- */
+var passport = require('passport');
 
 module.exports = {
-    userDetails: function(req, res) {
-        if(!req.params.hasOwnProperty("userId")) {
-            res.send(400, 'User id must be precised !');
+    /**
+     * GET logged user details
+     */
+    userDetails: [
+        passport.authenticate('bearer', { session: false }),
+        function(req, res) {
+            res.json({ id: req.user.id, username: req.user.username, email: req.user.email, name: req.user.name });
         }
-        var userId = req.params.userId;
-        if(userId )
-            var user = {
-                username: "heavenstar",
-                firstname: "alexis",
-                lastname: "chevalier",
-                email: "123750@supinfo.com"
-            };
-        res.send(user);
-    }
+    ]
 };
