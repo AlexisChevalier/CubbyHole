@@ -7,6 +7,22 @@
   },
   "dependencies": {
     "express": "3.4.7",
-    "jade": "*"
+    "jade": "*",
+    "swig": "~1.2.2",
+    "ejs": "0.7.x",
+    "oauth2orize": "0.x.x",
+    "passport": "~0.1.12",
+    "passport-local": "0.1.x",
+    "passport-http": "0.2.x",
+    "passport-http-bearer": "0.2.x",
+    "passport-oauth2-client-password": "0.1.x",
+    "connect-ensure-login": "0.1.x",
+    "express-myconnection": "~1.0.3",
+    "bcrypt-nodejs": "0.0.3",
+    "mysql2": "~0.11.0"
+  },
+  "devDependencies": {
+    "grunt-nodemon": "~0.1.2",
+    "grunt": "~0.4.2"
   }
 }
