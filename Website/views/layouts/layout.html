@@ -25,54 +25,39 @@
 
 <body>
 
-<!-- Wrap all page content here -->
-<div id="wrap">
-
-    <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">{{ title }}</a>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li class="dropdown-header">Nav header</li>
-                            <li><a href="#">Separated link</a></li>
-                            <li><a href="#">One more separated link</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div><!--/.nav-collapse -->
+<!-- Navigation header -->
+<nav>
+    <div class="container">
+        <div id="nav-left">
+            <a class="active" href="/">HOME</a>
+            <a href="/pricing">PRICING</a>
+        </div>
+        <div id="nav-right">
+            <a href="/">APPLICATIONS</a>
+            <a href="/pricing">ACCOUNT</a>
+        </div>
+        <div class="clearfix"></div>
+        <img id="brand-logo" src="/images/logo.png" alt="Logo Cubbyhole" />
+        <div id="brand-text">
+            <p id="brand">CubbyHole</p>
+            <p id="slogan">All your files, everywhere.</p>
         </div>
     </div>
+</nav>
 
+<!-- Wrap all page content here -->
+<div id="wrap">
     <!-- Begin page content -->
     <div class="container">
         {% block body %}{% endblock %}
     </div>
 </div>
 
-<div id="footer">
+<footer>
     <div class="container">
         <p class="text-muted">Place sticky footer content here.</p>
     </div>
-</div>
+</footer>
 
 <script src="/javascripts/jquery.min.js"></script>
 <script src="/javascripts/bootstrap.min.js"></script>
