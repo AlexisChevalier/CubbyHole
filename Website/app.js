@@ -55,6 +55,7 @@ app.use(express.cookieParser('5cJ435umRC2lL76o27J4T8Aw8425Qgf2'));
 app.use(express.session());
 app.use(locale(supportedLocales));
 I18n.expressBind(app, {
+    directory: __dirname + "/locales",
     locales: supportedLocales
 });
 app.use(function(req, res, next) {
