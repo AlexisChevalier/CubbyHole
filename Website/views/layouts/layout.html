@@ -27,7 +27,7 @@
 
 <!-- Navigation header -->
 <nav>
-    <div class="container">
+    <div class="wrapper">
         <div id="nav-left">
             <a class="active" href="/">HOME</a>
             <a href="/pricing">PRICING</a>
@@ -42,19 +42,20 @@
             <p id="brand">CubbyHole</p>
             <p id="slogan">All your files, everywhere.</p>
         </div>
+        <div class="clearfix"></div>
     </div>
 </nav>
 
 <!-- Wrap all page content here -->
-<div id="wrap">
+<div id="content">
     <!-- Begin page content -->
-    <div class="container">
+    <div class="wrapper">
         {% block body %}{% endblock %}
     </div>
 </div>
 
 <footer>
-    <div class="container">
+    <div class="wrapper">
         <p class="text-muted">Place sticky footer content here.</p>
     </div>
 </footer>

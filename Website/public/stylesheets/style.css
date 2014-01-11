@@ -1,10 +1,26 @@
-/* Sticky footer styles
--------------------------------------------------- */
+/*--------------------------------------
+------- CSS rules for cubbyhole --------
+--------------------------------------*/
+
+/*----------- Custom Fonts (CSS3) -----------*/
+/* Helvetica neue */
+@font-face
+{
+    font-family: CHelveticaNeue;
+    src: url(/fonts/HelveticaNeue.woff);
+}
+
+@font-face
+{
+    font-family: CHelveticaNeue-Bold;
+    src: url(/fonts/HelveticaNeue.woff);
+    font-weight: bold;
+}
 
 html,
 body {
     padding-top: 0px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font: 14px Helvetica, Arial, sans-serif;
     height: 100%;
     /* The html and body elements cannot have any padding or margin. */
 }
@@ -13,29 +29,36 @@ a {
     color: #00B7FF;
 }
 
-.container {
-    min-width: 800px;
+.wrapper {
+    width: 1140px;
+    margin: auto;
+    padding: 0px 20px;
 }
 
 nav {
     border-top: 16px solid #fcb735;
     width: 100%;
-    font-size: 18px;
     padding-bottom: 10px;
     border-bottom: 5px solid #fcb735;
     margin-bottom: 39px;
 }
 
-nav a, nav a:hover {
+nav a {
     display: block;
     width: 176px;
-    height: 76px;
+    height: 62px;
     color: black;
-    font-weight: bold;
-    text-decoration: none;
+    font-size: 21px;
+    text-transform: uppercase;
+    font-weight: lighter;
     float: left;
     text-align: center;
     padding-top: 28px;
+}
+
+nav a:hover {
+    color: #3da9fc;
+    text-decoration: none;
 }
 
 nav a.active {
@@ -48,8 +71,8 @@ nav #nav-right {
 }
 
 nav img#brand-logo {
-    width: 229px;
-    height: 287px;
+    width: 138px;
+    height: 172px;
     margin: auto;
     margin-top: -45px;
     display: block; /* needed for margin auto */
@@ -66,7 +89,9 @@ nav #brand-text #brand {
 }
 
 nav #brand-text #slogan {
-    font-size: 29px;
+    /*font-size: 29px;*/
+    font-size: 31px;
+    font-weight: lighter;
     color: #fcb735;
     float: right;
 }
