@@ -6,13 +6,13 @@
 /* Helvetica neue */
 @font-face
 {
-    font-family: CHelveticaNeue;
+    font-family: HelveticaNeue;
     src: url(/fonts/HelveticaNeue.woff);
 }
 
 @font-face
 {
-    font-family: CHelveticaNeue-Bold;
+    font-family: HelveticaNeue-Bold;
     src: url(/fonts/HelveticaNeue.woff);
     font-weight: bold;
 }
@@ -20,7 +20,7 @@
 html,
 body {
     padding-top: 0px;
-    font: 14px Helvetica, Arial, sans-serif;
+    font: 16px Helvetica, Arial, sans-serif;
     height: 100%;
     /* The html and body elements cannot have any padding or margin. */
 }
@@ -30,9 +30,11 @@ a {
 }
 
 .wrapper {
-    width: 1140px;
+    /*width: 1140px; et pk pas 980 ?? */
+    width: 980px;
     margin: auto;
-    padding: 0px 20px;
+    /*padding: 0px 20px;  avec un padding de 40 ? */
+    padding: 0px 40px;
 }
 
 nav {
@@ -40,7 +42,7 @@ nav {
     width: 100%;
     padding-bottom: 10px;
     border-bottom: 5px solid #fcb735;
-    margin-bottom: 39px;
+    margin-bottom: 40px;
 }
 
 nav a {
@@ -89,7 +91,6 @@ nav #brand-text #brand {
 }
 
 nav #brand-text #slogan {
-    /*font-size: 29px;*/
     font-size: 31px;
     font-weight: lighter;
     color: #fcb735;
@@ -110,4 +111,72 @@ nav #brand-text #slogan {
 footer {
     height: 60px;
     background-color: #f5f5f5;
+}
+
+#topindex {
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+#topindex p {
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+}
+
+.button {
+    display: block;
+    padding: 12px;
+    font-size: 18px;
+    color: white;
+    background-color: #3eaafd;
+    text-align: center;
+    -webkit-box-shadow: 0 0 2px 0 rgba(50,50,50,80);
+    box-shadow: 0 0 2px 0 rgba(50,50,50,80);
+}
+
+.large {
+    width: 250px;
+}
+
+.button:hover {
+    text-decoration: none;
+    color: white;
+}
+
+.button:active {
+    -webkit-box-shadow: 0 0 2px 0 rgba(50,50,50,0);
+    box-shadow: 0 0 2px 0 rgba(50,50,50,0);
+}
+
+.inline {
+    display: inline-block; !important
+}
+
+h1 {
+    color: #fcb735;
+    font-size: 41px;
+}
+
+.index-section {
+    margin: 40px 0px;
+}
+
+.index-section div {
+    width: 475px;
+}
+
+.index-section img{
+    width: 353px;
+    height: 353px;
+    margin: 4px 0px;
+}
+
+.index-section div h1 {
+    margin-top: 0px;
+}
+
+.index-section div p {
+    font-family: HelveticaNeue;
+    font-size: 24px;
 }
