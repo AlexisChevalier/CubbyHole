@@ -12,6 +12,7 @@ var express = require('express')
     , locale = require("locale")
     , supportedLocales = ["en", "fr"]
     , defaultRoutes = require('./routes/default')
+    , flash = require('connect-flash')
     , fileBrowserRoutes = require('./routes/fileBrowser')
     , app = express();
 
@@ -53,6 +54,11 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('5cJ435umRC2lL76o27J4T8Aw8425Qgf2'));
 app.use(express.session());
+app.use(function(req, res, next) {
+    res.locals.messages = function() { return req.flash() };
+    next();
+});
+app.use(flash());
 app.use(locale(supportedLocales));
 I18n.expressBind(app, {
     directory: __dirname + "/locales",
