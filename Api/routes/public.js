@@ -3,11 +3,11 @@
  */
 
 module.exports = {
-    home: function(req, res) {
-        res.render("apiHome");
+    apiDocs: function(req, res) {
+        res.render("api/apiDocs");
     },
     apiHome: function(req, res) {
-        res.send('<h1>CubbyHole REST API endpoint (See <a href="/">this documentation</a> for more informations).</h1>');
+        res.send('<h1>CubbyHole REST API endpoint (See <a href="/api/docs">this documentation</a> for more informations).</h1>');
     }
 };
 
