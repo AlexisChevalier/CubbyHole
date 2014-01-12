@@ -1,30 +1,125 @@
-/* Sticky footer styles
--------------------------------------------------- */
+/*--------------------------------------
+------- CSS rules for cubbyhole --------
+--------------------------------------*/
+
+/*----------- Custom Fonts (CSS3) -----------*/
+/* Helvetica neue */
+@font-face
+{
+	font-family: HelveticaNeue;
+	src: url(/fonts/HelveticaNeue.woff);
+}
+
+@font-face
+{
+	font-family: HelveticaNeue-Bold;
+	src: url(/fonts/HelveticaNeue.woff);
+	font-weight: bold;
+}
 
 html,
 body {
-    padding-top: 20px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-    height: 100%;
-    /* The html and body elements cannot have any padding or margin. */
+	padding-top: 0px;
+	font: 16px Helvetica, Arial, sans-serif;
+	height: 100%;
+	/* The html and body elements cannot have any padding or margin. */
 }
 
 a {
-    color: #00B7FF;
+	color: #00B7FF;
 }
 
-/* Wrapper for page content to push down footer */
-#wrap {
-    min-height: 100%;
-    height: auto;
-    /* Negative indent footer by its height */
-    margin: 0 auto -60px;
-    /* Pad bottom by footer height */
-    padding: 0 0 60px;
+.wrapper {
+	margin: auto;
+	/*padding: 0px 20px;  avec un padding de 40 ? */
+	padding: 0px 40px;
 }
 
-/* Set the fixed height of the footer here */
-#footer {
-    height: 60px;
-    background-color: #f5f5f5;
+nav {
+	border-top: 16px solid #fcb735;
+	width: 100%;
+	padding-bottom: 10px;
+	border-bottom: 5px solid #fcb735;
+}
+
+
+nav img#brand-logo {
+	padding: 10px;
+	width: 70px;
+	display: block;
+	margin:auto;
+}
+
+nav #brand-text {
+	width: auto;
+	margin: auto;
+}
+
+nav #brand-text #brand {
+	margin-top: 10px;
+	text-align: center;
+	font-size: 45px;
+}
+
+nav #brand-text #slogan {
+	font-size: 31px;
+	font-weight: lighter;
+	color: #fcb735;
+	float: right;
+}
+
+nav #auth_slogan {
+	color:#fcb735;
+	font-size: 31px;
+	font-weight: lighter;
+	text-align: center;
+}
+
+.socialButton {
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+.main {
+	max-width: 500px;
+	margin-bottom: 25px;
+}
+.login-or {
+	position: relative;
+	color: #aaa;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.span-or {
+	display: block;
+	position: absolute;
+	left: 50%;
+	top: -2px;
+	margin-left: -25px;
+	background-color: #fff;
+	width: 50px;
+	text-align: center;
+}
+.hr-or {
+	background-color: #cdcdcd;
+	height: 1px;
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+h3 {
+	text-align: center;
+	line-height: 300%;
+}
+
+.app_name {
+	color: #3da9fc;
+}
+.alert{
+	margin: 4px 0;
+}
+
+.container {
+	margin-bottom: 25px;
 }
