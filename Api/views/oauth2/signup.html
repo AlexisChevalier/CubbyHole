@@ -5,7 +5,7 @@
 
     <div class="container main">
 
-        <h3>Please Sign Up, or <a href="/auth/login">Log in</a></h3>
+        <h3>{{__("Please Sign Up, or")}} <a href="/auth/login">{{__("Log In")}}</a></h3>
         <div class="row">
             <div class="col-xs-4 col-sm-4 col-md-4 socialButton">
                 <a href="#" class="btn btn-lg btn-primary btn-block">Facebook</a>
@@ -19,30 +19,30 @@
         </div>
         <div class="login-or">
             <hr class="hr-or">
-            <span class="span-or">or</span>
+            <span class="span-or">{{__("or")}}</span>
         </div>
 
         <form role="form" action="/auth/signup" method="post">
             <div class="form-group">
-                <label for="inputName">Full Name</label>
-                <small class="pull-right">(ex. John Smith)</small>
+                <label for="inputName">{{__("Full Name")}}</label>
+                <small class="pull-right">{{__("(ex. John Smith)")}}</small>
                 <input value="{{ body.fullname }}" type="text" class="form-control" name="fullname" id="inputName">
             </div>
             <div class="form-group">
-                <label for="inputEmail">Email</label>
-                <small class="pull-right">(ex. j.smith@mail.com)</small>
+                <label for="inputEmail">{{__("Email")}}</label>
+                <small class="pull-right">{{__("(ex. j.smith@mail.com)")}}</small>
                 <input value="{{ body.fullname }}" type="email" class="form-control" name="email" id="inputEmail">
             </div>
             <div class="form-group">
-                <label for="inputPassword">Password</label>
+                <label for="inputPassword">{{__("Password")}}</label>
                 <input type="password" name="password" class="form-control" id="inputPassword">
             </div>
             <div class="form-group">
-                <label for="inputPasswordVerif">Password verification</label>
+                <label for="inputPasswordVerif">{{__("Password Verification")}}</label>
                 <input type="password" name="passwordVerif" class="form-control" id="inputPasswordVerif">
             </div>
             <button type="submit" class="btn btn-primary btn-lg btn-block">
-                Sign Up
+                {{__("Sign Up")}}
             </button>
         </form>
     </div>

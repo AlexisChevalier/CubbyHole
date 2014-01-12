@@ -160,7 +160,7 @@ exports.signup = [
                     req.flash("danger", "Email already taken !");
                     res.render('oauth2/signup');
                 } else {
-                    req.flash("success", "Successfully logged out !");
+                    req.flash("success", "Registration Successful !");
                     next();
                 }
             });
@@ -182,12 +182,11 @@ exports.login = [
     passport.authenticate('local', {
     successReturnToOrRedirect: '/',
     failureRedirect: '/auth/login',
-    failureFlash: 'Invalid username or password.',
+    failureFlash: 'Invalid email or password.',
     successFlash: 'Login successful !'
 })];
 
 /**
- * !!!!!!! N'a rien a faire ici, sera refactorisé plus tard.
  * GET /auth/logout -- Process logging out
  * @param req
  * @param res

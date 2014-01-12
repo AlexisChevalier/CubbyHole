@@ -2,27 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48f64c5b-0459-47db-9f85-423b605a5a49" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/views/api/apiDocs.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/views/index.jade" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/views/layout.jade" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SQL/CubbyHole.sql" afterPath="$PROJECT_DIR$/SQL/CubbyHole.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/Gruntfile.js" afterPath="$PROJECT_DIR$/Api/Gruntfile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/db/mysql/accesstokens.js" afterPath="$PROJECT_DIR$/Api/db/mysql/accesstokens.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/routes/auth.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/views/layouts/apiLayout.html" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/dev/addApp.html" afterPath="$PROJECT_DIR$/Api/views/dev/addApp.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/app.js" afterPath="$PROJECT_DIR$/Api/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/app.js" afterPath="$PROJECT_DIR$/Website/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/oauth2/auth.js" afterPath="$PROJECT_DIR$/Api/oauth2/auth.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/db/mysql/authorizationcodes.js" afterPath="$PROJECT_DIR$/Api/db/mysql/authorizationcodes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/db/mysql/clients.js" afterPath="$PROJECT_DIR$/Api/db/mysql/clients.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/config.json.default" afterPath="$PROJECT_DIR$/Api/config.json.default" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/dev/apps.html" afterPath="$PROJECT_DIR$/Api/views/dev/apps.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/layouts/authLayout.html" afterPath="$PROJECT_DIR$/Api/views/layouts/authLayout.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/layouts/devLayout.html" afterPath="$PROJECT_DIR$/Api/views/layouts/devLayout.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/oauth2/dialog.html" afterPath="$PROJECT_DIR$/Api/views/oauth2/dialog.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/dev/docs.html" afterPath="$PROJECT_DIR$/Api/views/dev/docs.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/locales/en.js" afterPath="$PROJECT_DIR$/Api/locales/en.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/locales/fr.js" afterPath="$PROJECT_DIR$/Api/locales/fr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/dev/home.html" afterPath="$PROJECT_DIR$/Api/views/dev/home.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/views/layouts/layout.html" afterPath="$PROJECT_DIR$/Website/views/layouts/layout.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/oauth2/login.html" afterPath="$PROJECT_DIR$/Api/views/oauth2/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/oauth2/oauth2.js" afterPath="$PROJECT_DIR$/Api/oauth2/oauth2.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/package.json" afterPath="$PROJECT_DIR$/Api/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/routes/public.js" afterPath="$PROJECT_DIR$/Api/routes/public.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/oauth2/routes.js" afterPath="$PROJECT_DIR$/Api/oauth2/routes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/public/stylesheets/style.css" afterPath="$PROJECT_DIR$/Api/public/stylesheets/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/db/mysql/users.js" afterPath="$PROJECT_DIR$/Api/db/mysql/users.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/oauth2/signup.html" afterPath="$PROJECT_DIR$/Api/views/oauth2/signup.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="3pjt_web_application_cubby_hole.iws" />
@@ -45,89 +40,70 @@
     <favorites_list name="3pjt_web_application_cubby_hole" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Api/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="110" column="38" selection-start="2769" selection-end="2769" vertical-scroll-proportion="0.18796992" vertical-offset="1525" max-vertical-offset="2190">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="oauth2.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Api/oauth2/oauth2.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="114" column="37" selection-start="4825" selection-end="4825" vertical-scroll-proportion="0.0" vertical-offset="1645" max-vertical-offset="2460">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="accesstokens.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Api/db/mysql/accesstokens.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="24" selection-start="894" selection-end="894" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="utils.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Api/oauth2/utils.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Api/oauth2/user.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="1" selection-start="531" selection-end="531" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="auth.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Api/oauth2/auth.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="86" column="68" selection-start="2737" selection-end="2737" vertical-scroll-proportion="0.0" vertical-offset="90" max-vertical-offset="1695">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="routes.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Api/oauth2/routes.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="76" column="38" selection-start="2311" selection-end="2311" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3120">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Api/node_modules/oauth2orize/lib/server.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="129" column="55" selection-start="3573" selection-end="3573" vertical-scroll-proportion="0.0" vertical-offset="1774" max-vertical-offset="5460">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="users.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Api/db/mysql/users.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="2" selection-start="1503" selection-end="1503" vertical-scroll-proportion="0.0" vertical-offset="475" max-vertical-offset="1140">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf>
+          <file leaf-file-name="routes.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Api/oauth2/routes.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="182" column="35" selection-start="5929" selection-end="5929" vertical-scroll-proportion="0.0" vertical-offset="2423" max-vertical-offset="3075">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="authLayout.html" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Api/views/layouts/authLayout.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="31" column="63" selection-start="1017" selection-end="1017" vertical-scroll-proportion="0.42121685" vertical-offset="195" max-vertical-offset="960">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="devLayout.html" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Api/views/layouts/devLayout.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="61" column="30" selection-start="2519" selection-end="2519" vertical-scroll-proportion="-15.0" vertical-offset="555" max-vertical-offset="1260">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Api/app.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="86" column="4" selection-start="2281" selection-end="2289" vertical-scroll-proportion="0.0" vertical-offset="750" max-vertical-offset="2205">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="apps.html" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Api/views/dev/apps.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="5" column="16" selection-start="147" selection-end="147" vertical-scroll-proportion="-3.125" vertical-offset="0" max-vertical-offset="435">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="login.html" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Api/views/oauth2/login.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="32" column="64" selection-start="1425" selection-end="1425" vertical-scroll-proportion="0.74882996" vertical-offset="0" max-vertical-offset="705">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -145,28 +121,28 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/Api/public/stylesheets/devStyle.css" />
-        <option value="$PROJECT_DIR$/Api/views/dev/addApp.html" />
-        <option value="$PROJECT_DIR$/Api/views/oauth2/signup.html" />
-        <option value="$PROJECT_DIR$/Api/db/mysql/clients.js" />
-        <option value="$PROJECT_DIR$/Api/views/dev/docs.html" />
-        <option value="$PROJECT_DIR$/Api/public/stylesheets/style.css" />
-        <option value="$PROJECT_DIR$/Api/views/oauth2/dialog.html" />
-        <option value="$PROJECT_DIR$/Api/routes/dev.js" />
+        <option value="$PROJECT_DIR$/Website/views/layouts/layout.html" />
         <option value="$PROJECT_DIR$/Api/oauth2/oauth2.js" />
-        <option value="$PROJECT_DIR$/Api/db/mysql/accesstokens.js" />
-        <option value="$PROJECT_DIR$/Api/config.json.default" />
-        <option value="$PROJECT_DIR$/Api/config.json" />
-        <option value="$PROJECT_DIR$/Api/db/mysql/users.js" />
-        <option value="$PROJECT_DIR$/Api/oauth2/routes.js" />
         <option value="$PROJECT_DIR$/Api/app.js" />
-        <option value="$PROJECT_DIR$/SQL/CubbyHole.sql" />
+        <option value="$USER_HOME$/Desktop/table.html" />
+        <option value="$PROJECT_DIR$/Api/views/oauth2/dialog.html" />
+        <option value="$PROJECT_DIR$/Api/views/dev/home.html" />
+        <option value="$PROJECT_DIR$/Api/views/dev/docs.html" />
+        <option value="$PROJECT_DIR$/Api/views/dev/addApp.html" />
+        <option value="$PROJECT_DIR$/Api/views/dev/apps.html" />
+        <option value="$PROJECT_DIR$/Api/views/oauth2/signup.html" />
+        <option value="$PROJECT_DIR$/Api/oauth2/routes.js" />
+        <option value="$PROJECT_DIR$/Api/views/layouts/devLayout.html" />
+        <option value="$PROJECT_DIR$/Api/views/layouts/authLayout.html" />
+        <option value="$PROJECT_DIR$/Api/locales/fr.js" />
+        <option value="$PROJECT_DIR$/Api/locales/en.js" />
+        <option value="$PROJECT_DIR$/Api/views/oauth2/login.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-6" />
-    <option name="y" value="481" />
+    <option name="x" value="-19" />
+    <option name="y" value="605" />
     <option name="width" value="2533" />
     <option name="height" value="788" />
   </component>
@@ -196,6 +172,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -224,34 +201,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SQL" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="Api" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -267,6 +216,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -288,17 +241,12 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="db" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mysql" />
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -320,14 +268,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -336,6 +276,14 @@
       <option name="saveOutputToFile" value="false" />
       <option name="showConsoleOnStdErr" value="false" />
       <option name="showConsoleOnStdOut" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
       <method />
     </configuration>
     <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
@@ -352,6 +300,23 @@
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="sslv3">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="48f64c5b-0459-47db-9f85-423b605a5a49" name="Default" comment="" />
@@ -361,14 +326,12 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="481" width="2533" height="788" extended-state="0" />
+    <frame x="-19" y="605" width="2533" height="788" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28138527" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13778129" sideWeight="0.7186147" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -379,6 +342,8 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28138527" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -399,9 +364,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13778129" sideWeight="0.7186147" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -418,72 +383,30 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Api/views/layouts/devLayout.html">
+    <entry file="file://$PROJECT_DIR$/Api/views/oauth2/signup.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="81" selection-start="2032" selection-end="2032" vertical-scroll-proportion="1.2402496" vertical-offset="0" max-vertical-offset="1230">
+        <state line="21" column="42" selection-start="843" selection-end="843" vertical-scroll-proportion="0.20436817" vertical-offset="184" max-vertical-offset="825">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Api/views/dev/docs.html">
+    <entry file="file://$PROJECT_DIR$/Api/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="18" selection-start="3310" selection-end="3310" vertical-scroll-proportion="0.9126365" vertical-offset="75" max-vertical-offset="1005">
+        <state line="86" column="4" selection-start="2281" selection-end="2289" vertical-scroll-proportion="0.0" vertical-offset="750" max-vertical-offset="2205">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Api/routes/dev.js">
+    <entry file="file://$PROJECT_DIR$/Api/oauth2/auth.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="24" selection-start="348" selection-end="348" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1320">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/oauth2/oauth2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="114" column="37" selection-start="4825" selection-end="4825" vertical-scroll-proportion="0.0" vertical-offset="1645" max-vertical-offset="2460">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/db/mysql/accesstokens.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="24" selection-start="894" selection-end="894" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/config.json.default">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="5" selection-start="163" selection-end="388" vertical-scroll-proportion="0.15789473" vertical-offset="0" max-vertical-offset="665">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="23" selection-start="258" selection-end="268" vertical-scroll-proportion="0.2574103" vertical-offset="0" max-vertical-offset="641">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/db/mysql/users.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="2" selection-start="1503" selection-end="1503" vertical-scroll-proportion="0.0" vertical-offset="475" max-vertical-offset="1140">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/node_modules/oauth2orize/lib/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="129" column="55" selection-start="3573" selection-end="3573" vertical-scroll-proportion="0.0" vertical-offset="1774" max-vertical-offset="5460">
+        <state line="20" column="4" selection-start="687" selection-end="687" vertical-scroll-proportion="0.35789475" vertical-offset="62" max-vertical-offset="1695">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Api/oauth2/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="1" selection-start="531" selection-end="531" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="665">
           <folding />
         </state>
       </provider>
@@ -495,37 +418,79 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Api/oauth2/auth.js">
+    <entry file="file://$PROJECT_DIR$/Api/routes/account.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="68" selection-start="2737" selection-end="2737" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1695">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="665">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/routes/public.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="665">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/routes/files.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="665">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/routes/dev.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="46" selection-start="2001" selection-end="2001" vertical-scroll-proportion="0.43609023" vertical-offset="655" max-vertical-offset="1320">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/views/layouts/devLayout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="30" selection-start="2519" selection-end="2519" vertical-scroll-proportion="-15.0" vertical-offset="555" max-vertical-offset="1260">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/locales/fr.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="43" selection-start="2394" selection-end="2394" vertical-scroll-proportion="0.51687115" vertical-offset="263" max-vertical-offset="915">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/locales/en.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="27" selection-start="913" selection-end="913" vertical-scroll-proportion="0.24079755" vertical-offset="143" max-vertical-offset="795">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Api/oauth2/routes.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="38" selection-start="2311" selection-end="2311" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3120">
+        <state line="182" column="35" selection-start="5929" selection-end="5929" vertical-scroll-proportion="0.0" vertical-offset="2423" max-vertical-offset="3075">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SQL/CubbyHole.sql">
+    <entry file="file://$PROJECT_DIR$/Api/views/layouts/authLayout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="0" selection-start="3905" selection-end="3905" vertical-scroll-proportion="2.593985" vertical-offset="0" max-vertical-offset="1815">
+        <state line="31" column="63" selection-start="1017" selection-end="1017" vertical-scroll-proportion="0.42121685" vertical-offset="195" max-vertical-offset="960">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Website/app.js">
+    <entry file="file://$PROJECT_DIR$/Api/views/dev/apps.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1650">
+        <state line="5" column="16" selection-start="147" selection-end="147" vertical-scroll-proportion="-3.125" vertical-offset="0" max-vertical-offset="435">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Api/app.js">
+    <entry file="file://$PROJECT_DIR$/Api/views/oauth2/login.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="38" selection-start="2769" selection-end="2769" vertical-scroll-proportion="0.18796992" vertical-offset="1525" max-vertical-offset="2190">
+        <state line="32" column="64" selection-start="1425" selection-end="1425" vertical-scroll-proportion="0.74882996" vertical-offset="0" max-vertical-offset="705">
           <folding />
         </state>
       </provider>

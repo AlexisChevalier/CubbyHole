@@ -78,6 +78,7 @@ app.use(function(req, res, next) {
     res.locals.body = req.body;
     next();
 });
+app.use(locale(supportedLocales));
 I18n.expressBind(app, {
     directory: __dirname + "/locales",
     locales: supportedLocales
