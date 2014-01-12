@@ -49,7 +49,7 @@ server.deserializeClient(function(id, done) {
 // values, and will be exchanged for an access token.
 
 server.grant(oauth2orize.grant.code(function(client, redirectURI, user, ares, done) {
-  var code = utils.uid(16)
+  var code = utils.uid(16);
   
   db.authorizationCodes.save(code, client.id, redirectURI, user.id, function(err) {
     if (err) { return done(err); }
@@ -100,20 +100,35 @@ server.exchange(oauth2orize.exchange.code(function(client, code, redirectURI, do
 // first, and rendering the `dialog` view. 
 
 exports.authorization = [
-  login.ensureLoggedIn("/auth/login"),
-  server.authorization(function(clientID, redirectURI, done) {
-    db.clients.findByClientId(clientID, function(err, client) {
-      if (err) { return done(err); }
-      // WARNING: For security purposes, it is highly advisable to check that
-      //          redirectURI provided by the client matches one registered with
-      //          the server.  For simplicity, this example does not.  You have
-      //          been warned.
-      return done(null, client, redirectURI);
-    });
-  }),
-  function(req, res){
-    res.render('oauth2/dialog', { transactionID: req.oauth2.transactionID, user: req.user, client: req.oauth2.client });
-  }
+    login.ensureLoggedIn("/auth/login"),
+    server.authorization(function(clientID, redirectURI, done) {
+        db.clients.findByClientId(clientID, function(err, client) {
+            if (err) { return done(err); }
+            if(client != null && client.redirect_uri !== undefined && redirectURI !== client.redirect_uri) {
+                return done(new Error("Specified redirection URI doesn't match client's redirection URI !"));
+            }
+            return done(null, client, redirectURI);
+        });
+    }),
+    function(req, res, next){
+        //If the application is already authorized or allowed to skip dialog
+        db.accessTokens.findByClientAndUserId(req.oauth2.client.id, req.user.id, function(err, token) {
+            /**
+             * Le token existe déja (déja autorisé) ou l'app peut skip le dialog (App interne)
+             */
+            console.log(req.user);
+            if((token != undefined && token !== null) || (req.oauth2.client.dialog_disabled == 1)) {
+                req.body.transaction_id = req.oauth2.transactionID;
+                next();
+            /**
+             * Le token n'existe pas et l'app doit se faire autoriser
+             */
+            } else {
+                res.render('oauth2/dialog', { transactionID: req.oauth2.transactionID, user: req.user, client: req.oauth2.client });
+            }
+        });
+    },
+    server.decision()
 ];
 
 // user decision endpoint

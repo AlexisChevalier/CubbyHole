@@ -17,9 +17,11 @@ var passport = require('passport')
  * Anytime a request is made to authorize an application, we must ensure that
  * a user is logged in before asking them to approve the request.
  */
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    db.users.findByUsername(username, function(err, user) {
+passport.use(new LocalStrategy({
+    usernameField: 'email'
+  },
+  function(email, password, done) {
+    db.users.findByEmail(email, function(err, user) {
       if (err) { return done(err); }
       if (!user) { return done(null, false); }
 
@@ -57,8 +59,8 @@ passport.deserializeUser(function(id, done) {
  * the specification, in practice it is quite common.
  */
 passport.use(new BasicStrategy(
-  function(username, password, done) {
-    db.clients.findByClientId(username, function(err, client) {
+  function(email, password, done) {
+    db.clients.findByEmail(email, function(err, client) {
       if (err) { return done(err); }
       if (!client) { return done(null, false); }
       if (client.clientSecret != password) { return done(null, false); }
