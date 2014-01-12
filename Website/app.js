@@ -17,6 +17,17 @@ var express = require('express')
     , app = express();
 
 /**
+ * Swig initialization
+ */
+swig.setDefaults({
+    locals: {
+        now: function () {
+            return new Date();
+        }
+    }
+});
+
+/**
  * SSL parameters.
  */
 
@@ -32,7 +43,7 @@ var key = fs.readFileSync('./ssl_elems/web_app_key.pem')
  */
 app.set('sslport', process.env.SSLPORT || 8443);
 app.set('port', process.env.PORT || 8080);
-app.set('domain', 'localhost');
+app.set('domain', '0.0.0.0');
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
