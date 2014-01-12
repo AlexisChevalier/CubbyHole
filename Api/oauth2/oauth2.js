@@ -116,7 +116,6 @@ exports.authorization = [
             /**
              * Le token existe déja (déja autorisé) ou l'app peut skip le dialog (App interne)
              */
-            console.log(req.user);
             if((token != undefined && token !== null) || (req.oauth2.client.dialog_disabled == 1)) {
                 req.body.transaction_id = req.oauth2.transactionID;
                 next();

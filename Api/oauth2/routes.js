@@ -179,13 +179,11 @@ exports.signup = [
  */
 exports.login = [
     login.ensureLoggedOut("/"),
-    function(req, res, next) {
-        req.flash("success", "Successfully logged in !");
-        next();
-    },
     passport.authenticate('local', {
     successReturnToOrRedirect: '/',
-    failureRedirect: '/auth/login'
+    failureRedirect: '/auth/login',
+    failureFlash: 'Invalid username or password.',
+    successFlash: 'Login successful !'
 })];
 
 /**

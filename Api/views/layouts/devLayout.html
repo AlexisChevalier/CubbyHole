@@ -52,15 +52,17 @@
     {% for key, values in messages() %}
     {% for message in values %}
     {% if key == 'danger' || key == 'success' || key == 'info' || key == 'warning' %}
-    <div class="alert alert-{{ key }} alert-dismissable">
+            <div class="alert alert-{{ key }} alert-dismissable">
+        {% elseif key == 'error' %}
+            <div class="alert alert-danger alert-dismissable">
         {% else %}
-        <div class="alert alert-info alert-dismissable">
-            {% endif %}
+            <div class="alert alert-info alert-dismissable">
+        {% endif %}
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            {{ message }}
-        </div>
-        {% endfor %}
-        {% endfor %}
+                {{ message }}
+            </div>
+    {% endfor %}
+    {% endfor %}
         {% block body %}{% endblock %}
     <hr>
 

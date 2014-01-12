@@ -39,6 +39,8 @@
             {% for message in values %}
                 {% if key == 'danger' || key == 'success' || key == 'info' || key == 'warning' %}
                     <div class="alert alert-{{ key }} alert-dismissable">
+                {% elseif key == 'error' %}
+                    <div class="alert alert-danger alert-dismissable">
                 {% else %}
                     <div class="alert alert-info alert-dismissable">
                 {% endif %}
