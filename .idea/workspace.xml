@@ -2,22 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48f64c5b-0459-47db-9f85-423b605a5a49" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/routes/auth.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/views/layouts/apiLayout.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/dev/addApp.html" afterPath="$PROJECT_DIR$/Api/views/dev/addApp.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/app.js" afterPath="$PROJECT_DIR$/Api/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/dev/apps.html" afterPath="$PROJECT_DIR$/Api/views/dev/apps.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/layouts/authLayout.html" afterPath="$PROJECT_DIR$/Api/views/layouts/authLayout.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/layouts/devLayout.html" afterPath="$PROJECT_DIR$/Api/views/layouts/devLayout.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/oauth2/dialog.html" afterPath="$PROJECT_DIR$/Api/views/oauth2/dialog.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/dev/docs.html" afterPath="$PROJECT_DIR$/Api/views/dev/docs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/locales/en.js" afterPath="$PROJECT_DIR$/Api/locales/en.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/locales/fr.js" afterPath="$PROJECT_DIR$/Api/locales/fr.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/dev/home.html" afterPath="$PROJECT_DIR$/Api/views/dev/home.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/views/layouts/layout.html" afterPath="$PROJECT_DIR$/Website/views/layouts/layout.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/oauth2/login.html" afterPath="$PROJECT_DIR$/Api/views/oauth2/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/oauth2/routes.js" afterPath="$PROJECT_DIR$/Api/oauth2/routes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/oauth2/signup.html" afterPath="$PROJECT_DIR$/Api/views/oauth2/signup.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/public/stylesheets/style.css" afterPath="$PROJECT_DIR$/Website/public/stylesheets/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="3pjt_web_application_cubby_hole.iws" />
@@ -43,28 +29,19 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf>
-          <file leaf-file-name="routes.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Api/oauth2/routes.js">
+          <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Website/public/stylesheets/style.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="182" column="35" selection-start="5929" selection-end="5929" vertical-scroll-proportion="0.0" vertical-offset="2423" max-vertical-offset="3075">
+                <state line="187" column="21" selection-start="3083" selection-end="3083" vertical-scroll-proportion="0.947121" vertical-offset="1999" max-vertical-offset="2910">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="authLayout.html" pinned="false" current="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/Api/views/layouts/authLayout.html">
+          <file leaf-file-name="config.json" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Api/config.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="31" column="63" selection-start="1017" selection-end="1017" vertical-scroll-proportion="0.42121685" vertical-offset="195" max-vertical-offset="960">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="devLayout.html" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Api/views/layouts/devLayout.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="61" column="30" selection-start="2519" selection-end="2519" vertical-scroll-proportion="-15.0" vertical-offset="555" max-vertical-offset="1260">
+                <state line="8" column="1" selection-start="165" selection-end="165" vertical-scroll-proportion="-5.0" vertical-offset="0" max-vertical-offset="210">
                   <folding />
                 </state>
               </provider>
@@ -74,28 +51,19 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Api/app.js">
+          <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Website/views/index.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="86" column="4" selection-start="2281" selection-end="2289" vertical-scroll-proportion="0.0" vertical-offset="750" max-vertical-offset="2205">
+                <state line="47" column="63" selection-start="1630" selection-end="1630" vertical-scroll-proportion="-21.083334" vertical-offset="199" max-vertical-offset="1050">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="apps.html" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Api/views/dev/apps.html">
+          <file leaf-file-name="layout.html" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Website/views/layouts/layout.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="5" column="16" selection-start="147" selection-end="147" vertical-scroll-proportion="-3.125" vertical-offset="0" max-vertical-offset="435">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="login.html" pinned="false" current="true" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/Api/views/oauth2/login.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="32" column="64" selection-start="1425" selection-end="1425" vertical-scroll-proportion="0.74882996" vertical-offset="0" max-vertical-offset="705">
+                <state line="68" column="6" selection-start="2273" selection-end="2273" vertical-scroll-proportion="0.6683047" vertical-offset="476" max-vertical-offset="1290">
                   <folding />
                 </state>
               </provider>
@@ -121,9 +89,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/Website/views/layouts/layout.html" />
-        <option value="$PROJECT_DIR$/Api/oauth2/oauth2.js" />
-        <option value="$PROJECT_DIR$/Api/app.js" />
         <option value="$USER_HOME$/Desktop/table.html" />
         <option value="$PROJECT_DIR$/Api/views/oauth2/dialog.html" />
         <option value="$PROJECT_DIR$/Api/views/dev/home.html" />
@@ -136,15 +101,17 @@
         <option value="$PROJECT_DIR$/Api/views/layouts/authLayout.html" />
         <option value="$PROJECT_DIR$/Api/locales/fr.js" />
         <option value="$PROJECT_DIR$/Api/locales/en.js" />
+        <option value="$PROJECT_DIR$/Website/views/index.html" />
+        <option value="$PROJECT_DIR$/Website/views/layouts/layout.html" />
+        <option value="$PROJECT_DIR$/Website/public/stylesheets/style.css" />
         <option value="$PROJECT_DIR$/Api/views/oauth2/login.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-19" />
-    <option name="y" value="605" />
-    <option name="width" value="2533" />
-    <option name="height" value="788" />
+    <option name="y" value="22" />
+    <option name="width" value="1680" />
+    <option name="height" value="974" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -172,7 +139,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -188,6 +154,100 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layouts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stylesheets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -244,9 +304,32 @@
               <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layouts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -326,14 +409,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-19" y="605" width="2533" height="788" extended-state="0" />
+    <frame x="0" y="22" width="1680" height="974" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13778129" sideWeight="0.7186147" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16785714" sideWeight="0.7186147" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -383,114 +466,98 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Api/views/oauth2/signup.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="42" selection-start="843" selection-end="843" vertical-scroll-proportion="0.20436817" vertical-offset="184" max-vertical-offset="825">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="4" selection-start="2281" selection-end="2289" vertical-scroll-proportion="0.0" vertical-offset="750" max-vertical-offset="2205">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/oauth2/auth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="4" selection-start="687" selection-end="687" vertical-scroll-proportion="0.35789475" vertical-offset="62" max-vertical-offset="1695">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/oauth2/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="665">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/oauth2/utils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="665">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/routes/account.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="665">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/routes/public.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="665">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/routes/files.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="665">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/routes/dev.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="46" selection-start="2001" selection-end="2001" vertical-scroll-proportion="0.43609023" vertical-offset="655" max-vertical-offset="1320">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/views/layouts/devLayout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="30" selection-start="2519" selection-end="2519" vertical-scroll-proportion="-15.0" vertical-offset="555" max-vertical-offset="1260">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/locales/fr.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="43" selection-start="2394" selection-end="2394" vertical-scroll-proportion="0.51687115" vertical-offset="263" max-vertical-offset="915">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Api/locales/en.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="27" selection-start="913" selection-end="913" vertical-scroll-proportion="0.24079755" vertical-offset="143" max-vertical-offset="795">
-          <folding />
-        </state>
+        <state line="20" column="27" selection-start="913" selection-end="913" vertical-scroll-proportion="0.24079755" vertical-offset="143" max-vertical-offset="795" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Api/oauth2/routes.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="182" column="35" selection-start="5929" selection-end="5929" vertical-scroll-proportion="0.0" vertical-offset="2423" max-vertical-offset="3075">
+        <state line="199" column="3" selection-start="6344" selection-end="6344" vertical-scroll-proportion="0.0" vertical-offset="2985" max-vertical-offset="3075" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="135" column="3" selection-start="3525" selection-end="3525" vertical-scroll-proportion="0.0" vertical-offset="2025" max-vertical-offset="2205" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/views/dev/apps.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="16" selection-start="147" selection-end="147" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="435" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/db/mysql/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="32" selection-start="68" selection-end="68" vertical-scroll-proportion="0.017626323" vertical-offset="0" max-vertical-offset="851" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/routes/dev.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="20" selection-start="465" selection-end="465" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1320" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/db/mysql/clients.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="117" selection-start="1360" selection-end="1366" vertical-scroll-proportion="0.6801909" vertical-offset="0" max-vertical-offset="838" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/config.json.default">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="21" selection-start="202" selection-end="202" vertical-scroll-proportion="0.1586369" vertical-offset="0" max-vertical-offset="851" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/views/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="63" selection-start="1630" selection-end="1630" vertical-scroll-proportion="-21.083334" vertical-offset="199" max-vertical-offset="1050">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="1" selection-start="165" selection-end="165" vertical-scroll-proportion="-5.0" vertical-offset="0" max-vertical-offset="210">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Api/views/layouts/authLayout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="63" selection-start="1017" selection-end="1017" vertical-scroll-proportion="0.42121685" vertical-offset="195" max-vertical-offset="960">
+        <state line="34" column="0" selection-start="1036" selection-end="1036" vertical-scroll-proportion="0.44717446" vertical-offset="146" max-vertical-offset="960">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Api/views/dev/apps.html">
+    <entry file="file://$PROJECT_DIR$/Api/views/layouts/devLayout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="16" selection-start="147" selection-end="147" vertical-scroll-proportion="-3.125" vertical-offset="0" max-vertical-offset="435">
+        <state line="69" column="8" selection-start="2646" selection-end="2684" vertical-scroll-proportion="0.7235872" vertical-offset="446" max-vertical-offset="1260">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/public/stylesheets/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="187" column="21" selection-start="3083" selection-end="3083" vertical-scroll-proportion="0.947121" vertical-offset="1999" max-vertical-offset="2910">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Api/views/oauth2/login.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="64" selection-start="1425" selection-end="1425" vertical-scroll-proportion="0.74882996" vertical-offset="0" max-vertical-offset="705">
+        <state line="9" column="36" selection-start="266" selection-end="266" vertical-scroll-proportion="0.16584766" vertical-offset="0" max-vertical-offset="814">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/views/oauth2/signup.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="838">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/views/layouts/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="6" selection-start="2273" selection-end="2273" vertical-scroll-proportion="0.6683047" vertical-offset="476" max-vertical-offset="1290">
           <folding />
         </state>
       </provider>

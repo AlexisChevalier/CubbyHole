@@ -154,7 +154,7 @@ footer {
 }
 
 .inline {
-    display: inline-block; !important
+    display: inline-block;
 }
 
 h1 {
@@ -180,6 +180,10 @@ h1 {
 }
 
 .index-section div p {
-    font-family: Helvetica, HelveticaNeue;
+    font-family: Helvetica;
     font-size: 18px;
+}
+
+footer {
+    line-height: 60px;
 }
