@@ -1,0 +1,28 @@
+
+
+div#headbar input{
+	height: 60px; /* 50px inside */
+	margin: 0px;
+	padding: 10px;
+	border: 8px solid #fcb735;
+	background-color: #ffcc6d;
+	font-family: Helvetica;
+	font-size: 20px;
+	font-weight: lighter;
+	display: block;
+	float: left;
+}
+
+div#headbar input#path {
+	width: 70%;
+	padding-left: 50px; /* 40(ico) + 10px */
+	border-right: 0px;
+	/*background-image: let's do a sprite ! */
+}
+
+div#headbar input#search {
+	width: 30%;
+	padding-right: 50px; /* 40(ico) + 10px */
+	/*background-image: let's do a sprite ! */
+}
+
