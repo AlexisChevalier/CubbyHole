@@ -94,6 +94,8 @@ if ('development' == app.get('env')) {
 app.get('/', defaultRoutes.home);
 app.get('/pricing', defaultRoutes.pricing);
 
+app.get('/my-files', fileBrowserRoutes.fileBrowserPage);
+
 
 /**
  * Server initialization.

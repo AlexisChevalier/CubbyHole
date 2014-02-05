@@ -1,0 +1,22 @@
+
+
+/*Modifying the header with overrides*/
+nav {
+	padding-bottom: 0px;
+	border-bottom: 5px solid #3eaafe;
+	margin-bottom: 10px;
+}
+
+nav a {
+	height: 76px;
+	padding-top: 41px;
+}
+
+nav img#brand-logo {
+	width: 52px;
+	margin-top: -70px;
+}
+
+nav div#brand-text {
+	display: none;
+}

@@ -44,5 +44,6 @@
 	"Add !": "Add !",
 	"API Documentation is only available in english at the moment !": "API Documentation is only available in english at the moment !",
 	"You must precise a redirection URI !": "You must precise a redirection URI !",
-	"Name already taken !": "Name already taken !"
+	"Name already taken !": "Name already taken !",
+	"Successfully logged out !": "Successfully logged out !"
 }
