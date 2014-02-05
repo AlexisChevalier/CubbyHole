@@ -12,6 +12,7 @@ var express = require('express')
     , locale = require("locale")
     , supportedLocales = ["en", "fr"]
     , defaultRoutes = require('./routes/default')
+    , accountRoutes = require('./routes/account')
     , flash = require('connect-flash')
     , fileBrowserRoutes = require('./routes/fileBrowser')
     , app = express();
@@ -93,6 +94,7 @@ if ('development' == app.get('env')) {
 //Default Routes
 app.get('/', defaultRoutes.home);
 app.get('/pricing', defaultRoutes.pricing);
+app.get('/account', accountRoutes.account);
 
 app.get('/my-files', fileBrowserRoutes.fileBrowserPage);
 
