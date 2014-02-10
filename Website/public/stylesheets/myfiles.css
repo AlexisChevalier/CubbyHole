@@ -32,3 +32,38 @@ div#headbar input#search {
 	background: url('/images/icons/search.png') no-repeat right center;
 }
 
+/*** Action bar ***/
+
+div#actionbar ul {
+	list-style-type: none;
+	padding: 0px;
+	margin: 10px 0px;
+	float: right;
+}
+
+div#actionbar ul li{
+	font-size: 23px;
+	font-weight: lighter;
+	margin-left: 5px;
+	display: inline-block;
+	cursor: pointer;
+}
+
+div#actionbar ul li.action {
+	/* Cross browser solution from w3c for list-style-image */
+	background-repeat: no-repeat;
+	background-position: 0px;
+	padding: 10px 0px 10px 50px;
+}
+
+div#actionbar ul li.uploadfile {
+	background-image: url('/images/icons/upload-file.png');
+}
+
+div#actionbar ul li.sharefolder {
+	background-image: url('/images/icons/share-folder.png');
+}
+
+div#actionbar ul li.addfolder {
+	background-image: url('/images/icons/add-folder.png');
+}
