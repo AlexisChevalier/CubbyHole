@@ -13,10 +13,5 @@ nav a {
 }
 
 nav img#brand-logo {
-	width: 52px;
 	margin-top: -70px;
-}
-
-nav div#brand-text {
-	display: none;
 }

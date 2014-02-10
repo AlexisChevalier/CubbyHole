@@ -73,7 +73,6 @@ nav #nav-right {
 }
 
 nav img#brand-logo {
-    width: 100px;
     margin: auto;
     margin-top: -45px;
     display: block; /* needed for margin auto */

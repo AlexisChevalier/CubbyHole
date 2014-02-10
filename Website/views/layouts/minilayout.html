@@ -16,6 +16,7 @@
 
   <!-- Custom styles for this template -->
   <link href="/stylesheets/style.css" rel="stylesheet">
+  <link href="/stylesheets/smallheader.css" rel="stylesheet">
 
   {% block css %}{% endblock %}
 
@@ -30,19 +31,15 @@
   <nav>
     <div class="wrapper">
       <div id="nav-left">
-        <a class="active" href="/">HOME</a>
-        <a href="/pricing">PRICING</a>
+        <a class="active" href="/my-files">FILES</a>
+        <a href="/apps">APPS</a>
       </div>
       <div id="nav-right">
-        <a href="/">APPLICATIONS</a>
-        <a href="/pricing">ACCOUNT</a>
+        <a href="/account">ACCOUNT</a>
+        <a href="/logout">LOGOUT</a>
       </div>
       <div class="clearfix"></div>
-      <img id="brand-logo" src="/images/logo.png" alt="Logo Cubbyhole" />
-      <div id="brand-text">
-        <p id="brand">CubbyHole</p>
-        <p id="slogan">All your files, everywhere.</p>
-      </div>
+      <img id="brand-logo" src="/images/minilogo.png" alt="Logo Cubbyhole" />
       <div class="clearfix"></div>
     </div>
   </nav>
@@ -71,7 +68,7 @@
 
   <footer>
     <div class="wrapper">
-      <p class="text-muted">Place sticky footer content here.</p>
+        <p class="text-muted">© OpenWeb {{ now()|date('Y') }}</p>
     </div>
   </footer>
 
