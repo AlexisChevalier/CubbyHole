@@ -5,7 +5,7 @@ div#headbar input{
 	margin: 0px;
 	padding: 10px;
 	border: 8px solid #fcb735;
-	background-color: #ffcc6d;
+	background-color: #ffcc6d !important;
 	font-family: Helvetica;
 	font-size: 20px;
 	font-weight: lighter;
@@ -13,16 +13,22 @@ div#headbar input{
 	float: left;
 }
 
+div#headbar input:focus{
+	outline: none; /* fu chrome */
+}
+
 div#headbar input#path {
 	width: 70%;
 	padding-left: 50px; /* 40(ico) + 10px */
 	border-right: 0px;
-	/*background-image: let's do a sprite ! */
+	/*let's do a sprite !*/
+	background: url('/images/icons/tree.png') no-repeat left center;
 }
 
 div#headbar input#search {
 	width: 30%;
 	padding-right: 50px; /* 40(ico) + 10px */
-	/*background-image: let's do a sprite ! */
+	/*let's do a sprite !*/
+	background: url('/images/icons/search.png') no-repeat right center;
 }
 
