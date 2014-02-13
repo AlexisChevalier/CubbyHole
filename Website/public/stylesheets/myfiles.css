@@ -21,14 +21,14 @@ div#headbar input#path {
 	width: 70%;
 	padding-left: 50px; /* 40(ico) + 10px */
 	border-right: 0px;
-	/*let's do a sprite !*/
+	/* can't do sprite :/ */
 	background: url('/images/icons/tree.png') no-repeat left center;
 }
 
 div#headbar input#search {
 	width: 30%;
 	padding-right: 50px; /* 40(ico) + 10px */
-	/*let's do a sprite !*/
+	/* can't do sprite :/ */
 	background: url('/images/icons/search.png') no-repeat right center;
 }
 
@@ -57,13 +57,102 @@ div#actionbar ul li.action {
 }
 
 div#actionbar ul li.uploadfile {
+	/*TODO let's do a sprite !*/
 	background-image: url('/images/icons/upload-file.png');
 }
 
 div#actionbar ul li.sharefolder {
+	/*TODO: let's do a sprite !*/
 	background-image: url('/images/icons/share-folder.png');
 }
 
 div#actionbar ul li.addfolder {
+	/*TODO let's do a sprite !*/
 	background-image: url('/images/icons/add-folder.png');
+}
+
+
+/*** File browser ***/
+div#filebrowser table {
+	width: 100%;
+}
+
+div#filebrowser table thead {
+	border-bottom: 1px solid #3eaafe;
+}
+
+div#filebrowser table tr {
+	height: 40px;
+	cursor: pointer;
+}
+
+div#filebrowser table tbody tr:hover,
+div#filebrowser table tbody tr:focus,
+div#filebrowser table tbody tr.selected {
+	background-color: rgba(62, 170, 255, 0.2);
+}
+
+div#filebrowser table tbody tr th:nth-child(1) {
+	width: 40px;
+}
+
+div#filebrowser table tbody tr th:nth-child(2) {
+ /* No hardcoded size for the name of the file/folder
+  so it will be as large as possible */
+  padding-left: 10px;
+}
+
+
+div#filebrowser table tbody tr th:nth-child(3) {
+	width: 23%;
+}
+
+
+div#filebrowser table tbody tr th:nth-child(4) {
+	width: 23%;
+}
+
+div#filebrowser table tr th.folder {
+	background: url('/images/filebrowser.png') 0px -80px no-repeat;
+}
+
+div#filebrowser table tr th.shared-folder {
+	background: url('/images/filebrowser.png') -40px -80px no-repeat;
+}
+
+/*** class utils ***/
+.arrow-up {
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 9px solid #3eaafe;
+    display: inline-block;
+}
+
+.arrow-right {
+    width: 0; 
+    height: 0; 
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 9px solid #3eaafe;
+    display: inline-block;
+}
+
+.arrow-down {
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 9px solid #3eaafe;
+    display: inline-block;
+}
+
+.arrow-left {
+    width: 0; 
+    height: 0; 
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right:9px solid #3eaafe;
+    display: inline-block;
 }
