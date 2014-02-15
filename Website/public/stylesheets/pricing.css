@@ -1,0 +1,129 @@
+#allplans {
+	margin-bottom: 10px;
+}
+#pricingtitle
+{
+	text-align: center;
+	color:#333;
+}
+#contentplan  {
+	width:650px;
+	clear:both;
+	padding-top:10px;
+	margin:auto;
+	text-align: center;
+	color:#696969;
+	margin-bottom:20px;
+}
+
+#questionpricing {
+	color:#333;
+}
+#firstplan {
+	width:205px;
+	text-align: center;
+	box-shadow: 1px 1px 20px #555;
+	float:left;
+}
+
+#secondplan {
+	width:195px;
+	text-align: center;
+	float:left;
+}
+
+#thirdplan {
+	width:205px;
+	text-align: center;
+	box-shadow: 1px 1px 20px #555;
+	float:left;
+}
+
+#fourthplan {
+	width:195px;
+	text-align: center;
+	float:left;
+}
+
+.deep {
+	width:195px;
+	margin-top:5px;
+	box-shadow: 1px 1px 20px #555;
+}
+
+.deep .titleplan {
+	padding-top:9px;
+	height:32px;
+}
+
+.deep .descplan p {
+	padding:9px;
+}
+
+.deep .getplan {
+	padding-top:7px;
+	height:38px;
+}
+
+.titleplan {
+	padding-top:10px;
+	background-color: #2f90fd;
+	color:#fff;
+	height:35px;
+}
+
+.priceplan p {
+	font-size:2em;
+}
+
+.priceplan {
+	background-color: #fd9e2f;
+	color:#fff;
+}
+
+.descplan {
+	background-color: #454545;
+	color:#FFF;
+}
+
+.descplan p {
+	border-bottom: 1px solid #fff;
+	margin-bottom: 0px;
+	padding:10px;
+	font-size: 0.75em;
+}
+
+.getplan {
+	background-color: #2f90fd;
+	color:#fff;
+	font-size: 1.3em;
+	padding-top:8px;
+	height:40px;
+}
+
+#contentplan .lbrand-logo {
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom:20px;
+    width:50px;
+    display: block; /* needed for margin auto */
+    -webkit-transition-duration: 2s;
+    -moz-transition-duration: 2s;
+    -o-transition-duration: 2s;
+    transition-duration: 2s;
+
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+
+    overflow:hidden;
+
+}
+
+#contentplan .lbrand-logo:hover
+{
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg);
+    -o-transform:rotate(360deg);
+}
