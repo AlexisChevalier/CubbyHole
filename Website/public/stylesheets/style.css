@@ -17,12 +17,15 @@
     font-weight: bold;
 }
 
-html,
-body {
+html {
     padding-top: 0px;
+    position: relative;
+    min-height: 100%;
+}
+
+body {
     font: 16px Helvetica, Arial, sans-serif;
-    height: 100%;
-    /* The html and body elements cannot have any padding or margin. */
+    margin: 0 0 100px;
 }
 
 a {
@@ -205,4 +208,8 @@ h1 {
 footer {
     margin-top: 10px;
     line-height: 60px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 }
