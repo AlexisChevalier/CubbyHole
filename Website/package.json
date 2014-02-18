@@ -10,7 +10,10 @@
     "swig": "~1.2.2",
     "i18n-2": "~0.4.5",
     "locale": "0.0.12",
-    "connect-flash": "~0.1.1"
+    "connect-flash": "~0.1.1",
+    "passport-oauth2": "~1.1.1",
+    "passport": "~0.2.0",
+    "connect-ensure-login": "~0.1.1"
   },
   "devDependencies": {
     "grunt-nodemon": "~0.1.2",

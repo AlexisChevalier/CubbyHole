@@ -1,3 +1,6 @@
+//Pas les moyens de payer pour un certificat désolé x)
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 /**
  * Module dependencies.
  */
@@ -15,6 +18,8 @@ var express = require('express')
     , accountRoutes = require('./routes/account')
     , flash = require('connect-flash')
     , fileBrowserRoutes = require('./routes/fileBrowser')
+    , auth = require('./auth/auth')
+    , passport = require('passport')
     , app = express();
 
 /**
@@ -80,6 +85,8 @@ app.use(function(req, res, next) {
     req.i18n.setLocale(req.locale);
     next();
 });
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -95,7 +102,11 @@ if ('development' == app.get('env')) {
 app.get('/', defaultRoutes.home);
 app.get('/pricing', defaultRoutes.pricing);
 app.get('/account', accountRoutes.account);
+app.get('/apps', defaultRoutes.apps);
+app.get('/loginsignup', accountRoutes.perform);
+app.get('/loginCallback', accountRoutes.handleCallback);
 
+//File browser
 app.get('/my-files', fileBrowserRoutes.fileBrowserPage);
 
 

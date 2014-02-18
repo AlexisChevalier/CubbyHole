@@ -56,7 +56,6 @@
 }
 
 .deep .titleplan {
-	padding-top:9px;
 	height:32px;
 }
 
@@ -70,10 +69,26 @@
 }
 
 .titleplan {
-	padding-top:10px;
+	position: relative;
 	background-color: #2f90fd;
 	color:#fff;
 	height:35px;
+}
+
+.titleplan a {
+	font-size: 19px;
+	color: #ffffff;
+	display: block;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	padding-top:7px;
+	cursor: pointer;
+}
+
+.titleplan a:hover {
+	background-color: #3aa7fd;
 }
 
 .priceplan p {
@@ -83,6 +98,12 @@
 .priceplan {
 	background-color: #fd9e2f;
 	color:#fff;
+}
+
+.priceplan .perMonth {
+	margin: 0;
+	font-size: 16px;
+	padding-bottom: 5px;
 }
 
 .descplan {

@@ -45,5 +45,11 @@
 	"API Documentation is only available in english at the moment !": "API Documentation is only available in english at the moment !",
 	"You must precise a redirection URI !": "You must precise a redirection URI !",
 	"Name already taken !": "Name already taken !",
-	"Successfully logged out !": "Successfully logged out !"
+	"Successfully logged out !": "Successfully logged out !",
+	"Hello %s, The application ": "Hello %s, The application ",
+	"is requesting access to your account.": "is requesting access to your account.",
+	"Do you approve?": "Do you approve?",
+	"Allow": "Allow",
+	"Deny": "Deny",
+	"Application successfully created !": "Application successfully created !"
 }
