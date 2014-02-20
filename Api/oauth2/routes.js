@@ -188,8 +188,6 @@ exports.login = [
 
 /**
  * GET /auth/logout -- Process logging out
- * @param req
- * @param res
  */
 exports.logout = [
     login.ensureLoggedIn("/auth/login"),

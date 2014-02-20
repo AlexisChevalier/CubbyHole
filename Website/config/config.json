@@ -1,5 +1,6 @@
 {
     "apiUrl": "localhost",
+    "apiPort": 8444,
     "oauth2" : {
         "authorizationURL": "https://localhost:8444/auth/dialog/authorize",
         "tokenURL": "https://localhost:8444/auth/oauth/token",

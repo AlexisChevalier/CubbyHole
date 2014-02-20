@@ -1,0 +1,48 @@
+{% if isLoggedIn() == true %}
+        <div id="nav-left">
+            {% if active == "fileBrowser" %}
+                <a class="active" href="/browser">FILES</a>
+            {% else %}
+                <a href="/browser">FILES</a>
+            {% endif %}
+            {% if active == "apps" %}
+                <a class="active" href="/apps">APPS</a>
+            {% else %}
+                <a href="/apps">APPS</a>
+            {% endif %}
+        </div>
+        <div id="nav-right">
+            {% if active == "account" %}
+                <a class="active" href="/account">ACCOUNT</a>
+            {% else %}
+                <a href="/account">ACCOUNT</a>
+            {% endif %}
+
+            <a href="/logout">LOGOUT</a>
+        </div>
+{% else %}
+        <div id="nav-left">
+            {% if active == "home" %}
+                <a class="active" href="/">HOME</a>
+            {% else %}
+                <a href="/">HOME</a>
+            {% endif %}
+            {% if active == "pricing" %}
+                <a class="active" href="/pricing">PRICING</a>
+            {% else %}
+                <a href="/pricing">PRICING</a>
+            {% endif %}
+        </div>
+        <div id="nav-right">
+            {% if active == "apps" %}
+                <a class="active" href="/apps">APPS</a>
+            {% else %}
+                <a href="/apps">APPS</a>
+            {% endif %}
+            {% if active == "account" %}
+                <a class="active" href="/loginsignup">LOGIN/SIGNUP</a>
+            {% else %}
+                <a href="/loginsignup">LOGIN/SIGNUP</a>
+            {% endif %}
+        </div>
+{% endif %}

@@ -1,20 +1,58 @@
-var passport = require('passport');
+"use strict";
+
+var passport = require('passport'),
+    login = require("../auth/ensureLoggedIn"),
+    usersDao = require('../models/users');
 
 module.exports = {
     /*
      * GET account page.
      */
-    account: function(req, res) {
-        res.render('account', { title: 'CubbyHole', active: 'account' });
-    },
+    account: [
+        login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
+        function (req, res) {
+            usersDao.findByToken(req.user.accessToken, function (err, user) {
+                if (err) {
+                    throw new Error("Can't find your profile !");
+                }
+                console.log(user);
+                res.render('account', { title: 'CubbyHole', active: 'account', userAccount: user });
+            });
+        }],
 
-    perform: passport.authenticate('oauth2'),
-
-    handleCallback: [
-        passport.authenticate('oauth2', { failureRedirect: '/login' }),
-        function(req, res) {
-            // Successful authentication, redirect home.
+    logout: [
+        login.ensureLoggedIn("/loginsignup"),
+        function (req, res) {
+            res.clearCookie('apiOauthCookie');
+            req.logout();
+            req.flash("success", "Successfully logged out !");
             res.redirect('/');
-        }
-    ]
+        }],
+
+    perform: [
+        login.ensureLoggedOut("/"),
+        passport.authenticate('oauth2')
+    ],
+
+    handleCallback: function (req, res, next) {
+        passport.authenticate('oauth2', function (err, user, info) {
+            var redirectUrl = '/';
+
+            if (err || !user) {
+                req.flash("danger", "Login Failed !");
+
+                return res.redirect('/');
+            }
+            req.flash("success", "Successfully Logged in !");
+
+            if (req.session.returnTo && req.session.returnTo != "") {
+                redirectUrl = req.session.returnTo;
+                req.session.returnTo = null;
+            }
+            req.logIn(user, function (err) {
+                if (err) { return next(err); }
+            });
+            res.redirect(redirectUrl);
+        })(req, res, next);
+    }
 };

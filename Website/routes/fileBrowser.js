@@ -1,8 +1,14 @@
+"use strict";
+
+var login = require("../auth/ensureLoggedIn");
+
 module.exports = {
     /**
      * GET file browserpage.
      */
-    fileBrowserPage: function(req, res){
-        res.render('files', { title: 'My files' });
-    }
+    fileBrowserPage: [
+        login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
+        function (req, res) {
+            res.render('files', { title: 'My files', active: "fileBrowser"  });
+        }]
 };

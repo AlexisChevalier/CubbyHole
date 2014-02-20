@@ -10,15 +10,19 @@
 
 	<h2 id="h2Account">Update your profile</h2>	
 
+    <p class="well">
+        Feel free to change your mail or your username. <br/>
+        If you want to change your password you'll have to fill the two password fields !
+    </p>
     <form class="form-horizontal" role="form" id="formRegister" action="index.html">
 	  <div class="form-group">
 	    <label for="username">Firstname and lastname</label>
-	      <input type="text" class="form-control" id="username" placeholder="Username" required>
+	      <input type="text" value="{{ userAccount.name }}" class="form-control" id="username" placeholder="Username" required>
 	  </div>	
 
 	  <div class="form-group">
 	    <label for="email" >Email</label>
-	      <input type="email" class="form-control" id="email" placeholder="Email" required>
+	      <input type="email" value="{{ userAccount.email }}" class="form-control" id="email" placeholder="Email" required>
 	  </div>
 
 	  <div class="form-group">

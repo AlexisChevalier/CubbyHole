@@ -30,30 +30,7 @@
   <!-- Navigation header -->
   <nav>
     <div class="wrapper">
-      <div id="nav-left">
-          {% if active == "home" %}
-            <a class="active" href="/">HOME</a>
-          {% else %}
-            <a href="/">HOME</a>
-          {% endif %}
-          {% if active == "pricing" %}
-            <a class="active" href="/pricing">PRICING</a>
-          {% else %}
-            <a href="/pricing">PRICING</a>
-          {% endif %}
-      </div>
-      <div id="nav-right">
-          {% if active == "apps" %}
-            <a class="active" href="/apps">APPLICATIONS</a>
-          {% else %}
-            <a href="/apps">APPLICATIONS</a>
-          {% endif %}
-          {% if active == "account" %}
-            <a class="active" href="/loginsignup">LOGIN/SIGNUP</a>
-          {% else %}
-            <a href="/loginsignup">LOGIN/SIGNUP</a>
-          {% endif %}
-      </div>
+        {% include "./menu.html" %}
       <div class="clearfix"></div>
       <img id="brand-logo" src="/images/logo.png" alt="Logo Cubbyhole" />
       <div id="brand-text">

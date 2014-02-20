@@ -68,7 +68,8 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('h21SoYOkwrqqPPMR37jH8ii4a4D24347'));
-app.use(express.session());
+//I hate you, cookie.
+app.use(express.session({ key: 'apiOauthCookie' }));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
