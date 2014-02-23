@@ -12,6 +12,7 @@ var config = require('../config/config.json'),
  * @param {function} done
  */
 Users.findByToken = function (accessToken, done) {
+    console.log(accessToken);
     var options = {
         host: config.apiUrl,
         port: config.apiPort,
@@ -22,12 +23,17 @@ Users.findByToken = function (accessToken, done) {
         }
     },
         req = https.request(options, function (res) {
-            var body = "";
+            var body = "",
+                parsed = "";
             res.on('data', function (d) {
                 body += d;
             });
             res.on('end', function () {
-                var parsed = JSON.parse(body);
+                try {
+                    parsed = JSON.parse(body);
+                } catch (e) {
+                    return done(e, null);
+                }
                 if (parsed.id) {
                     return done(null, parsed);
                 }
@@ -38,6 +44,12 @@ Users.findByToken = function (accessToken, done) {
     req.end();
 };
 
+/**
+ * Update user authentified by accessToken
+ * @param {string} accessToken
+ * @param {object} userToUpdate
+ * @param {function} done
+ */
 Users.updateByToken = function (accessToken, userToUpdate, done) {
     var options = {
         host: config.apiUrl,

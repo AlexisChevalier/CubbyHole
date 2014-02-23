@@ -19,6 +19,9 @@ module.exports = {
     userUpdate: [
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
+            req.models.Users.get(req.user.id, function (err, user) {
+
+            });
             //TODO: Handle this logic and register the route
             res.json({ id: req.user.id, username: req.user.username, email: req.user.email, name: req.user.name });
         }

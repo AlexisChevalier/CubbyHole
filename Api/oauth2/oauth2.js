@@ -1,11 +1,14 @@
+"use strict";
+
+var models = require('../models/mysql');
+
 /**
  * Module dependencies.
  */
-var oauth2orize = require('oauth2orize')
-  , passport = require('passport')
-  , login = require('connect-ensure-login')
-  , db = require('../db/mysql')
-  , utils = require('./utils');
+var oauth2orize = require('oauth2orize'),
+    passport = require('passport'),
+    login = require('connect-ensure-login'),
+    utils = require('./utils');
 
 // create OAuth 2.0 server
 var server = oauth2orize.createServer();
@@ -23,15 +26,19 @@ var server = oauth2orize.createServer();
 // simple matter of serializing the client's ID, and deserializing by finding
 // the client by ID from the database.
 
-server.serializeClient(function(client, done) {
-  return done(null, client.id);
+server.serializeClient(function (client, done) {
+    return done(null, client.id);
 });
 
-server.deserializeClient(function(id, done) {
-  db.clients.find(id, function(err, client) {
-    if (err) { return done(err); }
-    return done(null, client);
-  });
+server.deserializeClient(function (id, done) {
+    models(function (err, db) {
+        db.models.Clients.one({ id: id }, function (err, client) {
+            if (err) {
+                return done(err);
+            }
+            return done(null, client);
+        });
+    });
 });
 
 // Register supported grant types.
@@ -48,13 +55,19 @@ server.deserializeClient(function(id, done) {
 // the application.  The application issues a code, which is bound to these
 // values, and will be exchanged for an access token.
 
-server.grant(oauth2orize.grant.code(function(client, redirectURI, user, ares, done) {
-  var code = utils.uid(16);
-  
-  db.authorizationCodes.save(code, client.id, redirectURI, user.id, function(err) {
-    if (err) { return done(err); }
-    done(null, code);
-  });
+server.grant(oauth2orize.grant.code(function (client, redirectURI, user, ares, done) {
+    var code = utils.uid(16),
+        time = (new Date().getTime() / 1000);
+    models(function (err, db) {
+        db.driver.execQuery("INSERT INTO AuthorizationCodes (code, clientID, redirectURI, userID, timeCreated) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE code = ?",
+            [code, client.id, redirectURI, user.id, time, code],
+            function (err, data) {
+                if (err || data.affectedRows < 1) {
+                    return done(err);
+                }
+                return done(null, code);
+            });
+    });
 }));
 
 // Exchange authorization codes for access tokens.  The callback accepts the
@@ -63,24 +76,45 @@ server.grant(oauth2orize.grant.code(function(client, redirectURI, user, ares, do
 // application issues an access token on behalf of the user who authorized the
 // code.
 
-server.exchange(oauth2orize.exchange.code(function(client, code, redirectURI, done) {
-  db.authorizationCodes.find(code, function(err, authCode) {
-    if (err) { return done(err); }
-    if (authCode === undefined) { return done(null, false); }
-    if (client.id !== authCode.clientID) { return done(null, false); }
-    if (redirectURI !== authCode.redirectURI) { return done(null, false); }
+server.exchange(oauth2orize.exchange.code(function (client, code, redirectURI, done) {
+    models(function (err, db) {
+        db.models.AuthorizationCodes.one({ code: code }, function (err, authCode) {
+            if (err) {
+                return done(err);
+            }
+            if (!authCode) {
+                return done(null, false);
+            }
+            if (client.id !== authCode.clientID) {
+                return done(null, false);
+            }
+            if (redirectURI !== authCode.redirectURI) {
+                return done(null, false);
+            }
 
-      db.authorizationCodes.delete(code, function(err) {
-        if(err) { return done(err); }
-        var token = utils.uid(256);
-        db.accessTokens.save(token, authCode.userID, authCode.clientID, function(err) {
-          if (err) { return done(err); }
-            done(null, token);
+            authCode.remove(function (err) {
+                if (err) {
+                    return done(err);
+                }
+                var token = utils.uid(256);
+                db.driver.execQuery("DELETE FROM AuthorizationCodes WHERE timeCreated < UNIX_TIMESTAMP(NOW() - 300)", function (err, data) {
+
+                    if (err) {
+                        return done(err);
+                    }
+                    db.driver.execQuery("INSERT INTO AccessTokens (userID, clientID, token) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE token = ?",
+                        [authCode.userID, authCode.clientID, token, token],
+                        function (err, data) {
+                            if (err || data.affectedRows < 1) {
+                                return done(err);
+                            }
+                            done(null, token);
+                        });
+                });
+            });
         });
-      });
-  });
+    });
 }));
-
 
 
 // user authorization endpoint
@@ -101,30 +135,36 @@ server.exchange(oauth2orize.exchange.code(function(client, code, redirectURI, do
 
 exports.authorization = [
     login.ensureLoggedIn("/auth/login"),
-    server.authorization(function(clientID, redirectURI, done) {
-        db.clients.findByClientId(clientID, function(err, client) {
-            if (err) { return done(err); }
-            if(client != null && client.redirect_uri !== undefined && redirectURI !== client.redirect_uri) {
-                return done(new Error("Specified redirection URI doesn't match client's redirection URI !"));
-            }
-            return done(null, client, redirectURI);
+    server.authorization(function (clientID, redirectURI, done) {
+        models(function (err, db) {
+            db.models.Clients.one({ clientId: clientID }, function (err, client) {
+                if (err) {
+                    return done(err);
+                }
+                if (client != null && client.redirect_uri !== undefined && redirectURI !== client.redirect_uri) {
+                    return done(new Error("Specified redirection URI doesn't match client's redirection URI !"));
+                }
+                return done(null, client, redirectURI);
+            });
         });
     }),
-    function(req, res, next){
+    function (req, res, next) {
         //If the application is already authorized or allowed to skip dialog
-        db.accessTokens.findByClientAndUserId(req.oauth2.client.id, req.user.id, function(err, token) {
-            /**
-             * Le token existe déja (déja autorisé) ou l'app peut skip le dialog (App interne)
-             */
-            if((token != undefined && token !== null) || (req.oauth2.client.dialog_disabled == 1)) {
-                req.body.transaction_id = req.oauth2.transactionID;
-                next();
-            /**
-             * Le token n'existe pas et l'app doit se faire autoriser
-             */
-            } else {
-                res.render('oauth2/dialog', { transactionID: req.oauth2.transactionID, user: req.user, client: req.oauth2.client });
-            }
+        models(function (err, db) {
+            db.models.AccessTokens.one({ clientId: req.oauth2.client.id, userID: req.user.id }, function (err, token) {
+                /**
+                 * Le token existe déja (déja autorisé) ou l'app peut skip le dialog (App interne)
+                 */
+                if ((token != undefined && token !== null) || (req.oauth2.client.dialog_disabled == 1)) {
+                    req.body.transaction_id = req.oauth2.transactionID;
+                    next();
+                    /**
+                     * Le token n'existe pas et l'app doit se faire autoriser
+                     */
+                } else {
+                    res.render('oauth2/dialog', { transactionID: req.oauth2.transactionID, user: req.user, client: req.oauth2.client });
+                }
+            });
         });
     },
     server.decision()
@@ -138,8 +178,8 @@ exports.authorization = [
 // a response.
 
 exports.decision = [
-  login.ensureLoggedIn("/auth/login"),
-  server.decision()
+    login.ensureLoggedIn("/auth/login"),
+    server.decision()
 ];
 
 
@@ -151,7 +191,7 @@ exports.decision = [
 // authenticate when making requests to this endpoint.
 
 exports.token = [
-  passport.authenticate(['basic', 'oauth2-client-password'], { session: false }),
-  server.token(),
-  server.errorHandler()
+    passport.authenticate(['basic', 'oauth2-client-password'], { session: false }),
+    server.token(),
+    server.errorHandler()
 ];

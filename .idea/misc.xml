@@ -3,6 +3,7 @@
   <component name="ProjectPlainTextFileTypeManager">
     <file url="file://$PROJECT_DIR$/Api/locales/en.js" />
     <file url="file://$PROJECT_DIR$/Api/locales/fr.js" />
+    <file url="file://$PROJECT_DIR$/Website/config/config.json.default" />
     <file url="file://$PROJECT_DIR$/Website/locales/en.js" />
     <file url="file://$PROJECT_DIR$/Website/locales/fr.js" />
   </component>

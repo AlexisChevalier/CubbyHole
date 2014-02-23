@@ -1,24 +1,51 @@
+"use strict";
+
 /**
  * Module dependencies.
  */
 
-var express = require('express')
-    , https = require('https')
-    , http = require('http')
-    , path = require('path')
-    , swig = require('swig')
-    , passport = require('passport')
-    , fs = require('fs')
-    , I18n = require('i18n-2')
-    , locale = require("locale")
-    , supportedLocales = ["en", "fr"]
-    , accountRoutes = require('./routes/account')
-    , publicRoutes = require('./routes/public')
-    , devRoutes = require('./routes/dev')
-    , oauth2routes = require('./oauth2/routes')
-    , oauth2core = require('./oauth2/oauth2')
-    , flash = require('connect-flash')
-    , app = express();
+var express = require('express'),
+    orm = require('orm'),
+    models = require('./models/mysql'),
+    config = require('./config'),
+    https = require('https'),
+    http = require('http'),
+    path = require('path'),
+    swig = require('swig'),
+    passport = require('passport'),
+    fs = require('fs'),
+    I18n = require('i18n-2'),
+    locale = require("locale"),
+    supportedLocales = ["en", "fr"],
+    accountRoutes = require('./routes/account'),
+    publicRoutes = require('./routes/public'),
+    devRoutes = require('./routes/dev'),
+    oauth2routes = require('./oauth2/routes'),
+    oauth2core = require('./oauth2/oauth2'),
+    flash = require('connect-flash'),
+    app = express();
+
+/**
+ * Social Auth Strategies Initialisation
+ */
+
+require("./social/socialPassportStrategies");
+
+/**
+ * MYSQL DB Initialisation
+ */
+app.use(function (req, res, next) {
+    models(function (err, db) {
+        if (err) {
+            return next(err);
+        }
+
+        req.models = db.models;
+        req.db = db;
+
+        return next();
+    });
+});
 
 /**
  * Swig initialization
@@ -35,9 +62,9 @@ swig.setDefaults({
  * SSL parameters.
  */
 
-var key = fs.readFileSync('./ssl_elems/api-key.pem')
-    , cert = fs.readFileSync('./ssl_elems/api-cert.pem')
-    , https_options = {
+var key = fs.readFileSync('./ssl_elems/api-key.pem'),
+    cert = fs.readFileSync('./ssl_elems/api-cert.pem'),
+    https_options = {
         key: key,
         cert: cert
     };
@@ -51,13 +78,12 @@ app.set('domain', '0.0.0.0');
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
-app.use(function(req, res, next) {
-    if(!req.secure) {
-        if('development' == app.get('env')) {
+app.use(function (req, res, next) {
+    if (!req.secure) {
+        if ('development' == app.get('env')) {
             return res.redirect(['https://', app.get('domain'), ':', app.get('sslport'), req.url].join(''));
-        } else {
-            return res.redirect(['https://', req.get('Host'), req.url].join(''));
         }
+        return res.redirect(['https://', req.get('Host'), req.url].join(''));
     }
     next();
 });
@@ -73,8 +99,10 @@ app.use(express.session({ key: 'apiOauthCookie' }));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(function(req, res, next) {
-    res.locals.messages = function() { return req.flash() };
+app.use(function (req, res, next) {
+    res.locals.messages = function () {
+        return req.flash();
+    };
     res.locals.user = req.user;
     res.locals.body = req.body;
     next();
@@ -84,7 +112,7 @@ I18n.expressBind(app, {
     directory: __dirname + "/locales",
     locales: supportedLocales
 });
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     req.i18n.setLocale(req.locale);
     next();
 });
@@ -93,7 +121,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+    app.use(express.errorHandler());
 }
 
 /**
@@ -121,8 +149,12 @@ require('./oauth2/auth');
 
 app.get('/auth', oauth2routes.index);
 app.get('/auth/login', oauth2routes.loginForm);
-//app.get('/auth/sendfblogin', oauth2routes.sendfblogin);
-//app.get('/auth/fblogin', oauth2routes.fblogin);
+app.get('/auth/facebook', oauth2routes.facebookAuth);
+app.get('/auth/facebook/callback', oauth2routes.facebookAuthCallback);
+/*app.get('/auth/twitter', oauth2routes.sendfblogin);
+app.get('/auth/twitter/callback', oauth2routes.fblogin);
+app.get('/auth/google', oauth2routes.sendfblogin);
+app.get('/auth/google/callback', oauth2routes.fblogin);*/
 app.get('/auth/signup', oauth2routes.signupForm);
 app.post('/auth/signup', oauth2routes.signup);
 app.post('/auth/login', oauth2routes.login);
@@ -137,7 +169,7 @@ app.post('/auth/oauth/token', oauth2core.token);
  */
 
 http.createServer(app).listen(app.get('port'));
-https.createServer(https_options, app).listen(app.get('sslport'), app.get('domain'), function(){
+https.createServer(https_options, app).listen(app.get('sslport'), app.get('domain'), function () {
     console.log('HTTPS Express server listening on port ' + app.get('sslport') + ' | Don\'t forget to use HTTPS ');
     console.log('--- IF THERE IS A CRASH WITH ECONNREFUSED CODE AT LAUNCH, CHECK IF YOUR MYSQL SERVER IS RUNNING AND IF IT FITS WITH THE config.json FILE ---');
 });

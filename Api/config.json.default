@@ -1,10 +1,15 @@
 {
+    "gmail": {
+        "mail":"team.cubbyhole@gmail.com",
+        "password": "bafuFRa6#"
+    },
     "mysqlServer": {
         "user": "root",
         "database": "CubbyHole",
         "password": "root",
         "port": 8889,
-        "host": "localhost"
+        "host": "localhost",
+        "dsn": "mysql://root:root@localhost:8889/CubbyHole"
     },
     "social": {
         "facebook": {

@@ -107,6 +107,7 @@ if ('development' == app.get('env')) {
 app.get('/', defaultRoutes.home);
 app.get('/pricing', defaultRoutes.pricing);
 app.get('/account', accountRoutes.account);
+app.get('/account/plan', accountRoutes.planChoose);
 app.get('/apps', defaultRoutes.apps);
 app.get('/loginsignup', accountRoutes.perform);
 app.get('/loginCallback', accountRoutes.handleCallback);

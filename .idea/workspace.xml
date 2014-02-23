@@ -2,22 +2,169 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48f64c5b-0459-47db-9f85-423b605a5a49" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/views/account.html" afterPath="$PROJECT_DIR$/Website/views/account.html" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/db/mysql/accesstokens.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/db/mysql/authorizationcodes.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/db/mysql/clients.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/db/mysql/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/db/mysql/mysqlProvider.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/db/mysql/users.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/.travis.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/Changelog.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/License" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/FB/create.sql" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/FB/fortunes.jade" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/FB/hello.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/FB/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/bench-fake-server-maria.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/bench-fake-server.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/bench-insert-select-parallel.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/bench-insert-select-prepared.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/bench-insert-select.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/benchmark-query.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/benchmark-server.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/http-select-and-render.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/httperf.sh" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/ping-pong-client.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/ping-pong-server.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/ping-pong-uv.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/benchmarks/test-benchmark-select-1.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/execute.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/mysqlproxy.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/pool-test.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/server.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/simple-select.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/ssl/certs/ca-cert.pem" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/ssl/certs/ca-key.pem" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/ssl/certs/client-cert.pem" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/ssl/certs/client-key.pem" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/ssl/certs/client-req.pem" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/ssl/certs/mkcerts.sh" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/ssl/certs/server-cert.pem" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/ssl/certs/server-key.pem" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/ssl/certs/server-req.pem" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/ssl/client-flags.sh" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/ssl/rds-ssl.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/examples/ssl/select-over-ssl.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/fixtures/mysql-ssl-ca-cert.pem" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/commands/client_handshake.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/commands/command.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/commands/execute.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/commands/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/commands/ping.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/commands/query.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/commands/server_handshake.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/compile_binary_parser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/compile_text_parser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/connection.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/connection_config.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/constants/charsets.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/constants/client.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/constants/commands.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/constants/cursor.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/constants/errors.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/constants/field_flags.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/constants/server_status.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/constants/types.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/helpers.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/packet_parser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/packets/binary_row.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/packets/column_definition.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/packets/execute.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/packets/handshake.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/packets/handshake_response.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/packets/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/packets/packet.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/packets/prepare_statement.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/packets/prepared_statement_header.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/packets/query.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/packets/resultset_header.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/packets/ssl_request.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/packets/text_row.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/pool.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/pool_cluster.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/pool_config.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/pool_connection.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/results_stream.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/server.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/lib/sql_string.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/node_modules/fastqueue/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/node_modules/fastqueue/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/node_modules/fastqueue/queue.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/common.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/create-500k-random-ints-doubles-table.sql" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/create-500k-random-rows-table.sql" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-binary-charset-string.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-buffer-params.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-custom-date-parameter.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-date-parameter.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-datetime.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-disconnects.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-errors.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-execute-1.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-execute-newdecimal.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-execute-null-bitmap.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-execute-signed.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-insert-results.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-invalid-date-result.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-multiple-results.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-null.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-select-1.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-select-empty-string.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-select-negative.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-select-utf8.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-select-utf8mb4.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-signed-tinyint.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/integration/connection/test-timestamp.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/run.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/mysql2/test/template.jade" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/.travis.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/lib/passport/context/http/actions.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/lib/passport/context/http/context.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/lib/passport/http/request.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/lib/passport/index.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/lib/passport/middleware/authenticate.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/lib/passport/middleware/initialize.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/lib/passport/strategies/session.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/lib/passport/strategy.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pkginfo/.npmignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pkginfo/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pkginfo/docs/docco.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pkginfo/docs/pkginfo.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pkginfo/examples/all-properties.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pkginfo/examples/array-argument.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pkginfo/examples/multiple-properties.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pkginfo/examples/object-argument.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pkginfo/examples/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pkginfo/examples/single-property.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pkginfo/lib/pkginfo.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pkginfo/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pkginfo/test/pkginfo-test.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SQL/CubbyHole.sql" afterPath="$PROJECT_DIR$/SQL/CubbyHole.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/node_modules/passport/LICENSE" afterPath="$PROJECT_DIR$/Api/node_modules/passport/LICENSE" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/node_modules/passport/README.md" afterPath="$PROJECT_DIR$/Api/node_modules/passport/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/routes/account.js" afterPath="$PROJECT_DIR$/Api/routes/account.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/routes/account.js" afterPath="$PROJECT_DIR$/Website/routes/account.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/app.js" afterPath="$PROJECT_DIR$/Api/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/app.js" afterPath="$PROJECT_DIR$/Website/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/auth/auth.js" afterPath="$PROJECT_DIR$/Website/auth/auth.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/config/config.json" afterPath="$PROJECT_DIR$/Website/config/config.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/routes/default.js" afterPath="$PROJECT_DIR$/Website/routes/default.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/routes/fileBrowser.js" afterPath="$PROJECT_DIR$/Website/routes/fileBrowser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/views/index.html" afterPath="$PROJECT_DIR$/Website/views/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/views/layouts/layout.html" afterPath="$PROJECT_DIR$/Website/views/layouts/layout.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/views/layouts/minilayout.html" afterPath="$PROJECT_DIR$/Website/views/layouts/minilayout.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/node_modules/connect-ensure-login/package.json" afterPath="$PROJECT_DIR$/Website/node_modules/connect-ensure-login/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/oauth2/auth.js" afterPath="$PROJECT_DIR$/Api/oauth2/auth.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/config.json.default" afterPath="$PROJECT_DIR$/Api/config.json.default" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/routes/dev.js" afterPath="$PROJECT_DIR$/Api/routes/dev.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/oauth2/login.html" afterPath="$PROJECT_DIR$/Api/views/oauth2/login.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/oauth2/oauth2.js" afterPath="$PROJECT_DIR$/Api/oauth2/oauth2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/package.json" afterPath="$PROJECT_DIR$/Api/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/node_modules/passport/package.json" afterPath="$PROJECT_DIR$/Api/node_modules/passport/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pause/package.json" afterPath="$PROJECT_DIR$/Api/node_modules/passport/node_modules/pause/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/views/pricing.html" afterPath="$PROJECT_DIR$/Website/views/pricing.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/oauth2/routes.js" afterPath="$PROJECT_DIR$/Api/oauth2/routes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/public/stylesheets/style.css" afterPath="$PROJECT_DIR$/Website/public/stylesheets/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/db/mysql/users.js" afterPath="$PROJECT_DIR$/Api/db/mysql/users.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/oauth2/signup.html" afterPath="$PROJECT_DIR$/Api/views/oauth2/signup.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/oauth2/user.js" afterPath="$PROJECT_DIR$/Api/oauth2/user.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/models/users.js" afterPath="$PROJECT_DIR$/Website/models/users.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/oauth2/utils.js" afterPath="$PROJECT_DIR$/Api/oauth2/utils.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="3pjt_web_application_cubby_hole.iws" />
@@ -41,19 +188,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="account.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Website/views/account.html">
+      <file leaf-file-name="oauth2.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Api/oauth2/oauth2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="60" selection-start="569" selection-end="569" vertical-scroll-proportion="-10.916667" vertical-offset="8" max-vertical-offset="735">
+            <state line="136" column="21" selection-start="5515" selection-end="5515" vertical-scroll-proportion="0.35286283" vertical-offset="1775" max-vertical-offset="3045">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="users.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Website/models/users.js">
+      <file leaf-file-name="UserHelper.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Api/models/mysql/helpers/UserHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="37" selection-start="1230" selection-end="1230" vertical-scroll-proportion="0.0" vertical-offset="284" max-vertical-offset="1035">
+            <state line="24" column="9" selection-start="628" selection-end="628" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="720">
               <folding>
                 <element signature="e#0#52#0" expanded="false" />
               </folding>
@@ -61,19 +208,49 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="account.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Api/routes/account.js">
+      <file leaf-file-name="routes.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Api/oauth2/routes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="17" selection-start="426" selection-end="426" vertical-scroll-proportion="0.35952064" vertical-offset="0" max-vertical-offset="751">
+            <state line="51" column="20" selection-start="1175" selection-end="1175" vertical-scroll-proportion="-9.24" vertical-offset="534" max-vertical-offset="3375">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="users.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Api/db/mysql/users.js">
+      <file leaf-file-name="auth.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Api/oauth2/auth.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="66" column="34" selection-start="2130" selection-end="2130" vertical-scroll-proportion="0.0" vertical-offset="539" max-vertical-offset="1455">
+            <state line="10" column="38" selection-start="382" selection-end="382" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="2130">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="socialPassportStrategies.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Api/social/socialPassportStrategies.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="17" selection-start="1013" selection-end="1013" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+              <folding>
+                <element signature="e#0#52#0" expanded="false" />
+                <marker date="1393119203000" expanded="true" signature="1238:1303" placeholder="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.json" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Api/config.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="28" selection-start="255" selection-end="255" vertical-scroll-proportion="-6.25" vertical-offset="0" max-vertical-offset="390">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Api/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="162" column="50" selection-start="4136" selection-end="4136" vertical-scroll-proportion="0.0" vertical-offset="1949" max-vertical-offset="2700">
               <folding />
             </state>
           </provider>
@@ -97,29 +274,29 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/Website/views/index.html" />
-        <option value="$PROJECT_DIR$/Website/public/stylesheets/style.css" />
-        <option value="$PROJECT_DIR$/Website/node_modules/passport/lib/middleware/authenticate.js" />
-        <option value="$PROJECT_DIR$/Api/app.js" />
-        <option value="$PROJECT_DIR$/Website/models/REST/users.js" />
-        <option value="$PROJECT_DIR$/Website/views/account.html" />
-        <option value="$PROJECT_DIR$/Website/config/config.json" />
-        <option value="$PROJECT_DIR$/Website/models/users.js" />
-        <option value="$PROJECT_DIR$/Website/auth/auth.js" />
-        <option value="$PROJECT_DIR$/Website/routes/account.js" />
-        <option value="$PROJECT_DIR$/Website/routes/default.js" />
-        <option value="$PROJECT_DIR$/Website/app.js" />
-        <option value="$PROJECT_DIR$/Website/routes/fileBrowser.js" />
-        <option value="$PROJECT_DIR$/Website/auth/ensureLoggedIn.js" />
-        <option value="$PROJECT_DIR$/Api/db/mysql/users.js" />
         <option value="$PROJECT_DIR$/Api/routes/account.js" />
+        <option value="$PROJECT_DIR$/Website/routes/account.js" />
+        <option value="$PROJECT_DIR$/Website/app.js" />
+        <option value="$PROJECT_DIR$/Api/config.json.default" />
+        <option value="$PROJECT_DIR$/Api/views/mail/welcome.txt" />
+        <option value="$PROJECT_DIR$/Api/views/mail/welcome.html" />
+        <option value="$PROJECT_DIR$/Api/utils/mailer.js" />
+        <option value="$PROJECT_DIR$/Website/config/config.json.default" />
+        <option value="$PROJECT_DIR$/Api/views/oauth2/signup.html" />
+        <option value="$PROJECT_DIR$/Api/views/oauth2/login.html" />
+        <option value="$PROJECT_DIR$/Api/app.js" />
+        <option value="$PROJECT_DIR$/Api/config.json" />
+        <option value="$PROJECT_DIR$/SQL/CubbyHole.sql" />
+        <option value="$PROJECT_DIR$/Api/models/mysql/helpers/UserHelper.js" />
+        <option value="$PROJECT_DIR$/Api/social/socialPassportStrategies.js" />
+        <option value="$PROJECT_DIR$/Api/oauth2/routes.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="4" />
     <option name="y" value="558" />
-    <option name="width" value="1680" />
+    <option name="width" value="2556" />
     <option name="height" value="874" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -130,15 +307,18 @@
             <id />
           </State>
           <State>
-            <id>Code quality toolsJavaScript</id>
+            <id>GeneralJavaScript</id>
           </State>
           <State>
             <id>JavaScript</id>
           </State>
+          <State>
+            <id>XPath</id>
+          </State>
         </expanded-state>
         <selected-state>
           <State>
-            <id>CoffeeScript</id>
+            <id>JavaScript</id>
           </State>
         </selected-state>
       </profile-state>
@@ -170,7 +350,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -199,7 +378,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
+              <option name="myItemId" value="SQL" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -231,7 +410,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="routes" />
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oauth2" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -249,7 +432,61 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="db" />
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="social" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="oauth2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -257,19 +494,46 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mysql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="helpers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="Settings.JavaScript.Linters.JSLint" />
+    <property name="options.lastSelected" value="preferences.fileTypes" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../3WEB/3web-pictionary" />
     <property name="FullScreen" value="false" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -280,19 +544,13 @@
       <recent name="$PROJECT_DIR$/Api/public/javascripts" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Api/models/mysql" />
+      <recent name="$PROJECT_DIR$/Api/models/schemas" />
       <recent name="$PROJECT_DIR$/Website/models" />
       <recent name="$PROJECT_DIR$/Api/views/api" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -301,6 +559,14 @@
       <option name="saveOutputToFile" value="false" />
       <option name="showConsoleOnStdErr" value="false" />
       <option name="showConsoleOnStdOut" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
       <method />
     </configuration>
     <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
@@ -343,48 +609,28 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="4" y="558" width="1680" height="874" extended-state="0" />
+    <frame x="4" y="558" width="2556" height="874" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16785714" sideWeight="0.71887034" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11032864" sideWeight="0.71887034" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28112966" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28138527" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16785714" sideWeight="0.7186147" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -399,104 +645,36 @@
       <option name="time" value="1" />
     </breakpoint-manager>
   </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Website/node_modules/passport-oauth2/lib/errors/internaloautherror.js">
+    <entry file="file://$PROJECT_DIR$/Website/config/config.json.default">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="4" selection-start="220" selection-end="220" vertical-scroll-proportion="0.13981359" vertical-offset="0" max-vertical-offset="825" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="0" selection-start="1867" selection-end="1888" vertical-scroll-proportion="0.059920106" vertical-offset="1005" max-vertical-offset="2220">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/node_modules/passport-oauth2/lib/strategy.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="21" selection-start="5018" selection-end="5018" vertical-scroll-proportion="-1.9214381" vertical-offset="3423" max-vertical-offset="5310">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/node_modules/passport/lib/http/request.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="4" selection-start="1845" selection-end="1845" vertical-scroll-proportion="0.5206391" vertical-offset="824" max-vertical-offset="1575" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/node_modules/passport/lib/passport/http/request.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="4" selection-start="1617" selection-end="1617" vertical-scroll-proportion="0.5406125" vertical-offset="689" max-vertical-offset="1455" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="3" selection-start="3384" selection-end="3384" vertical-scroll-proportion="2.4966712" vertical-offset="0" max-vertical-offset="1965">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/routes/account.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="0" selection-start="1049" selection-end="1049" vertical-scroll-proportion="0.44074568" vertical-offset="194" max-vertical-offset="945">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/routes/fileBrowser.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="2" selection-start="354" selection-end="354" vertical-scroll-proportion="0.2596538" vertical-offset="0" max-vertical-offset="751">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/routes/default.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="2" selection-start="586" selection-end="586" vertical-scroll-proportion="0.5193076" vertical-offset="0" max-vertical-offset="751">
+        <state line="10" column="1" selection-start="406" selection-end="406" vertical-scroll-proportion="0.19973369" vertical-offset="0" max-vertical-offset="751">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Website/config/config.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="35" selection-start="241" selection-end="241" vertical-scroll-proportion="0.123796426" vertical-offset="0" max-vertical-offset="727">
+        <state line="10" column="1" selection-start="406" selection-end="406" vertical-scroll-proportion="0.20632738" vertical-offset="0" max-vertical-offset="727">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Website/views/account.html">
+    <entry file="file://$PROJECT_DIR$/Api/views/oauth2/login.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="60" selection-start="569" selection-end="569" vertical-scroll-proportion="-10.916667" vertical-offset="8" max-vertical-offset="735">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/auth/auth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="43" selection-start="755" selection-end="755" vertical-scroll-proportion="0.4394141" vertical-offset="0" max-vertical-offset="751">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/auth/ensureLoggedIn.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="70" selection-start="1486" selection-end="1486" vertical-scroll-proportion="0.7403462" vertical-offset="134" max-vertical-offset="885">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/models/users.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="37" selection-start="1230" selection-end="1230" vertical-scroll-proportion="0.0" vertical-offset="284" max-vertical-offset="1035">
-          <folding>
-            <element signature="e#0#52#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/db/mysql/users.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="34" selection-start="2130" selection-end="2130" vertical-scroll-proportion="0.0" vertical-offset="539" max-vertical-offset="1455">
+        <state line="16" column="39" selection-start="691" selection-end="691" vertical-scroll-proportion="0.33012378" vertical-offset="0" max-vertical-offset="727">
           <folding />
         </state>
       </provider>
@@ -504,6 +682,95 @@
     <entry file="file://$PROJECT_DIR$/Api/routes/account.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="17" selection-start="426" selection-end="426" vertical-scroll-proportion="0.35952064" vertical-offset="0" max-vertical-offset="751">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/views/oauth2/signup.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="25" selection-start="500" selection-end="512" vertical-scroll-proportion="0.26822558" vertical-offset="0" max-vertical-offset="825">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="28" selection-start="255" selection-end="255" vertical-scroll-proportion="-6.25" vertical-offset="0" max-vertical-offset="390">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SQL/CubbyHole.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="170" column="0" selection-start="7573" selection-end="7573" vertical-scroll-proportion="3.3954728" vertical-offset="0" max-vertical-offset="2640">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/models/mysql/helpers/UserHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="9" selection-start="628" selection-end="628" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="720">
+          <folding>
+            <element signature="e#0#52#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/auth/auth.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="4" selection-start="55" selection-end="55" vertical-scroll-proportion="0.059920106" vertical-offset="0" max-vertical-offset="751">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/routes/account.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="21" selection-start="986" selection-end="986" vertical-scroll-proportion="0.35552597" vertical-offset="198" max-vertical-offset="1020">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/social/socialPassportStrategies.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="17" selection-start="1013" selection-end="1013" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="645">
+          <folding>
+            <element signature="e#0#52#0" expanded="false" />
+            <marker date="1393119203000" expanded="true" signature="1238:1303" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/oauth2/auth.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="38" selection-start="382" selection-end="382" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="2130">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/oauth2/routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="20" selection-start="1175" selection-end="1175" vertical-scroll-proportion="-9.24" vertical-offset="534" max-vertical-offset="3375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="162" column="50" selection-start="4136" selection-end="4136" vertical-scroll-proportion="0.0" vertical-offset="1949" max-vertical-offset="2700">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/node_modules/connect-ensure-login/lib/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="264" selection-end="264" vertical-scroll-proportion="0.19973369" vertical-offset="0" max-vertical-offset="751">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/oauth2/oauth2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="136" column="21" selection-start="5515" selection-end="5515" vertical-scroll-proportion="0.35286283" vertical-offset="1775" max-vertical-offset="3045">
           <folding />
         </state>
       </provider>

@@ -15,10 +15,16 @@ module.exports = {
                 if (err) {
                     throw new Error("Can't find your profile !");
                 }
-                console.log(user);
                 res.render('account', { title: 'CubbyHole', active: 'account', userAccount: user });
             });
         }],
+
+    planChoose: [
+        login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
+        function (req, res) {
+            res.render('plan_choose', { title: 'CubbyHole', active: 'account' });
+        }
+    ],
 
     logout: [
         login.ensureLoggedIn("/loginsignup"),
@@ -37,7 +43,6 @@ module.exports = {
     handleCallback: function (req, res, next) {
         passport.authenticate('oauth2', function (err, user, info) {
             var redirectUrl = '/';
-
             if (err || !user) {
                 req.flash("danger", "Login Failed !");
 
