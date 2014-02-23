@@ -81,9 +81,14 @@ app.set('view engine', 'html');
 app.use(function (req, res, next) {
     if (!req.secure) {
         if ('development' == app.get('env')) {
-            return res.redirect(['https://', app.get('domain'), ':', app.get('sslport'), req.url].join(''));
+            return res.redirect(['https://', "localhost", ':', app.get('sslport'), req.url].join(''));
         }
         return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    }
+    if (req.get('Host').split(":")[0] !== "localhost") {
+        if ('development' == app.get('env')) {
+            return res.redirect(['https://', "localhost", ':', app.get('sslport'), req.url].join(''));
+        }
     }
     next();
 });
@@ -140,6 +145,8 @@ app.post('/addApp', devRoutes.addApp);
 
 app.get('/api', publicRoutes.apiHome);
 app.get('/api/account/details', accountRoutes.userDetails);
+app.put('/api/account/details', accountRoutes.userUpdate);
+app.delete('/api/account', accountRoutes.userDelete);
 
 /**
  * OAUTH2 Routes definitions.
@@ -151,10 +158,8 @@ app.get('/auth', oauth2routes.index);
 app.get('/auth/login', oauth2routes.loginForm);
 app.get('/auth/facebook', oauth2routes.facebookAuth);
 app.get('/auth/facebook/callback', oauth2routes.facebookAuthCallback);
-/*app.get('/auth/twitter', oauth2routes.sendfblogin);
-app.get('/auth/twitter/callback', oauth2routes.fblogin);
-app.get('/auth/google', oauth2routes.sendfblogin);
-app.get('/auth/google/callback', oauth2routes.fblogin);*/
+app.get('/auth/google', oauth2routes.googleAuth);
+app.get('/auth/google/callback', oauth2routes.googleAuthCallback);
 app.get('/auth/signup', oauth2routes.signupForm);
 app.post('/auth/signup', oauth2routes.signup);
 app.post('/auth/login', oauth2routes.login);
@@ -167,7 +172,6 @@ app.post('/auth/oauth/token', oauth2core.token);
 /**
  * Server initialization.
  */
-
 http.createServer(app).listen(app.get('port'));
 https.createServer(https_options, app).listen(app.get('sslport'), app.get('domain'), function () {
     console.log('HTTPS Express server listening on port ' + app.get('sslport') + ' | Don\'t forget to use HTTPS ');

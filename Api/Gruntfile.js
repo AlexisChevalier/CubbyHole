@@ -1,5 +1,6 @@
-module.exports = function(grunt) {
+"use strict";
 
+module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         nodemon: {
@@ -7,6 +8,7 @@ module.exports = function(grunt) {
                 options: {
                     file: 'app.js',
                     args: ['dev'],
+                    nodeArgs: ['--debug'],
                     watchedExtensions: ['js', 'json', 'html'],
                     env: {
                         SSLPORT: '8444',

@@ -8,7 +8,9 @@ var models = require('../models/mysql');
 var oauth2orize = require('oauth2orize'),
     passport = require('passport'),
     login = require('connect-ensure-login'),
-    utils = require('./utils');
+    utils = require('./utils'),
+    authorizationCodeHelper = require('../models/mysql/helpers/AuthorizationCodeHelper'),
+    accessTokenHelper = require('../models/mysql/helpers/AccessTokenHelper');
 
 // create OAuth 2.0 server
 var server = oauth2orize.createServer();
@@ -58,15 +60,8 @@ server.deserializeClient(function (id, done) {
 server.grant(oauth2orize.grant.code(function (client, redirectURI, user, ares, done) {
     var code = utils.uid(16),
         time = (new Date().getTime() / 1000);
-    models(function (err, db) {
-        db.driver.execQuery("INSERT INTO AuthorizationCodes (code, clientID, redirectURI, userID, timeCreated) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE code = ?",
-            [code, client.id, redirectURI, user.id, time, code],
-            function (err, data) {
-                if (err || data.affectedRows < 1) {
-                    return done(err);
-                }
-                return done(null, code);
-            });
+    authorizationCodeHelper.CreateOrUpdate(code, client.id, redirectURI, user.id, time, function (err, result) {
+        return done(err, code);
     });
 }));
 
@@ -97,19 +92,11 @@ server.exchange(oauth2orize.exchange.code(function (client, code, redirectURI, d
                     return done(err);
                 }
                 var token = utils.uid(256);
-                db.driver.execQuery("DELETE FROM AuthorizationCodes WHERE timeCreated < UNIX_TIMESTAMP(NOW() - 300)", function (err, data) {
-
+                accessTokenHelper.CreateAndCleanCodes(authCode.userID, authCode.clientID, token, function (err, token) {
                     if (err) {
                         return done(err);
                     }
-                    db.driver.execQuery("INSERT INTO AccessTokens (userID, clientID, token) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE token = ?",
-                        [authCode.userID, authCode.clientID, token, token],
-                        function (err, data) {
-                            if (err || data.affectedRows < 1) {
-                                return done(err);
-                            }
-                            done(null, token);
-                        });
+                    done(null, token);
                 });
             });
         });

@@ -1,9 +1,9 @@
-#h2Account {
+.h2Account {
 	width:100%;
 	text-align: center;
 }
 
-#btnUpdateAccount {
+.btnUpdateAccount {
 	width:100%;
 	text-align: center;
 	background-color: #3eaafd;

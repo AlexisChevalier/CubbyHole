@@ -51,5 +51,6 @@
 	"Do you approve?": "Do you approve?",
 	"Allow": "Allow",
 	"Deny": "Deny",
-	"Application successfully created !": "Application successfully created !"
+	"Application successfully created !": "Application successfully created !",
+	"An account with this email already exists !": "An account with this email already exists !"
 }

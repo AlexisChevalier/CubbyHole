@@ -13,9 +13,61 @@ module.exports = {
         function (req, res) {
             usersDao.findByToken(req.user.accessToken, function (err, user) {
                 if (err) {
-                    throw new Error("Can't find your profile !");
+                    res.clearCookie('apiOauthCookie');
+                    req.logout();
+                    req.flash("danger", "There is an error with your profile, you have been logged out !");
+                    res.redirect('/');
+                } else {
+                    res.render('account', { title: 'CubbyHole', active: 'account', userAccount: user });
                 }
-                res.render('account', { title: 'CubbyHole', active: 'account', userAccount: user });
+            });
+        }],
+
+    updateAccount: [
+        login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
+        function (req, res) {
+            var userToUpdate = {};
+
+            userToUpdate.id = req.user.id;
+
+            if (req.body.name) {
+                userToUpdate.name = req.body.name;
+            }
+            if (req.body.email) {
+                userToUpdate.email = req.body.email;
+            }
+            if (req.body.password || req.body.passwordConfirm) {
+                if (req.body.passwordConfirm == req.body.password) {
+                    userToUpdate.password = req.body.password;
+                } else {
+                    req.flash("danger", "Both passwords doesn't match !");
+                    res.redirect('/account');
+                    return;
+                }
+            }
+
+            usersDao.updateByToken(req.user.accessToken, userToUpdate, function (err, user) {
+                if (err) {
+                    req.flash("danger", err.message);
+                } else {
+                    req.flash("success", "Profile successfully updated !");
+                }
+                res.redirect('/account');
+            });
+        }],
+
+    deleteAccount: [
+        login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
+        function (req, res) {
+            usersDao.deleteByToken(req.user.accessToken, function (err, user) {
+                if (err) {
+                    req.flash("danger", err.message);
+                } else {
+                    req.flash("success", "Account successfully deleted !");
+                    res.clearCookie('apiOauthCookie');
+                    req.logout();
+                }
+                res.redirect('/');
             });
         }],
 
@@ -41,6 +93,7 @@ module.exports = {
     ],
 
     handleCallback: function (req, res, next) {
+        console.log(req.params);
         passport.authenticate('oauth2', function (err, user, info) {
             var redirectUrl = '/';
             if (err || !user) {

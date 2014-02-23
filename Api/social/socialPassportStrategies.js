@@ -6,35 +6,44 @@
 
 var passport = require('passport'),
     FacebookStrategy = require('passport-facebook').Strategy,
+    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     config = require('../config.json'),
     userHelper = require('../models/mysql/helpers/UserHelper'),
     models = require('../models/mysql');
 
-// Use the FacebookStrategy within Passport.
-//   Strategies in Passport require a `verify` function, which accept
-//   credentials (in this case, an accessToken, refreshToken, and Facebook
-//   profile), and invoke a callback with a user object.
+/**
+ * Facebook Strategy for Passport
+ */
 passport.use(new FacebookStrategy({
     clientID: config.social.facebook.app_id,
     clientSecret: config.social.facebook.app_secret,
     callbackURL: config.social.facebook.redirect_uri
 },
     function (accessToken, refreshToken, profile, done) {
-        models(function (err, db) {
-            db.models.Users.one({ email: profile._json.email }, function (err, user) {
-                if (err) {
-                    return done(err);
-                }
-                if (user) {
-                    return done(null, user);
-                }
-                userHelper.Create(null, profile._json.email, profile._json.name, function (err, user) {
-                    if (err) {
-                        return done(err);
-                    }
-                    return done(null, user);
-                });
-            });
+        userHelper.CreateOrGetIfExists(profile._json.email, profile._json.name, null, "FACEBOOK", profile._json.id, function (err, user) {
+            if (err) {
+
+                return done(null, false, { message: err.message });
+            }
+            return done(null, user);
+        });
+    }
+    ));
+
+/**
+ * Google Strategy for Passport
+ */
+passport.use(new GoogleStrategy({
+    clientID: config.social.google.app_id,
+    clientSecret: config.social.google.app_secret,
+    callbackURL: config.social.google.redirect_uri
+},
+    function (accessToken, refreshToken, profile, done) {
+        userHelper.CreateOrGetIfExists(profile._json.email, profile._json.name, null, "GOOGLE", profile._json.id, function (err, user) {
+            if (err) {
+                return done(null, false, { message: err.message });
+            }
+            return done(null, user);
         });
     }
     ));

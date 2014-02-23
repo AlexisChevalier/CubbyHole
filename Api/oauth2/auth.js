@@ -41,7 +41,7 @@ passport.use(new LocalStrategy({
     ));
 
 passport.serializeUser(function (user, done) {
-    done(null, user.id);
+    done(null, user.id.toString());
 });
 
 passport.deserializeUser(function (req, id, done) {

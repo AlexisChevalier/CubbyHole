@@ -8,37 +8,68 @@
 {% block body %}
 <div class="page-header">
 
-	<h2 id="h2Account">Update your profile</h2>	
+    <h2 class="h2Account">Update your profile</h2>
 
     <p class="well">
-        Feel free to change your mail or your username. <br/>
+        Feel free to change your mail or your username. <br/><br/>
+        {% if !userAccount.socialAccount %}
         If you want to change your password you'll have to fill the two password fields !
+        {% else %}
+        You are using a facebook or google account so you can't set or change a password !
+        {% endif %}
     </p>
-    <form class="form-horizontal" role="form" id="formRegister" action="index.html">
-	  <div class="form-group">
-	    <label for="username">Firstname and lastname</label>
-	      <input type="text" value="{{ userAccount.name }}" class="form-control" id="username" placeholder="Username" required>
-	  </div>	
 
-	  <div class="form-group">
-	    <label for="email" >Email</label>
-	      <input type="email" value="{{ userAccount.email }}" class="form-control" id="email" placeholder="Email" required>
-	  </div>
+    <form class="form-horizontal" method="post" role="form" id="formRegister">
+        <div class="form-group">
+            <label for="username">Firstname and lastname</label>
+            <input type="text" name="name" value="{{ userAccount.name }}" class="form-control" id="username"
+                   placeholder="Username">
+        </div>
 
-	  <div class="form-group">
-	    <label for="pwd" >Password</label>
-	    <input type="password" class="form-control" id="pwd" placeholder="Password" required>	   
-	  </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" value="{{ userAccount.email }}" class="form-control" id="email"
+                   placeholder="Email">
+        </div>
+        {% if !userAccount.socialAccount %}
+        <div class="form-group">
+            <label for="pwd">Password</label>
+            <input type="password" name="password" class="form-control" id="pwd" placeholder="Password">
+        </div>
 
-	  <div class="form-group">
-	    <label for="confPwd" >Confirm password</label>
-	    <input type="password" class="form-control" id="confPwd" placeholder="Password" required>	    
-	  </div>
-	 
-	  <div class="form-group">
-	      <button type="submit" id="btnUpdateAccount" class="btn inline">Update</button>
-	  </div>
+        <div class="form-group">
+            <label for="confPwd">Confirm password</label>
+            <input type="password" name="passwordConfirm" class="form-control" id="confPwd" placeholder="Password">
+        </div>
+        {% endif %}
+        <div class="form-group">
+            <button type="submit" class="btnUpdateAccount btn inline">Update</button>
+        </div>
 
-	</form>
+    </form>
+
+    <hr/>
+
+    <h2 class="h2Account">Pricing and Plans</h2>
+
+    <hr/>
+
+    <h2 class="h2Account">Applications authorized for this account</h2>
+
+    <hr/>
+
+    <h2 class="h2Account">Delete Account</h2>
+
+    <form class="form-horizontal" method="post" role="form" action="/account/delete">
+
+        <p class="well">
+            This action is irreversible, you will lost all your files.
+        </p>
+
+        <div class="form-group">
+            <button type="submit" class="btnUpdateAccount btn inline">Delete account (Irreversible)</button>
+        </div>
+
+    </form>
 </div>
 {% endblock %}

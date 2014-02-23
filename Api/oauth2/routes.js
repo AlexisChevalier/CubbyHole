@@ -41,93 +41,61 @@ exports.signupForm = [
 ];
 
 /**
- * TODO : BETTER USE PASSPORT-FACEBOOK
+ * GET /auth/facebook
+ * Facebook authentication with Passport
+ * @type {Array}
  */
-
-
 exports.facebookAuth = [
+    login.ensureLoggedOut("/"),
     passport.authenticate('facebook'),
     function (req, res) {
         // The request will be redirected to Facebook for authentication, so this
         // function will not be called.
     }
 ];
-
-// GET /auth/facebook/callback
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  If authentication fails, the user will be redirected back to the
-//   login page.  Otherwise, the primary route function function will be called,
-//   which, in this example, will redirect the user to the home page.
+/**
+ * GET /auth/facebook/callback
+ * Facebook authentication callback with Passport
+ * @type {Array}
+ */
 exports.facebookAuthCallback = [
-    passport.authenticate('facebook', { failureRedirect: '/auth/login' }),
-    function (req, res, next) {
-        req.body.email = req.user.email;
-        next();
-    },
-    passport.authenticate('local', {
-        successReturnToOrRedirect: '/',
-        failureRedirect: '/auth/login'
-    })
+    login.ensureLoggedOut("/"),
+    passport.authenticate('facebook', { failureRedirect: '/auth/login', failureFlash: true }),
+    function (req, res) {
+        var redirect = req.session.returnTo || "/";
+        res.redirect(redirect);
+    }
 ];
 
 /**
- * GET /auth/fblogin?code=xx -- FB Auth redirect uri
+ * GET /auth/google
+ * Google authentication with Passport
  * @type {Array}
  */
-/*exports.fblogin = [
- login.ensureLoggedOut("/"),
- function(req, res, next) {
- var code = req.query.code;
- https.get("https://graph.facebook.com/oauth/access_token?client_id=" + config.social.facebook.app_id + "&redirect_uri=" + config.social.facebook.redirect_uri + "&client_secret=" + config.social.facebook.app_secret + "&code=" + code, function(fbresponse) {
- var body = "";
- fbresponse.on('data', function (chunk) {
- body += chunk;
- });
- fbresponse.on('end', function () {
- var parsed = querystring.parse(body);
- var token = parsed.access_token;
+exports.googleAuth = [
+    login.ensureLoggedOut("/"),
+    passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/userinfo.email'] }),
+    function (req, res) {
+        // The request will be redirected to Facebook for authentication, so this
+        // function will not be called.
+    }
+];
 
- https.get("https://graph.facebook.com/me?access_token=" + token, function(innerfbresponse) {
- body = "";
- parsed = {};
- innerfbresponse.on('data', function (chunk) {
- body += chunk;
- });
- innerfbresponse.on('end', function () {
- parsed = JSON.parse(body);
- var name = parsed.name;
- var mail = parsed.email;
- var socialId = parsed.id;
- db.users.findSocialUser(socialId, "FACEBOOK", function(err, user) {
- //TODO: Handle error
- if(user == null) {
- db.addSocialUser(name, mail, socialId, "FACEBOOK", function(err, user) {
- if(err) {
- req.flash("danger", "Email already in use !");
- res.render('oauth2/login');
- } else {
- req.flash("success", "Successfully logged out !");
- next();
- }
- });
- } else {
 
- }
-
- })
-
- });
- });
- });
- }).on('error', function(e) {
- console.error(e);
- });
-
- }, passport.authenticate('local', {
- successReturnToOrRedirect: '/',
- failureRedirect: '/auth/login'
- })
- ];*/
+/**
+ * GET /auth/google/callback
+ * Google authentication callback with Passport
+ * @type {Array}
+ */
+exports.googleAuthCallback = [
+    login.ensureLoggedOut("/"),
+    passport.authenticate('google', { failureRedirect: '/auth/login', failureFlash: true }),
+    function (req, res) {
+        var redirect = req.session.returnTo || "/";
+        res.redirect(redirect);
+    }
+];
 
 /**
  * POST /auth/signup -- Process register and authentication
@@ -177,7 +145,7 @@ exports.signup = [
         }
 
         if (errors == 0) {
-            userHelper.Create(password, email, fullname, function (err, user) {
+            userHelper.Create(password, email, fullname, null, null, function (err, user) {
                 if (err) {
                     req.flash("danger", "Email already taken !");
                     res.render('oauth2/signup');

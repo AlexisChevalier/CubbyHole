@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 23, 2014 at 02:17 AM
+-- Generation Time: Feb 23, 2014 at 11:24 PM
 -- Server version: 5.5.33
 -- PHP Version: 5.5.3
 
@@ -27,20 +27,20 @@ CREATE TABLE `AccessTokens` (
   `token` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `PREVENT_DUPLICATES_TOKENS_INDEX` (`userID`,`clientID`) COMMENT 'Prevents multipes tokens for an app and an user'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=56 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=110 ;
 
 --
 -- Dumping data for table `AccessTokens`
 --
 
 INSERT INTO `AccessTokens` (`id`, `userID`, `clientID`, `token`) VALUES
-(42, 1, 7, 'WD2CZhlPwGGaJ7kPyR6wv5AXCvjPuFRuckwXEJZDJyQCaGqbuqqXklrM0dlQxo8EfqChZcH46UmovxhyJfW31yjLyr4pydpVlQLiOIthcoiIXgmsrarKH3btsFzK7ighSftnVGVCLE40F6sNijfeCEu1y6PbsK3rU6tZrItJRFMCSjv1lEXn2DiTZCIBTAEL2IgMI8tD2HnLCfVXcHtNyvVF0wkG3CaZzhnhCwFjbzUAX67Zh8eZzPyCw2PiIxMB'),
-(50, 23, 7, '0yKf5puyE992da6oOMR7ILFjza6c6tlISbQa686dZyIRmsJOrwsv44N9u38dPgHDvMQLsavpfBxomllmRbJyfgQvVMCw3cZBIJ82DjbNQWUSAsuR0x0c39VIYzxGKJejHbncSL3tjLDfgmdhwjqb9u7nlUaV26pLqS6eAMmVLzgNfUoeihWNbdu4JkrKKF7gZTdnbkk6qcQFL5DFgjloCzpvbq4vTSwinlS1yWTglc37KMWTVniN1MtJI9Iu8jdP'),
-(51, 24, 7, 'swK7uCeeFta5KdhA9FFVVaAA4ekCQSQYnmAoH47mFne4rAVeTJcKH1Da4ip36c9vCtfy8OlOj8qlEhPbabx8pvUYmigfnCLetHYj2mECzmaB0eEwgKniMtVUim6AoWn8cawPDd8sxicVvF5EIDkXMujmFyP5Fx2dZuFjt9xSG4FR2pAJI0BBh1nmqHtLbbLVQ9Y4uKbqlpYdYc8iD8VySciIdKvm9unPfE2dQccZH8PDs4COemTWh0cXX10CtEYi'),
-(52, 25, 7, 'B35mWQ80n3KlkMQK5gX7M8Om7yRkZa2IJKv1ZFwZ79Mg1aJuKQVwwNEH7JNojCZQqcV3kKiO9mF9wiMpVzBx09QKTGlU1n94km0zGR62ZkBQAPRJFcjgEWzgAjjcnaDL06308Hndj9onXofiTswoaF4rLmAUIC1z1zQy4DEtJxcjVhYbK2V7Yti161mY2MJx7raqwJYxUcytILcPeickk56mAxMunm4DfXh9cP8AqP3PKWCYdmRO5gPWIEz8cQ17'),
-(53, 26, 7, 'azLTJuQY2wX0zm7FPXsCGXXmJtZNp9cVJIOvLFXiR6Qir5BxqeF7Rj8o2xr0c6ntM6yFkRBRJYCWhbyW93lYA8FpJDY8QQlmo8ut2Ml6mCVdwiI9IVPtOmDrPKhc1EdCFO3oCzlF41PraLxkUO9D8tVr8mkT9kxfhxEYaw7crp6sf328UeXfNSuo9e6M6cLjM5dlkyntXOUgOTIoHvQ9aqIIbmn2l0EQlCrRFA0MFi1z2xIwgu8LgVQeqLyPWPwE'),
-(54, 27, 7, 'NjNDxjc8kmEO7F2lNHvTY1QHCDAmclihTidlTRJyKfS4ReUVj0Vc93Jo7tZLE1gGt6666G4j9tB8HefTMAHGsXwIMVKytkMaGg7j5EpWUzVR9yPZCsA7cWWa8cuHOjOVxFN8HWnJW2Z3tWVa7Nfze13kj1rsC7fIOd5IJlTxtmjYyneL9DHZAc4NvrSYYpbNhGico2iqdbVPbasKqr9EiBlp0nX6HspFAFgUGKEw1ssnKxkBt1m9ibPKh306rB16'),
-(55, 28, 7, 't5sscnzIXrqVklmtiUDGvZz4HWdW1dnHGUaUGDhJkHN1U0Ovc1blc3dyNR4TFBzApm4OoJgwa0hwxXYMTwAwT3oOXiyhZLtAJl4DWg1n5UrBApjdUAOoReYsZK3nFDbqCzLwIGU9KbmNF5NfysriBvsXRckXqUFTCYciw1DEMHLT2BqBCyeubmQ0R44ffMo742vM1qI2dwYeaNeQ154F4xGoshQeLxs993LlG0hxbpvYefxc25HVtqGBsfQH3K2f');
+(42, 1, 7, 'VwndUUBwhw6zsx7SDsFP9ED9441SSegSf6aBxUO2Qjld2c2dly86K4LG6dENo4lxlPDoZRhX8EgyXvsHcG1La9coiVvRTQWM1sKRX3YRGaquSyVTlWAcZMZV482PZMg8TZNjOQsUq6trYFonUx7f55l5fSK9eDOXYJRYdx2NWWvk3Ys7zNk9WaoE5MozKmBQ6LyvD94AdLSf6Yk1AXOMBXd4IG1GSMzDl4Eb4Y80bm4pzXEKq1qVmQCPYHdNOQik'),
+(62, 45, 7, 'mJNDXZ24YKLt36m8jgNFK89KcVlJ2VDKoEEHsqlPsR6xhdjIQXRy3lTosIzaTGTTptouTxUToC6ms0ugwzzdvEPZmX6cOgZjN2g4RT7l06qfE0yRBrkxqhFlhrRgqkLUXjkx8WYZOW742n1rjor844BPcGbKtTO9opVM3A15iSq0kSe2ZHVAQr7KkkoOGLYf9sQD3yCrjChzNJwsO7DFlEzLmL1voJwLCw36KSdF2d3gXLcYyp2gvh3MFE2rQVP0'),
+(65, 46, 7, 'qriDxCL81jDxPOK5zwKN4km7q9v8nVQ0IMA0p1JNpeQ1Eh9rHqzujKcGrOwGNEaUsVnIcmeiKlYp6iUl2lmoYZNzhTILXkSsWEEfjjLFr7dln65LTxgbjtrbfhWsegja3ITNcC5LBKSUzSv2cpru1apKEIvei9Uf17oMCVebJwc64yPwpd9u0rQfAZXwxhZn5sCZCAyQh40u8ucrNST3tMlyUf2ROCoszMXtGFW0atVYDEoAQ2IqAZwsbFUWp70l'),
+(70, 48, 7, 'TmpRWSKqPF6bJKh4nqp54KrJ6zWli1lVcoySmmrvAFatSOzkl0yqoInSWDhYqtDSUP5nH1krVJRsgsrhpAx2Rs5Tqs5PHSS1OJj7G9lcVNw9VJlLAn9y08whFJPPWf7K1MXRN7nR9mKxqkG2MXyi3OyKxy2aZTlFeRZITMVRsvVjmT6Vfuevb8RFxbL3VelPzAiFDuXmhmKVQY6hlsMdUJMMawTGjq7wbQUWNYFMzeMJ64v3rlVwWiAV6xyzVkZ0'),
+(99, 51, 7, 'lhmesJDmsqrOCkjSDvkqJXpNKRQ63aBjP4X77jxIrbDgoKaEbMGJcrxGvZ0RZ7wXwlY6iEH8BkLcSyGhrV6VVDJxLcfTeA7QuWZuQBNcOfP7cj4x29eggxKYHA1FV4dpdY3aVIxavyUZDaFau5SICjtJz7Ar1fvFkvknI1izv6ftWLPG9hWTjdd57S7SgOb4TTyD7RcvMAjzFBXmbClYzIGbRPaeLsxrrVuyn1cfxMLUvTacQGTLllk9i488U0rE'),
+(108, 52, 7, 'Uo6QOBwYue4fKEfHDZqHnBU3Cd2d97J5Npse4Yul13jubGVcSNVaHPXpuUHb63WlEqbdAPeYyOBGpCcK9B5OoRUXiTJcvDU60Osxr5LZclcJUXIFj1125yTaE5mI2rOjhGM0ajKqU32B9f3lzeU25OLexQ9Hl5aBv0Q8x1D3ISwDEeFMfOb8jf3RcUInrOMUaCjJBdhrwBvStJe8qjivwYuhdkiZ9flrxFa5IK8an7blXNyMM3rHQKoUjBBF34NL'),
+(109, 53, 7, 'XKWg86crIQu1SfN8cRjVFY3js4EiTAjWG3IunD9xnWNr1zq1V0frOEwBQ413pfmbgFL3FcTv1F7ZgX1NcbetRWkAgAx5CG8fx4jgmUhpMAOXe1iVdkbEVX1p3sB9i81a3Q3vieGf1JCeWW3EJprHlNklLHVsRDQq1UWDDTQd175SOs7MQNfHiNwIL4fKuVL4adZ9PeTfwEBXNISOEVbvAD5xGoql2c9277bZFaCQIBgEhgqkxqy5E1Sb06cRWWFH');
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ CREATE TABLE `AuthorizationCodes` (
   `timeCreated` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `PREVENT_DUPLICATES_CODES_INDEX` (`clientID`,`userID`) COMMENT 'Prevents multipes codes for an app and an user'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=124 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=251 ;
 
 -- --------------------------------------------------------
 
@@ -141,10 +141,10 @@ CREATE TABLE `Users` (
   `email` varchar(255) NOT NULL,
   `name` text NOT NULL,
   `social_type` text,
-  `social_id` int(11) DEFAULT NULL,
+  `social_id` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE_MAIL` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
 
 --
 -- Dumping data for table `Users`
@@ -152,11 +152,8 @@ CREATE TABLE `Users` (
 
 INSERT INTO `Users` (`id`, `password`, `email`, `name`, `social_type`, `social_id`) VALUES
 (0, '$2a$10$KOuEH0nbB4rw8ABgsDWWtu8faO/WVJCz9avDsV1iYVWMxzah8rjza', 'admin@mail.com', 'admin', NULL, NULL),
-(1, '$2a$10$XhtNYNDBS3Y64xCYcKyp7epgE0C5vsFwyz.QuP1HHia6M/7ccQL3G', 'bob@mail.com', 'bob', NULL, NULL),
-(2, '$2a$10$y85lQvukdohsvr7d63qQCOXLaNxB1Hcazapgvl8I6vB/xgieD0ThW', 'joe@mail.com', 'joe', NULL, NULL),
-(21, '$2a$10$/0TrcUZmJrK2KZnig/fqAO3MGCQnVq4x8Dkt9smEhAigUULaCX2L.', 'test@test.fr', 'test', NULL, NULL),
-(22, '$2a$10$w9w8k5cPo1tZdO4qzhglcOa0pRXTVKVqWJ8.QejIaMVcgBuVn6Yn2', 'andoine.de.padoue@gmail.com', 'Antoine De Padoue', NULL, NULL),
-(28, '$2a$10$Z8en59S30jSZn85lsVn6fOp1g6hRvYwvzqVaD9yV4BF1RJwnSC18O', 'alexis.chevalier.wtf@gmail.com', 'Alexis Chevalier', NULL, NULL);
+(1, '$2a$10$qUq0NHXqei7QCF42gXdH7.FZHbgriukTE008Zyw7I27zv/HlOz5J2', 'bob@mail1.com', 'bobyd', NULL, NULL),
+(53, '$2a$10$8i5y5ZuSklcri0GQxiCrme8l0Dm0dGJgCFulOaDiR4AlSUNbq8zsy', 'clear_sky@hotmail.fr', 'Alexis Chevalier', 'FACEBOOK', '1556201368');
 
 --
 -- Constraints for dumped tables
