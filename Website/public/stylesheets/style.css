@@ -46,6 +46,7 @@ nav {
     padding-bottom: 10px;
     border-bottom: 5px solid #fcb735;
     margin-bottom: 40px;
+    min-width: 880px;
 }
 
 nav a {
@@ -213,4 +214,14 @@ footer {
     left: 0;
     bottom: 0;
     width: 100%;
+    min-width: 880px;
+}
+
+.topLoginBar {
+    background-color: #3daaf8;
+}
+
+.topLoginBar .wrapper p {
+    color: #ffffff;
+    text-align: center;
 }

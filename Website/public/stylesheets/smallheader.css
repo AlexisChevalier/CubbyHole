@@ -2,7 +2,7 @@
 
 /*Modifying the header with overrides*/
 nav {
-	padding-bottom: 0px;
+	padding-bottom: 0;
 	border-bottom: 5px solid #3eaafe;
 	margin-bottom: 10px;
 }

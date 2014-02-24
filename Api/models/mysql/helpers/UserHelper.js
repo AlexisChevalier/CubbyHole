@@ -63,15 +63,15 @@ UserHelper.Create = function (password, email, fullname, socialType, socialID, d
  */
 UserHelper.CreateOrGetIfExists = function (email, fullname, password, socialType, socialID, done) {
     models(function (err, db) {
-        /*var criteria = {};
+        var criteria = {};
 
         if (!socialID || !socialType) {
             criteria.email = email;
         } else {
             criteria.social_id = socialID;
             criteria.social_type = socialType;
-        }*/
-        db.models.Users.one({email: email}, function (err, user) {
+        }
+        db.models.Users.one(criteria, function (err, user) {
             if (err) {
                 return done(err);
             }

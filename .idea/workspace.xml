@@ -2,24 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48f64c5b-0459-47db-9f85-423b605a5a49" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SQL/CubbyHole.sql" afterPath="$PROJECT_DIR$/SQL/CubbyHole.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/Gruntfile.js" afterPath="$PROJECT_DIR$/Api/Gruntfile.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/models/mysql/helpers/UserHelper.js" afterPath="$PROJECT_DIR$/Api/models/mysql/helpers/UserHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/public/stylesheets/account.css" afterPath="$PROJECT_DIR$/Website/public/stylesheets/account.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/views/account.html" afterPath="$PROJECT_DIR$/Website/views/account.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/routes/account.js" afterPath="$PROJECT_DIR$/Api/routes/account.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/routes/account.js" afterPath="$PROJECT_DIR$/Website/routes/account.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/app.js" afterPath="$PROJECT_DIR$/Api/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/app.js" afterPath="$PROJECT_DIR$/Website/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/oauth2/auth.js" afterPath="$PROJECT_DIR$/Api/oauth2/auth.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/oauth2/login.html" afterPath="$PROJECT_DIR$/Api/views/oauth2/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/oauth2/oauth2.js" afterPath="$PROJECT_DIR$/Api/oauth2/oauth2.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/package.json" afterPath="$PROJECT_DIR$/Api/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/oauth2/routes.js" afterPath="$PROJECT_DIR$/Api/oauth2/routes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/oauth2/signup.html" afterPath="$PROJECT_DIR$/Api/views/oauth2/signup.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/social/socialPassportStrategies.js" afterPath="$PROJECT_DIR$/Api/social/socialPassportStrategies.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/models/users.js" afterPath="$PROJECT_DIR$/Website/models/users.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/views/mail/welcome.html" afterPath="$PROJECT_DIR$/Api/views/mail/welcome.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/views/layouts/layout.html" afterPath="$PROJECT_DIR$/Website/views/layouts/layout.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/public/stylesheets/smallheader.css" afterPath="$PROJECT_DIR$/Website/public/stylesheets/smallheader.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/public/stylesheets/style.css" afterPath="$PROJECT_DIR$/Website/public/stylesheets/style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="3pjt_web_application_cubby_hole.iws" />
@@ -43,86 +29,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Website/app.js">
+      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Website/public/stylesheets/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="110" column="10" selection-start="2885" selection-end="2900" vertical-scroll-proportion="0.0" vertical-offset="1244" max-vertical-offset="2010">
+            <state line="200" column="23" selection-start="3455" selection-end="3455" vertical-scroll-proportion="0.0" vertical-offset="2554" max-vertical-offset="3480">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserHelper.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Api/models/mysql/helpers/UserHelper.js">
+      <file leaf-file-name="smallheader.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Website/public/stylesheets/smallheader.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="16" selection-start="2098" selection-end="2098" vertical-scroll-proportion="0.0" vertical-offset="749" max-vertical-offset="2325">
+            <state line="11" column="1" selection-start="170" selection-end="170" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="routes.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Api/oauth2/routes.js">
+      <file leaf-file-name="minilayout.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Website/views/layouts/minilayout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="92" column="88" selection-start="2372" selection-end="2372" vertical-scroll-proportion="0.7390146" vertical-offset="825" max-vertical-offset="2895">
+            <state line="35" column="47" selection-start="1101" selection-end="1101" vertical-scroll-proportion="-21.875" vertical-offset="0" max-vertical-offset="1185">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="socialPassportStrategies.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Api/social/socialPassportStrategies.js">
+      <file leaf-file-name="layout.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Website/views/layouts/layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="57" selection-start="672" selection-end="672" vertical-scroll-proportion="0.0" vertical-offset="44" max-vertical-offset="810">
+            <state line="32" column="19" selection-start="1001" selection-end="1001" vertical-scroll-proportion="0.58041114" vertical-offset="0" max-vertical-offset="1350">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="users.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Website/models/users.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="112" column="34" selection-start="3258" selection-end="3258" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1890">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="account.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Website/views/account.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="34" selection-start="277" selection-end="277" vertical-scroll-proportion="-8.125" vertical-offset="0" max-vertical-offset="1200">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="account.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Website/public/stylesheets/account.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="1" selection-start="51" selection-end="51" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Api/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="147" column="56" selection-start="3672" selection-end="3672" vertical-scroll-proportion="0.0" vertical-offset="1994" max-vertical-offset="2760">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="account.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Website/routes/account.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="11" selection-start="843" selection-end="843" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1815">
-              <folding>
-                <marker date="1393194070000" expanded="true" signature="2044:2587" placeholder="[...]" />
-                <marker date="1393194070000" expanded="true" signature="2155:2586" placeholder="{...}" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -145,30 +83,29 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/Website/auth/auth.js" />
-        <option value="$PROJECT_DIR$/Api/Gruntfile.js" />
-        <option value="$PROJECT_DIR$/Api/oauth2/oauth2.js" />
-        <option value="$PROJECT_DIR$/Api/oauth2/auth.js" />
         <option value="$PROJECT_DIR$/Api/utils/checker.js" />
         <option value="$PROJECT_DIR$/Website/public/stylesheets/account.css" />
         <option value="$PROJECT_DIR$/Api/routes/account.js" />
         <option value="$PROJECT_DIR$/Api/app.js" />
-        <option value="$PROJECT_DIR$/Website/app.js" />
         <option value="$PROJECT_DIR$/Website/models/users.js" />
         <option value="$PROJECT_DIR$/Website/routes/account.js" />
         <option value="$PROJECT_DIR$/Website/views/account.html" />
         <option value="$PROJECT_DIR$/SQL/CubbyHole.sql" />
-        <option value="$PROJECT_DIR$/Api/models/mysql/helpers/UserHelper.js" />
         <option value="$PROJECT_DIR$/Api/social/socialPassportStrategies.js" />
         <option value="$PROJECT_DIR$/Api/oauth2/routes.js" />
+        <option value="$PROJECT_DIR$/Api/config.json" />
+        <option value="$PROJECT_DIR$/Website/app.js" />
+        <option value="$PROJECT_DIR$/Website/public/stylesheets/smallheader.css" />
+        <option value="$PROJECT_DIR$/Api/models/mysql/helpers/UserHelper.js" />
+        <option value="$PROJECT_DIR$/Website/public/stylesheets/style.css" />
+        <option value="$PROJECT_DIR$/Website/views/layouts/layout.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="4" />
-    <option name="y" value="558" />
-    <option name="width" value="2556" />
-    <option name="height" value="874" />
+    <option name="y" value="22" />
+    <option name="width" value="1673" />
+    <option name="height" value="974" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -221,6 +158,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -249,7 +187,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="SQL" />
+              <option name="myItemId" value="Website" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -263,7 +201,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Api" />
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -277,78 +219,33 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Api" />
+              <option name="myItemId" value="Website" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="oauth2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mysql" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mysql" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="helpers" />
+              <option name="myItemId" value="layouts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="settings.nodejs" />
-    <property name="restartRequiresConfirmation" value="true" />
+    <property name="recentsLimit" value="5" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/Api/app.js" />
+    <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="false" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -366,14 +263,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Node.js.CubbyHoleAPIDebug">
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -382,6 +271,14 @@
       <option name="saveOutputToFile" value="false" />
       <option name="showConsoleOnStdErr" value="false" />
       <option name="showConsoleOnStdOut" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
       <method />
     </configuration>
     <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
@@ -432,14 +329,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="4" y="558" width="2556" height="874" extended-state="0" />
+    <frame x="0" y="22" width="1673" height="974" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11032864" sideWeight="0.60077024" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1984459" sideWeight="0.60077024" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3992298" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -481,84 +378,14 @@
     </PATH>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Api/oauth2/auth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="51" selection-start="1665" selection-end="1665" vertical-scroll-proportion="1.138482" vertical-offset="0" max-vertical-offset="2130">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/utils/mailer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="69" selection-end="253" vertical-scroll-proportion="0.11984021" vertical-offset="0" max-vertical-offset="990">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/utils/checker.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="46" selection-start="195" selection-end="195" vertical-scroll-proportion="0.15978695" vertical-offset="0" max-vertical-offset="751">
-          <folding>
-            <element signature="e#0#52#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/auth/auth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="38" selection-start="528" selection-end="528" vertical-scroll-proportion="0.33954728" vertical-offset="0" max-vertical-offset="751">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/routes/account.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="9" selection-start="995" selection-end="995" vertical-scroll-proportion="0.5006658" vertical-offset="74" max-vertical-offset="825">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/models/mysql/schemas/Users.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="2" selection-start="309" selection-end="309" vertical-scroll-proportion="0.3195739" vertical-offset="0" max-vertical-offset="751">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/public/stylesheets/account.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="1" selection-start="51" selection-end="51" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="147" column="56" selection-start="3672" selection-end="3672" vertical-scroll-proportion="0.0" vertical-offset="1994" max-vertical-offset="2760">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/routes/account.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="11" selection-start="843" selection-end="843" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1815">
-          <folding>
-            <marker date="1393194070000" expanded="true" signature="2044:2587" placeholder="[...]" />
-            <marker date="1393194070000" expanded="true" signature="2155:2586" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SQL/CubbyHole.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="167" column="0" selection-start="7223" selection-end="7223" vertical-scroll-proportion="3.3355527" vertical-offset="0" max-vertical-offset="2595">
-          <folding />
-        </state>
+        <state line="167" column="0" selection-start="7223" selection-end="7223" vertical-scroll-proportion="3.3355527" vertical-offset="0" max-vertical-offset="2595" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Website/views/account.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="34" selection-start="277" selection-end="277" vertical-scroll-proportion="-8.125" vertical-offset="0" max-vertical-offset="1200">
+        <state line="18" column="19" selection-start="573" selection-end="573" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="1200">
           <folding />
         </state>
       </provider>
@@ -570,13 +397,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Api/models/mysql/helpers/UserHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="16" selection-start="2098" selection-end="2098" vertical-scroll-proportion="0.0" vertical-offset="749" max-vertical-offset="2325">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Api/social/socialPassportStrategies.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="57" selection-start="672" selection-end="672" vertical-scroll-proportion="0.0" vertical-offset="44" max-vertical-offset="810">
@@ -584,16 +404,86 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Website/app.js">
+    <entry file="file://$PROJECT_DIR$/Api/config.json.default">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="10" selection-start="2885" selection-end="2900" vertical-scroll-proportion="0.0" vertical-offset="1244" max-vertical-offset="2010">
+        <state line="0" column="0" selection-start="0" selection-end="548" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="828">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Api/oauth2/routes.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="88" selection-start="2372" selection-end="2372" vertical-scroll-proportion="0.7390146" vertical-offset="825" max-vertical-offset="2895">
+        <state line="24" column="31" selection-start="654" selection-end="654" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2895">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/config/config.json.default">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="1" selection-start="406" selection-end="406" vertical-scroll-proportion="0.18115942" vertical-offset="0" max-vertical-offset="828">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="73" selection-start="796" selection-end="796" vertical-scroll-proportion="-13.75" vertical-offset="0" max-vertical-offset="465">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="37" selection-start="540" selection-end="540" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2010">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/views/layouts/menu.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="23" selection-start="1370" selection-end="1370" vertical-scroll-proportion="0.74626863" vertical-offset="0" max-vertical-offset="804">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/models/mysql/helpers/UserHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="23" selection-start="971" selection-end="971" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2325">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/config/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="828">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/views/layouts/minilayout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="47" selection-start="1101" selection-end="1101" vertical-scroll-proportion="-21.875" vertical-offset="0" max-vertical-offset="1185">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/public/stylesheets/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="200" column="23" selection-start="3455" selection-end="3455" vertical-scroll-proportion="0.0" vertical-offset="2554" max-vertical-offset="3480">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/public/stylesheets/smallheader.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="1" selection-start="170" selection-end="170" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/views/layouts/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="19" selection-start="1001" selection-end="1001" vertical-scroll-proportion="0.58041114" vertical-offset="0" max-vertical-offset="1350">
           <folding />
         </state>
       </provider>
