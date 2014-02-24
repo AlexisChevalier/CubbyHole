@@ -52,5 +52,6 @@
 	"Allow": "Allow",
 	"Deny": "Deny",
 	"Application successfully created !": "Application successfully created !",
-	"An account with this email already exists !": "An account with this email already exists !"
+	"An account with this email already exists !": "An account with this email already exists !",
+	"ER_DUP_ENTRY: Duplicate entry 'alexis.chevalier.wtf@gmail.com' for key 'UNIQUE_MAIL'": "ER_DUP_ENTRY: Duplicate entry 'alexis.chevalier.wtf@gmail.com' for key 'UNIQUE_MAIL'"
 }

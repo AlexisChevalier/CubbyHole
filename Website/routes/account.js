@@ -18,6 +18,7 @@ module.exports = {
                     req.flash("danger", "There is an error with your profile, you have been logged out !");
                     res.redirect('/');
                 } else {
+                    console.log(user);
                     res.render('account', { title: 'CubbyHole', active: 'account', userAccount: user });
                 }
             });

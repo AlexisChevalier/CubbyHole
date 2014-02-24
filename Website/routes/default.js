@@ -1,4 +1,7 @@
 "use strict";
+
+var planHelper = require('../models/mysql/helpers/PlanHelper');
+
 module.exports = {
     /*
      * GET home page.
@@ -15,7 +18,12 @@ module.exports = {
      * GET pricing page.
      */
     pricing: function (req, res) {
-        res.render('pricing', { title: 'CubbyHole', active: "pricing" });
+        planHelper.GetAvailablePlans(function (err, plans) {
+            if (err) {
+                throw err;
+            }
+            res.render('pricing', { title: 'CubbyHole', active: "pricing", plans: plans });
+        });
     },
 
     /*

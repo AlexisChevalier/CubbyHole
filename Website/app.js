@@ -10,6 +10,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 var express = require('express'),
     https = require('https'),
     http = require('http'),
+    models = require('./models/mysql'),
     swig = require('swig'),
     path = require('path'),
     fs = require('fs'),
@@ -23,6 +24,22 @@ var express = require('express'),
     auth = require('./auth/auth'),
     passport = require('passport'),
     app = express();
+
+/**
+ * MYSQL DB Initialisation
+ */
+app.use(function (req, res, next) {
+    models(function (err, db) {
+        if (err) {
+            return next(err);
+        }
+
+        req.models = db.models;
+        req.db = db;
+
+        return next();
+    });
+});
 
 /**
  * Swig initialization
@@ -78,7 +95,6 @@ app.use(express.session({ key: 'webAppCookie' }));
 app.use(function (req, res, next) {
     res.locals.messages = function () { return req.flash(); };
     res.locals.isLoggedIn = function () { return req.isAuthenticated(); };
-    res.loggedUser = req.user;
     next();
 });
 app.use(flash());
@@ -88,11 +104,18 @@ I18n.expressBind(app, {
     locales: supportedLocales
 });
 app.use(function (req, res, next) {
+    console.log(req.locale);
     req.i18n.setLocale(req.locale);
     next();
 });
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(function (req, res, next) {
+    res.locals.loggedUser = req.user;
+    next();
+});
+
 app.use(app.router);
 
 if ('development' == app.get('env')) {

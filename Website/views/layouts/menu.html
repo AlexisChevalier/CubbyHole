@@ -1,48 +1,48 @@
 {% if isLoggedIn() == true %}
         <div id="nav-left">
             {% if active == "fileBrowser" %}
-                <a class="active" href="/browser">FILES</a>
+                <a class="active" href="/browser">{{__("FILES")}}</a>
             {% else %}
-                <a href="/browser">FILES</a>
+                <a href="/browser">{{__("FILES")}}</a>
             {% endif %}
             {% if active == "apps" %}
-                <a class="active" href="/apps">APPS</a>
+                <a class="active" href="/apps">{{__("APPS")}}</a>
             {% else %}
-                <a href="/apps">APPS</a>
+                <a href="/apps">{{__("APPS")}}</a>
             {% endif %}
         </div>
         <div id="nav-right">
             {% if active == "account" %}
-                <a class="active" href="/account">ACCOUNT</a>
+                <a class="active" href="/account">{{__("ACCOUNT")}}</a>
             {% else %}
-                <a href="/account">ACCOUNT</a>
+                <a href="/account">{{__("ACCOUNT")}}</a>
             {% endif %}
 
-            <a href="/logout">LOGOUT</a>
+            <a href="/logout">{{__("LOGOUT")}}</a>
         </div>
 {% else %}
         <div id="nav-left">
             {% if active == "home" %}
-                <a class="active" href="/">HOME</a>
+                <a class="active" href="/">{{__("HOME")}}</a>
             {% else %}
-                <a href="/">HOME</a>
+                <a href="/">{{__("HOME")}}</a>
             {% endif %}
             {% if active == "pricing" %}
-                <a class="active" href="/pricing">PRICING</a>
+                <a class="active" href="/pricing">{{__("PRICING")}}</a>
             {% else %}
-                <a href="/pricing">PRICING</a>
+                <a href="/pricing">{{__("PRICING")}}</a>
             {% endif %}
         </div>
         <div id="nav-right">
             {% if active == "apps" %}
-                <a class="active" href="/apps">APPS</a>
+                <a class="active" href="/apps">{{__("APPS")}}</a>
             {% else %}
-                <a href="/apps">APPS</a>
+                <a href="/apps">{{__("APPS")}}</a>
             {% endif %}
             {% if active == "account" %}
-                <a class="active" href="/loginsignup">LOGIN/SIGNUP</a>
+                <a class="active" href="/loginsignup">{{__("LOGIN/SIGNUP")}}</a>
             {% else %}
-                <a href="/loginsignup">LOGIN/SIGNUP</a>
+                <a href="/loginsignup">{{__("LOGIN/SIGNUP")}}</a>
             {% endif %}
         </div>
 {% endif %}

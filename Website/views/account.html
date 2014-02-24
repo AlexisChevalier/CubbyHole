@@ -55,6 +55,21 @@
     <hr/>
 
     <h2 class="h2Account">Applications authorized for this account</h2>
+    <p class="well">
+        You can connect to your account with these applications and then they can access your files, you can remove these application's authorizations here.
+    </p>
+    {% for app in userAccount.authorizedApps %}
+    <table class="table table-hover">
+        <tr>
+            <th>Application Name</th>
+            <th>Option</th>
+        </tr>
+        <tr>
+            <td>{{app.name}}</td>
+            <td><a href="/account/removeApp/{{ app.tokenID }}" type="button" class="btn btn-danger">Remove authorization</a></td>
+        </tr>
+    </table>
+    {% endfor %}
 
     <hr/>
 

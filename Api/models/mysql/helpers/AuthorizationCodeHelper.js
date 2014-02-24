@@ -1,7 +1,3 @@
-/**
- * Created by alexischevalier on 23/02/2014.
- */
-
 "use strict";
 
 var AuthorizationCodeHelper = module.exports = {},

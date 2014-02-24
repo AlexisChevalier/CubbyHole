@@ -29,6 +29,15 @@
 
 <body>
   <!-- Navigation header -->
+  {% if isLoggedIn() == true %}
+  <div class="topLoginBar">
+      <div class="wrapper">
+          <p>
+              {{__("Logged as")}} {{ loggedUser.name }}
+          </p>
+      </div>
+  </div>
+  {% endif %}
   <nav>
     <div class="wrapper">
         {% include "./menu.html" %}

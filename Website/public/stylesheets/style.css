@@ -224,4 +224,6 @@ footer {
 .topLoginBar .wrapper p {
     color: #ffffff;
     text-align: center;
+	padding: 2px;
+	margin: 0;
 }

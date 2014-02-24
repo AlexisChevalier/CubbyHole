@@ -27,13 +27,15 @@
 
 <body>
 <!-- Navigation header -->
+{% if isLoggedIn() == true %}
 <div class="topLoginBar">
     <div class="wrapper">
         <p>
-            LOL BRO
+            {{__("Logged as")}} {{ loggedUser.name }}
         </p>
     </div>
 </div>
+{% endif %}
 <nav>
     <div class="wrapper">
         {% include "./menu.html" %}
@@ -43,7 +45,7 @@
         <div id="brand-text">
             <p id="brand">CubbyHole</p>
 
-            <p id="slogan">All your files, everywhere.</p>
+            <p id="slogan">{{__("All your files, everywhere.")}}</p>
         </div>
         <div class="clearfix"></div>
     </div>

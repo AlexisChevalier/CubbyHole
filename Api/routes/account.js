@@ -1,7 +1,8 @@
 "use strict";
 
 var passport = require('passport'),
-    userHelper = require('../models/mysql/helpers/UserHelper');
+    userHelper = require('../models/mysql/helpers/UserHelper'),
+    clientHelper = require("../models/mysql/helpers/ClientHelper");
 
 module.exports = {
     /**
@@ -10,7 +11,16 @@ module.exports = {
     userDetails: [
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
-            res.json({ id: req.user.id, email: req.user.email, name: req.user.name, socialAccount: (req.user.social_type != null) });
+
+            clientHelper.GetAuthorizedClientsForUserID(req.user.id, function (err, authorizedApps) {
+                res.json({
+                    id: req.user.id,
+                    email: req.user.email,
+                    name: req.user.name,
+                    socialAccount: (req.user.social_type != null),
+                    authorizedApps: authorizedApps
+                });
+            });
         }
     ],
 

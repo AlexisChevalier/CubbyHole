@@ -19,7 +19,7 @@
 #questionpricing {
 	color:#333;
 }
-#firstplan {
+#p1 {
 	position: relative;
 	z-index: 10;
 	width:205px;
@@ -28,13 +28,13 @@
 	float:left;
 }
 
-#secondplan {
+#p2 {
 	width:195px;
 	text-align: center;
 	float:left;
 }
 
-#thirdplan {
+#p3 {
 	position: relative;
 	z-index: 10;
 	width:205px;
@@ -43,7 +43,7 @@
 	float:left;
 }
 
-#fourthplan {
+#p4 {
 	width:195px;
 	text-align: center;
 	float:left;
@@ -75,7 +75,7 @@
 	height:35px;
 }
 
-.titleplan a {
+.titleplan a, .titleplan p {
 	font-size: 19px;
 	color: #ffffff;
 	display: block;
@@ -84,7 +84,6 @@
 	width: 100%;
 	height: 100%;
 	padding-top:7px;
-	cursor: pointer;
 }
 
 .titleplan a:hover {
@@ -126,7 +125,7 @@
 	height:40px;
 }
 
-.getplan a {
+.getplan a, .getplan p {
 	color: #ffffff;
 	display: block;
 	margin: 0;
@@ -134,7 +133,6 @@
 	width: 100%;
 	height: 100%;
 	padding-top:7px;
-	cursor: pointer;
 }
 
 .getplan a:hover {

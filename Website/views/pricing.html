@@ -4,102 +4,61 @@
 {% endblock %}
 {% block body %}
 <div class="page-header">
-    <h1 id="pricingtitle">We have many plans for you, <br />pick one of them !</h1>
+    <h1 id="pricingtitle">{{__("We have many plans for you, <br />pick one of them !")}}</h1>
 </div>
 <div id="allplans">
-	<div id="firstplan">
-        <div class="titleplan">
-            <a href="/account/plan?plan=1">Free</a>
-        </div>
-        <div class="priceplan">
-            <p>0$</p>
-            <p class="perMonth">Per month</p>
-        </div>
-        <div class="descplan">
-            <p>500 MB per day</p>
-            <p>250 MB of spaces</p>
-            <p>No logs history</p>
-            <p>Ticket Support</p>
-        </div>
-        <div class="getplan">
-            <a href="/account/plan?plan=1">Get this</a>
-        </div>
-	</div>
-	<div id="secondplan">
-        <div class="deep">
+    {% for plan in plans %}
+        <div id="p{{ plan.planNumber }}">
+            {% if plan.planNumber%2 == 0 %}
+                <div class="deep">
+            {% endif %}
             <div class="titleplan">
-                <a href="/account/plan?plan=2">Basic</a>
+                {% if loop.first %}
+                    <p>{{ __(plan.name) }}</p>
+                {% else %}
+                    <a href="/account/plan?plan={{ plan.id }}">{{ __(plan.name) }}</a>
+                {% endif %}
             </div>
             <div class="priceplan">
-                <p>5$</p>
-                <p class="perMonth">Per month</p>
+                <p>{{ plan.pricePerMonth }}$</p>
+                <p class="perMonth">{{__("Per month")}}</p>
             </div>
             <div class="descplan">
-                <p>2G B per day</p>
-                <p>1 GB of spaces</p>
-                <p>One week logs history</p>
-                <p>Ticket Support & Mail Support</p>
+                <p>{{ __(plan.bandwidthPerDay) }}</p>
+                <p>{{ __(plan.diskSpace) }}</p>
+                <p>{{ __(plan.logsHistory) }}</p>
+                <p>{{ __(plan.support) }}</p>
             </div>
             <div class="getplan">
-                <a href="/account/plan?plan=2">Get this</a>
+                {% if loop.first %}
+                <p>{{__("Default Plan")}}</p>
+                {% else %}
+                    <a href="/account/plan?plan={{ plan.id }}">{{__("Get this")}}</a>
+                {% endif %}
             </div>
-        </div>
-	</div>
-	<div id="thirdplan">
-		<div class="titleplan">
-            <a href="/account/plan?plan=3">Premium</a>
-        </div>
-        <div class="priceplan">
-            <p>20$</p>
-            <p class="perMonth">Per month</p>
-        </div>
-        <div class="descplan">
-            <p>15GB per day</p>
-            <p>6 GB of spaces</p>
-            <p>Six months logs history</p>
-            <p>Ticket Support & Phone Support</p>
-        </div>
-        <div class="getplan">
-            <a href="/account/plan?plan=3">Get this</a>
-        </div>
-	</div>
-	<div id="fourthplan">
-        <div class="deep">
-            <div class="titleplan">
-                <a href="/account/plan?plan=4">Enterprise</a>
+            {% if plan.planNumber%2 == 0 %}
             </div>
-            <div class="priceplan">
-                <p>50$</p>
-                <p class="perMonth">Per month</p>
-            </div>
-            <div class="descplan">
-                <p>Unlimited Bandwidth</p>
-                <p>Unlimited Bandwidth</p>
-                <p>One year logs history</p>
-                <p>Ticket Support & Phone Support</p>
-            </div>
-            <div class="getplan">
-                <a href="/account/plan?plan=4">Get this</a>
-            </div>
+            {% endif %}
         </div>
+    {% endfor %}
 	</div>
 </div>
 <div id="contentplan">
-    <h1 id="questionpricing">Which plan should I use ?</h1><br/>
+    <h1 id="questionpricing">{{__("Which plan should I use ?")}}</h1><br/>
     <p>
-        The free plan is perfect if you want to try our solution or synchronize some small files over two or three devices
+        {{__("The free plan is perfect if you want to try our solution or synchronize some small files over two or three devices")}}
     </p>
     <img class="lbrand-logo" src="/images/logo.png" alt="Logo Cubbyhole" />
     <p>
-        The basic plan will help you to synchronize all your important files over all your devices and share them with some of your friends
+        {{__("The basic plan will help you to synchronize all your important files over all your devices and share them with some of your friends")}}
     </p>
     <img class="lbrand-logo" src="/images/logo.png" alt="Logo Cubbyhole" />
     <p>
-        With the premium plan, you can share your awesome pictures with your family or save your backups online
+        {{__("With the premium plan, you can share your awesome pictures with your family or save your backups online")}}
     </p>
     <img class="lbrand-logo" src="/images/logo.png" alt="Logo Cubbyhole" />
     <p>
-        The enterprise plan is perfect for your company, with the unlimited storage and bandwidth, you can work withou any problems on our system ! In case of errors, you can contact us or find the problem using the history logs !
+        {{__("The enterprise plan is perfect for your company, with the unlimited storage and bandwidth, you can work without any problems on our system ! In case of errors, you can contact us or find the problem using the history logs !")}}
     </p>
 </div>
 

@@ -1,7 +1,3 @@
-/**
- * Created by alexischevalier on 23/02/2014.
- */
-
 "use strict";
 
 var UserHelper = module.exports = {},
@@ -83,6 +79,10 @@ UserHelper.CreateOrGetIfExists = function (email, fullname, password, socialType
             }
             UserHelper.Create(password, email, fullname, socialType, socialID, function (err, user) {
                 if (err) {
+                    console.log(err);
+                    if (err.code == "ER_DUP_ENTRY") {
+                        return done(new Error("An account with this email already exists !"));
+                    }
                     return done(err);
                 }
                 return done(null, user);
