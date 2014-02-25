@@ -2,7 +2,8 @@
 
 var passport = require('passport'),
     login = require("../auth/ensureLoggedIn"),
-    usersDao = require('../models/users');
+    usersDao = require('../models/http/users'),
+    clientHelper = require('../models/mysql/helpers/ClientHelper');
 
 module.exports = {
     /*
@@ -18,8 +19,10 @@ module.exports = {
                     req.flash("danger", "There is an error with your profile, you have been logged out !");
                     res.redirect('/');
                 } else {
-                    console.log(user);
-                    res.render('account', { title: 'CubbyHole', active: 'account', userAccount: user });
+                    clientHelper.GetAuthorizedClientsForUserID(req.user.id, function (err, clients) {
+                        user.authorizedApps = clients;
+                        res.render('account', { title: 'CubbyHole', active: 'account', userAccount: user });
+                    });
                 }
             });
         }],
@@ -72,6 +75,19 @@ module.exports = {
             });
         }],
 
+    removeApp: [
+        login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
+        function (req, res) {
+            clientHelper.RemoveAuthorizedClientsForAccessTokenID(req.user.id, req.params.tokenId, function (err, result) {
+                if (err) {
+                    req.flash("danger", err.message);
+                } else {
+                    req.flash("success", "Application's authorization removed successfully !");
+                }
+                res.redirect("/account");
+            });
+        }],
+
     planChoose: [
         login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
         function (req, res) {
@@ -94,7 +110,6 @@ module.exports = {
     ],
 
     handleCallback: function (req, res, next) {
-        console.log(req.params);
         passport.authenticate('oauth2', function (err, user, info) {
             var redirectUrl = '/';
             if (err || !user) {

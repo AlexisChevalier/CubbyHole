@@ -4,7 +4,11 @@ var PlanHelper = module.exports = {},
     models = require('../../../models/mysql'),
     config = require('../../../config.json');
 
-
+/**
+ * Returns all latest updated plans
+ * @param done
+ * @constructor
+ */
 PlanHelper.GetAvailablePlans = function (done) {
     models(function (err, db) {
         db.driver.execQuery("SELECT p.* FROM Plans p INNER JOIN (SELECT planNumber, MAX(dateAdded) max_time FROM Plans GROUP BY planNumber) innerResult ON p.planNumber = innerResult.planNumber AND p.dateAdded = innerResult.max_time ORDER BY p.planNumber ASC", function (err, data) {
@@ -13,5 +17,26 @@ PlanHelper.GetAvailablePlans = function (done) {
             }
             return done(null, data);
         });
+    });
+};
+
+
+PlanHelper.GetActualPlanForUserID = function (userID, done) {
+    models(function (err, db) {
+        //2 592 000 is the number of seconds in 30 days
+        db.driver.execQuery("SELECT pl.* FROM Payments pa INNER JOIN Plans pl ON pl.id = pa.planId WHERE pa.userId = ? AND pa.paymentTime > UNIX_TIMESTAMP(NOW()) - 2592000 ORDER BY pa.paymentTime DESC",
+            [userID],
+            function (err, data) {
+                if (err) {
+                    return done(err, null);
+                }
+                if (data.length == 0) {
+                    db.driver.execQuery("SELECT * FROM Plans WHERE planNumber = 1 ORDER BY id DESC LIMIT 1", function (err, data) {
+                        return done(null, data);
+                    });
+                } else {
+                    return done(null, data);
+                }
+            });
     });
 };

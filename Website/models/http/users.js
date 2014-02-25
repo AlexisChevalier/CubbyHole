@@ -2,7 +2,7 @@
  * Created by alexischevalier on 20/02/2014.
  */
 "use strict";
-var config = require('../config/config.json'),
+var config = require('../../config/config.json'),
     https = require('https'),
     querystring = require('querystring'),
     Users = module.exports = {};
@@ -69,7 +69,6 @@ Users.updateByToken = function (accessToken, userToUpdate, done) {
                 body += d;
             });
             res.on('end', function () {
-                console.log(body);
                 try {
                     var parsed = JSON.parse(body);
                     if (parsed.id) {
@@ -96,14 +95,14 @@ Users.updateByToken = function (accessToken, userToUpdate, done) {
  */
 Users.deleteByToken = function (accessToken, done) {
     var options = {
-        host: config.apiUrl,
-        port: config.apiPort,
-        path: "/api/account",
-        method: 'DELETE',
-        headers: {
-            'Authorization': 'Bearer ' + accessToken
-        }
-    },
+            host: config.apiUrl,
+            port: config.apiPort,
+            path: "/api/account",
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
+        },
         req = https.request(options, function (res) {
             var body = "";
             res.on('data', function (d) {

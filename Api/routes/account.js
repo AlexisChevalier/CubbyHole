@@ -2,7 +2,7 @@
 
 var passport = require('passport'),
     userHelper = require('../models/mysql/helpers/UserHelper'),
-    clientHelper = require("../models/mysql/helpers/ClientHelper");
+    planHelper = require('../models/mysql/helpers/PlanHelper');
 
 module.exports = {
     /**
@@ -11,14 +11,13 @@ module.exports = {
     userDetails: [
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
-
-            clientHelper.GetAuthorizedClientsForUserID(req.user.id, function (err, authorizedApps) {
+            planHelper.GetActualPlanForUserID(req.user.id, function (err, actualPlanArray) {
                 res.json({
                     id: req.user.id,
                     email: req.user.email,
                     name: req.user.name,
                     socialAccount: (req.user.social_type != null),
-                    authorizedApps: authorizedApps
+                    actualPlan: actualPlanArray[0]
                 });
             });
         }
@@ -44,17 +43,19 @@ module.exports = {
     /**
      * DELETE account
      */
-
     userDelete: [
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
+            /*
+                MOAR LOGIC HERE (Files, etc ...)
+             */
             req.models.Users.find({ id: req.user.id }).remove(function (err) {
                 if (err) {
-                    res.send(err);
+                    res.send(400, err);
                 } else {
                     res.send(200, "");
                 }
             });
         }
-    ]
+    ],
 };

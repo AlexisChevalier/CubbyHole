@@ -21,18 +21,11 @@ module.exports = {
         login.ensureLoggedIn("/auth/login"),
         function (req, res) {
             req.models.Clients.find({ userID: req.user.id }, function (err, clients) {
-                console.log(clients);
                 if (err) {
                     throw err;
                 }
                 res.render("dev/apps", { clients: clients });
             });
-            /*db.clients.findByUserId(req.user.id, function (err, clients) {
-                if (err) {
-                    throw err;
-                }
-                res.render("dev/apps", { clients: clients });
-            });*/
         }
     ],
     /**
@@ -91,15 +84,6 @@ module.exports = {
                         res.redirect("/apps");
                     }
                 });
-                /*db.clients.addClient(appName, appUri, req.user.id, function (err, client) {
-                    if (err) {
-                        req.flash("danger", "Name already taken !");
-                        res.render("dev/addApp");
-                    } else {
-                        req.flash("success", "Application successfully created !");
-                        res.redirect("/apps");
-                    }
-                });*/
             } else {
                 res.render("dev/addApp");
             }
