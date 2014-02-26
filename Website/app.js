@@ -104,7 +104,6 @@ I18n.expressBind(app, {
     locales: supportedLocales
 });
 app.use(function (req, res, next) {
-    console.log(req.locale);
     req.i18n.setLocale(req.locale);
     next();
 });
@@ -132,6 +131,7 @@ app.get('/pricing', defaultRoutes.pricing);
 app.get('/account', accountRoutes.account);
 app.post('/account', accountRoutes.updateAccount);
 app.post('/account/delete', accountRoutes.deleteAccount);
+app.get('/account/removeApp/:tokenId', accountRoutes.removeApp);
 app.get('/account/plan', accountRoutes.planChoose);
 app.get('/apps', defaultRoutes.apps);
 app.get('/loginsignup', accountRoutes.perform);

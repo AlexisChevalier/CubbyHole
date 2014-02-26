@@ -10,8 +10,6 @@
     "All your files, everywhere.": "All your files, everywhere.",
     "Register or Sign in": "Register or Sign in",
 	"We have many plans for you, <br />pick one of them !": "We have many plans for you, <br />pick one of them !",
-	"Free": "Free",
-	"Per month": "Per month",
 	"b_500m": "b_500m",
 	"d_250m": "d_250m",
 	"l_0": "l_0",
@@ -32,9 +30,12 @@
 	"b_u": "b_u",
 	"d_u": "d_u",
 	"l_1y": "l_1y",
+	"Free": "Free",
+	"Per month": "Per month*",
 	"Which plan should I use ?": "Which plan should I use ?",
 	"The free plan is perfect if you want to try our solution or synchronize some small files over two or three devices": "The free plan is perfect if you want to try our solution or synchronize some small files over two or three devices",
 	"The basic plan will help you to synchronize all your important files over all your devices and share them with some of your friends": "The basic plan will help you to synchronize all your important files over all your devices and share them with some of your friends",
 	"With the premium plan, you can share your awesome pictures with your family or save your backups online": "With the premium plan, you can share your awesome pictures with your family or save your backups online",
-	"The enterprise plan is perfect for your company, with the unlimited storage and bandwidth, you can work without any problems on our system ! In case of errors, you can contact us or find the problem using the history logs !": "The enterprise plan is perfect for your company, with the unlimited storage and bandwidth, you can work without any problems on our system ! In case of errors, you can contact us or find the problem using the history logs !"
+	"The enterprise plan is perfect for your company, with the unlimited storage and bandwidth, you can work without any problems on our system ! In case of errors, you can contact us or find the problem using the history logs !": "The enterprise plan is perfect for your company, with the unlimited storage and bandwidth, you can work without any problems on our system ! In case of errors, you can contact us or find the problem using the history logs !",
+	"* A month = 30 days": "* A month = 30 days"
 }

@@ -3,7 +3,7 @@
 var passport = require('passport'),
     config = require('../config/config.json'),
     OAuth2Strategy = require('passport-oauth2').Strategy,
-    usersDao = require('../models/users');
+    usersDao = require('../models/http/users');
 
 /**
  * OAUTH 2 Login Strategy
