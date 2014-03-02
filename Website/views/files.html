@@ -4,43 +4,120 @@
     <link href="/stylesheets/myfiles.css" rel="stylesheet">
 {% endblock %}
 
+{% block js %}
+    <script type="text/javascript" src="/javascripts/browser/angular.js"></script>
+    <script type="text/javascript" src="/javascripts/browser/angular-route.js"></script>
+    <script type="text/javascript" src="/javascripts/browser/ui-bootstrap-custom-0.10.0.min.js"></script>
+    <script type="text/javascript" src="/javascripts/browser/ui-bootstrap-custom-tpls-0.10.0.min.js"></script>
+    <script type="text/javascript" src="/javascripts/browser/files.app.js"></script>
+    <script type="text/javascript" src="/javascripts/browser/controllers/MainController.js"></script>
+    <script type="text/javascript" src="/javascripts/browser/controllers/FileTableController.js"></script>
+    <script type="text/javascript" src="/javascripts/browser/controllers/SearchController.js"></script>
+    <script type="text/javascript" src="/javascripts/browser/directives/SelectOnClick.js"></script>
+
+
+    <script type="text/ng-template" id="file-browser-ui.html">
+        <div ng-controller="FileTableController">
+            <div id="headbar">
+                <div id="path" type="text">
+                    <p>
+                            <span ng-repeat="part in parentFolders">
+                                <a ng-click="handleItemClick('/folder/' + part.folderId)">[[part.folderName]]</a> /
+                            </span>
+                        <span>[[folderName]]</span>
+                    </p>
+                </div>
+                <input ng-minlength=3 id="search" type="text" placeholder="Search ..." ng-model="searchInput" select-on-click />
+                <div class="clearfix"></div>
+            </div>
+            <div id="actionbar">
+                <ul>
+                    <li class="action uploadfile">Upload file</li>
+                    <li class="action sharefolder">Share folder</li>
+                    <li class="action addfolder">Add folder</li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div id="filebrowser">
+                <table>
+                    <thead>
+                    <tr>
+                        <th colspan="2" ng-click="sort('name')">Name
+                            <div ng-if="orderProp=='name'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                        </th>
+                        <th ng-click="sort('type')">Type
+                            <div ng-if="orderProp=='type'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                        </th>
+                        <th ng-click="sort('date')">Modified
+                            <div ng-if="orderProp=='modified'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="parent-folder-row" ng-show="hasParent()" ng-click="handleItemClick('/folder/' + parentFolder().folderId)">
+                        <td class="parent-folder"></td>
+                        <td>Parent Folder</td>
+                        <td>folder</td>
+                        <td>24/11/2013 11:30 PM</td>
+                    </tr>
+                    <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-click="handleItemClick(item)">
+                        <td class="[[item.type]]"></td>
+                        <td ng-switch on="item.type">
+                            [[item.name]]
+                        </td>
+
+                        <td>[[item.type]]</td>
+                        <td>24/11/2013 11:30 PM</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </script>
+
+
+    <script type="text/ng-template" id="search-browser-ui.html">
+        <div ng-controller="SearchController">
+            <h1>Search results for [[searchTerms]] ([[itemsCount]] items)</h1>
+            <div id="headbar">
+                <input ng-minlength=3 id="search" class="fullsize" type="text" placeholder="Search ..." ng-model="searchInput" select-on-click />
+                <div class="clearfix"></div>
+            </div>
+            <div id="filebrowser">
+                <table>
+                    <thead>
+                    <tr>
+                        <th colspan="2" ng-click="sort('name')">Name
+                            <div ng-if="orderProp=='name'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                        </th>
+                        <th ng-click="sort('type')">Type
+                            <div ng-if="orderProp=='type'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                        </th>
+                        <th ng-click="sort('date')">Modified
+                            <div ng-if="orderProp=='modified'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-click="handleItemClick(item)">
+                        <td class="[[item.type]]"></td>
+                        <td ng-switch on="item.type">
+                            [[item.name]]
+                        </td>
+
+                        <td>[[item.type]]</td>
+                        <td>24/11/2013 11:30 PM</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </script>
+
+{% endblock %}
+
 {% block body %}
-	<div id="headbar">
-		<input id="path" type="text" value="Pictures/May-2013/Holidays" />
-		<input id="search" type="text" value="*.png" />
-		<div class="clearfix"></div>
-	</div>
-	<div id="actionbar">
-		<ul>
-			<li class="action uploadfile">Upload file</li>
-			<li class="action sharefolder">Share folder</li>
-			<li class="action addfolder">Add folder</li>
-		</ul>
-		<div class="clearfix"></div>
-	</div>
-	<div id="filebrowser">
-		<table>
-			<thead>
-				<tr>
-					<th colspan="2">Name <div class="arrow-up"></div></th>
-					<th>Type</th>
-					<th>Modified</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th class="folder"></th>
-					<th>My awesome folder</th>
-					<th>Folder</th>
-					<th>24/11/2013 11:30 PM</th>
-				</tr>
-				<tr>
-					<th class="shared-folder"></th>
-					<th>My wonderfull shared folder</th>
-					<th>Texte document</th>
-					<th>Yesterday 2:12 PM</th>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+    <div ng-controller="MainController">
+        <div ng-view></div>
+    </div>
 {% endblock %}

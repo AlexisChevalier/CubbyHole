@@ -18,6 +18,7 @@ var express = require('express'),
     locale = require("locale"),
     supportedLocales = ["en", "fr"],
     accountRoutes = require('./routes/account'),
+    filesRoutes = require('./routes/files'),
     publicRoutes = require('./routes/public'),
     devRoutes = require('./routes/dev'),
     oauth2routes = require('./oauth2/routes'),
@@ -147,6 +148,9 @@ app.get('/api', publicRoutes.apiHome);
 app.get('/api/account/details', accountRoutes.userDetails);
 app.put('/api/account/details', accountRoutes.userUpdate);
 app.delete('/api/account', accountRoutes.userDelete);
+
+app.get('/api/files/byFolder/:folderID', filesRoutes.listItemsByFolder);
+app.get('/api/files/searchByTerms/:terms', filesRoutes.searchItemsByTerm);
 
 /**
  * OAUTH2 Routes definitions.

@@ -1,11 +1,10 @@
 
 
-div#headbar input{
+div#headbar input, div#headbar div#path {
 	height: 60px; /* 50px inside */
 	margin: 0px;
 	padding: 10px;
 	border: 8px solid #fcb735;
-	background-color: #ffcc6d !important;
 	font-family: Helvetica;
 	font-size: 20px;
 	font-weight: lighter;
@@ -17,19 +16,32 @@ div#headbar input:focus{
 	outline: none; /* fu chrome */
 }
 
-div#headbar input#path {
+div#headbar div#path {
 	width: 70%;
 	padding-left: 50px; /* 40(ico) + 10px */
 	border-right: 0px;
 	/* can't do sprite :/ */
-	background: url('/images/icons/tree.png') no-repeat left center;
+	background: url('/images/icons/tree.png') no-repeat left center #ffcc6d;
+}
+
+div#headbar div#path p {
+	overflow: scroll;
+	white-space: nowrap;
+}
+
+div#headbar div#path p a {
+	cursor: pointer;
 }
 
 div#headbar input#search {
 	width: 30%;
 	padding-right: 50px; /* 40(ico) + 10px */
 	/* can't do sprite :/ */
-	background: url('/images/icons/search.png') no-repeat right center;
+	background: url('/images/icons/search.png') no-repeat right center #ffcc6d;
+}
+
+div#headbar input#search.fullsize {
+	width: 100%;
 }
 
 /*** Action bar ***/
@@ -52,8 +64,12 @@ div#actionbar ul li{
 div#actionbar ul li.action {
 	/* Cross browser solution from w3c for list-style-image */
 	background-repeat: no-repeat;
-	background-position: 0px;
-	padding: 10px 0px 10px 50px;
+	background-position: 7px;
+	padding: 10px 10px 10px 50px;
+}
+
+div#actionbar ul li.action:hover {
+	background-color: aliceblue;
 }
 
 div#actionbar ul li.uploadfile {
@@ -92,32 +108,45 @@ div#filebrowser table tbody tr.selected {
 	background-color: rgba(62, 170, 255, 0.2);
 }
 
-div#filebrowser table tbody tr th:nth-child(1) {
+div#filebrowser table tbody tr.parent-folder-row {
+	border-bottom: 1px solid #3eaafe;
+}
+
+div#filebrowser table tbody tr td:nth-child(1) {
 	width: 40px;
 }
 
-div#filebrowser table tbody tr th:nth-child(2) {
+div#filebrowser table tbody tr td:nth-child(2) {
  /* No hardcoded size for the name of the file/folder
   so it will be as large as possible */
   padding-left: 10px;
 }
 
 
-div#filebrowser table tbody tr th:nth-child(3) {
+div#filebrowser table tbody tr td:nth-child(3) {
 	width: 23%;
 }
 
 
-div#filebrowser table tbody tr th:nth-child(4) {
+div#filebrowser table tbody tr td:nth-child(4) {
 	width: 23%;
 }
 
-div#filebrowser table tr th.folder {
-	background: url('/images/filebrowser.png') 0px -80px no-repeat;
+div#filebrowser table tr td.folder {
+	background: url('/images/filebrowser.png') 0px -40px no-repeat;
 }
 
-div#filebrowser table tr th.shared-folder {
-	background: url('/images/filebrowser.png') -40px -80px no-repeat;
+div#filebrowser table tr td.file {
+	background: url('/images/filebrowser.png') -80px -40px no-repeat;
+}
+
+div#filebrowser table tr td.parent-folder {
+	background: url('/images/filebrowser.png') -120px -40px no-repeat;
+}
+
+
+div#filebrowser table tr td.shared-folder {
+	background: url('/images/filebrowser.png') -40px -40px no-repeat;
 }
 
 /*** class utils ***/
@@ -155,4 +184,8 @@ div#filebrowser table tr th.shared-folder {
     border-bottom: 5px solid transparent;
     border-right:9px solid #3eaafe;
     display: inline-block;
+}
+
+.ng-invalid {
+	background-color: #ff7c74 !important;
 }
