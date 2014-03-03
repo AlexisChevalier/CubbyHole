@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 25, 2014 at 08:53 PM
+-- Generation Time: Mar 04, 2014 at 12:28 AM
 -- Server version: 5.5.33
 -- PHP Version: 5.5.3
 
@@ -28,7 +28,7 @@ CREATE TABLE `AccessTokens` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `PREVENT_DUPLICATES_TOKENS_INDEX` (`userID`,`clientID`) COMMENT 'Prevents multipes tokens for an app and an user',
   KEY `clientID` (`clientID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=127 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=116 ;
 
 --
 -- Dumping data for table `AccessTokens`
@@ -41,9 +41,8 @@ INSERT INTO `AccessTokens` (`id`, `userID`, `clientID`, `token`) VALUES
 (70, 48, 7, 'TmpRWSKqPF6bJKh4nqp54KrJ6zWli1lVcoySmmrvAFatSOzkl0yqoInSWDhYqtDSUP5nH1krVJRsgsrhpAx2Rs5Tqs5PHSS1OJj7G9lcVNw9VJlLAn9y08whFJPPWf7K1MXRN7nR9mKxqkG2MXyi3OyKxy2aZTlFeRZITMVRsvVjmT6Vfuevb8RFxbL3VelPzAiFDuXmhmKVQY6hlsMdUJMMawTGjq7wbQUWNYFMzeMJ64v3rlVwWiAV6xyzVkZ0'),
 (99, 51, 7, 'lhmesJDmsqrOCkjSDvkqJXpNKRQ63aBjP4X77jxIrbDgoKaEbMGJcrxGvZ0RZ7wXwlY6iEH8BkLcSyGhrV6VVDJxLcfTeA7QuWZuQBNcOfP7cj4x29eggxKYHA1FV4dpdY3aVIxavyUZDaFau5SICjtJz7Ar1fvFkvknI1izv6ftWLPG9hWTjdd57S7SgOb4TTyD7RcvMAjzFBXmbClYzIGbRPaeLsxrrVuyn1cfxMLUvTacQGTLllk9i488U0rE'),
 (108, 52, 7, 'Uo6QOBwYue4fKEfHDZqHnBU3Cd2d97J5Npse4Yul13jubGVcSNVaHPXpuUHb63WlEqbdAPeYyOBGpCcK9B5OoRUXiTJcvDU60Osxr5LZclcJUXIFj1125yTaE5mI2rOjhGM0ajKqU32B9f3lzeU25OLexQ9Hl5aBv0Q8x1D3ISwDEeFMfOb8jf3RcUInrOMUaCjJBdhrwBvStJe8qjivwYuhdkiZ9flrxFa5IK8an7blXNyMM3rHQKoUjBBF34NL'),
-(109, 53, 7, '8ciRqFxL24pB7wOl2hlw4X0XoOnIWXWPBcSYKvtxeEj16Z3epPLR2ROk6SI5jlFMcTXyeQWcIHL2FEtvttKjmQADXyKcKxK3ZsTAZge86HgdFKkbIjjqG2W3SHdLrKjBHjbffzjbRdQ2uVXxxV36Y4kwUBD5Cisroc1VXm7RbQpOJddIaHlPsZrMso9clBNHXMmDqI9SzVZC4k5sSMR3EjuCK3tWwJ8P4KFGYeAnHLYJYoF5f1djHfIxmJM54Dju'),
-(110, 54, 7, 'lsQE5msLplp6yLKuP8hMF06DY5ypNc35xTXJlJqRKQ95x7OBovZ9vOd21ZdQiKE623zHgzTsKzgS1gnj92hccrqhL8Ni7oCks5djl2jI6jiXQwxyTJSi087B5IVXjfHvakXHWZFmLrGgBjQorQggSiO1EDWbjNqvlltqo7XZOMAnus66deBvPW6ssouMQkk0yxaoM3Jc6XFONIuU7Wze1JmF7FuvgziEjLKV4cfd2LpDVsc4lkzGy2eNq8ifrZbI'),
-(126, 53, 8, 'wka9kqzv0OW6953oU1yHAffDCfVs7V2zEKJNZ8BigIX4sACy9RauN71fJYIHTGJvig2rvYPyOJ9M1oGgf8gcNxM8bxhyspI4lDCSu17FbxyRoCHD8AdDlNSgQuY7VB4iCiBFvsPEc8jRnbgvdMv2borfihcGZ924EEvNQ1oQqzcNNxiTUCHduWKLVqTwmU1FuAq7VRZCFmno96KGhGp2KgjVBgZXArMiHzE5LVPZEXEVcaNxAM9SfWwDvzcJ6zBG');
+(109, 53, 7, '4gu8ypWsV4FqFstpaJIuq2KECK9IExuOkePb4jfX27FYQ0A2WMP8jhWuPeUkmzbtwgyxpgzBEdSDtonoOEgqCfonQpJvgcYzKwWhyylSAJ2i6E47k6xue6n5RiLzZ13w1QhWrkgqepKW6KE3Ft4fIJr9nQWLuKSRX5GqH4rXFhGuyoxHsuD7jyW5KFaf77OctZKt6PEEOPAg0Qh8WY1u3fk6kWTcNwUSSCg1YQcgTQ9MvY0RCXHrvKncFHQRnqti'),
+(110, 54, 7, 'lsQE5msLplp6yLKuP8hMF06DY5ypNc35xTXJlJqRKQ95x7OBovZ9vOd21ZdQiKE623zHgzTsKzgS1gnj92hccrqhL8Ni7oCks5djl2jI6jiXQwxyTJSi087B5IVXjfHvakXHWZFmLrGgBjQorQggSiO1EDWbjNqvlltqo7XZOMAnus66deBvPW6ssouMQkk0yxaoM3Jc6XFONIuU7Wze1JmF7FuvgziEjLKV4cfd2LpDVsc4lkzGy2eNq8ifrZbI');
 
 -- --------------------------------------------------------
 
@@ -60,7 +59,7 @@ CREATE TABLE `AuthorizationCodes` (
   `timeCreated` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `PREVENT_DUPLICATES_CODES_INDEX` (`clientID`,`userID`) COMMENT 'Prevents multipes codes for an app and an user'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -110,8 +109,17 @@ CREATE TABLE `Payments` (
   `currency` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
-  KEY `planId` (`planId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  KEY `planId` (`planId`),
+  KEY `planId_2` (`planId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `Payments`
+--
+
+INSERT INTO `Payments` (`id`, `userId`, `planId`, `paymentId`, `amount`, `saleId`, `paymentTime`, `currency`) VALUES
+(1, 1, 2, '87498494684', 5, '6564646451654', 1393366785, 'EUR'),
+(2, 1, 3, '87498494684', 5, '6564646451654', 1390774785, 'EUR');
 
 -- --------------------------------------------------------
 

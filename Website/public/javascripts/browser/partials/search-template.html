@@ -1,0 +1,35 @@
+<div ng-controller="SearchController">
+    <h1>Search results for [[searchTerms]] ([[itemsCount]] items)</h1>
+    <div id="headbar">
+        <input ng-minlength=3 id="search" class="fullsize" type="text" placeholder="Search ..." ng-model="searchInput" select-on-click />
+        <div class="clearfix"></div>
+    </div>
+    <div id="filebrowser">
+        <table>
+            <thead>
+            <tr>
+                <th colspan="2" ng-click="sort('name')">Name
+                    <div ng-if="orderProp=='name'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                </th>
+                <th ng-click="sort('type')">Type
+                    <div ng-if="orderProp=='type'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                </th>
+                <th ng-click="sort('date')">Modified
+                    <div ng-if="orderProp=='modified'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-click="handleItemClick(item)">
+                <td class="[[item.type]]"></td>
+                <td ng-switch on="item.type">
+                    [[item.name]]
+                </td>
+
+                <td>[[item.type]]</td>
+                <td>24/11/2013 11:30 PM</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
