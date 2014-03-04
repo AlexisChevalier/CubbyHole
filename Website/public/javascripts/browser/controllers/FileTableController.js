@@ -4,7 +4,6 @@
 cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$http', '$location', '$timeout', function ($scope, $routeParams, $http, $location, $timeout) {
 
     $scope.searchInput = "";
-    $scope.searchTerms = "";
     $scope.items = [];
     $scope.path = "";
     $scope.folderId = "-1";
@@ -24,8 +23,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
         if (val !== "" && val !== tempFilterText && val) {
             tempFilterText = val;
             filterTextTimeout = $timeout(function () {
-                $scope.searchTerms = tempFilterText;
-                $location.path("/search/" + tempFilterText);
+                $location.search({"terms": tempFilterText}).path("/search/");
             }, 500); // delay 500 ms
         }
     });
@@ -53,23 +51,13 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
     };
 
     //Handle click on tr item
-    $scope.handleItemClick = function (param) {
-        if (typeof param == "string") {
-            $location.path(param);
+    $scope.handleItemClick = function (type, id) {
+        if (type == "folder") {
+            $location.search("id", id);//.path("/folder/");
         } else {
-            if (param.type == "folder") {
-                $location.path("/folder/" + param.id);
-            } else {
-                console.log("DOWNLOAD FILE " + param.id);
-            }
+            console.log("DOWNLOAD FILE " + id);
         }
     };
-
-    //Listens for route changes
-    $scope.$on('$routeChangeSuccess', function () {
-        $scope.url = "https://localhost:8443/ajax/listByFolders/" + $routeParams.path;
-        $scope.refresh();
-    });
 
     //Returns parent folder or null
     $scope.parentFolder = function () {
@@ -83,5 +71,17 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
     $scope.hasParent = function () {
         return ($scope.parentFolder() != null);
     };
+
+
+    //Listens for location changes
+    $scope.$on('$locationChangeSuccess', function () {
+        $scope.url = "https://localhost:8443/ajax/listByFolders/" + ($location.search().id || -1);
+        $scope.refresh();
+    });
+    //Listens for route changes
+    $scope.$on('$routeChangeSuccess', function () {
+        $scope.url = "https://localhost:8443/ajax/listByFolders/" + ($location.search().id || -1);
+        $scope.refresh();
+    });
 
 }]);

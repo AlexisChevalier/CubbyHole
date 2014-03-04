@@ -112,6 +112,18 @@ div#filebrowser table tbody tr.parent-folder-row {
 	border-bottom: 1px solid #3eaafe;
 }
 
+div#filebrowser table tbody tr td.options-col {
+	text-align: center;
+}
+
+div#filebrowser table tbody tr td.options-col button {
+	background-color: #fcb735;
+}
+
+div#filebrowser table tbody tr td.options-col button:hover {
+	background-color: #3daaf8;
+}
+
 div#filebrowser table tbody tr td:nth-child(1) {
 	width: 40px;
 }

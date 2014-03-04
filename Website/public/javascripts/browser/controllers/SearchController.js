@@ -1,7 +1,7 @@
 "use strict";
 /*global angular, cubbyHoleBrowser */
 
-cubbyHoleBrowser.controller('SearchController', ['$scope', '$routeParams', '$http', '$location', '$timeout', function ($scope, $routeParams, $http, $location, $timeout) {
+cubbyHoleBrowser.controller('SearchController', ['$scope', '$rootScope', '$routeParams', '$http', '$location', '$timeout', function ($scope, $rootScope, $routeParams, $http, $location, $timeout) {
 
     $scope.searchInput = "";
     $scope.searchTerms = "";
@@ -22,7 +22,7 @@ cubbyHoleBrowser.controller('SearchController', ['$scope', '$routeParams', '$htt
             $scope.tempSearchTerms = val;
             filterTextTimeout = $timeout(function () {
                 $scope.searchTerms = $scope.tempSearchTerms;
-                $location.path("/search/" + $scope.searchTerms);
+                $location.search("terms", $scope.searchTerms);
             }, 500); // delay 500 ms
         }
     });
@@ -35,7 +35,6 @@ cubbyHoleBrowser.controller('SearchController', ['$scope', '$routeParams', '$htt
                 $scope.itemsCount = data.count;
                 $scope.folderName = data.folderName;
                 $scope.items = data.items;
-                console.log(data);
             });
     };
 
@@ -50,22 +49,25 @@ cubbyHoleBrowser.controller('SearchController', ['$scope', '$routeParams', '$htt
     };
 
     //Handle click on tr item
-    $scope.handleItemClick = function (param) {
-        if (typeof param == "string") {
-            $location.path(param);
+    $scope.handleItemClick = function (type, id) {
+        if (type == "folder") {
+            $location.search({"id": id}).path("/folder/");
         } else {
-            if (param.type == "folder") {
-                $location.path("/folder/" + param.id);
-            } else {
-                console.log("DOWNLOAD FILE " + param.id);
-            }
+            console.log("DOWNLOAD FILE " + id);
         }
     };
+
+    //Listens for location changes
+    $scope.$on('$locationChangeSuccess', function () {
+        $scope.url = "https://localhost:8443/ajax/searchByTerms/" + $routeParams.terms;
+        $scope.searchTerms = $scope.tempSearchTerms = $scope.searchInput = $location.search().terms;
+        $scope.refresh();
+    });
 
     //Listens for route changes
     $scope.$on('$routeChangeSuccess', function () {
         $scope.url = "https://localhost:8443/ajax/searchByTerms/" + $routeParams.terms;
-        $scope.searchTerms = $scope.tempSearchTerms = $scope.searchInput = $routeParams.terms;
+        $scope.searchTerms = $scope.tempSearchTerms = $scope.searchInput = $location.search().terms;
         $scope.refresh();
     });
 }]);

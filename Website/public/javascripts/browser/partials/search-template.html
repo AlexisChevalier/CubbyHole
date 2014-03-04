@@ -20,13 +20,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-click="handleItemClick(item)">
+            <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-click="handleItemClick(item.type, item.id)">
                 <td class="[[item.type]]"></td>
-                <td ng-switch on="item.type">
+                <td>
                     [[item.name]]
                 </td>
-
-                <td>[[item.type]]</td>
+                <td>[[item.type | Capitalize]]</td>
                 <td>24/11/2013 11:30 PM</td>
             </tr>
             </tbody>

@@ -3,7 +3,7 @@
         <div id="path" type="text">
             <p>
                             <span ng-repeat="part in parentFolders">
-                                <a ng-click="handleItemClick('/folder/' + part.folderId)">[[part.folderName]]</a> /
+                                <a ng-click="handleItemClick('folder', part.folderId)">[[part.folderName]]</a> /
                             </span>
                 <span>[[folderName]]</span>
             </p>
@@ -32,23 +32,39 @@
                 <th ng-click="sort('date')">Modified
                     <div ng-if="orderProp=='modified'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
                 </th>
+                <th>Options</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="parent-folder-row" ng-show="hasParent()" ng-click="handleItemClick('/folder/' + parentFolder().folderId)">
+            <tr class="parent-folder-row" ng-show="hasParent()" ng-click="handleItemClick('folder', parentFolder().folderId)">
+                [[parentFolder().id]]
                 <td class="parent-folder"></td>
                 <td>Parent Folder</td>
-                <td>folder</td>
+                <td>Folder</td>
                 <td>24/11/2013 11:30 PM</td>
+                <td class="options-col">-</td>
             </tr>
-            <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-click="handleItemClick(item)">
+            <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-click="handleItemClick(item.type, item.id)">
                 <td class="[[item.type]]"></td>
                 <td ng-switch on="item.type">
                     [[item.name]]
                 </td>
 
-                <td>[[item.type]]</td>
+                <td>[[item.type | Capitalize]]</td>
                 <td>24/11/2013 11:30 PM</td>
+                <td class="options-col">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </div>
+                </td>
             </tr>
             </tbody>
         </table>

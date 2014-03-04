@@ -3,22 +3,25 @@
 
 var cubbyHoleBrowser = angular.module('cubbyHoleBrowser', [
     'ngRoute',
+    'textFilters',
     'ui.bootstrap'
 ]);
 
 cubbyHoleBrowser.config(['$routeProvider', '$interpolateProvider',
     function ($routeProvider, $interpolateProvider) {
         $routeProvider.
-            when('/folder/:path', {
+            when('/folder/', {
                 templateUrl: '/javascripts/browser/partials/files-template.html',
-                controller: 'FileTableController'
+                controller: 'FileTableController',
+                reloadOnSearch: false
             }).
-            when('/search/:terms', {
+            when('/search/', {
                 templateUrl: '/javascripts/browser/partials/search-template.html',
-                controller: 'SearchController'
+                controller: 'SearchController',
+                reloadOnSearch: false
             }).
             otherwise({
-                redirectTo: '/folder/_'
+                redirectTo: '/folder/'
             });
 
         /* Because of SWIG template engine */
