@@ -1,7 +1,7 @@
 "use strict";
 /*global angular, cubbyHoleBrowser */
 
-cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$http', '$location', '$timeout', function ($scope, $routeParams, $http, $location, $timeout) {
+cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modal', function ($scope, $routeParams, $http, $location, $timeout, $modal) {
 
     $scope.searchInput = "";
     $scope.items = [];
@@ -53,7 +53,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
     //Handle click on tr item
     $scope.handleItemClick = function (type, id) {
         if (type == "folder") {
-            $location.search("id", id);//.path("/folder/");
+            $location.search("id", id);
         } else {
             console.log("DOWNLOAD FILE " + id);
         }
@@ -72,6 +72,103 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
         return ($scope.parentFolder() != null);
     };
 
+    //AddFolder
+    $scope.addFolder = function () {
+        var modalInstance = $modal.open({
+            templateUrl: '/javascripts/browser/partials/addFolder-template.html',
+            controller: "AddFolderModalController",
+            resolve: {
+                item: function () {
+                    return $scope.parentFolder();
+                }
+            }
+        });
+
+        modalInstance.result.then(function (item) {
+            console.log(item);
+        }, function () {
+            console.log("popup closed");
+        });
+    };
+
+    //Upload Item
+    $scope.upload = function () {
+        var modalInstance = $modal.open({
+            templateUrl: '/javascripts/browser/partials/upload-template.html',
+            controller: "UploadModalController",
+            resolve: {
+                item: function () {
+                    return $scope.parentFolder();
+                }
+            }
+        });
+
+        modalInstance.result.then(function (item) {
+            console.log(item);
+        }, function () {
+            console.log("popup closed");
+        });
+    };
+
+    //Remove Item
+    $scope.remove = function (item) {
+        console.log("REMOVE ITEM " + item.id);
+        var modalInstance = $modal.open({
+            templateUrl: '/javascripts/browser/partials/delete-template.html',
+            controller: "DeleteModalController",
+            resolve: {
+                item: function () {
+                    return item;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (item) {
+            console.log(item);
+        }, function () {
+            console.log("popup closed");
+        });
+    };
+
+    //Edit Item
+    $scope.edit = function (item) {
+        console.log("EDIT ITEM " + item.id);
+        var modalInstance = $modal.open({
+            templateUrl: '/javascripts/browser/partials/edit-template.html',
+            controller: "EditModalController",
+            resolve: {
+                item: function () {
+                    return item;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (item) {
+            console.log(item);
+        }, function () {
+            console.log("popup closed");
+        });
+    };
+
+    //Share Item
+    $scope.share = function (item) {
+        console.log("SHARE ITEM " + item.id);
+        var modalInstance = $modal.open({
+            templateUrl: '/javascripts/browser/partials/sharing-template.html',
+            controller: "SharingModalController",
+            resolve: {
+                item: function () {
+                    return item;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (item) {
+            console.log(item);
+        }, function () {
+            console.log("popup closed");
+        });
+    };
 
     //Listens for location changes
     $scope.$on('$locationChangeSuccess', function () {

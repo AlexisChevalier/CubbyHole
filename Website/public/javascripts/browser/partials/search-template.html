@@ -22,9 +22,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-click="handleItemClick(item.type, item.id)">
+            <tr ng-repeat="item in items | orderBy:orderProp:orderDirection">
                 <td class="[[item.type]]"></td>
-                <td>
+                <td ng-click="handleItemClick(item.type, item.id)">
                     [[item.name]]
                 </td>
                 <td>[[item.type | Capitalize]]</td>

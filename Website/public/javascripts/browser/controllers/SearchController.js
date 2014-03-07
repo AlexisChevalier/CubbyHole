@@ -1,5 +1,5 @@
 "use strict";
-/*global angular, cubbyHoleBrowser, AngularRouteHelper */
+/*global angular, cubbyHoleBrowser */
 
 cubbyHoleBrowser.controller('SearchController', ['$scope', '$rootScope', '$routeParams', '$http', '$location', '$timeout', function ($scope, $rootScope, $routeParams, $http, $location, $timeout) {
 
@@ -76,8 +76,6 @@ cubbyHoleBrowser.controller('SearchController', ['$scope', '$rootScope', '$route
 
     //Listens for route changes
     $scope.$on('$routeChangeSuccess', function (evt, absNewUrl, absOldUrl) {
-        var helper = new AngularRouteHelper(absOldUrl);
-        $scope.backToFoldersUrl = helper.getPath();
         if (absOldUrl) {
             $scope.backToFoldersUrl = { path: absOldUrl.$$route.originalPath, params: absOldUrl.params };
         }

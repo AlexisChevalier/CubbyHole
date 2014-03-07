@@ -161,6 +161,22 @@ div#filebrowser table tr td.shared-folder {
 	background: url('/images/filebrowser.png') -40px -40px no-repeat;
 }
 
+
+/*** modals ***/
+.modal-header {
+	text-align: center;
+	background-color: #3eaafe;
+}
+
+.modal-header .name {
+	color: #fcb735;
+}
+
+.modal-footer {
+	text-align: center;
+	background-color: #fcb735;
+}
+
 /*** class utils ***/
 .arrow-up {
     width: 0; 

@@ -1,7 +1,7 @@
 "use strict";
 /*global angular, cubbyHoleBrowser */
 
-angular.module('textFilters', []).filter('Capitalize', function() {
+angular.module('textFilters', []).filter('Capitalize', function () {
     return function (input) {
         if (input != null) {
             input = input.toLowerCase();

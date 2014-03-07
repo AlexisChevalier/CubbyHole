@@ -13,9 +13,8 @@
     </div>
     <div id="actionbar">
         <ul>
-            <li class="action uploadfile">Upload file</li>
-            <li class="action sharefolder">Share folder</li>
-            <li class="action addfolder">Add folder</li>
+            <li ng-click="upload()" class="action uploadfile">Upload file</li>
+            <li ng-click="addFolder()" class="action addfolder">Add folder</li>
         </ul>
         <div class="clearfix"></div>
     </div>
@@ -44,9 +43,9 @@
                 <td>24/11/2013 11:30 PM</td>
                 <td class="options-col">-</td>
             </tr>
-            <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-click="handleItemClick(item.type, item.id)">
+            <tr ng-repeat="item in items | orderBy:orderProp:orderDirection">
                 <td class="[[item.type]]"></td>
-                <td ng-switch on="item.type">
+                <td ng-switch on="item.type"  ng-click="handleItemClick(item.type, item.id)">
                     [[item.name]]
                 </td>
 
@@ -54,13 +53,13 @@
                 <td>24/11/2013 11:30 PM</td>
                 <td class="options-col">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default">
+                        <button ng-click="remove(item)" type="button" class="btn btn-default">
                             <span class="glyphicon glyphicon-trash"></span>
                         </button>
-                        <button type="button" class="btn btn-default">
+                        <button ng-click="edit(item)" type="button" class="btn btn-default">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </button>
-                        <button type="button" class="btn btn-default">
+                        <button ng-click="share(item)" type="button" class="btn btn-default">
                             <span class="glyphicon glyphicon-trash"></span>
                         </button>
                     </div>
