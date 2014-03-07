@@ -1,5 +1,7 @@
 <div ng-controller="SearchController">
-    <h1>Search results for [[searchTerms]] ([[itemsCount]] items)</h1>
+    <h1>Search results for [[searchTerms]] ([[itemsCount]] items)
+        <span ng-show="backToFoldersUrl" class="blackColor"> - </span>
+        <span ng-show="backToFoldersUrl" class="linkStyle" ng-click="go(backToFoldersUrl.path, backToFoldersUrl.params)">Quit search</span></h1>
     <div id="headbar">
         <input ng-minlength=3 id="search" class="fullsize" type="text" placeholder="Search ..." ng-model="searchInput" select-on-click />
         <div class="clearfix"></div>

@@ -201,3 +201,16 @@ div#filebrowser table tr td.shared-folder {
 .ng-invalid {
 	background-color: #ff7c74 !important;
 }
+
+.linkStyle {
+	cursor: pointer;
+	color: #3eaafe;
+}
+
+.linkStyle:hover {
+	color: #2d7cb9;
+}
+
+.blackColor {
+	color: black;
+}

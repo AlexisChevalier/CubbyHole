@@ -1,5 +1,5 @@
 "use strict";
-/*global angular, cubbyHoleBrowser */
+/*global angular, cubbyHoleBrowser, AngularRouteHelper */
 
 cubbyHoleBrowser.controller('SearchController', ['$scope', '$rootScope', '$routeParams', '$http', '$location', '$timeout', function ($scope, $rootScope, $routeParams, $http, $location, $timeout) {
 
@@ -11,6 +11,7 @@ cubbyHoleBrowser.controller('SearchController', ['$scope', '$rootScope', '$route
     $scope.url = "";
     $scope.orderProp = 'type';
     $scope.orderDirection = true;
+    $scope.backToFoldersUrl = null;
 
     //Search feature
     var filterTextTimeout;
@@ -57,6 +58,15 @@ cubbyHoleBrowser.controller('SearchController', ['$scope', '$rootScope', '$route
         }
     };
 
+    //go to an url
+    $scope.go = function (path, params) {
+        if (params) {
+            $location.search(params).path(path);
+        } else {
+            $location.path(path);
+        }
+    };
+
     //Listens for location changes
     $scope.$on('$locationChangeSuccess', function () {
         $scope.url = "https://localhost:8443/ajax/searchByTerms/" + $routeParams.terms;
@@ -65,7 +75,12 @@ cubbyHoleBrowser.controller('SearchController', ['$scope', '$rootScope', '$route
     });
 
     //Listens for route changes
-    $scope.$on('$routeChangeSuccess', function () {
+    $scope.$on('$routeChangeSuccess', function (evt, absNewUrl, absOldUrl) {
+        var helper = new AngularRouteHelper(absOldUrl);
+        $scope.backToFoldersUrl = helper.getPath();
+        if (absOldUrl) {
+            $scope.backToFoldersUrl = { path: absOldUrl.$$route.originalPath, params: absOldUrl.params };
+        }
         $scope.url = "https://localhost:8443/ajax/searchByTerms/" + $routeParams.terms;
         $scope.searchTerms = $scope.tempSearchTerms = $scope.searchInput = $location.search().terms;
         $scope.refresh();
