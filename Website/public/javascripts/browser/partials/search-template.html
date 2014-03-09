@@ -24,11 +24,11 @@
             <tbody>
             <tr ng-repeat="item in items | orderBy:orderProp:orderDirection">
                 <td class="[[item.type]]"></td>
-                <td ng-click="handleItemClick(item.type, item.id)">
+                <td ng-click="handleItemClick(item.type, item._id)">
                     [[item.name]]
                 </td>
                 <td>[[item.type | Capitalize]]</td>
-                <td>24/11/2013 11:30 PM</td>
+                <td>[[item.date | date:"medium"]]</td>
             </tr>
             </tbody>
         </table>

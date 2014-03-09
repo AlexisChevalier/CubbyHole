@@ -161,6 +161,13 @@ div#filebrowser table tr td.shared-folder {
 	background: url('/images/filebrowser.png') -40px -40px no-repeat;
 }
 
+/*** buttons ***/
+.optionButton {
+	color: #3eaafc;
+}
+
+.removeButton {
+}
 
 /*** modals ***/
 .modal-header {

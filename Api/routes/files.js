@@ -1,6 +1,7 @@
 "use strict";
 
-var passport = require('passport');
+var passport = require('passport'),
+    mongooseModels = require('../models/mongodb/schemas/index');
 
 module.exports = {
     /**
@@ -10,79 +11,21 @@ module.exports = {
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
             var id = req.params.folderID;
-            if (id == "_3") {
-                res.json({
-                    folderId: "_3",
-                    folderName: "landscapes",
-                    parentFolders: [
-                        {
-                            folderId: "_1",
-                            folderName: "pictures"
-                        },
-                        {
-                            folderId: "_0",
-                            folderName: "My CubbyHole"
-                        }
-                    ],
-                    items: [
-                        {
-                            id: "_6",
-                            name: "alps.jpg",
-                            type: "file"
-                        },
-                        {
-                            id: "_7",
-                            name: "himalaya.jpg",
-                            type: "file"
-                        }
-                    ]
-                });
-            } else if (id == "_1") {
-                res.json({
-                    folderId: "_1",
-                    folderName: "pictures",
-                    parentFolders: [
-                        {
-                            folderId: "_0",
-                            folderName: "My CubbyHole"
-                        }
-                    ],
-                    items: [
-                        {
-                            id: "_3",
-                            name: "landscapes",
-                            type: "folder"
-                        },
-                        {
-                            id: "_4",
-                            name: "awesomepicture.tiff",
-                            type: "file"
-                        },
-                        {
-                            id: "_5",
-                            name: "superpic.jpg",
-                            type: "file"
-                        }
-                    ]
+            if (id == -1) {
+                mongooseModels.Item.findOne({userId: req.user.id, isRoot: true}).populate('items').exec(function (err, data) {
+                    if (err) {
+                        res.json(err);
+                    } else {
+                        res.json(data);
+                    }
                 });
             } else {
-                res.json({
-                    folderId: "_0",
-                    folderName: "My CubbyHole",
-                    parentFolders: [
-                    ],
-                    items: [
-                        {
-                            id: "_1",
-                            name: "pictures",
-                            type: "folder"
-                        },
-                        {
-                            id: "_2",
-                            name: "lolol.txt",
-                            type: "file"
-                        }
-                    ]
+                mongooseModels.Item.findOne({userId: 53, '_id': mongooseModels.ObjectId(id)}).populate('items').populate('parents').exec(function (err, data) {
+                    if (err) {
+                        res.json(err);
+                    } else {
+                        res.json(data);
+                    }
                 });
             }
         }
@@ -94,22 +37,18 @@ module.exports = {
     searchItemsByTerm: [
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
-            var terms = req.params.terms;
-            res.json({
-                count: 2,
-                terms: terms,
-                items: [
-                    {
-                        id: "_1",
-                        name: "pictures",
-                        type: "folder"
-                    },
-                    {
-                        id: "_2",
-                        name: "lolol.txt",
-                        type: "file"
-                    }
-                ]
+            var response = {},
+                terms = req.params.terms;
+
+            mongooseModels.Item.find({userId: 53, name: new RegExp(terms, "i")}).exec(function (err, data) {
+                if (err) {
+                    res.json(err);
+                } else {
+                    response.count = data.length;
+                    response.terms = terms;
+                    response.items = data;
+                    res.json(response);
+                }
             });
         }
     ]

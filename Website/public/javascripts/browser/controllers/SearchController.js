@@ -34,7 +34,6 @@ cubbyHoleBrowser.controller('SearchController', ['$scope', '$rootScope', '$route
             .success(function (data) {
                 $scope.path = data.path;
                 $scope.itemsCount = data.count;
-                $scope.folderName = data.folderName;
                 $scope.items = data.items;
             });
     };

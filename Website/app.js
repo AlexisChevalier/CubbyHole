@@ -142,6 +142,7 @@ app.get('/logout', accountRoutes.logout);
 app.get(/^\/browser.*$/, fileBrowserRoutes.fileBrowserPage);
 app.get('/ajax/listByFolders/:folderID', fileBrowserRoutes.getFileList);
 app.get('/ajax/searchByTerms/:terms', fileBrowserRoutes.searchByTerms);
+app.get('/ajax/searchUserByTerms/:terms', fileBrowserRoutes.searchUsersByTerms);
 
 
 /**

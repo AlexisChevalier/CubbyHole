@@ -24,7 +24,32 @@ var express = require('express'),
     oauth2routes = require('./oauth2/routes'),
     oauth2core = require('./oauth2/oauth2'),
     flash = require('connect-flash'),
+    mongoose = require("mongoose").connect(config.mongodb.url),
     app = express();
+
+var mongooseModels = require('./models/mongodb/schemas/index');
+
+/*mongooseModels.Item.findOne({userId: 53, isRoot: true}).populate('items').exec(function (err, data) {
+    console.log(data);
+    var item = new mongooseModels.Item({
+        name: "",
+        type: "file",
+        userId: 53,
+        systemPath: "/lol/mdr/awesome/os/lol.txt",
+        version: 0,
+        parents: [
+            data._id
+        ]
+    });
+    item.save(function (err) {
+        if(err) {
+            throw err;
+        }
+
+        data.items.add(item);
+    })
+});*/
+
 
 /**
  * Social Auth Strategies Initialisation
@@ -148,6 +173,7 @@ app.get('/api', publicRoutes.apiHome);
 app.get('/api/account/details', accountRoutes.userDetails);
 app.put('/api/account/details', accountRoutes.userUpdate);
 app.delete('/api/account', accountRoutes.userDelete);
+app.get('/api/users/find/:terms', accountRoutes.usersFind);
 
 app.get('/api/files/byFolder/:folderID', filesRoutes.listItemsByFolder);
 app.get('/api/files/searchByTerms/:terms', filesRoutes.searchItemsByTerm);

@@ -1,7 +1,8 @@
 "use strict";
 
 var login = require("../auth/ensureLoggedIn"),
-    filesHttpDao = require('../models/http/files');
+    filesHttpDao = require('../models/http/files'),
+    usersHttpDao = require('../models/http/users');
 
 module.exports = {
     /**
@@ -41,5 +42,25 @@ module.exports = {
 
                 return res.json(files);
             });
+        }],
+
+    //------------------------------------ SHARES ------------------------------------
+    /**
+     * GET users list for email or names matches terms
+     */
+    searchUsersByTerms: [
+        login.ensureLoggedIn(),
+        function (req, res) {
+            usersHttpDao.findByTerms(req.params.terms, req.user.accessToken, function (err, users) {
+                if (err) {
+                    return res.json(err);
+                }
+
+                return res.json(users);
+            });
         }]
+
+    /**
+     * ADD user to a share
+     */
 };

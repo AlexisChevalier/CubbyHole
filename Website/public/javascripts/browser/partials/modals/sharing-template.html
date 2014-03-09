@@ -1,3 +1,13 @@
+<script type="text/ng-template" id="userTemplate.html">
+    <a tabindex="-1">
+        <!--<span ng-bind="match.model['name'] | typeaheadHighlight:query"></span>-->
+        <span ng-bind="match.model['name']"></span> - <span ng-bind="match.model['email']"></span>
+
+    </a>
+</script>
+
+
+
 <div class="modal-header">
     <h3>Share [[item.type]] <span class="name">[[item.name]]</span></h3>
 </div>
@@ -8,21 +18,22 @@
         </div>
         <div class="panel-body">
             <div class="form-group">
-                <label for="shareWithName">Name</label>
-                <input type="email" class="form-control" id="shareWithName" placeholder="Search with name or mail...">
+                <label for="shareWithName">Find an user <i ng-show="loadingNames" class="glyphicon glyphicon-refresh"></i></label>
+                <input type="text" class="form-control" id="shareWithName" placeholder="Search with name or mail..."
+                       ng-model="userToShareWithSelected" typeahead="user as user.name for user in getNames($viewValue) | filter:$viewValue"
+                       typeahead-loading="loadingNames" typeahead-min-length="3" typeahead-editable="false" typeahead-wait-ms="200" typeahead-template-url="userTemplate.html">
             </div>
-            <div class="checkbox">
+            <div class="checkbox" ng-show="userToShareWithSelected">
                 <label>
-                    <input type="checkbox"> Read Access
+                    <input type="checkbox" checked="checked"> Allow Read Access
                 </label>
             </div>
-            <div class="checkbox">
+            <div class="checkbox" ng-show="userToShareWithSelected">
                 <label>
-                    <input type="checkbox"> Write Access
+                    <input type="checkbox" checked="checked"> Allow Write Access
                 </label>
             </div>
-
-            <button type="submit" class="btn btn-default">Add</button>
+            <button ng-show="userToShareWithSelected" type="submit" class="btn btn-default">Add</button>
         </div>
     </div>
     <div class="panel panel-default">
@@ -41,7 +52,7 @@
                     <td>POPOL</td>
                     <td><input type="checkbox" checked="checked"></td>
                     <td><input type="checkbox"></td>
-                    <td><button type="submit" class="btn btn-danger">Remove</button></td>
+                    <td><button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button></td>
                 </tr>
             </table>
         </div>

@@ -147,3 +147,29 @@ UserHelper.Update = function (id, email, fullname, password, done) {
         done({ code: 400, message: 'User ID required' }, null);
     }
 };
+
+/**
+ * Search for an user which has a mail or a name matching the terms
+ * @param terms {string} search terms
+ * @param done {function} callback
+ * @constructor
+ */
+UserHelper.SearchUserByMailOrName = function (terms, done) {
+    terms = "%" + terms + "%";
+    models(function (err, db) {
+        db.driver.execQuery("SELECT * FROM Users WHERE name LIKE ? OR email LIKE ?",
+            [terms, terms],
+            function (err, users) {
+                var user = null;
+                for (user in users) {
+                    if (users.hasOwnProperty(user)) {
+                        users[user] = { id: users[user].id, name: users[user].name, email: users[user].email };
+                    }
+                }
+                if (err) {
+                    return done(err, null);
+                }
+                return done(null, users);
+            });
+    });
+};

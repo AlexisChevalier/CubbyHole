@@ -58,4 +58,21 @@ module.exports = {
             });
         }
     ],
+
+
+    /**
+     * GET list of users matching a mail or a name
+     */
+    usersFind: [
+        passport.authenticate('bearer', { session: false }),
+        function (req, res) {
+            userHelper.SearchUserByMailOrName(req.params.terms, function (err, users) {
+                if (err) {
+                    res.send(err.code, err.status);
+                } else {
+                    res.json(users);
+                }
+            });
+        }
+    ]
 };

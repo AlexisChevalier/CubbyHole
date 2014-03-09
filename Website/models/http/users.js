@@ -118,3 +118,41 @@ Users.deleteByToken = function (accessToken, done) {
 
     req.end();
 };
+
+/**
+ * Find users which has mail or name matching terms
+ * @param {string} terms
+ * @param {string} accessToken
+ * @param {function} done
+ */
+Users.findByTerms = function (terms, accessToken, done) {
+    var options = {
+            host: config.apiUrl,
+            port: config.apiPort,
+            path: "/api/users/find/" + terms,
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken
+            }
+        },
+        req = https.request(options, function (res) {
+            var body = "",
+                parsed = "";
+            res.on('data', function (d) {
+                body += d;
+            });
+            res.on('end', function () {
+                try {
+                    parsed = JSON.parse(body);
+                } catch (e) {
+                    return done(e, null);
+                }
+                if (res.statusCode == 200) {
+                    return done(null, parsed);
+                }
+                return done({ message: "Can't fetch users from api !" }, null);
+            });
+        });
+
+    req.end();
+};

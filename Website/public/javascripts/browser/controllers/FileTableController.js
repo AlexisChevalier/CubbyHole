@@ -43,10 +43,10 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
         $http.get($scope.url)
             .success(function (data) {
                 $scope.path = data.path;
-                $scope.folderId = data.folderId;
-                $scope.folderName = data.folderName;
+                $scope.folderId = data.id;
+                $scope.folderName = data.name;
                 $scope.items = data.items;
-                $scope.parentFolders = data.parentFolders.reverse();
+                $scope.parentFolders = data.parents.reverse();
             });
     };
 
@@ -75,7 +75,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
     //AddFolder
     $scope.addFolder = function () {
         var modalInstance = $modal.open({
-            templateUrl: '/javascripts/browser/partials/addFolder-template.html',
+            templateUrl: '/javascripts/browser/partials/modals/addFolder-template.html',
             controller: "AddFolderModalController",
             resolve: {
                 item: function () {
@@ -94,7 +94,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
     //Upload Item
     $scope.upload = function () {
         var modalInstance = $modal.open({
-            templateUrl: '/javascripts/browser/partials/upload-template.html',
+            templateUrl: '/javascripts/browser/partials/modals/upload-template.html',
             controller: "UploadModalController",
             resolve: {
                 item: function () {
@@ -114,7 +114,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
     $scope.remove = function (item) {
         console.log("REMOVE ITEM " + item.id);
         var modalInstance = $modal.open({
-            templateUrl: '/javascripts/browser/partials/delete-template.html',
+            templateUrl: '/javascripts/browser/partials/modals/delete-template.html',
             controller: "DeleteModalController",
             resolve: {
                 item: function () {
@@ -134,7 +134,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
     $scope.edit = function (item) {
         console.log("EDIT ITEM " + item.id);
         var modalInstance = $modal.open({
-            templateUrl: '/javascripts/browser/partials/edit-template.html',
+            templateUrl: '/javascripts/browser/partials/modals/edit-template.html',
             controller: "EditModalController",
             resolve: {
                 item: function () {
@@ -154,7 +154,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
     $scope.share = function (item) {
         console.log("SHARE ITEM " + item.id);
         var modalInstance = $modal.open({
-            templateUrl: '/javascripts/browser/partials/sharing-template.html',
+            templateUrl: '/javascripts/browser/partials/modals/sharing-template.html',
             controller: "SharingModalController",
             resolve: {
                 item: function () {
