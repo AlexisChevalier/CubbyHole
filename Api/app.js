@@ -27,30 +27,6 @@ var express = require('express'),
     mongoose = require("mongoose").connect(config.mongodb.url),
     app = express();
 
-var mongooseModels = require('./models/mongodb/schemas/index');
-
-/*mongooseModels.Item.findOne({userId: 53, isRoot: true}).populate('items').exec(function (err, data) {
-    console.log(data);
-    var item = new mongooseModels.Item({
-        name: "",
-        type: "file",
-        userId: 53,
-        systemPath: "/lol/mdr/awesome/os/lol.txt",
-        version: 0,
-        parents: [
-            data._id
-        ]
-    });
-    item.save(function (err) {
-        if(err) {
-            throw err;
-        }
-
-        data.items.add(item);
-    })
-});*/
-
-
 /**
  * Social Auth Strategies Initialisation
  */

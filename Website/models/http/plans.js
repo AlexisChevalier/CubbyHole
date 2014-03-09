@@ -4,7 +4,7 @@ var config = require('../../config/config.json'),
     Plans = module.exports = {};
 
 /**
- * Get details for user authentified by accessToken
+ * Get all plans
  * @param {string} accessToken
  * @param {function} done
  */

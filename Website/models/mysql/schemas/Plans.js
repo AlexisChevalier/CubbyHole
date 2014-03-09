@@ -8,7 +8,7 @@ module.exports = function (db) {
         planNumber: Number,
         name: String,
         pricePerMonth: Number,
-        bandwitdhPerDay: String,
+        bandwidthPerDay: String,
         diskSpace: String,
         logsHistory: String,
         support: String,

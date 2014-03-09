@@ -16,7 +16,7 @@
                 {% if loop.first %}
                     <p>{{ __(plan.name) }}</p>
                 {% else %}
-                    <a href="/account/plan?plan={{ plan.id }}">{{ __(plan.name) }}</a>
+                    <a href="/account/payPlan/{{ plan.id }}">{{ __(plan.name) }}</a>
                 {% endif %}
             </div>
             <div class="priceplan">
@@ -33,7 +33,7 @@
                 {% if loop.first %}
                 <p>{{__("Default Plan")}}</p>
                 {% else %}
-                    <a href="/account/plan?plan={{ plan.id }}">{{__("Get this")}}</a>
+                    <a href="/account/payPlan/{{ plan.id }}">{{__("Get this")}}</a>
                 {% endif %}
             </div>
             {% if plan.planNumber%2 == 0 %}

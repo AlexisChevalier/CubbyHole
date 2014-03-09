@@ -37,5 +37,6 @@
 	"The basic plan will help you to synchronize all your important files over all your devices and share them with some of your friends": "Le plan basique vous aidera pour synchroniser vos fichiers importants entre tous vos appareils et vous permettra de partager certains d'entre eux avec vos amis",
 	"With the premium plan, you can share your awesome pictures with your family or save your backups online": "Avec le plan premium vous pouvez profiter pleinement de vos photos, les sauvegarder en ligne et les partager avec votre famille",
 	"The enterprise plan is perfect for your company, with the unlimited storage and bandwidth, you can work without any problems on our system ! In case of errors, you can contact us or find the problem using the history logs !": "Le plan entreprise conviendra parfaitement à votre business, avec l'espace et la bande passante illimitée, vous pouvez travailler sans soucis sur notre systéme, en cas de soucis, obtenez un support rapide ou résolvez le probléme grâce à l'historique !",
-	"* A month = 30 days": "* Un mois = 30 jours"
+	"* A month = 30 days": "* Un mois = 30 jours",
+	"": ""
 }

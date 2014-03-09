@@ -2,29 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48f64c5b-0459-47db-9f85-423b605a5a49" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/SQL/CubbyHole.sql" afterPath="$PROJECT_DIR$/Installation/CubbyHole.sql" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Website/public/javascripts/browser/partials/addFolder-template.html" afterPath="$PROJECT_DIR$/Website/public/javascripts/browser/partials/modals/addFolder-template.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Website/public/javascripts/browser/partials/delete-template.html" afterPath="$PROJECT_DIR$/Website/public/javascripts/browser/partials/modals/delete-template.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Website/public/javascripts/browser/partials/edit-template.html" afterPath="$PROJECT_DIR$/Website/public/javascripts/browser/partials/modals/edit-template.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Website/public/javascripts/browser/partials/sharing-template.html" afterPath="$PROJECT_DIR$/Website/public/javascripts/browser/partials/modals/sharing-template.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Website/public/javascripts/browser/partials/upload-template.html" afterPath="$PROJECT_DIR$/Website/public/javascripts/browser/partials/modals/upload-template.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/public/javascripts/browser/controllers/FileTableController.js" afterPath="$PROJECT_DIR$/Website/public/javascripts/browser/controllers/FileTableController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/public/javascripts/browser/controllers/SearchController.js" afterPath="$PROJECT_DIR$/Website/public/javascripts/browser/controllers/SearchController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/public/javascripts/browser/controllers/modalControllers/SharingModalController.js" afterPath="$PROJECT_DIR$/Website/public/javascripts/browser/controllers/modalControllers/SharingModalController.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/models/mysql/helpers/UserHelper.js" afterPath="$PROJECT_DIR$/Api/models/mysql/helpers/UserHelper.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/routes/account.js" afterPath="$PROJECT_DIR$/Api/routes/account.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/models/mongodb/schemas/ItemSchema.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/models/mongodb/schemas/ShareSchema.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Api/models/mongodb/schemas/VersionSchema.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Website/views/plan_choose.html" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/models/mysql/schemas/Plans.js" afterPath="$PROJECT_DIR$/Website/models/mysql/schemas/Plans.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/routes/account.js" afterPath="$PROJECT_DIR$/Website/routes/account.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/app.js" afterPath="$PROJECT_DIR$/Api/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/app.js" afterPath="$PROJECT_DIR$/Website/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/config.json.default" afterPath="$PROJECT_DIR$/Api/config.json.default" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/routes/fileBrowser.js" afterPath="$PROJECT_DIR$/Website/routes/fileBrowser.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/public/javascripts/browser/partials/files-template.html" afterPath="$PROJECT_DIR$/Website/public/javascripts/browser/partials/files-template.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/routes/files.js" afterPath="$PROJECT_DIR$/Api/routes/files.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/public/stylesheets/myfiles.css" afterPath="$PROJECT_DIR$/Website/public/stylesheets/myfiles.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Api/package.json" afterPath="$PROJECT_DIR$/Api/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/public/javascripts/browser/partials/search-template.html" afterPath="$PROJECT_DIR$/Website/public/javascripts/browser/partials/search-template.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/public/javascripts/browser/libs/ui-bootstrap-custom-0.10.0.min.js" afterPath="$PROJECT_DIR$/Website/public/javascripts/browser/libs/ui-bootstrap-custom-0.10.0.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/public/javascripts/browser/libs/ui-bootstrap-custom-tpls-0.10.0.min.js" afterPath="$PROJECT_DIR$/Website/public/javascripts/browser/libs/ui-bootstrap-custom-tpls-0.10.0.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/models/http/users.js" afterPath="$PROJECT_DIR$/Website/models/http/users.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/locales/fr.js" afterPath="$PROJECT_DIR$/Website/locales/fr.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/models/http/plans.js" afterPath="$PROJECT_DIR$/Website/models/http/plans.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Website/views/pricing.html" afterPath="$PROJECT_DIR$/Website/views/pricing.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="3pjt_web_application_cubby_hole.iws" />
@@ -48,37 +36,73 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="search-template.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Website/public/javascripts/browser/partials/search-template.html">
+      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Website/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="16" selection-start="609" selection-end="609" vertical-scroll-proportion="0.23706897" vertical-offset="0" max-vertical-offset="696">
+            <state line="134" column="33" selection-start="3379" selection-end="3385" vertical-scroll-proportion="0.0" vertical-offset="1665" max-vertical-offset="2415">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SearchController.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Website/public/javascripts/browser/controllers/SearchController.js">
+      <file leaf-file-name="pricing.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Website/views/pricing.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="54" selection-start="1765" selection-end="1771" vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="1350">
+            <state line="1" column="0" selection-start="36" selection-end="123" vertical-scroll-proportion="-0.625" vertical-offset="0" max-vertical-offset="1095">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="files-template.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Website/public/javascripts/browser/partials/files-template.html">
+      <file leaf-file-name="account.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Website/routes/account.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="38" selection-start="1806" selection-end="1806" vertical-scroll-proportion="-15.875" vertical-offset="204" max-vertical-offset="1125">
+            <state line="103" column="9" selection-start="3940" selection-end="3940" vertical-scroll-proportion="0.0" vertical-offset="1230" max-vertical-offset="2295">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FileTableController.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Website/public/javascripts/browser/controllers/FileTableController.js">
+      <file leaf-file-name="pay_result.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Website/views/pay_result.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="165" column="46" selection-start="4996" selection-end="4996" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2835">
+            <state line="10" column="14" selection-start="187" selection-end="187" vertical-scroll-proportion="-6.25" vertical-offset="0" max-vertical-offset="240">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PlanHelper.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Website/models/mysql/helpers/PlanHelper.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="2" selection-start="592" selection-end="592" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Api/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="28" column="0" selection-start="852" selection-end="852" vertical-scroll-proportion="0.0" vertical-offset="2130" max-vertical-offset="2850">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="plan_pay.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Website/views/plan_pay.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="46" column="20" selection-start="1632" selection-end="1632" vertical-scroll-proportion="0.5071839" vertical-offset="337" max-vertical-offset="1320">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="paiement.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Website/public/stylesheets/paiement.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="31" selection-start="117" selection-end="117" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120">
               <folding />
             </state>
           </provider>
@@ -102,29 +126,29 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/Website/routes/fileBrowser.js" />
-        <option value="$PROJECT_DIR$/Api/models/mongodb/schemas/FileSchema.js" />
-        <option value="$PROJECT_DIR$/Api/config.json.default" />
-        <option value="$PROJECT_DIR$/Website/app.js" />
-        <option value="$PROJECT_DIR$/Api/config.json" />
-        <option value="$PROJECT_DIR$/Api/models/mongodb/schemas/VersionSchema.js" />
-        <option value="$PROJECT_DIR$/Api/models/mongodb/schemas/ShareSchema.js" />
-        <option value="$PROJECT_DIR$/Api/models/mongodb/schemas/ItemSchema.js" />
-        <option value="$PROJECT_DIR$/Api/app.js" />
-        <option value="$PROJECT_DIR$/Api/models/mongodb/schemas/index.js" />
         <option value="$PROJECT_DIR$/Website/public/javascripts/browser/controllers/FileTableController.js" />
         <option value="$PROJECT_DIR$/Website/public/javascripts/browser/controllers/SearchController.js" />
         <option value="$PROJECT_DIR$/Api/routes/files.js" />
         <option value="$PROJECT_DIR$/Website/public/javascripts/browser/partials/search-template.html" />
         <option value="$PROJECT_DIR$/Website/public/javascripts/browser/partials/files-template.html" />
         <option value="$PROJECT_DIR$/Installation/readme.md" />
+        <option value="$PROJECT_DIR$/Website/app.js" />
+        <option value="$PROJECT_DIR$/Website/views/pricing.html" />
+        <option value="$PROJECT_DIR$/Website/views/pay_result.html" />
+        <option value="$PROJECT_DIR$/Website/models/http/plans.js" />
+        <option value="$PROJECT_DIR$/Api/app.js" />
+        <option value="$PROJECT_DIR$/Website/models/mysql/helpers/PlanHelper.js" />
+        <option value="$PROJECT_DIR$/Website/models/mysql/schemas/Plans.js" />
+        <option value="$PROJECT_DIR$/Website/routes/account.js" />
+        <option value="$PROJECT_DIR$/Website/public/stylesheets/paiement.css" />
+        <option value="$PROJECT_DIR$/Website/views/plan_pay.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="69" />
-    <option name="y" value="559" />
-    <option name="width" value="1789" />
+    <option name="x" value="17" />
+    <option name="y" value="582" />
+    <option name="width" value="1781" />
     <option name="height" value="843" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
@@ -178,7 +202,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -225,6 +248,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="routes" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -246,26 +287,8 @@
               <option name="myItemId" value="public" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="javascripts" />
+              <option name="myItemId" value="stylesheets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -284,74 +307,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="javascripts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="browser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="javascripts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="browser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="partials" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Website" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="javascripts" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="browser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -370,6 +325,62 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mysql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mysql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="schemas" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Website" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mysql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="helpers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -431,49 +442,22 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Installation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3pjt_web_application_cubby_hole" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Api" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="settings.nodejs" />
     <property name="recentsLimit" value="5" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Api/app.js" />
+    <property name="options.lastSelected" value="settings.nodejs" />
     <property name="restartRequiresConfirmation" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Api/app.js" />
     <property name="FullScreen" value="false" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -492,6 +476,14 @@
     </key>
   </component>
   <component name="RunManager" selected="Node.js.CubbyHoleAPIDebug">
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -500,14 +492,6 @@
       <option name="saveOutputToFile" value="false" />
       <option name="showConsoleOnStdErr" value="false" />
       <option name="showConsoleOnStdOut" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
       <method />
     </configuration>
     <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
@@ -558,15 +542,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="69" y="559" width="1789" height="843" extended-state="0" />
+    <frame x="17" y="582" width="1781" height="843" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28074867" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17942984" sideWeight="0.71925133" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18023582" sideWeight="0.71925133" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3992298" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -575,6 +558,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28074867" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -608,114 +592,114 @@
     </PATH>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Website/public/javascripts/browser/controllers/modalControllers/SharingModalController.js">
+    <entry file="file://$PROJECT_DIR$/Installation/readme.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="0" selection-start="351" selection-end="351" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="480">
+        <state line="3" column="0" selection-start="89" selection-end="89" vertical-scroll-proportion="0.06364922" vertical-offset="0" max-vertical-offset="707">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Website/auth/auth.js">
+    <entry file="file://$PROJECT_DIR$/Api/routes/public.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="720">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Api/models/mongodb/schemas/VersionSchema.js">
+    <entry file="file://$PROJECT_DIR$/Website/models/http/plans.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="4" selection-start="40" selection-end="65" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+        <state line="6" column="16" selection-start="148" selection-end="148" vertical-scroll-proportion="0.125" vertical-offset="0" max-vertical-offset="720">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Api/models/mongodb/schemas/ShareSchema.js">
+    <entry file="file://$PROJECT_DIR$/Api/routes/account.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="135">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1245">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Api/models/mongodb/schemas/ItemSchema.js">
+    <entry file="file://$PROJECT_DIR$/Website/models/mysql/helpers/PlanHelper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="13" selection-start="422" selection-end="484" vertical-scroll-proportion="0.4375" vertical-offset="0" max-vertical-offset="720">
+        <state line="15" column="2" selection-start="592" selection-end="592" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Api/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="0" selection-start="1401" selection-end="1401" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="3210">
+        <state line="28" column="0" selection-start="852" selection-end="852" vertical-scroll-proportion="0.0" vertical-offset="2130" max-vertical-offset="2850">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Website/public/javascripts/browser/controllers/FileTableController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="46" selection-start="4996" selection-end="4996" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="2835">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/public/javascripts/browser/partials/files-template.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="38" selection-start="1806" selection-end="1806" vertical-scroll-proportion="-15.875" vertical-offset="204" max-vertical-offset="1125">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/models/mongodb/schemas/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="41" selection-start="1483" selection-end="1483" vertical-scroll-proportion="0.875" vertical-offset="465" max-vertical-offset="1185">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/public/javascripts/browser/controllers/SearchController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="54" selection-start="1765" selection-end="1771" vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="1350">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/routes/files.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="21" selection-start="1014" selection-end="1014" vertical-scroll-proportion="0.3125" vertical-offset="180" max-vertical-offset="900">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Installation/CubbyHole.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="55" selection-start="3050" selection-end="3050" vertical-scroll-proportion="0.15373352" vertical-offset="0" max-vertical-offset="683">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="45" selection-start="64" selection-end="64" vertical-scroll-proportion="0.04310345" vertical-offset="0" max-vertical-offset="696">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Website/config/config.json">
+    <entry file="file://$PROJECT_DIR$/Website/models/mysql/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="720">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Installation/readme.md">
+    <entry file="file://$PROJECT_DIR$/Website/models/mysql/schemas/Users.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="0" selection-start="616" selection-end="616" vertical-scroll-proportion="0.40311173" vertical-offset="0" max-vertical-offset="707">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="720">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Website/public/javascripts/browser/partials/search-template.html">
+    <entry file="file://$PROJECT_DIR$/Website/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="16" selection-start="609" selection-end="609" vertical-scroll-proportion="0.23706897" vertical-offset="0" max-vertical-offset="696">
+        <state line="134" column="33" selection-start="3379" selection-end="3385" vertical-scroll-proportion="0.0" vertical-offset="1665" max-vertical-offset="2415">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/models/mysql/schemas/Plans.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="0" selection-start="41" selection-end="41" vertical-scroll-proportion="0.0625" vertical-offset="0" max-vertical-offset="720">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/routes/account.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="103" column="9" selection-start="3940" selection-end="3940" vertical-scroll-proportion="0.0" vertical-offset="1230" max-vertical-offset="2295">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/public/stylesheets/pricing.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="23" selection-start="72" selection-end="72" vertical-scroll-proportion="0.104166664" vertical-offset="0" max-vertical-offset="2595">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/views/pricing.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="36" selection-end="123" vertical-scroll-proportion="-0.625" vertical-offset="0" max-vertical-offset="1095">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/public/stylesheets/paiement.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="31" selection-start="117" selection-end="117" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/views/pay_result.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="14" selection-start="187" selection-end="187" vertical-scroll-proportion="-6.25" vertical-offset="0" max-vertical-offset="240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Website/views/plan_pay.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="20" selection-start="1632" selection-end="1632" vertical-scroll-proportion="0.5071839" vertical-offset="337" max-vertical-offset="1320">
           <folding />
         </state>
       </provider>

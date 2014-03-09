@@ -95,6 +95,22 @@ module.exports = {
         }
     ],
 
+    planPay: [
+        login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
+        function (req, res) {
+            req.models.Plans.get(req.params.planId, function (err, plan) {
+                res.render('plan_pay', { title: 'CubbyHole', active: 'account', plan: plan });
+            });
+        }
+    ],
+
+    payResult: [
+        login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
+        function (req, res) {
+            res.render('pay_result', { title: 'CubbyHole', active: 'account' });
+        }
+    ],
+
     logout: [
         login.ensureLoggedIn("/loginsignup"),
         function (req, res) {
