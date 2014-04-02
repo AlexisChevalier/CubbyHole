@@ -69,7 +69,7 @@ exports.facebookAuth = [
  */
 exports.facebookAuthCallback = [
     login.ensureLoggedOut("/"),
-    passport.authenticate('facebook', { failureRedirect: '/auth/login', failureFlash: true }),
+    passport.authenticate('facebook', { failureRedirect: '/auth/login', failureFlash: true, scope: 'email' }),
     function (req, res) {
         var redirect = req.session.returnTo || "/";
         res.redirect(redirect);
@@ -194,4 +194,32 @@ exports.logout = [
         req.logout();
         req.flash("success", "Successfully logged out !");
         res.redirect('/auth/login');
+    }];
+
+
+/**
+ * GET /auth/forgot
+ */
+
+exports.formForgotPass = [
+    function (req, res) {
+        res.render('oauth2/forgotPassword');
+    }];
+
+/**
+ * POST /auth/forgot
+ */
+
+exports.processForgotPass = [
+    function (req, res) {
+        var make_passwd = function (n, a) {
+            var index = (Math.random() * (a.length - 1)).toFixed(0);
+            return n > 0 ? a[index] + make_passwd(n - 1, a) : '';
+        },
+            new_pass = make_passwd(10, 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890@_-=+()');
+
+        /** SEND MAIL & UPDATE PASSWD */
+
+        res.render('oauth2/forgotPassword', { pass_reset: true });
+
     }];

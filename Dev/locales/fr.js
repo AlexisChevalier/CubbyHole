@@ -54,5 +54,6 @@
 	"Name already taken !": "Le nom est déja utilisé !",
 	"Application successfully created !": "Application créée avec succés !",
 	"Successfully Logged in !": "Successfully Logged in !",
-	"Login or Sign up": "Connexion / Inscription"
+	"Login or Sign up": "Connexion / Inscription",
+	"You have to be logged out to access this page !": "You have to be logged out to access this page !"
 }

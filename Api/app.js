@@ -165,6 +165,9 @@ app.post('/auth/signup', oauth2routes.signup);
 app.post('/auth/login', oauth2routes.login);
 app.get('/auth/logout', oauth2routes.logout);
 
+app.get('/auth/forgotPassword', oauth2routes.formForgotPass);
+app.post('/auth/forgotPassword', oauth2routes.processForgotPass);
+
 app.get('/auth/dialog/authorize', oauth2core.authorization);
 app.post('/auth/dialog/authorize/decision', oauth2core.decision);
 app.post('/auth/oauth/token', oauth2core.token);
