@@ -3,7 +3,7 @@
 var UserHelper = module.exports = {},
     mailer = require('../../../utils/mailer'),
     models = require('../../../models/mysql'),
-    config = require('../../../config.json'),
+    config = require('../../../config/config'),
     checker = require('../../../utils/checker'),
     bcrypt = require('bcrypt-nodejs');
 

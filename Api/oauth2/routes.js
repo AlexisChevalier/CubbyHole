@@ -2,7 +2,7 @@
 
 var passport = require('passport'),
     login = require('connect-ensure-login'),
-    config = require('../config.json'),
+    config = require('../config/config.json'),
     userHelper = require('../models/mysql/helpers/UserHelper'),
     https = require('https'),
     querystring = require('querystring');
@@ -23,6 +23,15 @@ exports.index = function (req, res) {
  */
 exports.loginForm = [
     login.ensureLoggedOut("/"),
+    function (req, res, next) {
+        //Check URL parameters, if no parameters then redirects to the default website
+
+        if (!req.session.returnTo) {
+            res.redirect(config.default_app_oauth2.authorizationURL + "?response_type=code&redirect_uri=" + config.default_app_oauth2.callbackURL + "&client_id=" + config.default_app_oauth2.clientID);
+        }
+
+        next();
+    },
     function (req, res) {
         res.render('oauth2/login');
     }

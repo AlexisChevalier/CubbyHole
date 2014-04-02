@@ -2,7 +2,7 @@
 
 var AccessTokenHelper = module.exports = {},
     models = require('../../../models/mysql'),
-    config = require('../../../config.json');
+    config = require('../../../config/config.json');
 
 /**
  * Create and save an user

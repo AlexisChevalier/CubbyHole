@@ -58,6 +58,7 @@ server.deserializeClient(function (id, done) {
 // values, and will be exchanged for an access token.
 
 server.grant(oauth2orize.grant.code(function (client, redirectURI, user, ares, done) {
+    console.log(redirectURI);
     var code = utils.uid(16),
         time = (new Date().getTime() / 1000);
     authorizationCodeHelper.CreateOrUpdate(code, client.id, redirectURI, user.id, time, function (err, result) {
@@ -125,12 +126,19 @@ exports.authorization = [
     server.authorization(function (clientID, redirectURI, done) {
         models(function (err, db) {
             db.models.Clients.one({ clientId: clientID }, function (err, client) {
+
                 if (err) {
                     return done(err);
                 }
+
+                if (!client) {
+                    return done(new Error("Application not found !"));
+                }
+
                 if (client != null && client.redirect_uri !== undefined && redirectURI !== client.redirect_uri) {
                     return done(new Error("Specified redirection URI doesn't match client's redirection URI !"));
                 }
+
                 return done(null, client, redirectURI);
             });
         });
