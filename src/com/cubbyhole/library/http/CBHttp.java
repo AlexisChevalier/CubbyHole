@@ -1,11 +1,15 @@
 package com.cubbyhole.library.http;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClientBuilder;
 
@@ -34,10 +38,29 @@ public class CBHttp {
 	}
 
 	/**
+	 * Used to execute a post request.
+	 * @param url - The url to perform the post request on.
+	 * @param datas - a {@link CBHttpData} instance containing the datas to send.
+	 * @param headers - the headers to add with the get request.
+	 * @param cookies - the cookies to add with the get request.
+	 * @return an instance of  {@link CBHttpResponse}.
+	 */
+	public static CBHttpResponse post(String url, CBHttpData datas,
+			ArrayList<CBHeader> headers, ArrayList<CBCookie> cookies) {
+		HttpPost request = new HttpPost(url);
+
+		if (datas != null && !datas.isEmpty())
+			CBHttp.injectDatas(request, datas);
+
+		return CBHttp.execute(request, headers, cookies);
+	}
+
+	/**
 	 * Used to execute a http request and returns a {@link CBHttpResponse}.
 	 * @param request - the request to be executed.
-	 * @param cookies 
-	 * @param headers 
+	 * @param cookies - the cookies to inject in the request.
+	 * @param headers - the headers to inject in the request.
+	 * @param datas - the datas to inject in the request.
 	 * @return an instance of {@link CBHttpResponse}.
 	 */
 	private static CBHttpResponse execute(HttpUriRequest request,
@@ -59,6 +82,16 @@ public class CBHttp {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private static void injectDatas(HttpEntityEnclosingRequestBase request,
+			CBHttpData datas) {
+		try {
+			request.setEntity(new UrlEncodedFormEntity(datas.getDatas()));
+		} catch (UnsupportedEncodingException e) {
+			Log.e(CBHttp.TAG, "Failed to inject datas in the request !");
+			e.printStackTrace();
+		}
 	}
 
 	/**

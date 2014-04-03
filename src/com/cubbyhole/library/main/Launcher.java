@@ -1,6 +1,7 @@
 package com.cubbyhole.library.main;
 
 import com.cubbyhole.library.http.CBHttp;
+import com.cubbyhole.library.http.CBHttpData;
 import com.cubbyhole.library.http.CBHttpResponse;
 import com.cubbyhole.library.logger.Log;
 
@@ -16,8 +17,15 @@ public class Launcher {
 		Log.w(Launcher.TAG, "This is a warning message");
 		Log.e(Launcher.TAG, "This is an error message");
 
-		CBHttpResponse response = CBHttp.get("http://google.com", null, null);
-		Log.d(Launcher.TAG, response.toString());
-	}
+		// Testing a get request
+		CBHttpResponse getResponse = CBHttp.get("http://httpbin.org/get", null, null);
+		Log.d(Launcher.TAG, getResponse.toString());
 
+		// Testing a post request
+		CBHttpData datas = new CBHttpData()//
+				.add("username", "tehCivilian")//
+				.add("password", "p455w0rd");
+		CBHttpResponse postResponse = CBHttp.post("http://httpbin.org/post", datas, null, null);
+		Log.d(Launcher.TAG, postResponse.toString());
+	}
 }
