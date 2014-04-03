@@ -12,7 +12,7 @@ import org.apache.http.HttpResponse;
 /**
  * A representation of an http response from an http request.
  */
-public class CBHttpResponse {
+public class CHHttpResponse {
 	/**
 	 * The HTTP status code returned from the request.
 	 * @see <a href="http://www.w3schools.com/tags/ref_httpmessages.asp">HTTP Status Messages</a>
@@ -22,12 +22,12 @@ public class CBHttpResponse {
 	/**
 	 * The header returned from the request.
 	 */
-	private ArrayList<CBHeader>	headers;
+	private ArrayList<CHHeader>	headers;
 
 	/**
 	 * The list of he cookies returned from the request.
 	 */
-	private ArrayList<CBCookie>	cookies;
+	private ArrayList<CHCookie>	cookies;
 
 	/**
 	 * The body returned from the request.
@@ -35,11 +35,11 @@ public class CBHttpResponse {
 	private String				body;
 
 	/**
-	 * Constructor to instantiate a {@link CBHttpResponse} using an
+	 * Constructor to instantiate a {@link CHHttpResponse} using an
 	 * {@link HttpResponse}
 	 * @param response - the {@link HttpResponse} from an {@link HttpRequest}
 	 */
-	public CBHttpResponse(HttpResponse response) {
+	public CHHttpResponse(HttpResponse response) {
 		this.statusCode = response.getStatusLine().getStatusCode();
 
 		extractHeadersAndCookies(response);
@@ -55,17 +55,17 @@ public class CBHttpResponse {
 	 */
 	private void extractHeadersAndCookies(HttpResponse response) {
 		Header[] headers = response.getAllHeaders();
-		this.headers = new ArrayList<CBHeader>();
-		this.cookies = new ArrayList<CBCookie>();
+		this.headers = new ArrayList<CHHeader>();
+		this.cookies = new ArrayList<CHCookie>();
 
 		// Headers & Cookies
 		for (Header header : headers) {
 			// Headers
-			this.headers.add(new CBHeader(header));
+			this.headers.add(new CHHeader(header));
 
 			// Cookies
 			if ("Set-Cookie".equals(header.getName())) {
-				CBCookie cookie = CBCookie.parse(header.getValue());
+				CHCookie cookie = CHCookie.parse(header.getValue());
 				if (cookie != null)
 					this.cookies.add(cookie);
 			}
@@ -104,14 +104,14 @@ public class CBHttpResponse {
 	/**
 	 * @return the headers
 	 */
-	public final ArrayList<CBHeader> getHeaders() {
+	public final ArrayList<CHHeader> getHeaders() {
 		return this.headers;
 	}
 
 	/**
 	 * @return the cookies
 	 */
-	public final ArrayList<CBCookie> getCookies() {
+	public final ArrayList<CHCookie> getCookies() {
 		return this.cookies;
 	}
 

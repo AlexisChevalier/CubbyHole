@@ -9,13 +9,13 @@ import org.apache.http.message.BasicNameValuePair;
 /**
  * Class used to easily add datas to HTTP requests such as post.
  */
-public class CBHttpData {
+public class CHHttpData {
 	private List<NameValuePair>	nameValuePairs;
 
 	/**
 	 * The default constructor
 	 */
-	public CBHttpData() {
+	public CHHttpData() {
 		this.nameValuePairs = new ArrayList<NameValuePair>();
 	}
 
@@ -25,7 +25,7 @@ public class CBHttpData {
 	 * @param dataValue - the value of that data
 	 * @return the current instance modified.
 	 */
-	public CBHttpData add(String dataName, String dataValue) {
+	public CHHttpData add(String dataName, String dataValue) {
 		this.nameValuePairs.add(new BasicNameValuePair(dataName, dataValue));
 		return this;
 	}
@@ -35,7 +35,7 @@ public class CBHttpData {
 	 * @param dataName - the name of the data
 	 * @return the current instance modified.
 	 */
-	public CBHttpData remove(String dataName) {
+	public CHHttpData remove(String dataName) {
 		for (NameValuePair nvPair : this.nameValuePairs) {
 			if (dataName.equals(nvPair.getName())) {
 				this.nameValuePairs.remove(nvPair);

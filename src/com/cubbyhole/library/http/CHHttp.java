@@ -15,8 +15,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import com.cubbyhole.library.logger.Log;
 
-public class CBHttp {
-	private static final String	TAG			= CBHttp.class.getName();
+public class CHHttp {
+	private static final String	TAG			= CHHttp.class.getName();
 
 	/**
 	 * The http client used to execute requests
@@ -28,56 +28,56 @@ public class CBHttp {
 	 * @param url - The url to perform the get request on.
 	 * @param headers - the headers to add with the get request.
 	 * @param cookies - the cookies to add with the get request.
-	 * @return an instance of  {@link CBHttpResponse}.
+	 * @return an instance of  {@link CHHttpResponse}.
 	 */
-	public static CBHttpResponse get(String url, ArrayList<CBHeader> headers,
-			ArrayList<CBCookie> cookies) {
+	public static CHHttpResponse get(String url, ArrayList<CHHeader> headers,
+			ArrayList<CHCookie> cookies) {
 		HttpGet request = new HttpGet(url);
 
-		return CBHttp.execute(request, headers, cookies);
+		return CHHttp.execute(request, headers, cookies);
 	}
 
 	/**
 	 * Used to execute a post request.
 	 * @param url - The url to perform the post request on.
-	 * @param datas - a {@link CBHttpData} instance containing the datas to send.
+	 * @param datas - a {@link CHHttpData} instance containing the datas to send.
 	 * @param headers - the headers to add with the get request.
 	 * @param cookies - the cookies to add with the get request.
-	 * @return an instance of  {@link CBHttpResponse}.
+	 * @return an instance of  {@link CHHttpResponse}.
 	 */
-	public static CBHttpResponse post(String url, CBHttpData datas,
-			ArrayList<CBHeader> headers, ArrayList<CBCookie> cookies) {
+	public static CHHttpResponse post(String url, CHHttpData datas,
+			ArrayList<CHHeader> headers, ArrayList<CHCookie> cookies) {
 		HttpPost request = new HttpPost(url);
 
 		if (datas != null && !datas.isEmpty())
-			CBHttp.injectDatas(request, datas);
+			CHHttp.injectDatas(request, datas);
 
-		return CBHttp.execute(request, headers, cookies);
+		return CHHttp.execute(request, headers, cookies);
 	}
 
 	/**
-	 * Used to execute a http request and returns a {@link CBHttpResponse}.
+	 * Used to execute a http request and returns a {@link CHHttpResponse}.
 	 * @param request - the request to be executed.
 	 * @param cookies - the cookies to inject in the request.
 	 * @param headers - the headers to inject in the request.
 	 * @param datas - the datas to inject in the request.
-	 * @return an instance of {@link CBHttpResponse}.
+	 * @return an instance of {@link CHHttpResponse}.
 	 */
-	private static CBHttpResponse execute(HttpUriRequest request,
-			ArrayList<CBHeader> headers, ArrayList<CBCookie> cookies) {
+	private static CHHttpResponse execute(HttpUriRequest request,
+			ArrayList<CHHeader> headers, ArrayList<CHCookie> cookies) {
 
 		if (headers != null && !headers.isEmpty())
-			CBHttp.injectHeaders(request, headers);
+			CHHttp.injectHeaders(request, headers);
 
 		if (cookies != null && !cookies.isEmpty())
-			CBHttp.injectCookies(request, cookies);
+			CHHttp.injectCookies(request, cookies);
 
 		try {
-			return new CBHttpResponse(CBHttp.getHttpclient().execute(request));
+			return new CHHttpResponse(CHHttp.getHttpclient().execute(request));
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			Log.e(CBHttp.TAG,
+			Log.e(CHHttp.TAG,
 					"There is a problem with the internet connection or the host is down.");
 			e.printStackTrace();
 		}
@@ -85,11 +85,11 @@ public class CBHttp {
 	}
 
 	private static void injectDatas(HttpEntityEnclosingRequestBase request,
-			CBHttpData datas) {
+			CHHttpData datas) {
 		try {
 			request.setEntity(new UrlEncodedFormEntity(datas.getDatas()));
 		} catch (UnsupportedEncodingException e) {
-			Log.e(CBHttp.TAG, "Failed to inject datas in the request !");
+			Log.e(CHHttp.TAG, "Failed to inject datas in the request !");
 			e.printStackTrace();
 		}
 	}
@@ -97,11 +97,11 @@ public class CBHttp {
 	/**
 	 * Used to inject headers inside a {@link HttpUriRequest}.
 	 * @param request - the request to inject the cookies in.
-	 * @param headers - a list of {@link CBHeader} to inject in the request.
+	 * @param headers - a list of {@link CHHeader} to inject in the request.
 	 */
 	private static void injectHeaders(HttpUriRequest request,
-			ArrayList<CBHeader> headers) {
-		for (CBHeader header : headers) {
+			ArrayList<CHHeader> headers) {
+		for (CHHeader header : headers) {
 			request.addHeader(header.getName(), header.getValue());
 		}
 	}
@@ -109,13 +109,13 @@ public class CBHttp {
 	/**
 	 * Used to inject cookies inside a {@link HttpUriRequest}.
 	 * @param request - the request to inject the cookies in.
-	 * @param cookies - a list of {@link CBCookie} to inject in the request.
+	 * @param cookies - a list of {@link CHCookie} to inject in the request.
 	 */
 	private static void injectCookies(HttpUriRequest request,
-			ArrayList<CBCookie> cookies) {
+			ArrayList<CHCookie> cookies) {
 		String inlineCookies = "";
 		int i = 1, nbCookies = cookies.size();
-		for (CBCookie cookie : cookies) {
+		for (CHCookie cookie : cookies) {
 			inlineCookies += cookie.getName() + "=" + cookie.getValue();
 			if (i < nbCookies) {
 				inlineCookies += "; ";
@@ -129,9 +129,9 @@ public class CBHttp {
 	 * @return the http client
 	 */
 	private static final HttpClient getHttpclient() {
-		if (CBHttp.httpclient == null) {
-			CBHttp.httpclient = HttpClientBuilder.create().build();
+		if (CHHttp.httpclient == null) {
+			CHHttp.httpclient = HttpClientBuilder.create().build();
 		}
-		return CBHttp.httpclient;
+		return CHHttp.httpclient;
 	}
 }

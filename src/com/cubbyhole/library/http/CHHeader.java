@@ -7,14 +7,14 @@ import org.apache.http.message.BasicHeader;
 /**
  * An alias for the BasicHeader class
  */
-public class CBHeader extends BasicHeader {
+public class CHHeader extends BasicHeader {
 	private static final long	serialVersionUID	= 1L;
 
-	public CBHeader(Header header) {
+	public CHHeader(Header header) {
 		this(header.getName(), header.getValue());
 	}
 
-	public CBHeader(String name, String value) {
+	public CHHeader(String name, String value) {
 		super(name, value);
 	}
 
