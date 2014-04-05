@@ -73,6 +73,8 @@ var key = fs.readFileSync('./ssl_elems/api-key.pem'),
 /**
  * App configuration.
  */
+
+app.set('env', process.env.ENV || 'development');
 app.set('sslport', process.env.SSLPORT || 8444);
 app.set('port', process.env.PORT || 8081);
 app.set('domain', config.domain || '0.0.0.0');
