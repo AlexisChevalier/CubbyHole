@@ -53,5 +53,8 @@
 	"You must precise a redirection URI !": "Vous devez préciser une URI de redirection",
 	"Name already taken !": "Le nom est déja utilisé !",
 	"Application successfully created !": "Application créée avec succés !",
-	"Permissions error": "Permissions error"
+	"Permissions error": "Permissions error",
+	"Reset password": "Réinitialiser le mot de passe",
+	"Invalid account !": "Compte invalide !",
+	"A mail containing your new password has been sent to you !": "Un email contenant votre nouveau mot de passe vous a été envoyé !"
 }

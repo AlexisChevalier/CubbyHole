@@ -1,6 +1,7 @@
 "use strict";
 
 var passport = require('passport'),
+    mailer = require('../utils/mailer'),
     login = require('connect-ensure-login'),
     config = require('../config/config.json'),
     userHelper = require('../models/mysql/helpers/UserHelper'),
@@ -198,7 +199,7 @@ exports.logout = [
 
 
 /**
- * GET /auth/forgot
+ * GET /auth/forgot -- get password recuperation view
  */
 
 exports.formForgotPass = [
@@ -207,7 +208,7 @@ exports.formForgotPass = [
     }];
 
 /**
- * POST /auth/forgot
+ * POST /auth/forgot -- reinitialize password
  */
 
 exports.processForgotPass = [
@@ -216,10 +217,27 @@ exports.processForgotPass = [
             var index = (Math.random() * (a.length - 1)).toFixed(0);
             return n > 0 ? a[index] + make_passwd(n - 1, a) : '';
         },
-            new_pass = make_passwd(10, 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890@_-=+()');
+            new_pass = make_passwd(10, 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890@_-=+()'),
+            html = "", text = "";
 
-        /** SEND MAIL & UPDATE PASSWD */
+        req.models.Users.one({ email: req.body.email, social_id: null }, function (err, user) {
+            if (err || !user) {
+                req.flash("danger", "Invalid account !");
+                res.render('oauth2/forgotPassword');
+            } else {
+                userHelper.Update(user.id, user.email, user.name, new_pass, function (err, user) {
+                    if (err || !user) {
+                        req.flash("danger", "Invalid account !");
+                        res.render('oauth2/forgotPassword');
+                    } else {
+                        html = mailer.compile("newPass.html", { username: user.name, password: new_pass });
+                        text = mailer.compile("newPass.txt", { username: user.name, password: new_pass });
+                        mailer.sendMail("CubbyHole Team <" + config.gmail.mail + ">", user.email, "Password reinitialized", text, html);
 
-        res.render('oauth2/forgotPassword', { pass_reset: true });
-
+                        req.flash("success", "A mail containing your new password has been sent to you !");
+                        res.redirect("/auth/login");
+                    }
+                });
+            }
+        });
     }];
