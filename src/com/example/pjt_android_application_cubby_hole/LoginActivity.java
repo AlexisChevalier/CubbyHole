@@ -45,6 +45,10 @@ public class LoginActivity extends Activity {
                 String accessTokenFragment = "access_token=";
                 String accessCodeFragment = "code=";
                 
+                String webUrl = view.getUrl();
+                
+                System.out.println("webUrl : " + webUrl);
+                
             	// We hijack the GET request to extract the OAuth parameters
                 
                 System.out.println("URL : " + url);
@@ -59,11 +63,11 @@ public class LoginActivity extends Activity {
 					// the GET request contains an authorization code
 					String accessCode = url.substring(url.indexOf(accessCodeFragment));
 					TokenStorer.setAccessCode(accessCode);
-					String query = "client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + accessCode;
+					String query = "client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&" + accessCode;
 					view.postUrl(OAUTH_ACCESS_TOKEN_URL, query.getBytes());
-					
-					System.out.println("ACCESS TOKEN : " + OAUTH_ACCESS_TOKEN_URL + query.getBytes());
-					
+					webUrl = view.getUrl();
+					String chevre = "ours";
+					System.out.println(chevre);
 				}
             	
 			}
@@ -74,7 +78,8 @@ public class LoginActivity extends Activity {
         });
         System.out.println(url);
         webview.loadUrl(url);
-        
+        String chevre = "ours";
+		System.out.println(chevre);
         
     }
     
