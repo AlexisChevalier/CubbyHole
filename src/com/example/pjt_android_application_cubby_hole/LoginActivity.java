@@ -11,10 +11,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.net.http.SslError;
 import android.webkit.SslErrorHandler;
+import android.graphics.Bitmap;
 
 public class LoginActivity extends Activity {
 	 
-    public static String OAUTH_URL = "https://auth.dev.cubby-hole.me:8444/auth/login";
+    public static String OAUTH_URL = "https://auth.dev.cubby-hole.me:8444/auth/dialog/authorize";
     public static String OAUTH_ACCESS_TOKEN_URL = "https://auth.dev.cubby-hole.me:8444/auth/oauth/token";
     
     public static String CLIENT_ID = "cubbyh_6f6edb93-8644-4b9c-a19a-7ae89f1fcbf9";
@@ -34,30 +35,35 @@ public class LoginActivity extends Activity {
 //	         }
 //        });
         
-        String url = OAUTH_URL + "?client_id=" + CLIENT_ID;
+        String url = OAUTH_URL + "?client_id=" + CLIENT_ID + "&redirect_uri=http://localhost&response_type=code";
         
         WebView webview = new WebView(this);
         setContentView(webview);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.setWebViewClient(new WebViewClient() {
-            public void onPageStarted(WebView view, String url) {
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 String accessTokenFragment = "access_token=";
                 String accessCodeFragment = "code=";
                 
             	// We hijack the GET request to extract the OAuth parameters
+                
+                System.out.println("URL : " + url);
             	
             	if (url.contains(accessTokenFragment)) {
             		// the GET request contains directly the token
             		String accessToken = url.substring(url.indexOf(accessTokenFragment));
-            		//TokenStorer.setAccessToken(accessToken);
+            		TokenStorer.setAccessToken(accessToken);
  
 					
 				} else if(url.contains(accessCodeFragment)) {
 					// the GET request contains an authorization code
 					String accessCode = url.substring(url.indexOf(accessCodeFragment));
-					//TokenStorer.setAccessCode(accessCode);
+					TokenStorer.setAccessCode(accessCode);
 					String query = "client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&code=" + accessCode;
 					view.postUrl(OAUTH_ACCESS_TOKEN_URL, query.getBytes());
+					
+					System.out.println("ACCESS TOKEN : " + OAUTH_ACCESS_TOKEN_URL + query.getBytes());
+					
 				}
             	
 			}
@@ -66,6 +72,7 @@ public class LoginActivity extends Activity {
 		    }
             
         });
+        System.out.println(url);
         webview.loadUrl(url);
         
         
