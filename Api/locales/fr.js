@@ -52,5 +52,6 @@
 	"You must precise a name !": "Vous devez préciser un nom !",
 	"You must precise a redirection URI !": "Vous devez préciser une URI de redirection",
 	"Name already taken !": "Le nom est déja utilisé !",
-	"Application successfully created !": "Application créée avec succés !"
+	"Application successfully created !": "Application créée avec succés !",
+	"ER_BAD_NULL_ERROR: Column 'email' cannot be null": "ER_BAD_NULL_ERROR: Column 'email' cannot be null"
 }
