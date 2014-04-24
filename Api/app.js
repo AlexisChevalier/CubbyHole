@@ -142,11 +142,14 @@ app.get('/', publicRoutes.authHome);
  */
 
 app.get('/api', publicRoutes.apiHome);
+
+//account
 app.get('/api/account/details', accountRoutes.userDetails);
 app.put('/api/account/details', accountRoutes.userUpdate);
 app.delete('/api/account', accountRoutes.userDelete);
 app.get('/api/users/find/:terms', accountRoutes.usersFind);
 
+//files
 app.get('/api/files/byFolder/:folderID', filesRoutes.listItemsByFolder);
 app.get('/api/files/searchByTerms/:terms', filesRoutes.searchItemsByTerm);
 
