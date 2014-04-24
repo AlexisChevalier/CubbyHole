@@ -29,7 +29,7 @@ module.exports = {
     userUpdate: [
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
-            userHelper.Update(req.body.id, req.body.email, req.body.name, req.body.password, function (err, user) {
+            userHelper.Update(req.user.id, req.body.email, req.body.name, req.body.password, function (err, user) {
                 if (err) {
                     res.send(err.code, err.status);
                 } else {
