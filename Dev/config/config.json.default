@@ -11,9 +11,9 @@
     "mysqlServer": {
         "user": "root",
         "database": "CubbyHole",
-        "password": "root",
-        "port": 8889,
+        "password": "",
+        "port": 3306,
         "host": "localhost",
-        "dsn": "mysql://root:root@localhost:8889/CubbyHole"
+        "dsn": "mysql://root@localhost:3306/CubbyHole"
     }
 }

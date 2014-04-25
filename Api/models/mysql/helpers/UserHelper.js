@@ -163,7 +163,7 @@ UserHelper.SearchUserByMailOrName = function (terms, done) {
                 var user = null;
                 for (user in users) {
                     if (users.hasOwnProperty(user)) {
-                        users[user] = { id: users[user].id, name: users[user].name, email: users[user].email };
+                        users[user] = { id: users[user].id, email: users[user].email, name: users[user].name };
                     }
                 }
                 if (err) {
