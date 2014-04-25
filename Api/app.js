@@ -132,10 +132,6 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
-/**
- * DEVELOPPER Routes definitions.
- */
-
 app.get('/', publicRoutes.authHome);
 /**
  * API Routes definitions.
@@ -149,6 +145,8 @@ app.get('/api/users/find/:terms', accountRoutes.usersFind);
 
 app.get('/api/files/byFolder/:folderID', filesRoutes.listItemsByFolder);
 app.get('/api/files/searchByTerms/:terms', filesRoutes.searchItemsByTerm);
+
+app.get('/api/files/upload/:terms', filesRoutes.searchItemsByTerm);
 
 /**
  * OAUTH2 Routes definitions.
