@@ -14,5 +14,15 @@ public class TokenStorer {
 	{
 		accessCode = code;
 	}
+	
+	public static String getAccessCode()
+	{
+		return accessCode;
+	}
+	
+	public static String getAccessToken()
+	{
+		return accessToken;
+	}
 
 }
