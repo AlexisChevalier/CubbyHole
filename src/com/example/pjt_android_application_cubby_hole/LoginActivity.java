@@ -45,46 +45,7 @@ public class LoginActivity extends Activity {
         WebView webview = new WebView(this);
         setContentView(webview);
         webview.getSettings().setJavaScriptEnabled(true);
-        webview.setWebViewClient(new YourWebClient() {
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                String accessTokenFragment = "access_token=";
-                String accessCodeFragment = "code=";
-                
-                String webUrl = view.getUrl();
-                
-                System.out.println("webUrl : " + webUrl);
-                
-            	// We hijack the GET request to extract the OAuth parameters
-                
-                System.out.println("URL : " + url);
-            	
-//            	if (url.contains(accessTokenFragment)) {
-//            		// the GET request contains directly the token
-//            		String accessToken = url.substring(url.indexOf(accessTokenFragment));
-//            		TokenStorer.setAccessToken(accessToken);
-// 
-//					
-//				} else
-                
-                String accessToken = TokenStorer.getAccessToken();
-					
-				if(url.contains(accessCodeFragment)) {
-					// the GET request contains an authorization code
-					String accessCode = url.substring(url.indexOf(accessCodeFragment));
-					TokenStorer.setAccessCode(accessCode);
-					String query = "client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&" + accessCode;
-					view.postUrl(OAUTH_ACCESS_TOKEN_URL, query.getBytes());
-					webUrl = view.getUrl();
-					String chevre = "ours";
-					System.out.println(chevre);
-				}
-            	
-			}
-	        public void onReceivedSslError (WebView view, SslErrorHandler handler, SslError error) {
-		         handler.proceed() ;
-		    }
-            
-        });
+        webview.setWebViewClient(new YourWebClient());
         
         System.out.println(url);
         webview.loadUrl(url);
@@ -94,6 +55,44 @@ public class LoginActivity extends Activity {
     }
     
     private class YourWebClient extends WebViewClient{
+    	
+    	public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            String accessTokenFragment = "access_token=";
+            String accessCodeFragment = "code=";
+            
+            String webUrl = view.getUrl();
+            
+            System.out.println("webUrl : " + webUrl);
+            
+        	// We hijack the GET request to extract the OAuth parameters
+            
+            System.out.println("URL : " + url);
+        	
+//        	if (url.contains(accessTokenFragment)) {
+//        		// the GET request contains directly the token
+//        		String accessToken = url.substring(url.indexOf(accessTokenFragment));
+//        		TokenStorer.setAccessToken(accessToken);
+//
+//				
+//			} else
+            
+            String accessToken = TokenStorer.getAccessToken();
+				
+			if(url.contains(accessCodeFragment)) {
+				// the GET request contains an authorization code
+				String accessCode = url.substring(url.indexOf(accessCodeFragment));
+				TokenStorer.setAccessCode(accessCode);
+				String query = "client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET + "&" + accessCode;
+				view.postUrl(OAUTH_ACCESS_TOKEN_URL, query.getBytes());
+				webUrl = view.getUrl();
+				String chevre = "ours";
+				System.out.println(chevre);
+			}
+        	
+		}
+        public void onReceivedSslError (WebView view, SslErrorHandler handler, SslError error) {
+	         handler.proceed() ;
+	    }
 
         // you want to catch when an URL is going to be loaded
         public boolean  shouldOverrideUrlLoading  (WebView  view, String  urlConnection){
