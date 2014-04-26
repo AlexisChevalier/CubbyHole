@@ -7,7 +7,7 @@
 var express = require('express'),
     orm = require('orm'),
     models = require('./models/mysql'),
-    config = require('./config'),
+    config = require('./config/config'),
     https = require('https'),
     http = require('http'),
     path = require('path'),
@@ -20,7 +20,6 @@ var express = require('express'),
     accountRoutes = require('./routes/account'),
     filesRoutes = require('./routes/files'),
     publicRoutes = require('./routes/public'),
-    devRoutes = require('./routes/dev'),
     oauth2routes = require('./oauth2/routes'),
     oauth2core = require('./oauth2/oauth2'),
     flash = require('connect-flash'),
@@ -74,9 +73,11 @@ var key = fs.readFileSync('./ssl_elems/api-key.pem'),
 /**
  * App configuration.
  */
+
+app.set('env', process.env.ENV || 'development');
 app.set('sslport', process.env.SSLPORT || 8444);
 app.set('port', process.env.PORT || 8081);
-app.set('domain', '0.0.0.0');
+app.set('domain', config.domain || '0.0.0.0');
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
@@ -131,28 +132,24 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
-/**
- * DEVELOPPER Routes definitions.
- */
-
-app.get('/', devRoutes.home);
-app.get('/docs', devRoutes.docs);
-app.get('/apps', devRoutes.myApps);
-app.get('/addApp', devRoutes.addAppForm);
-app.post('/addApp', devRoutes.addApp);
-
+app.get('/', publicRoutes.authHome);
 /**
  * API Routes definitions.
  */
 
 app.get('/api', publicRoutes.apiHome);
+
+//account
 app.get('/api/account/details', accountRoutes.userDetails);
 app.put('/api/account/details', accountRoutes.userUpdate);
 app.delete('/api/account', accountRoutes.userDelete);
 app.get('/api/users/find/:terms', accountRoutes.usersFind);
 
+//files
 app.get('/api/files/byFolder/:folderID', filesRoutes.listItemsByFolder);
 app.get('/api/files/searchByTerms/:terms', filesRoutes.searchItemsByTerm);
+
+app.get('/api/files/upload/:terms', filesRoutes.searchItemsByTerm);
 
 /**
  * OAUTH2 Routes definitions.
@@ -171,6 +168,9 @@ app.post('/auth/signup', oauth2routes.signup);
 app.post('/auth/login', oauth2routes.login);
 app.get('/auth/logout', oauth2routes.logout);
 
+app.get('/auth/forgotPassword', oauth2routes.formForgotPass);
+app.post('/auth/forgotPassword', oauth2routes.processForgotPass);
+
 app.get('/auth/dialog/authorize', oauth2core.authorization);
 app.post('/auth/dialog/authorize/decision', oauth2core.decision);
 app.post('/auth/oauth/token', oauth2core.token);
@@ -178,6 +178,7 @@ app.post('/auth/oauth/token', oauth2core.token);
 /**
  * Server initialization.
  */
+
 http.createServer(app).listen(app.get('port'));
 https.createServer(https_options, app).listen(app.get('sslport'), app.get('domain'), function () {
     console.log('HTTPS Express server listening on port ' + app.get('sslport') + ' | Don\'t forget to use HTTPS ');

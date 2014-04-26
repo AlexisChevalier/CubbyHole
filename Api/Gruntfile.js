@@ -8,7 +8,7 @@ module.exports = function (grunt) {
                 options: {
                     file: 'app.js',
                     args: ['dev'],
-                    nodeArgs: ['--debug'],
+                    nodeArgs: [],
                     watchedExtensions: ['js', 'json', 'html'],
                     env: {
                         SSLPORT: '8444',

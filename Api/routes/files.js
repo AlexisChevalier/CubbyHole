@@ -20,7 +20,7 @@ module.exports = {
                     }
                 });
             } else {
-                mongooseModels.Item.findOne({userId: 53, '_id': mongooseModels.ObjectId(id)}).populate('items').populate('parents').exec(function (err, data) {
+                mongooseModels.Item.findOne({userId: req.user.id, '_id': mongooseModels.ObjectId(id)}).populate('items').populate('parents').exec(function (err, data) {
                     if (err) {
                         res.json(err);
                     } else {
@@ -40,7 +40,7 @@ module.exports = {
             var response = {},
                 terms = req.params.terms;
 
-            mongooseModels.Item.find({userId: 53, name: new RegExp(terms, "i")}).exec(function (err, data) {
+            mongooseModels.Item.find({userId: req.user.id, name: new RegExp(terms, "i")}).exec(function (err, data) {
                 if (err) {
                     res.json(err);
                 } else {

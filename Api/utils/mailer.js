@@ -5,7 +5,7 @@
 "use strict";
 
 var nodemailer = require("nodemailer"),
-    config = require("../config"),
+    config = require("../config/config"),
     swig  = require('swig'),
     viewsDir = __dirname + '/../views/mail/',
     Mailer = module.exports = {};

@@ -1,0 +1,19 @@
+{
+    "apiUrl": "localhost",
+    "apiPort": 8444,
+    "oauth2" : {
+        "authorizationURL": "https://localhost:8444/auth/dialog/authorize",
+        "tokenURL": "https://localhost:8444/auth/oauth/token",
+        "clientID": "cubbyh_28af8ca9-368e-4ce1-8586-e2690ead096f",
+        "clientSecret": "d923c923-efa9-44bd-8980-eb541660b67e",
+        "callbackURL": "https://localhost:8445/loginCallback"
+    },
+    "mysqlServer": {
+        "user": "root",
+        "database": "CubbyHole",
+        "password": "",
+        "port": 3306,
+        "host": "localhost",
+        "dsn": "mysql://root@localhost:3306/CubbyHole"
+    }
+}

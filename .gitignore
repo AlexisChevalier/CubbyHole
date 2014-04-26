@@ -35,5 +35,6 @@ ehthumbs.db
 Thumbs.db
 
 ####APP CONFIGURATION
-/Api/config.json
-/Website/config.json
+Api/config/config.json
+Website/config/config.json
+Dev/config/config.json
