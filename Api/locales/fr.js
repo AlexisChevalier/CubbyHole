@@ -53,6 +53,7 @@
 	"You must precise a redirection URI !": "Vous devez préciser une URI de redirection",
 	"Name already taken !": "Le nom est déja utilisé !",
 	"Application successfully created !": "Application créée avec succés !",
+	"ER_BAD_NULL_ERROR: Column 'email' cannot be null": "ER_BAD_NULL_ERROR: Column 'email' cannot be null",
 	"Permissions error": "Permissions error",
 	"Reset password": "Réinitialiser le mot de passe",
 	"Invalid account !": "Compte invalide !",
