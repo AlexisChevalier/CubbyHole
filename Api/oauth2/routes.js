@@ -57,7 +57,7 @@ exports.signupForm = [
  */
 exports.facebookAuth = [
     login.ensureLoggedOut("/"),
-    passport.authenticate('facebook'),
+    passport.authenticate('facebook', { scope: ['email'] }),
     function (req, res) {
         // The request will be redirected to Facebook for authentication, so this
         // function will not be called.
@@ -70,7 +70,7 @@ exports.facebookAuth = [
  */
 exports.facebookAuthCallback = [
     login.ensureLoggedOut("/"),
-    passport.authenticate('facebook', { failureRedirect: '/auth/login', failureFlash: true, scope: 'email' }),
+    passport.authenticate('facebook', { failureRedirect: '/auth/login', failureFlash: true }),
     function (req, res) {
         var redirect = req.session.returnTo || "/";
         res.redirect(redirect);

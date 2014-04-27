@@ -5,6 +5,7 @@ var UserHelper = module.exports = {},
     models = require('../../../models/mysql'),
     config = require('../../../config/config'),
     checker = require('../../../utils/checker'),
+    folderHelper = require('../../mongodb/helpers/FolderHelper'),
     bcrypt = require('bcrypt-nodejs');
 
 var util = require('util');
@@ -37,10 +38,16 @@ UserHelper.Create = function (password, email, fullname, socialType, socialID, d
                 if (err) {
                     done(err, null);
                 } else {
-                    var html = mailer.compile("welcome.html", { username: fullname }),
-                        text = mailer.compile("welcome.txt", { username: fullname });
-                    mailer.sendMail("CubbyHole Team <" + config.gmail.mail + ">", email, "Welcome on CubbyHole", text, html);
-                    done(null, users[0]);
+                    folderHelper.createRootFolder(users[0].id, function (err, folder) {
+                        if (err) {
+                            done(err, null);
+                        } else {
+                            var html = mailer.compile("welcome.html", { username: fullname }),
+                                text = mailer.compile("welcome.txt", { username: fullname });
+                            mailer.sendMail("CubbyHole Team <" + config.gmail.mail + ">", email, "Welcome on CubbyHole", text, html);
+                            done(null, users[0]);
+                        }
+                    });
                 }
             });
         });

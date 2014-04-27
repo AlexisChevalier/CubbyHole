@@ -8,6 +8,7 @@ var express = require('express'),
     orm = require('orm'),
     models = require('./models/mysql'),
     config = require('./config/config'),
+    mongoose = require("mongoose").connect(config.mongodb.url),
     https = require('https'),
     http = require('http'),
     path = require('path'),
@@ -19,11 +20,11 @@ var express = require('express'),
     supportedLocales = ["en", "fr"],
     accountRoutes = require('./routes/account'),
     filesRoutes = require('./routes/files'),
+    foldersRoutes = require('./routes/folders'),
     publicRoutes = require('./routes/public'),
     oauth2routes = require('./oauth2/routes'),
     oauth2core = require('./oauth2/oauth2'),
     flash = require('connect-flash'),
-    mongoose = require("mongoose").connect(config.mongodb.url),
     app = express();
 
 /**
@@ -145,11 +146,42 @@ app.put('/api/account/details', accountRoutes.userUpdate);
 app.delete('/api/account', accountRoutes.userDelete);
 app.get('/api/users/find/:terms', accountRoutes.usersFind);
 
-//files
+/**
+ * FILES API
+ */
+//List items in folder
 app.get('/api/files/byFolder/:folderID', filesRoutes.listItemsByFolder);
+
+//Search items
 app.get('/api/files/searchByTerms/:terms', filesRoutes.searchItemsByTerm);
 
-app.get('/api/files/upload/:terms', filesRoutes.searchItemsByTerm);
+//Upload
+app.post('/api/files/upload', filesRoutes.upload);
+
+//Download
+app.get('/api/files/download/:itemID', filesRoutes.download);
+
+//Update
+app.put('/api/files/update/:itemID', filesRoutes.searchItemsByTerm);
+
+//Remove
+app.delete('/api/files/remove/:itemID', filesRoutes.searchItemsByTerm);
+
+/**
+ * FOLDERS API
+ */
+
+//Get Folder
+app.get('/api/folder/:folderID?', foldersRoutes.getFolder);
+
+//Create Folder
+app.post('/api/folders', foldersRoutes.createFolder);
+
+//Remove Folder
+app.delete('/api/folders/:folderID', foldersRoutes.removeFolder);
+
+//Update Folder
+app.put('/api/folders/:folderID', foldersRoutes.updateFolder);
 
 /**
  * OAUTH2 Routes definitions.
@@ -174,6 +206,7 @@ app.post('/auth/forgotPassword', oauth2routes.processForgotPass);
 app.get('/auth/dialog/authorize', oauth2core.authorization);
 app.post('/auth/dialog/authorize/decision', oauth2core.decision);
 app.post('/auth/oauth/token', oauth2core.token);
+app.get('/auth/oauth/token', oauth2core.token);
 
 /**
  * Server initialization.

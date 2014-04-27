@@ -3,7 +3,44 @@ var mongoose = require('mongoose'),
     Models = module.exports = {},
     VersionSchema,
     ShareSchema,
-    ItemSchema;
+    ItemSchema,
+    FolderSchema;
+
+FolderSchema = new Schema({
+    name: String,
+    userId: Number,
+    childFiles: [{
+        type: Schema.Types.ObjectId
+    }],
+    childFolders: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Folder'
+    }],
+    isRoot: {
+        type: Boolean,
+        default: false
+    },
+    shared: {
+        type: Boolean,
+        default: false
+    },
+    share: {
+        type: Schema.Types.ObjectId,
+        ref: 'Share'
+    },
+    parents: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Folder'
+    }],
+    parent: {
+        type: Schema.Types.ObjectId,
+        ref: 'Folder'
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    }
+});
 
 ShareSchema = new Schema({
     itemId: Schema.ObjectId,
@@ -68,6 +105,7 @@ VersionSchema = new Schema({
 });
 
 Models.Item = mongoose.model('Item', ItemSchema);
+Models.Folder = mongoose.model('Folder', FolderSchema);
 Models.Share = mongoose.model('Share', ShareSchema);
 Models.Version = mongoose.model('Version', VersionSchema);
 
