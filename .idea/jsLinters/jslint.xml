@@ -11,6 +11,7 @@
     <option predef="laxcomma" />
     <option stupid="true" />
     <option todo="true" />
+    <option undef="true" />
   </component>
 </project>
 

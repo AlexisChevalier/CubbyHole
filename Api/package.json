@@ -26,7 +26,8 @@
     "nodemailer": "~0.6.0",
     "passport-facebook": "~1.0.2",
     "passport-google-oauth": "~0.1.5",
-    "mongoose": "~3.8.8"
+    "mongoose": "~3.8.8",
+    "async": "~0.7.0"
   },
   "devDependencies": {
     "grunt-nodemon": "~0.1.2",
