@@ -1,7 +1,7 @@
 "use strict";
 /*global angular, cubbyHoleBrowser */
 
-cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modal', function ($scope, $routeParams, $http, $location, $timeout, $modal) {
+cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modal', '$upload', function ($scope, $routeParams, $http, $location, $timeout, $modal, $upload) {
 
     $scope.searchInput = "";
     $scope.items = [];

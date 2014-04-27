@@ -4,7 +4,8 @@
 var cubbyHoleBrowser = angular.module('cubbyHoleBrowser', [
     'ngRoute',
     'textFilters',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'angularFileUpload'
 ]);
 
 cubbyHoleBrowser.config(['$routeProvider', '$interpolateProvider',

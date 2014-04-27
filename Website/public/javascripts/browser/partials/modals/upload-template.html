@@ -2,7 +2,14 @@
     <h3>Upload file in <span class="name">[[item.folderName]]</span></h3>
 </div>
 <div class="modal-body">
-    [[item]]
+    <input type="file" ng-file-select="onFileSelect($files)" >
+
+    <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="optional-css-class"
+         ng-show="dropSupported">drop files here</div>
+
+    <div ng-file-drop-available="dropSupported=true"
+         ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+    <button ng-click="upload.abort()">Cancel Upload</button>
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" ng-click="ok()">OK</button>

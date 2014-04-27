@@ -5,8 +5,18 @@
 {% endblock %}
 
 {% block js %}
+
+    <!-- This should be compiled and minified, but hey, it's a school project and i'm nearly sure you'll prefer this version :) -->
+    <script type="text/javascript">
+        FileAPI = {
+            jsPath: '/javascripts/browser/libs/',
+            staticPath: '/javascripts/browser/libs/'
+        }
+    </script>
+    <script type="text/javascript" src="/javascripts/browser/libs/angular-file-upload-shim.min.js"></script>
     <script type="text/javascript" src="/javascripts/browser/libs/angular.js"></script>
     <script type="text/javascript" src="/javascripts/browser/libs/angular-route.js"></script>
+    <script type="text/javascript" src="/javascripts/browser/libs/angular-file-upload.min.js"></script>
     <script type="text/javascript" src="/javascripts/browser/libs/ui-bootstrap-custom-0.10.0.min.js"></script>
     <script type="text/javascript" src="/javascripts/browser/libs/ui-bootstrap-custom-tpls-0.10.0.min.js"></script>
     <script type="text/javascript" src="/javascripts/browser/app.js"></script>
