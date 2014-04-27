@@ -172,7 +172,7 @@ app.delete('/api/files/remove/:itemID', filesRoutes.searchItemsByTerm);
  */
 
 //Get Folder
-app.get('/api/folder/:folderID?', foldersRoutes.getFolder);
+app.get('/api/folders/:folderID?', foldersRoutes.getFolder);
 
 //Create Folder
 app.post('/api/folders', foldersRoutes.createFolder);
