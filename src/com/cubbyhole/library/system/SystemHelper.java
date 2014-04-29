@@ -11,9 +11,7 @@ public class SystemHelper {
 	 * otherwise.
 	 */
 	public static boolean isAndroid() {
-		boolean isandroid = (System.getProperty("java.runtime.name").equals("Android Runtime"));
-		System.out.println(System.getProperty("java.runtime.name") + " > " + isandroid);
-		return isandroid;
+		return (System.getProperty("java.runtime.name").equals("Android Runtime"));
 	}
 
 	public static Class<?> getAndroidLogger() {
