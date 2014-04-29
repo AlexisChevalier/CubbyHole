@@ -13,17 +13,19 @@ import com.example.pjt_android_application_cubby_hole.R;
 public class LoginActivity extends Activity {
 
 	private static final String	TAG	= LoginActivity.class.getName();
+	
+	private AuthWebView mAuthWebView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_login);
+		bindView();
 
 		if (CHC.IGNORE_NOT_TRUSTED_CERT) {
 			SSLManager.allowNotTrustedCertificates();
 		}
 
-		AuthWebView authWebView = new AuthWebView(this);
-		setContentView(authWebView);
 
 		String url = CHC.OAUTH_URL_ACCESS_CODE //
 				+ CHC.PARAM_STARTER //
@@ -40,8 +42,21 @@ public class LoginActivity extends Activity {
 				+ CHC.OAUTH_PARAM_ACCESS_CODE;
 
 		Log.d(TAG, url);
-		authWebView.loadUrl(url);
+		try
+		{
+			mAuthWebView.loadUrl(url);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 
+		
+	}
+
+	private void bindView() {
+		mAuthWebView = (AuthWebView)findViewById(R.id.authWebView);
+		
 	}
 
 	@Override
