@@ -4,10 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.http.Header;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
+import ch.boye.httpclientandroidlib.Header;
+import ch.boye.httpclientandroidlib.HttpRequest;
+import ch.boye.httpclientandroidlib.HttpResponse;
 
 /**
  * A representation of an http response from an http request.
@@ -80,8 +79,8 @@ public class CHHttpResponse {
 	private void extractBody(HttpResponse response) {
 		this.body = "";
 		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					response.getEntity().getContent()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity()
+					.getContent()));
 			String inputLine;
 			StringBuffer bodybuffer = new StringBuffer();
 			while ((inputLine = in.readLine()) != null) {
@@ -122,8 +121,10 @@ public class CHHttpResponse {
 		return this.body;
 	}
 
+	/*
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
+	*/
 }

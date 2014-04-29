@@ -1,8 +1,7 @@
 package com.cubbyhole.library.http;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.http.Header;
-import org.apache.http.message.BasicHeader;
+import ch.boye.httpclientandroidlib.Header;
+import ch.boye.httpclientandroidlib.message.BasicHeader;
 
 /**
  * An alias for the BasicHeader class
@@ -18,8 +17,10 @@ public class CHHeader extends BasicHeader {
 		super(name, value);
 	}
 
+	/*
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
+	*/
 }

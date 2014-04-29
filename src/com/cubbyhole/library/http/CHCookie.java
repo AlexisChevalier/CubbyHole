@@ -2,8 +2,7 @@ package com.cubbyhole.library.http;
 
 import java.net.HttpCookie;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.http.impl.cookie.BasicClientCookie;
+import ch.boye.httpclientandroidlib.impl.cookie.BasicClientCookie;
 
 /**
  * An alias for the class BasicClientCookie
@@ -33,8 +32,10 @@ public class CHCookie extends BasicClientCookie {
 		return new CHCookie(cookie.getName(), cookie.getValue());
 	}
 
+	/*
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
+	*/
 }

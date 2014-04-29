@@ -3,8 +3,8 @@ package com.cubbyhole.library.http;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import ch.boye.httpclientandroidlib.NameValuePair;
+import ch.boye.httpclientandroidlib.message.BasicNameValuePair;
 
 /**
  * Class used to easily add datas to HTTP requests such as post.

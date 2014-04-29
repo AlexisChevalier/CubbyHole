@@ -2,26 +2,30 @@ package com.cubbyhole.library.http;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.KeyStore;
 import java.util.ArrayList;
 
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.HttpClientBuilder;
+import ch.boye.httpclientandroidlib.client.ClientProtocolException;
+import ch.boye.httpclientandroidlib.client.HttpClient;
+import ch.boye.httpclientandroidlib.client.entity.UrlEncodedFormEntity;
+import ch.boye.httpclientandroidlib.client.methods.HttpEntityEnclosingRequestBase;
+import ch.boye.httpclientandroidlib.client.methods.HttpGet;
+import ch.boye.httpclientandroidlib.client.methods.HttpPost;
+import ch.boye.httpclientandroidlib.client.methods.HttpUriRequest;
+import ch.boye.httpclientandroidlib.conn.ssl.SSLContextBuilder;
+import ch.boye.httpclientandroidlib.conn.ssl.TrustSelfSignedStrategy;
+import ch.boye.httpclientandroidlib.impl.client.HttpClientBuilder;
 
 import com.cubbyhole.library.logger.Log;
 
 public class CHHttp {
-	private static final String	TAG			= CHHttp.class.getName();
+	private static final String	TAG						= CHHttp.class.getName();
+	public static final boolean	IGNORE_NOT_TRUSTED_CERT	= true;
 
 	/**
 	 * The http client used to execute requests
 	 */
-	private static HttpClient	httpclient	= null;
+	private static HttpClient	mHttpclient				= null;
 
 	/**
 	 * Used to execute a get request.
@@ -34,25 +38,26 @@ public class CHHttp {
 			ArrayList<CHCookie> cookies) {
 		HttpGet request = new HttpGet(url);
 
-		return CHHttp.execute(request, headers, cookies);
+		return execute(request, headers, cookies);
 	}
 
 	/**
 	 * Used to execute a post request.
 	 * @param url - The url to perform the post request on.
 	 * @param datas - a {@link CHHttpData} instance containing the datas to send.
-	 * @param headers - the headers to add with the get request.
-	 * @param cookies - the cookies to add with the get request.
+	 * @param headers - the headers to add with the post request.
+	 * @param cookies - the cookies to add with the post request.
 	 * @return an instance of  {@link CHHttpResponse}.
 	 */
-	public static CHHttpResponse post(String url, CHHttpData datas,
-			ArrayList<CHHeader> headers, ArrayList<CHCookie> cookies) {
+	public static CHHttpResponse post(String url, CHHttpData datas, ArrayList<CHHeader> headers,
+			ArrayList<CHCookie> cookies) {
 		HttpPost request = new HttpPost(url);
 
-		if (datas != null && !datas.isEmpty())
-			CHHttp.injectDatas(request, datas);
+		if (datas != null && !datas.isEmpty()) {
+			injectDatas(request, datas);
+		}
 
-		return CHHttp.execute(request, headers, cookies);
+		return execute(request, headers, cookies);
 	}
 
 	/**
@@ -63,33 +68,33 @@ public class CHHttp {
 	 * @param datas - the datas to inject in the request.
 	 * @return an instance of {@link CHHttpResponse}.
 	 */
-	private static CHHttpResponse execute(HttpUriRequest request,
-			ArrayList<CHHeader> headers, ArrayList<CHCookie> cookies) {
+	private static CHHttpResponse execute(HttpUriRequest request, ArrayList<CHHeader> headers,
+			ArrayList<CHCookie> cookies) {
 
-		if (headers != null && !headers.isEmpty())
-			CHHttp.injectHeaders(request, headers);
+		if (headers != null && !headers.isEmpty()) {
+			injectHeaders(request, headers);
+		}
 
-		if (cookies != null && !cookies.isEmpty())
-			CHHttp.injectCookies(request, cookies);
+		if (cookies != null && !cookies.isEmpty()) {
+			injectCookies(request, cookies);
+		}
 
 		try {
-			return new CHHttpResponse(CHHttp.getHttpclient().execute(request));
+			return new CHHttpResponse(getHttpclient().execute(request));
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			Log.e(CHHttp.TAG,
-					"There is a problem with the internet connection or the host is down.");
+			Log.e(TAG, "There is a problem with the internet connection or the host is down.");
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	private static void injectDatas(HttpEntityEnclosingRequestBase request,
-			CHHttpData datas) {
+	private static void injectDatas(HttpEntityEnclosingRequestBase request, CHHttpData datas) {
 		try {
 			request.setEntity(new UrlEncodedFormEntity(datas.getDatas()));
 		} catch (UnsupportedEncodingException e) {
-			Log.e(CHHttp.TAG, "Failed to inject datas in the request !");
+			Log.e(TAG, "Failed to inject datas in the request !");
 			e.printStackTrace();
 		}
 	}
@@ -99,8 +104,7 @@ public class CHHttp {
 	 * @param request - the request to inject the cookies in.
 	 * @param headers - a list of {@link CHHeader} to inject in the request.
 	 */
-	private static void injectHeaders(HttpUriRequest request,
-			ArrayList<CHHeader> headers) {
+	private static void injectHeaders(HttpUriRequest request, ArrayList<CHHeader> headers) {
 		for (CHHeader header : headers) {
 			request.addHeader(header.getName(), header.getValue());
 		}
@@ -111,8 +115,7 @@ public class CHHttp {
 	 * @param request - the request to inject the cookies in.
 	 * @param cookies - a list of {@link CHCookie} to inject in the request.
 	 */
-	private static void injectCookies(HttpUriRequest request,
-			ArrayList<CHCookie> cookies) {
+	private static void injectCookies(HttpUriRequest request, ArrayList<CHCookie> cookies) {
 		String inlineCookies = "";
 		int i = 1, nbCookies = cookies.size();
 		for (CHCookie cookie : cookies) {
@@ -126,12 +129,30 @@ public class CHHttp {
 	}
 
 	/**
-	 * @return the http client
+	 * @return the a {@link HttpClient} instance
 	 */
 	private static final HttpClient getHttpclient() {
-		if (CHHttp.httpclient == null) {
-			CHHttp.httpclient = HttpClientBuilder.create().build();
+		if (mHttpclient == null) {
+			HttpClientBuilder cb = HttpClientBuilder.create();
+
+			if (IGNORE_NOT_TRUSTED_CERT) {
+				makeItTrustAllCertificates(cb);
+			}
+
+			mHttpclient = cb.build();
 		}
-		return CHHttp.httpclient;
+		return mHttpclient;
+	}
+
+	private static void makeItTrustAllCertificates(HttpClientBuilder hcbuilder) {
+		try {
+			SSLContextBuilder sslcb = new SSLContextBuilder();
+			sslcb.loadTrustMaterial(KeyStore.getInstance(KeyStore.getDefaultType()),
+					new TrustSelfSignedStrategy());
+			hcbuilder.setSslcontext(sslcb.build());
+		} catch (Exception e) {
+			Log.d(TAG, "Failed to ignore not trusted ssl certificates");
+			e.printStackTrace();
+		}
 	}
 }
