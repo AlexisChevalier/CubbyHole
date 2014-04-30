@@ -1,6 +1,7 @@
 package com.cubbyhole.library.http;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -8,12 +9,17 @@ import ch.boye.httpclientandroidlib.Header;
 import ch.boye.httpclientandroidlib.HttpRequest;
 import ch.boye.httpclientandroidlib.HttpResponse;
 
+import com.cubbyhole.library.logger.Log;
 import com.cubbyhole.library.utils.ArrayListUtils;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * A representation of an http response from an http request.
  */
 public class CHHttpResponse {
+	private final String		TAG	= CHHttpResponse.class.getName();
+
 	/**
 	 * The HTTP status code returned from the request.
 	 * @see <a href="http://www.w3schools.com/tags/ref_httpmessages.asp">HTTP Status Messages</a>
@@ -36,6 +42,11 @@ public class CHHttpResponse {
 	private String				body;
 
 	/**
+	 * The root node of the JSON object.
+	 */
+	private JsonNode			json;
+
+	/**
 	 * Constructor to instantiate a {@link CHHttpResponse} using an
 	 * {@link HttpResponse}
 	 * @param response - the {@link HttpResponse} from an {@link HttpRequest}
@@ -51,6 +62,8 @@ public class CHHttpResponse {
 
 		//Get the body from the response
 		body = getBody(response);
+
+		setJson(getBodyAsJson(body));
 	}
 
 	/**
@@ -111,6 +124,22 @@ public class CHHttpResponse {
 	}
 
 	/**
+	 * Try to parse the body to get a JSON object
+	 * @param body - a {@link String} representing the body of the response.
+	 * @return 
+	 */
+	private JsonNode getBodyAsJson(String body) {
+		JsonNode json = null;
+		try {
+			json = new ObjectMapper().readTree(body);
+			Log.d(TAG, "Realised the body is a json, so we parsed it as a JsonNode.");
+		} catch (IOException e) {
+			Log.d(TAG, "The body is not a json response, ignoring the parse...");
+		}
+		return json;
+	}
+
+	/**
 	 * @return the http status code
 	 */
 	public final int getStatusCode() {
@@ -138,11 +167,26 @@ public class CHHttpResponse {
 		return body;
 	}
 
+	/**
+	 * @return the json
+	 */
+	public JsonNode getJson() {
+		return json;
+	}
+
+	/**
+	 * @param json the {@link JsonNode} to set
+	 */
+	public void setJson(JsonNode json) {
+		this.json = json;
+	}
+
 	@Override
 	public String toString() {
 		return "CHHttpResponse [statusCode=" + statusCode //
 				+ ", headers=" + ArrayListUtils.toString(headers) //
 				+ ", cookies=" + ArrayListUtils.toString(cookies) //
-				+ ", body=" + body;
+				+ ", body=" + body //
+				+ ", json=" + json.toString();
 	}
 }
