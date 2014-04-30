@@ -63,7 +63,7 @@ public class AuthWebView extends WebView {
 						.add(CHC.OAUTH_PARAM_ACCESS_CODE, accessCode);
 				CHHttpResponse response = CHHttp.post(CHC.OAUTH_URL_ACCESS_TOKEN, datas, headers,
 						null);
-				Log.d(TAG, response.getBody());
+				Log.d(TAG, response.toString());
 				return true;
 			}
 			return false;
