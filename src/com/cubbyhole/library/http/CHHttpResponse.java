@@ -8,6 +8,8 @@ import ch.boye.httpclientandroidlib.Header;
 import ch.boye.httpclientandroidlib.HttpRequest;
 import ch.boye.httpclientandroidlib.HttpResponse;
 
+import com.cubbyhole.library.utils.ArrayListUtils;
+
 /**
  * A representation of an http response from an http request.
  */
@@ -39,45 +41,59 @@ public class CHHttpResponse {
 	 * @param response - the {@link HttpResponse} from an {@link HttpRequest}
 	 */
 	public CHHttpResponse(HttpResponse response) {
-		this.statusCode = response.getStatusLine().getStatusCode();
+		statusCode = response.getStatusLine().getStatusCode();
 
-		extractHeadersAndCookies(response);
+		//Get the headers from the response
+		headers = getHeaders(response);
 
-		extractBody(response);
+		//Get the cookies from the headers
+		cookies = getCookies(headers);
+
+		//Get the body from the response
+		body = getBody(response);
 	}
 
 	/**
-	 * Extract the headers and the cookies from the {@link HttpResponse} and
-	 * add them directly in the {@link ArrayList} fields.
-	 * @param response - the {@link HttpResponse} to extract the headers and
-	 * the cookies from.
+	 * Used to get the headers from a {@link HttpResponse}.
+	 * @param response - the {@link HttpResponse} to get the headers from.
+	 * @return an {@link ArrayList} of {@link CHHeader}s.
 	 */
-	private void extractHeadersAndCookies(HttpResponse response) {
-		Header[] headers = response.getAllHeaders();
-		this.headers = new ArrayList<CHHeader>();
-		this.cookies = new ArrayList<CHCookie>();
-
-		// Headers & Cookies
-		for (Header header : headers) {
-			// Headers
-			this.headers.add(new CHHeader(header));
-
-			// Cookies
-			if ("Set-Cookie".equals(header.getName())) {
-				CHCookie cookie = CHCookie.parse(header.getValue());
-				if (cookie != null)
-					this.cookies.add(cookie);
+	private ArrayList<CHHeader> getHeaders(HttpResponse response) {
+		ArrayList<CHHeader> headers = new ArrayList<CHHeader>();
+		for (Header header : response.getAllHeaders()) {
+			CHHeader chHeader = new CHHeader(header);
+			if (chHeader != null) {
+				headers.add(chHeader);
 			}
 		}
+		return headers;
 	}
 
 	/**
-	 * Extract the body from the {@link HttpResponse} and set directly the body
-	 * field.
-	 * @param response - the {@link HttpResponse} to extract the body from.
+	 * Used to get the cookies from an {@link ArrayList} of {@link CHHeader}s.
+	 * @param headers - an {@link ArrayList} of {@link CHHeader}s to get the cookies from.
+	 * @return an {@link ArrayList} of {@link CHCookie}s.
 	 */
-	private void extractBody(HttpResponse response) {
-		this.body = "";
+	private ArrayList<CHCookie> getCookies(ArrayList<CHHeader> headers) {
+		ArrayList<CHCookie> cookies = new ArrayList<CHCookie>();
+		for (CHHeader header : headers) {
+			if ("Set-Cookie".equals(header.getName())) {
+				CHCookie cookie = CHCookie.parse(header.getValue());
+				if (cookie != null) {
+					cookies.add(cookie);
+				}
+			}
+		}
+		return cookies;
+	}
+
+	/**
+	 * Used to get the body from a {@link HttpResponse}.
+	 * @param response - the {@link HttpResponse} to get the body from.
+	 * @return 
+	 */
+	private String getBody(HttpResponse response) {
+		String body = "";
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity()
 					.getContent()));
@@ -87,44 +103,46 @@ public class CHHttpResponse {
 				bodybuffer.append(inputLine);
 			}
 			in.close();
-			this.body = bodybuffer.toString();
+			body = bodybuffer.toString();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		return body;
 	}
 
 	/**
 	 * @return the http status code
 	 */
 	public final int getStatusCode() {
-		return this.statusCode;
+		return statusCode;
 	}
 
 	/**
 	 * @return the headers
 	 */
 	public final ArrayList<CHHeader> getHeaders() {
-		return this.headers;
+		return headers;
 	}
 
 	/**
 	 * @return the cookies
 	 */
 	public final ArrayList<CHCookie> getCookies() {
-		return this.cookies;
+		return cookies;
 	}
 
 	/**
 	 * @return the body
 	 */
 	public final String getBody() {
-		return this.body;
+		return body;
 	}
 
-	/*
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
+		return "CHHttpResponse [statusCode=" + statusCode //
+				+ ", headers=" + ArrayListUtils.toString(headers) //
+				+ ", cookies=" + ArrayListUtils.toString(cookies) //
+				+ ", body=" + body;
 	}
-	*/
 }
