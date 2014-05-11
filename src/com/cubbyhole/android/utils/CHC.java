@@ -19,6 +19,8 @@ public final class CHC {
 	public static final String	OAUTH_PARAM_CALLBACK		= "redirect_uri";
 	public static final String	OAUTH_PARAM_GRANT_TYPE		= "grant_type";
 	public static final String	OAUTH_PARAM_RESPONSE_TYPE	= "response_type";
+	public static final String	OAUTH_PARAM_ACESS_TOKEN		= "access_token";
+	
 
 	public static final String	OAUTH_CALLBACK_URL			= "http://localhost";
 	public static final String	OAUTH_CLIENT_ID				= "cubbyh_6f6edb93-8644-4b9c-a19a-7ae89f1fcbf9";

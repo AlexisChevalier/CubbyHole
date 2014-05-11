@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.net.http.SslError;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
@@ -16,7 +17,6 @@ import com.cubbyhole.library.http.CHHeader;
 import com.cubbyhole.library.http.CHHttp;
 import com.cubbyhole.library.http.CHHttpData;
 import com.cubbyhole.library.http.CHHttpResponse;
-import com.cubbyhole.library.logger.Log;
 
 public class AuthWebView extends WebView {
 	private AuthWebViewClient	mAuthWebViewClient;
@@ -63,7 +63,9 @@ public class AuthWebView extends WebView {
 						.add(CHC.OAUTH_PARAM_ACCESS_CODE, accessCode);
 				CHHttpResponse response = CHHttp.post(CHC.OAUTH_URL_ACCESS_TOKEN, datas, headers,
 						null);
-				Log.d(TAG, response.toString());
+				
+				String token = response.getJson().path(CHC.OAUTH_PARAM_ACESS_TOKEN).asText();
+				Log.d(TAG, token);
 				return true;
 			}
 			return false;
@@ -88,7 +90,7 @@ public class AuthWebView extends WebView {
 	@Override
 	public void loadUrl(String url) {
 		if (mAuthWebViewClient != null && mAuthWebViewClient.shouldOverrideUrlLoading(this, url)) {
-			return; //We already handled the loading ourself in shouldOverrideUrlLoading
+			return; //We already handled the loading in shouldOverrideUrlLoading
 		}
 
 		super.loadUrl(url); //Let the page to be loaded normally
