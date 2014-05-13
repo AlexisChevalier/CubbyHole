@@ -4,13 +4,15 @@ var mongoose = require('mongoose'),
     VersionSchema,
     ShareSchema,
     ItemSchema,
+    FileSchema,
     FolderSchema;
 
 FolderSchema = new Schema({
     name: String,
     userId: Number,
     childFiles: [{
-        type: Schema.Types.ObjectId
+        type: Schema.Types.ObjectId,
+        ref: 'File'
     }],
     childFolders: [{
         type: Schema.Types.ObjectId,
@@ -41,6 +43,43 @@ FolderSchema = new Schema({
         default: Date.now
     }
 });
+
+
+FileSchema = new Schema({
+    "filename": String,
+    "contentType": String,
+    "length": Number,
+    "chunkSize": Number,
+    "uploadDate": Date,
+    "aliases": [{
+        type: String
+    }],
+    "metadata": {
+        "fileName": String,
+        "userId": Number,
+        "isShared": Boolean,
+        "shareId": {
+            type: Schema.Types.ObjectId,
+            ref: 'Share'
+        },
+        "parents": [{
+            type: Schema.Types.ObjectId,
+            ref: 'Folder'
+        }],
+        "parent": {
+            type: Schema.Types.ObjectId,
+            ref: 'Folder'
+        },
+        "version": Number,
+        "oldVersions": [
+
+        ]
+    },
+    "md5": String
+},
+    {
+        collection: 'fs.files'
+    });
 
 ShareSchema = new Schema({
     itemId: Schema.ObjectId,
@@ -108,5 +147,6 @@ Models.Item = mongoose.model('Item', ItemSchema);
 Models.Folder = mongoose.model('Folder', FolderSchema);
 Models.Share = mongoose.model('Share', ShareSchema);
 Models.Version = mongoose.model('Version', VersionSchema);
+Models.File = mongoose.model('File', FileSchema);
 
 Models.ObjectId = mongoose.Types.ObjectId;

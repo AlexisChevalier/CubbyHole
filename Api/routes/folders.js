@@ -50,23 +50,23 @@ module.exports = {
                 folderParentId = req.body.parentId;
 
             if (!folderName || !folderParentId) {
-                res.send(400, "Missing parameters");
+                return res.send(400, "Missing parameters");
             }
 
             FolderHelper.getFolder({'_id': mongooseModels.ObjectId(folderParentId)}, "parents share childFolders childFiles", function (err, folder) {
                 if (err || !folder || folder == null) {
-                    res.send(404, "Couldn't find given parent folder");
+                    return res.send(404, "Couldn't find given parent folder");
                 }
 
                 if (folder.userId != req.user.id) {
 
                     //TODO: CHECK SHARES
 
-                    res.send(403, "You don't have any write access on this folder");
+                    return res.send(403, "You don't have any write access on this folder");
                 }
 
                 if (!FolderHelper.isNameAvailable(folderName, folder.childFolders, folder.childFiles)) {
-                    res.send(403, "Name already existing in this folder");
+                    return res.send(403, "Name already existing in this folder");
                 }
 
                     //TODO: DETECT IF A SHARE IS NEEDED
@@ -83,7 +83,7 @@ module.exports = {
                     share: folder.share == null ? null : mongooseModels.ObjectId(folder.share)
                 }, function (err, createdFolder) {
                     if (err) {
-                        res.send(400, err.toString());
+                        return res.send(400, err.toString());
                     }
                     mongooseModels.Folder.update({'_id': mongooseModels.ObjectId(folderParentId)}, { $push: { childFolders: mongooseModels.ObjectId(createdFolder.id)} }, function (err) {
                         if (err) {
@@ -108,30 +108,30 @@ module.exports = {
                 newName = req.body.newName;
 
             if (!folderId && (!newParentId || !newName)) {
-                res.send(400, "Missing parameters");
+                return res.send(400, "Missing parameters");
             }
 
             /** RECUPERATION DU DOSSIER A MODIFIER **/
             FolderHelper.getFolder({'_id': mongooseModels.ObjectId(folderId)}, "share parent childFolders childFiles", function (err, folder) {
                 if (err || !folder || folder == null) {
-                    res.send(404, "Couldn't find given folder");
+                    return res.send(404, "Couldn't find given folder");
                 }
 
                 /** TEST D'APPARTENANCE **/
                 if (folder.userId != req.user.id) {
                     //TODO: CHECK SHARES
-                    res.send(403, "You don't have any write access on this folder");
+                    return res.send(403, "You don't have any write access on this folder");
                 }
                 /** RECUPERATION DU PARENT DU DOSSIER A MODIFIER **/
                 FolderHelper.getFolder({'_id': folder.parent.id}, "share parent childFolders childFiles", function (err, oldParentFolder) {
                     if (err || !folder || folder == null) {
-                        res.send(404, "Couldn't find parent folder");
+                        return res.send(404, "Couldn't find parent folder");
                     }
 
                     /** SI ON DOIT MODIFIER LE NOM **/
                     if (newName) {
                         if (!FolderHelper.isNameAvailable(newName, oldParentFolder.childFolders, oldParentFolder.childFiles, folder.name)) {
-                            res.send(400, "Name already existing in this folder");
+                            return res.send(400, "Name already existing in this folder");
                         } else {
                             folder.name = newName;
                             folder.save();
@@ -154,33 +154,33 @@ module.exports = {
                     var oldHierarchy, newHierarchy, foldersToChangeHierarchy = [], i;
 
                     if (foldertoMove.id == newFolderDirectionId) {
-                        res.send(400, "You can't move a folder to himself.");
+                        return res.send(400, "You can't move a folder to himself.");
                     }
 
                     if (newFolderDirectionId == oldParentFolder.id) {
-                        res.send(400, "You can't move a folder to his actual emplacement.");
+                        return res.send(400, "You can't move a folder to his actual emplacement.");
                     }
 
                     FolderHelper.getFolder({'_id': mongooseModels.ObjectId(newFolderDirectionId)}, "share parent parents childFolders childFiles", function (err, newFolderDirection) {
 
                         if (err || !newFolderDirection || newFolderDirection == null) {
-                            res.send(404, "Couldn't find given new folder");
+                            return res.send(404, "Couldn't find given new folder");
                         }
                         if (newFolderDirection.userId != req.user.id) {
                             //TODO: CHECK SHARES
-                            res.send(403, "You don't have any write access on the new folder");
+                            return res.send(403, "You don't have any write access on the new folder");
                         }
 
                         /** TEST DU DEPLACEMENT DANS UN DES ENFANTS **/
                         for (i = 0; i < newFolderDirection.parents.length; i++) {
                             if (newFolderDirection.parents[i].id == foldertoMove.id) {
-                                res.send(400, "You can't move a folder to one of his children !");
+                                return res.send(400, "You can't move a folder to one of his children !");
                             }
                         }
 
                         /** Test du nom **/
                         if (!FolderHelper.isNameAvailable(foldertoMove.name, newFolderDirection.childFolders, newFolderDirection.childFiles)) {
-                            res.send(400, "Name already existing in the new folder");
+                            return res.send(400, "Name already existing in the new folder");
                         }
 
                         /** Récupération de la chaine de dossiers a enlever **/
@@ -269,7 +269,7 @@ module.exports = {
                             }
                         ], function (err) {
                             if (err) {
-                                console.err("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
+                                console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
                                 next(err);
                             }
                             FolderHelper.getFolder({"_id": foldertoMove.id }, "parents parent childFolders childFiles", function (err, folder) {
@@ -291,16 +291,16 @@ module.exports = {
             var folderId = req.params.folderID, hierarchy = [], parentFolder;
 
             if (!folderId) {
-                res.send(400, "Missing parameter");
+                return res.send(400, "Missing parameter");
             }
             FolderHelper.getFolder({'_id': mongooseModels.ObjectId(folderId)}, "share parent", function (err, folder) {
                 if (err || !folder || folder == null) {
-                    res.send(404, "Couldn't find given folder");
+                    return res.send(404, "Couldn't find given folder");
                 }
 
                 if (folder.userId != req.user.id) {
                     //TODO: CHECK SHARES
-                    res.send(403, "You don't have any write access on this folder");
+                    return res.send(403, "You don't have any write access on this folder");
                 }
 
                 /** Récupération de la chaine de dossiers a enlever **/
@@ -312,7 +312,7 @@ module.exports = {
                         /** RECUPERATION DU PARENT DU DOSSIER A MODIFIER **/
                         FolderHelper.getFolder({'_id': folder.parent.id}, "share parent childFolders childFiles", function (err, innerParentFolder) {
                             if (err || !folder || folder == null) {
-                                res.send(404, "Couldn't find parent folder");
+                                return res.send(404, "Couldn't find parent folder");
                             }
 
                             parentFolder = innerParentFolder;
@@ -360,10 +360,10 @@ module.exports = {
                     }
                 ], function (err) {
                     if (err) {
-                        console.err("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
+                        console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
                         next(err);
                     }
-                    res.send(200, "File deleted");
+                    return res.send(200, "File deleted");
                 });
             });
         }

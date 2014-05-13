@@ -1,6 +1,7 @@
 "use strict";
 
 var mongooseModels = require('../schemas/index'),
+    FileHelper = require('./FileHelper'),
     FolderHelper = module.exports;
 
 /**
@@ -64,7 +65,7 @@ FolderHelper.isNameAvailable = function (name, childFolders, childFiles, oldName
         if (error) {
             break;
         }
-        if (childFiles[i].name == name && childFiles[i].name != oldName) {
+        if (childFiles[i].metadata.fileName == name && childFiles[i].metadata.fileName != oldName) {
             error = true;
         }
     }

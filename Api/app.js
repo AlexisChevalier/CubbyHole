@@ -156,16 +156,19 @@ app.get('/api/files/byFolder/:folderID', filesRoutes.listItemsByFolder);
 app.get('/api/files/searchByTerms/:terms', filesRoutes.searchItemsByTerm);
 
 //Upload
-app.post('/api/files/upload', filesRoutes.upload);
+app.post('/api/files', filesRoutes.createFile);
 
 //Download
-app.get('/api/files/download/:itemID', filesRoutes.download);
+app.get('/api/files/metadata/:fileID', filesRoutes.getFileMedatata);
+
+//Download
+app.get('/api/files/:fileID', filesRoutes.download);
 
 //Update
-app.put('/api/files/update/:itemID', filesRoutes.searchItemsByTerm);
+app.put('/api/files/:fileID', filesRoutes.searchItemsByTerm);
 
 //Remove
-app.delete('/api/files/remove/:itemID', filesRoutes.searchItemsByTerm);
+app.delete('/api/files/:fileID', filesRoutes.searchItemsByTerm);
 
 /**
  * FOLDERS API
