@@ -7,11 +7,6 @@
         "password": "bafuFRa6#_1"
     },
     "mysqlServer": {
-        "user": "root",
-        "database": "CubbyHole",
-        "password": "root",
-        "port": 8889,
-        "host": "localhost",
         "dsn": "mysql://root:root@localhost:8889/CubbyHole"
     },
     "social": {

@@ -9,11 +9,6 @@
         "callbackURL": "https://localhost:8443/loginCallback"
     },
     "mysqlServer": {
-        "user": "root",
-        "database": "CubbyHole",
-        "password": "root",
-        "port": 8889,
-        "host": "localhost",
         "dsn": "mysql://root:root@localhost:8889/CubbyHole"
     }
 }
