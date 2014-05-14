@@ -15,6 +15,12 @@ module.exports = {
         function (req, res) {
             var folderId = req.params.folderID;
 
+            try {
+                folderId = mongooseModels.ObjectId(folderId);
+            } catch (err) {
+                return res.send(400, "Wrong ID");
+            }
+
             if (!folderId) {
                 FolderHelper.getFolder({"userId": req.user.id, "isRoot": true}, "", function (err, folder) {
                     if (err || !folder || folder == null) {
@@ -23,7 +29,7 @@ module.exports = {
                     return res.json(folder);
                 });
             } else {
-                FolderHelper.getFolder({"_id": mongooseModels.ObjectId(folderId)}, "", function (err, folder) {
+                FolderHelper.getFolder({"_id": folderId}, "", function (err, folder) {
                     if (err || !folder || folder == null) {
                         return res.send(404, "Folder not found");
                     }
@@ -53,7 +59,14 @@ module.exports = {
                 return res.send(400, "Missing parameters");
             }
 
-            FolderHelper.getFolder({'_id': mongooseModels.ObjectId(folderParentId)}, "parents share childFolders childFiles", function (err, folder) {
+            try {
+                folderParentId = mongooseModels.ObjectId(folderParentId);
+            } catch (err) {
+                return res.send(400, "Wrong ID");
+            }
+
+
+            FolderHelper.getFolder({'_id': folderParentId}, "parents share childFolders childFiles", function (err, folder) {
                 if (err || !folder || folder == null) {
                     return res.send(404, "Couldn't find given parent folder");
                 }
@@ -72,20 +85,20 @@ module.exports = {
                     //TODO: DETECT IF A SHARE IS NEEDED
 
                 var newParents = folder.parents;
-                newParents.push(mongooseModels.ObjectId(folder.id));
+                newParents.push(folder._id);
 
                 mongooseModels.Folder.create({
                     name: folderName,
-                    parent: mongooseModels.ObjectId(folder.id),
+                    parent: folder._id,
                     userId: req.user.id,
                     parents: newParents,
                     shared: folder.isShared,
-                    share: folder.share == null ? null : mongooseModels.ObjectId(folder.share)
+                    share: folder.share == null ? null : folder.share._id
                 }, function (err, createdFolder) {
                     if (err) {
                         return res.send(400, err.toString());
                     }
-                    mongooseModels.Folder.update({'_id': mongooseModels.ObjectId(folderParentId)}, { $push: { childFolders: mongooseModels.ObjectId(createdFolder.id)} }, function (err) {
+                    mongooseModels.Folder.update({'_id': folderParentId}, { $push: { childFolders: createdFolder._id} }, function (err) {
                         if (err) {
                             console.log(err);
                         } else {
@@ -111,8 +124,15 @@ module.exports = {
                 return res.send(400, "Missing parameters");
             }
 
+            try {
+                folderId = mongooseModels.ObjectId(folderId);
+                newParentId = mongooseModels.ObjectId(newParentId);
+            } catch (err) {
+                return res.send(400, "Wrong ID");
+            }
+
             /** RECUPERATION DU DOSSIER A MODIFIER **/
-            FolderHelper.getFolder({'_id': mongooseModels.ObjectId(folderId)}, "share parent childFolders childFiles", function (err, folder) {
+            FolderHelper.getFolder({'_id': folderId}, "share parent childFolders childFiles", function (err, folder) {
                 if (err || !folder || folder == null) {
                     return res.send(404, "Couldn't find given folder");
                 }
@@ -161,7 +181,7 @@ module.exports = {
                         return res.send(400, "You can't move a folder to his actual emplacement.");
                     }
 
-                    FolderHelper.getFolder({'_id': mongooseModels.ObjectId(newFolderDirectionId)}, "share parent parents childFolders childFiles", function (err, newFolderDirection) {
+                    FolderHelper.getFolder({'_id': newFolderDirectionId}, "share parent parents childFolders childFiles", function (err, newFolderDirection) {
 
                         if (err || !newFolderDirection || newFolderDirection == null) {
                             return res.send(404, "Couldn't find given new folder");
@@ -287,13 +307,20 @@ module.exports = {
      */
     removeFolder: [
         passport.authenticate('bearer', { session: false }),
-        function (req, res) {
+        function (req, res, next) {
             var folderId = req.params.folderID, hierarchy = [], parentFolder;
 
             if (!folderId) {
                 return res.send(400, "Missing parameter");
             }
-            FolderHelper.getFolder({'_id': mongooseModels.ObjectId(folderId)}, "share parent", function (err, folder) {
+
+            try {
+                folderId = mongooseModels.ObjectId(folderId);
+            } catch (err) {
+                return res.send(400, "Wrong ID");
+            }
+
+            FolderHelper.getFolder({'_id': folderId}, "share parent", function (err, folder) {
                 if (err || !folder || folder == null) {
                     return res.send(404, "Couldn't find given folder");
                 }

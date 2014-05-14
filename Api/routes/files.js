@@ -18,6 +18,12 @@ module.exports = {
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
             var id = req.params.folderID;
+            try {
+                id = mongooseModels.ObjectId(id);
+            } catch (err) {
+                res.status(400);
+                return res.send(400, "Wrong ID");
+            }
             if (id == -1) {
                 mongooseModels.Item.findOne({userId: req.user.id, isRoot: true}).populate('items').exec(function (err, data) {
                     if (err) {
@@ -27,7 +33,7 @@ module.exports = {
                     }
                 });
             } else {
-                mongooseModels.Item.findOne({userId: req.user.id, '_id': mongooseModels.ObjectId(id)}).populate('items').populate('parents').exec(function (err, data) {
+                mongooseModels.Item.findOne({userId: req.user.id, '_id': id}).populate('items').populate('parents').exec(function (err, data) {
                     if (err) {
                         res.json(err);
                     } else {
@@ -82,12 +88,19 @@ module.exports = {
                 shareId = null,
                 i;
 
+            try {
+                parentId = mongooseModels.ObjectId(parentId);
+            } catch (err) {
+                res.status(400);
+                return res.send(400, "Wrong ID");
+            }
+
             if (!filename || !parentId || !fileLength || !fileMimeType) {
                 return res.send(400, "Missing headers");
             }
 
             //GET PARENT FOLDER AND CHECK SECURITY (OWNER OR SHARED)
-            FolderHelper.getFolder({'_id': mongooseModels.ObjectId(parentId)}, "share parent childFolders childFiles", function (err, folder) {
+            FolderHelper.getFolder({'_id': parentId}, "share parent childFolders childFiles", function (err, folder) {
                 var fileParents = [],
                     id = new Date().getTime() + '_' + uuid.v4();
                 if (folder.userId != req.user.id) {
@@ -123,7 +136,7 @@ module.exports = {
                         "isShared": shareId != null,
                         "shareId": (shareId == null) ? null : shareId,
                         "parents": fileParents,
-                        "parent": mongooseModels.ObjectId(parentId),
+                        "parent": parentId,
                         "version": 0,
                         "oldVersions": []
                     }
@@ -158,7 +171,7 @@ module.exports = {
                                     return res.end(err.toString());
                                 }
 
-                                mongooseModels.Folder.update({'_id': mongooseModels.ObjectId(parentId)},
+                                mongooseModels.Folder.update({'_id': parentId},
                                     { $push: { childFiles: gs._id } },
                                     function (err, docsUpdated) {
                                         if (err) {
@@ -174,11 +187,6 @@ module.exports = {
                         //throttledRequest.pipe(gs);
                     }
                 });
-
-            //TODO: CHECK EXISTING FILE WITH SAME NAME
-
-            //TODO: FILL THIS ARRAY
-
             });
         }
     ],
@@ -189,7 +197,20 @@ module.exports = {
     getFileMedatata: [
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
+            var id = req.params.fileID;
+            try {
+                id = mongooseModels.ObjectId(id);
+            } catch (err) {
+                return res.send(400, "Wrong ID");
+            }
 
+            FileHelper.getFile({'_id': id}, 'metadata.parents', function (err, file) {
+                if (file.metadata.userId != req.user.id) {
+                    //TODO: CHECK SHARES
+                    return res.send(403, "You don't have any access on this file");
+                }
+                res.json(file);
+            });
         }
     ],
 
@@ -218,8 +239,62 @@ module.exports = {
      */
     deleteFile: [
         passport.authenticate('bearer', { session: false }),
-        function (req, res) {
+        function (req, res, next) {
+            var id = req.params.fileID;
+            try {
+                id = mongooseModels.ObjectId(id);
+            } catch (err) {
+                return res.send(400, "Wrong ID");
+            }
 
+            FileHelper.getFile({'_id': id}, 'metadata.parent', function (err, file) {
+                if (err) {
+                    return next(err);
+                }
+
+                if (file == null) {
+                    //TODO: CHECK SHARES
+                    return res.send(404, "File not found");
+                }
+
+                if (file.metadata.userId != req.user.id) {
+                    //TODO: CHECK SHARES
+                    return res.send(403, "You don't have any access on this file");
+                }
+
+                mongooseModels.Folder.update({'_id': file.metadata.parent._id},
+                    { $pull: { childFiles: file._id } },
+                    function (err, docsUpdated) {
+                        if (err) {
+                            return res.end(err.toString());
+                        }
+                        new mongo.GridStore(mongo_db_object, file._id, 'r').open(function (err, gridStore) {
+
+                            // Unlink the file
+                            gridStore.unlink(function (err, result) {
+                                if (err) {
+                                    console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
+                                    next(err);
+                                }
+
+                                // Verify that the file no longer exists
+                                mongo.GridStore.exist(mongo_db_object, file._id, function (err, result) {
+                                    if (err) {
+                                        console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
+                                        next(err);
+                                    }
+
+                                    if (result) {
+                                        console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
+                                        return res.send(500, "Internal Error");
+                                    }
+
+                                    return res.end('File deleted');
+                                });
+                            });
+                        });
+                    });
+            });
         }
     ]
 };

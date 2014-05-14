@@ -165,10 +165,10 @@ app.get('/api/files/metadata/:fileID', filesRoutes.getFileMedatata);
 app.get('/api/files/:fileID', filesRoutes.download);
 
 //Update
-app.put('/api/files/:fileID', filesRoutes.searchItemsByTerm);
+app.put('/api/files/:fileID', filesRoutes.updateFile);
 
 //Remove
-app.delete('/api/files/:fileID', filesRoutes.searchItemsByTerm);
+app.delete('/api/files/:fileID', filesRoutes.deleteFile);
 
 /**
  * FOLDERS API
