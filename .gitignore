@@ -38,3 +38,5 @@ Thumbs.db
 Api/config/config.json
 Website/config/config.json
 Dev/config/config.json
+
+.idea
