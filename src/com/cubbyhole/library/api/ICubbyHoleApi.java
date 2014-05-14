@@ -11,7 +11,41 @@ import com.cubbyhole.library.api.entities.CHItem;
  * @version 1.0
  */
 public interface ICubbyHoleApi {
-	public static float	API_VERSION	= 1.0F;
+	public static final float	API_VERSION		= 1.0F;
+
+	/// API ROUTES DEFINITION ///
+
+	public static final String	API_ENDPOINT	= "https://auth.dev.cubby-hole.me:8444/api";
+
+	//account
+	public static final String	ACCOUNT			= "/account";
+	public static final String	ACCOUNT_DETAILS	= ACCOUNT + "/details";
+	public static final String	ACCOUNT_FIND	= "/users/find/";
+
+	//files
+	public static final String	FILES			= "/files";
+	public static final String	FILES_BYFOLDER	= FILES + "/byFolder/";
+	public static final String	FILES_SEARCH	= FILES + "/searchByTerms/";
+	public static final String	FILES_METADATA	= FILES + "/metadata/";
+	public static final String	FILES_UPLOAD	= FILES;
+	public static final String	FILES_DOWNLOAD	= FILES + "/";
+	public static final String	FILES_UPDATE	= FILES + "/";
+	public static final String	FILES_DELETE	= FILES + "/";
+
+	//folders
+	public static final String	FOLDERS			= "/folders";
+	public static final String	FOLDERS_LIST	= FOLDERS + "/";
+	public static final String	FOLDERS_CREATE	= FOLDERS;
+	public static final String	FOLDERS_UPDATE	= FOLDERS + "/";
+	public static final String	FOLDERS_DELETE	= FOLDERS + "/";
+
+	/// END OF API ROUTES DEFINITION ///
+
+	/**
+	 * Initialize the context with the access token
+	 * @param token - the access token to initialize the context with
+	 */
+	public void Initialize(String token);
 
 	/**
 	 * Used to return the items in a specific folder.
