@@ -80,7 +80,9 @@ public class CHHttp {
 		}
 
 		try {
-			return new CHHttpResponse(getHttpclient().execute(request));
+			CHHttpResponse resp = new CHHttpResponse(getHttpclient().execute(request));
+			Log.d(TAG, resp.toString());
+			return resp;
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
