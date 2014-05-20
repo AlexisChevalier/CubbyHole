@@ -16,7 +16,10 @@ FolderHelper.createRootFolder = function (userID, next) {
         userId: userID,
         parents: [],
         shared: null,
-        share: null
+        share: null,
+        childFiles: [],
+        childFolders: [],
+        isRoot: true
     }, function (err, createdFolder) {
         next(err, createdFolder);
     });

@@ -7,155 +7,229 @@
 <blockquote>
     <p>{{__('API Documentation is only available in english at the moment !')}}</p>
 </blockquote>
-<div class="col-md-2" role="navigation">
-    <div class="list-group">
-        <a href="#auth" class="list-group-item">Authentication</a>
-        <a href="#account" class="list-group-item">Account</a>
-    </div>
-</div><!--/span-->
-<div class="col-md-10">
-    <div class="doc-group">
-        <h1 id="auth">I - Authentication</h1>
-        <div class="doc-group-item">
-            <blockquote>
-                <p>Go <a href="/addApp">there</a> if you want to register your new application !</p>
-            </blockquote>
-            <p>
-                We use oAuth2 as authentication system for our API, here's a few steps to learn using it in a few steps
-            </p>
-            <h3>1 - Creating redirection URL and redirect the user</h3>
-            <p>The following URL must me customized with your redirection URI (on your application) and your client id.</p>
-            <pre>https://localhost:8444/auth/dialog/authorize?redirect_uri={REDIRECT_URI}&response_type=code&client_id={CLIENT_ID}</pre>
-            <p>You have to redirect the user to this url where he will have to log on our application and authorize your application, he will be redirected to your redirection URI then with a code :</p>
-            <pre>http://your-redirect.uri/?code=0aPqiS649G9TcEaJ</pre>
-            <p>Keep this code, you will need it in the next step !</p>
+<div class="col-md-12">
+<div class="doc-group">
+    <h1 id="auth">I - Authentication</h1>
 
-            <h3>2 - Getting Access Token</h3>
-            <p>Well, now you get an Authorization Code (valid for 5 minutes) you must get the access token to communicate with the API. To achieve this, just send a post request to :</p>
-            <pre>https://localhost:8444/auth/oauth/token</pre>
-            <p>You need to precise the Content-Type as application/x-www-form-urlencoded with a HTTP header</p>
-            <p>Finally, you just have to add this as a request body, replace the Authorization Code with the one you got before, and the Client Secret with the one which was given to you when you registered the application.</p>
-            <pre>code={AUTHORIZATION_CODE}&redirect_uri={REDIRECT_URI}&client_id={CLIENT_ID}&client_secret={CLIENT_SECRET}&grant_type=authorization_code</pre>
-            <p>If all your informations are right, you will get an access token in the body of the response :</p>
+    <div class="doc-group-item">
+        <blockquote>
+            <p>Go <a href="/addApp">there</a> if you want to register your new application !</p>
+        </blockquote>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#authProcess">
+                            1 - oAuth2 authentication process
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="authProcess">
+                    <div class="panel-body">
+                        <p>
+                            We use oAuth2 as authentication system for our API, here's a few steps to learn using it.
+                        </p>
+
+                        <h3>1 - Creating redirection URL and redirect the user</h3>
+
+                        <p>The following URL must me customized with your redirection URI (on your application) and your client id.</p>
+                        <pre>https://localhost:8444/auth/dialog/authorize?redirect_uri={REDIRECT_URI}&response_type=code&client_id={CLIENT_ID}</pre>
+                        <p>You have to redirect the user to this url where he will have to log on our application and authorize your
+                            application, he will be redirected to your redirection URI then with a code :</p>
+                        <pre>http://your-redirect.uri/?code=0aPqiS649G9TcEaJ</pre>
+                        <p>Keep this code, you will need it in the next step !</p>
+
+                        <h3>2 - Getting Access Token</h3>
+
+                        <p>Well, now you get an Authorization Code (valid for 5 minutes) you must get the access token to communicate
+                            with the API. To achieve this, just send a post request to :</p>
+                        <pre>https://localhost:8444/auth/oauth/token</pre>
+                        <p>You need to precise the Content-Type as application/x-www-form-urlencoded with a HTTP header</p>
+
+                        <p>Finally, you just have to add this as a request body, replace the Authorization Code with the one you got
+                            before, and the Client Secret with the one which was given to you when you registered the application.</p>
+                        <pre>code={AUTHORIZATION_CODE}&redirect_uri={REDIRECT_URI}&client_id={CLIENT_ID}&client_secret={CLIENT_SECRET}&grant_type=authorization_code</pre>
+                        <p>If all your informations are right, you will get an access token in the body of the response :</p>
             <pre>{
     "access_token": "8LFxvvqtPslmxcSDSrEYM6dSbRSCzdAMkY0zPAKmJ6xvQJRpHxCBIYCs8EcBuIdRA5KfwMMKpsPlEJINSG1AADuQHcnYTvmVSr6NwP4jttHCu35hwYaIWovMu8H9lvseSKigtJHeMgprekFGov87uvz5t4vqJConWkKP07ToqPrwV7vSE0x3fpthVy4z9qbFxjx7oRWoyp87LDQohRFlClAiE3DlTHTqKK36FbTguLf5z3un7RjACynO3CGLsutj",
     "token_type": "bearer"
 }</pre>
-            This token is valid as long as your user doesn't remove the authorization for your application on its account, so keep it preciously !
-            <h3>3 - Request the API</h3>
-            <p>This is the easiest part, you just have to do a GET/POST/PUT/DELETE request on our api with adding the Authorization HTTP Header (Don't forget to add the keyword 'Bearer' followed by the Access Token) : </p>
-            <pre>Authorization: Bearer 8LFxvvqtPslmxcSDSrEYM6dSbRSCzdAMkY0zPAKmJ6xvQJRpHxCBIYCs8EcBuIdRA5KfwMMKpsPlEJINSG1AADuQHcnYTvmVSr6NwP4jttHCu35hwYaIWovMu8H9lvseSKigtJHeMgprekFGov87uvz5t4vqJConWkKP07ToqPrwV7vSE0x3fpthVy4z9qbFxjx7oRWoyp87LDQohRFlClAiE3DlTHTqKK36FbTguLf5z3un7RjACynO3CGLsutj</pre>
+                        This token is valid as long as your user doesn't remove the authorization for your application on its account,
+                        so keep it preciously !
+                        <h3>3 - Request the API</h3>
+
+                        <p>This is the easiest part, you just have to do a GET/POST/PUT/DELETE request on our api with adding the
+                            Authorization HTTP Header (Don't forget to add the keyword 'Bearer' followed by the Access Token) : </p>
+                        <pre>Authorization: Bearer 8LFxvvqtPslmxcSDSrEYM6dSbRSCzdAMkY0zPAKmJ6xvQJRpHxCBIYCs8EcBuIdRA5KfwMMKpsPlEJINSG1AADuQHcnYTvmVSr6NwP4jttHCu35hwYaIWovMu8H9lvseSKigtJHeMgprekFGov87uvz5t4vqJConWkKP07ToqPrwV7vSE0x3fpthVy4z9qbFxjx7oRWoyp87LDQohRFlClAiE3DlTHTqKK36FbTguLf5z3un7RjACynO3CGLsutj</pre>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
-    <!-- <br/><br/> -->
-    <div class="doc-group">
-        <h1 id="account">II - User account</h1>
-        <div class="doc-group-item">
-            <h3 id="account_get">1 - Get user infos</h3>
-            <pre>https://localhost:8444/api/account/details</pre>
-            <ul>
-                <li>Method : GET</li>
-                <li>Authentication : Required</li>
-                <li>Additional parameters : No</li>
-            </ul>
-            <p>Typical response : </p>
-            <pre>{
-    "id": 1,
-    "email": "bob@mail.com",
-    "name": "bob",
-    "socialAccount": "true",
-    "actualPlan": "à compléter"
-}</pre>
-        </div>
-        <div class="doc-group-item">
-            <h3 id="account_put">2 - Update user infos</h3>
-            <pre>https://localhost:8444/api/account/details</pre>
-            <ul>
-                <li>Method : PUT</li>
-                <li>Authentication : Required</li>
-                <li>Required parameters :
+<!-- <br/><br/> -->
+<div class="doc-group">
+<h1 id="account">II - User account</h1>
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#getUser">
+                        1 - Get user infos
+                    </a>
+                </h4>
+            </div>
+            <div id="getUser" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/account/details</pre>
                     <ul>
-                        <li>id: The id of the user to update</li>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                        <li>Additional parameters : No</li>
                     </ul>
-                </li>
-                <li>Optional parameters :
-                    <ul>
-                        <li>email : The id of the user to update</li>
-                        <li>name : The fullname of the user to update</li>
-                        <li>password : The password of the user to update</li>
-                    </ul>
-                </li>
-            </ul>
-            <p>Typical response : </p>
-            <pre>{
-    "id": 1,
-    "email": "bob@mail.com",
-    "name": "bob"
-}</pre>
+                    <p>Typical response : </p>
+                <pre>{
+        "id": 1,
+        "email": "bob@mail.com",
+        "name": "bob",
+        "socialAccount": "true",
+        "actualPlan": "à compléter"
+    }</pre>
+                </div>
+            </div>
         </div>
-
-        <div class="doc-group-item">
-            <h3 id="account_delete">3 - Delete user account</h3>
-            <pre>https://localhost:8444/api/account</pre>
-            <ul>
-                <li>Method : DELETE</li>
-                <li>Authentication : Required</li>
-                <li>Required parameters :
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#putUser">
+                        2 - Update user infos
+                    </a>
+                </h4>
+            </div>
+            <div id="putUser" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/account/details</pre>
                     <ul>
-                        <li>id : The id of the user to delete</li>
+                        <li>Method : PUT</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>id: The id of the user to update</li>
+                            </ul>
+                        </li>
+                        <li>Optional parameters :
+                            <ul>
+                                <li>email : The id of the user to update</li>
+                                <li>name : The fullname of the user to update</li>
+                                <li>password : The password of the user to update</li>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
-            <p>Typical response : </p>
-            <pre></pre>
+                    <p>Typical response : </p>
+                <pre>{
+        "id": 1,
+        "email": "bob@mail.com",
+        "name": "bob"
+    }</pre>
+                </div>
+            </div>
         </div>
-
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#removeUser">
+                        3 - Delete user account
+                    </a>
+                </h4>
+            </div>
+            <div id="removeUser" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/account</pre>
+                    <ul>
+                        <li>Method : DELETE</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>id : The id of the user to delete</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre></pre>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
-    <div class="doc-group">
-        <h1 id="users">III - Users</h1>
-        <div class="doc-group-item">
-            <h3 id="account_delete">1 - Find a user</h3>
-            <pre>https://localhost:8444/api/users/find/:terms</pre>
-            <ul>
-                <li>Method : GET</li>
-                <li>Authentication : Required</li>
-                <li>Required url parameters :
+<div class="doc-group">
+    <h1 id="users">III - Users</h1>
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#findUser">
+                        1 - Find a user
+                    </a>
+                </h4>
+            </div>
+            <div id="findUser" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/users/find/:terms</pre>
                     <ul>
-                        <li>:terms : a string that will be used to find users</li>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                        <li>Required url parameters :
+                            <ul>
+                                <li>:terms : a string that will be used to find users</li>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
-            <p>Examples:</p>
+                    <p>Examples:</p>
             <pre>https://localhost:8444/api/users/find/bob
 or
 https://localhost:8444/api/users/find/bob%40mail.com</pre>
-            <p>Typical response :</p>
+                    <p>Typical response :</p>
             <pre>{
     "id": 1,
     "email": "bob@mail.com",
     "name": "bob"
 }</pre>
+                </div>
+            </div>
         </div>
-
     </div>
 
-    <div class="doc-group">
-        <h1 id="files">IV - Files</h1>
-        <div class="doc-group-item">
-            <h3 id="files_get">1 - Get the content of a folder</h3>
-            <pre>https://localhost:8444/api/files/byFolder/:folderID</pre>
-            <ul>
-                <li>Method : GET</li>
-                <li>Authentication : Required</li>
-                <li>Required url parameters :
+</div>
+
+<div class="doc-group">
+    <h1 id="files">IV - Files</h1>
+    <p><span class="label label-danger">UNSTABLE (May change soon)</span></p>
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#getFile">
+                        1 - Get the content of a folder (!! DEPRECATED !!)
+                    </a>
+                </h4>
+            </div>
+            <div id="getFile" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/files/byFolder/:folderID</pre>
                     <ul>
-                        <li>:folderID : The id of the folder to get the content of.</li>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                        <li>Required url parameters :
+                            <ul>
+                                <li>:folderID : The id of the folder to get the content of.</li>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
-            <p>Typical response :</p>
+                    <p>Typical response :</p>
             <pre>
 {
     "items": [
@@ -221,21 +295,30 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
    ]
 }
 </pre>
+                </div>
+            </div>
         </div>
-        
-        <div class="doc-group-item">
-            <h3 id="files_find">2 - Find items by name</h3>
-            <pre>https://localhost:8444/api/files/searchByTerms/:terms</pre>
-            <ul>
-                <li>Method : GET</li>
-                <li>Authentication : Required</li>
-                <li>Required url parameters :
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#findFile">
+                        2 - Find items by name (!! DEPRECATED !!)
+                    </a>
+                </h4>
+            </div>
+            <div id="findFile" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/files/searchByTerms/:terms</pre>
                     <ul>
-                        <li>:terms : The id of the folder to get the content of.</li>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                        <li>Required url parameters :
+                            <ul>
+                                <li>:terms : The id of the folder to get the content of.</li>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
-            <p>Typical response :</p>
+                    <p>Typical response :</p>
 <pre>
 {
     "count": 2
@@ -303,9 +386,327 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
    ]
 }
 </pre>
+                </div>
+            </div>
         </div>
-
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#getFileInfo">
+                        3 - Get file metadatas
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-collapse collapse" id="getFileInfo">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/files/metadata/:fileID</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>fileID: The id of the file to get the metadatas</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "_id": "537bdc85b7f8a5415b16184b",
+  "filename": "1400626309362_85016d5c-13c8-491a-9830-62bb897e568c",
+  "contentType": "image/jpeg",
+  "length": 180224,
+  "chunkSize": 262144,
+  "uploadDate": "2014-05-20T22:51:50.289Z",
+  "md5": "1e9c487846064b3415a248cf3674398e",
+  "metadata": {
+    "name": "IMG_14456.JPG",
+    "userId": 68,
+    "isShared": false,
+    "shareId": null,
+    "parent": "537bd726bd910b1c18519bc4",
+    "version": 0,
+    "oldVersions": [],
+    "parents": [
+      "537bd651bd910b1c18519bc2",
+      "537bd726bd910b1c18519bc4"
+    ]
+  },
+  "aliases": null
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#downloadFile">
+                        4 - Download file
+                    </a>
+                </h4>
+            </div>
+            <div id="downloadFile" class="panel-collapse collapse">
+                <div class="panel-body">
+                    Not available Yet
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#postFile">
+                        5 - Upload File
+                    </a>
+                </h4>
+            </div>
+            <div id="postFile" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/files</pre>
+                    <ul>
+                        <li>Method : POST</li>
+                        <li>Authentication : Required</li>
+                        <li>Required <strong>headers</strong> :
+                            <ul>
+                                <li>cb-file-name: Real name of the file</li>
+                                <li>cb-file-parent-folder-id: Id of the file's parent folder</li>
+                                <li>Content-Type: Real file mime/type</li>
+                                <li>Content-Length: Real file size in Bytes</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{ "_id" : "537bd9bfe186be155397c6c6",
+  "chunkSize" : 262144,
+  "contentType" : "image/jpeg",
+  "filename" : "1400625599361_5b5c6100-1741-4daa-a433-d4fcf545f437",
+  "length" : 180429,
+  "md5" : "5dd8ade36979f8a9ab6ee53701001625",
+  "metadata" : { "isShared" : false,
+      "name" : "IMG_1445.JPG",
+      "oldVersions" : [  ],
+      "parent" : "537bd726bd910b1c18519bc4",
+      "parents" : [
+                "537bd726bd910b1c18519bc4"
+            ],
+      "shareId" : null,
+      "userId" : 68,
+      "version" : 0
+    },
+  "uploadDate" : "2014-05-20T22:40:00.328Z"
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#putFile">
+                        6 - Update or Move file
+                    </a>
+                </h4>
+            </div>
+            <div id="putFile" class="panel-collapse collapse">
+                <div class="panel-body">
+                    Not available Yet
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#deleteFile">
+                        7 - Remove file
+                    </a>
+                </h4>
+            </div>
+            <div id="deleteFile" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/files/:fileID</pre>
+                    <ul>
+                        <li>Method : DELETE</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>fileID: The id of the file to delete</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>File deleted</pre>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+
+<div class="doc-group">
+    <h1 id="folders">V - Folders</h1>
+    <p><span class="label label-danger">UNSTABLE (May change soon)</span></p>
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#getFolder">
+                        1 - Get folder details
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-collapse collapse" id="getFolder">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/folders/:folderID?</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>folderID: The id of the folder to get (if not precised, will return the root folder)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "__v": 0,
+  "_id": "537bd726bd910b1c18519bc4",
+  "name": "InnerFolder",
+  "parent": "537bd651bd910b1c18519bc2",
+  "share": null,
+  "userId": 68,
+  "date": "2014-05-20T22:28:54.232Z",
+  "parents": [
+    "537bd651bd910b1c18519bc2"
+  ],
+  "shared": false,
+  "isRoot": false,
+  "childFolders": [],
+  "childFiles": []
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#postFolder">
+                        2 - Create folder
+                    </a>
+                </h4>
+            </div>
+            <div id="postFolder" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/folders</pre>
+                    <ul>
+                        <li>Method : POST</li>
+                        <li>Authentication : Required</li>
+                        <li>Required body parameters :
+                            <ul>
+                                <li>parentId: The id of the new folder's parent folder</li>
+                                <li>name: The new name of the new folder</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "__v": 0,
+  "name": "MyFolder",
+  "parent": "537bd651bd910b1c18519bc2",
+  "userId": 68,
+  "share": null,
+  "_id": "537bd682bd910b1c18519bc3",
+  "date": "2014-05-20T22:26:10.234Z",
+  "parents": [
+    "537bd651bd910b1c18519bc2"
+  ],
+  "isRoot": false,
+  "childFolders": [],
+  "childFiles": []
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#putFolder">
+                        3 - Update or/and move folder
+                    </a>
+                </h4>
+            </div>
+            <div id="putFolder" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/folders/:folderID</pre>
+                    <ul>
+                        <li>Method : PUT</li>
+                        <li>Authentication : Required</li>
+                        <li>Required uri parameters :
+                            <ul>
+                                <li>folderID: The id of the folder to update or move</li>
+                            </ul>
+                        </li>
+                        <li>Optional body parameters :
+                            <ul>
+                                <li>newParentID: The id of the folder's new parent folder (if moving)</li>
+                                <li>newName: The new name of the folder</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "__v": 0,
+  "_id": "537bd726bd910b1c18519bc4",
+  "name": "InnerFolder",
+  "parent": "537bd651bd910b1c18519bc2",
+  "share": null,
+  "userId": 68,
+  "date": "2014-05-20T22:28:54.232Z",
+  "parents": [
+    "537bd651bd910b1c18519bc2"
+  ],
+  "shared": false,
+  "isRoot": false,
+  "childFolders": [],
+  "childFiles": []
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#deleteFolder">
+                        4 - Remove folder
+                    </a>
+                </h4>
+            </div>
+            <div id="deleteFolder" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/folders/:folderID</pre>
+                    <ul>
+                        <li>Method : DELETE</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>folderID: The id of the folder to delete</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>Folder deleted</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="doc-group">
+    <h1 id="shares">VI - Shares</h1>
+
+    <p><span class="label label-danger">UNSTABLE (May change soon)</span></p>
+
+    <div class="doc-group-item">
+        <h3 id="none-yet">Not available yet !</h3>
+    </div>
+</div>
+
 
 </div><!--/row-->
 {% endblock %}

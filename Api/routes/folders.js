@@ -292,7 +292,7 @@ module.exports = {
                                 console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
                                 next(err);
                             }
-                            FolderHelper.getFolder({"_id": foldertoMove.id }, "parents parent childFolders childFiles", function (err, folder) {
+                            FolderHelper.getFolder({"_id": foldertoMove.id }, "", function (err, folder) {
                                 res.json(folder);
                             });
                         });
@@ -390,7 +390,7 @@ module.exports = {
                         console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
                         next(err);
                     }
-                    return res.send(200, "File deleted");
+                    return res.send(200, "Folder deleted");
                 });
             });
         }

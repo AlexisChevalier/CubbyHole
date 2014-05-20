@@ -74,11 +74,12 @@ module.exports = {
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
 
-            if (req.headers['content-type'] == "application/x-www-form-urlencoded" || req.headers['content-type'] == "multipart/form-data") {
+            console.log(req.headers['content-type'].indexOf('multipart/form-data'));
+            if (req.headers['content-type'] === "application/x-www-form-urlencoded" || req.headers['content-type'].indexOf('multipart/form-data') !== -1) {
                 return res.send(400, "Content-Types multipart/form-data and application/x-www-form-urlencoded aren't allowed here ! Please send only Binary files with headers !");
             }
 
-            var filename = req.headers['cb-file-name'],
+            var name = req.headers['cb-file-name'],
                 parentId = req.headers['cb-file-parent-folder-id'],
                 fileLength = req.headers['content-length'],
                 fileMimeType = req.headers['content-type'],
@@ -95,7 +96,7 @@ module.exports = {
                 return res.send(400, "Wrong ID");
             }
 
-            if (!filename || !parentId || !fileLength || !fileMimeType) {
+            if (!name || !parentId || !fileLength || !fileMimeType) {
                 return res.send(400, "Missing headers");
             }
 
@@ -109,7 +110,7 @@ module.exports = {
                 }
 
                 //Check if name is available
-                if (!FolderHelper.isNameAvailable(filename, folder.childFolders, folder.childFiles)) {
+                if (!FolderHelper.isNameAvailable(name, folder.childFolders, folder.childFiles)) {
                     return res.send(403, "Name already existing in this folder");
                 }
 
@@ -123,15 +124,17 @@ module.exports = {
 
                 //Get parents
 
-                for (i = 0; i < folder.childFolders.length; i++) {
-                    fileParents.push(folder.childFolders[i].id);
+
+                for (i = 0; i < folder.parents.length; i++) {
+                    fileParents.push(folder.parents[i]);
                 }
+                fileParents.push(parentId);
 
                 //UPLOAD FILE
                 gs = new mongo.GridStore(mongo_db_object, id, "w", {
                     "content_type": fileMimeType,
                     "metadata": {
-                        "fileName": filename,
+                        "name": name,
                         "userId": req.user.id,
                         "isShared": shareId != null,
                         "shareId": (shareId == null) ? null : shareId,
@@ -204,11 +207,12 @@ module.exports = {
                 return res.send(400, "Wrong ID");
             }
 
-            FileHelper.getFile({'_id': id}, 'metadata.parents', function (err, file) {
+            FileHelper.getFile({'_id': id}, '', function (err, file) {
                 if (file.metadata.userId != req.user.id) {
                     //TODO: CHECK SHARES
                     return res.send(403, "You don't have any access on this file");
                 }
+
                 res.json(file);
             });
         }

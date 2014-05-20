@@ -158,7 +158,7 @@ app.get('/api/files/searchByTerms/:terms', filesRoutes.searchItemsByTerm);
 //Upload
 app.post('/api/files', filesRoutes.createFile);
 
-//Download
+//metadata
 app.get('/api/files/metadata/:fileID', filesRoutes.getFileMedatata);
 
 //Download
