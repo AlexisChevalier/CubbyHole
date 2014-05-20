@@ -1,6 +1,6 @@
 package com.cubbyhole.library.http;
 
-import java.net.HttpCookie;
+import java.util.regex.Pattern;
 
 import ch.boye.httpclientandroidlib.impl.cookie.BasicClientCookie;
 
@@ -28,8 +28,12 @@ public class CHCookie extends BasicClientCookie {
 	 * @return An instance of {@link CHCookie}
 	 */
 	public static CHCookie parse(String setCookieValue) {
-		HttpCookie cookie = HttpCookie.parse(setCookieValue).get(0);
-		return new CHCookie(cookie.getName(), cookie.getValue());
+		/*HttpCookie cookie = HttpCookie.parse(setCookieValue).get(0);
+		return new CHCookie(cookie.getName(), cookie.getValue());*/
+
+		String[] cookieParams = Pattern.compile(";").split(setCookieValue);
+		String[] nameValuePair = Pattern.compile("=").split(cookieParams[0], 2);
+		return new CHCookie(nameValuePair[0], nameValuePair[1]);
 	}
 
 	/*
