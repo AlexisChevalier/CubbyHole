@@ -18,6 +18,10 @@ public class Launcher {
 		Log.e(Launcher.TAG, "This is an error message");
 
 		// Testing a get request
+		CHHttpResponse tmp = CHHttp.get("http://google.com", null, null);
+		Log.d(Launcher.TAG, tmp.toString());
+
+		// Testing a get request
 		CHHttpResponse getResponse = CHHttp.get("http://httpbin.org/get", null, null);
 		Log.d(Launcher.TAG, getResponse.toString());
 

@@ -183,10 +183,15 @@ public class CHHttpResponse {
 
 	@Override
 	public String toString() {
-		return "CHHttpResponse [statusCode=" + statusCode //
+		String str = "CHHttpResponse [statusCode=" + statusCode //
 				+ ", headers=" + ArrayListUtils.toString(headers) //
 				+ ", cookies=" + ArrayListUtils.toString(cookies) //
-				+ ", body=" + body //
-				+ ", json=" + json.toString();
+				+ ", body=" + body;
+
+		if (json != null) {
+			str = str + ", json=" + json.toString();
+		}
+
+		return str;
 	}
 }
