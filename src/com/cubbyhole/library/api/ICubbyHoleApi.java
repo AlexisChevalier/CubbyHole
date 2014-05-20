@@ -15,7 +15,8 @@ public interface ICubbyHoleApi {
 
 	/// API ROUTES DEFINITION ///
 
-	public static final String	API_ENDPOINT	= "https://auth.dev.cubby-hole.me:8444/api";
+	//	public static final String	API_ENDPOINT	= "https://auth.dev.cubby-hole.me:8444/api";
+	public static final String	API_ENDPOINT	= "https://localhost:8444/api";
 
 	//account
 	public static final String	ACCOUNT			= "/account";
@@ -40,6 +41,16 @@ public interface ICubbyHoleApi {
 	public static final String	FOLDERS_DELETE	= FOLDERS + "/";
 
 	/// END OF API ROUTES DEFINITION ///
+
+	/// API RESPONSE FIELDS ///
+	/*public static final String APIRESPFIELD_VERSION = "__v";
+	public static final String APIRESPFIELD_ID = "_id";
+	public static final String APIRESPFIELD_VERSION = "__v";
+	public static final String APIRESPFIELD_VERSION = "__v";
+	public static final String APIRESPFIELD_VERSION = "__v";
+	public static final String APIRESPFIELD_VERSION = "__v";*/
+
+	/// END OF API RESPONSE FIELDS ///
 
 	/**
 	 * Initialize the context with the access token
