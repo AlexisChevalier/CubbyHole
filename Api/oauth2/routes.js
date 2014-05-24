@@ -23,9 +23,11 @@ exports.index = function (req, res) {
  * @param res
  */
 exports.loginForm = [
-    login.ensureLoggedOut("/"),
+    login.ensureLoggedOut(config.default_app_oauth2.authorizationURL + "?response_type=code&redirect_uri=" + config.default_app_oauth2.callbackURL + "&client_id=" + config.default_app_oauth2.clientID),
     function (req, res, next) {
         //Check URL parameters, if no parameters then redirects to the default website
+
+        console.log(req.session);
 
         if (!req.session.returnTo) {
             res.redirect(config.default_app_oauth2.authorizationURL + "?response_type=code&redirect_uri=" + config.default_app_oauth2.callbackURL + "&client_id=" + config.default_app_oauth2.clientID);

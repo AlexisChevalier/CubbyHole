@@ -9,6 +9,7 @@ var express = require('express'),
     models = require('./models/mysql'),
     config = require('./config/config'),
     mongoose = require("mongoose").connect(config.mongodb.url),
+    MongoStore = require('connect-mongo')(express),
     https = require('https'),
     http = require('http'),
     path = require('path'),
@@ -104,7 +105,13 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('h21SoYOkwrqqPPMR37jH8ii4a4D24347'));
 //I hate you, cookie.
-app.use(express.session({ key: 'apiOauthCookie' }));
+app.use(express.session({
+    key: 'apiOauthCookie',
+    secret: 'apiOauthSecret',
+    store: new MongoStore({
+        db: mongoose.connection.db
+    })
+}));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());

@@ -1,4 +1,7 @@
 {
+    "mongodb": {
+        "url": "mongodb://localhost/CubbyHole"
+    },
     "apiUrl": "localhost",
     "apiPort": 8444,
     "oauth2" : {

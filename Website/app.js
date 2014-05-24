@@ -11,6 +11,9 @@ var express = require('express'),
     https = require('https'),
     http = require('http'),
     models = require('./models/mysql'),
+    config = require('./config/config'),
+    mongoose = require("mongoose").connect(config.mongodb.url),
+    MongoStore = require('connect-mongo')(express),
     swig = require('swig'),
     path = require('path'),
     fs = require('fs'),
@@ -91,7 +94,13 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('5cJ435umRC2lL76o27J4T8Aw8425Qgf2'));
 //I hate you, cookie.
-app.use(express.session({ key: 'webAppCookie' }));
+app.use(express.session({
+    key: 'webAppCookie',
+    secret: 'webAppCookie',
+    store: new MongoStore({
+        db: mongoose.connection.db
+    })
+}));
 app.use(function (req, res, next) {
     res.locals.messages = function () { return req.flash(); };
     res.locals.isLoggedIn = function () { return req.isAuthenticated(); };
