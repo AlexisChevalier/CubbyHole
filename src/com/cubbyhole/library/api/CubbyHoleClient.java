@@ -2,6 +2,7 @@ package com.cubbyhole.library.api;
 
 import java.util.ArrayList;
 
+import com.cubbyhole.library.api.entities.CHAccount;
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
 import com.cubbyhole.library.http.CHHeader;
@@ -16,9 +17,10 @@ public class CubbyHoleClient implements ICubbyHoleApi {
 	private static final String		TAG	= CubbyHoleClient.class.getName();
 
 	private static CubbyHoleClient	mInstance;
-
 	private static String			mAccessToken;
-	private CHFolder				rootFolder;
+
+	private CHAccount				mAccount;
+	private CHFolder				mRootFolder;
 
 	private CubbyHoleClient() {
 		/* Singleton */
@@ -36,7 +38,8 @@ public class CubbyHoleClient implements ICubbyHoleApi {
 		if (token != null) {
 			Log.d(TAG, "Initializing client context ...");
 			mAccessToken = token;
-			rootFolder = getRootFolder();
+			mAccount = getAccount();
+			mRootFolder = getRootFolder();
 			Log.d(TAG, "Initializing process done.");
 		}
 	}
@@ -51,13 +54,34 @@ public class CubbyHoleClient implements ICubbyHoleApi {
 		} else if (json == null) {
 			throw new Exception("Expected a json response, got a plain page instead for " + url);
 		}
-
 		Log.d(TAG, "apiResponse: " + resp.toString());
 		return json;
 	}
 
+	/**
+	 * @return the account
+	 */
+	public CHAccount getAccount() {
+		if (mAccount == null) {
+			try {
+				return CHAccount.fromJson(apiGet(API_ENDPOINT + ACCOUNT_DETAILS));
+			} catch (Exception e) { //Catch a CHJsonParseException, CHApiException
+				// TODO: Throw an exception ?
+				e.printStackTrace();
+			}
+		}
+		return mAccount;
+	}
+
+	/**
+	 * @param account the account to set
+	 */
+	public void setAccount(CHAccount account) {
+		mAccount = account;
+	}
+
 	private CHFolder getRootFolder() {
-		if (rootFolder == null) {
+		if (mRootFolder == null) {
 			Log.d(TAG, "Getting the root folder from the api ...");
 
 			try {
@@ -71,10 +95,8 @@ public class CubbyHoleClient implements ICubbyHoleApi {
 				e.printStackTrace();
 			}
 			Log.e(TAG, "Failed to get the root folder from the api");
-			return null;
-		} else {
-			return rootFolder;
 		}
+		return mRootFolder;
 	}
 
 	@Override
