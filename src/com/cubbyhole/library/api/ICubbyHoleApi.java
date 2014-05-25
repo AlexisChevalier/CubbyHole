@@ -1,10 +1,7 @@
 package com.cubbyhole.library.api;
 
-import java.util.ArrayList;
-
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
-import com.cubbyhole.library.api.entities.CHItem;
 
 /**
  * Interface that defines all API methods exposed by the server API.
@@ -57,13 +54,6 @@ public interface ICubbyHoleApi {
 	 * @param token - the access token to initialize the context with
 	 */
 	public void Initialize(String token);
-
-	/**
-	 * Used to return the items in a specific folder.
-	 * @param parentFolder - the folder to get the items of.
-	 * @return an {@link ArrayList} of {@link CHItem}s.
-	 */
-	public ArrayList<CHItem> getItems(CHFolder parentFolder);
 
 	/**
 	 * Used to create a folder in an other existing folder.

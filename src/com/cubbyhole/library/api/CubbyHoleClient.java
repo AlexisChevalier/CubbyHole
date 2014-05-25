@@ -4,11 +4,10 @@ import java.util.ArrayList;
 
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
-import com.cubbyhole.library.api.entities.CHItem;
 import com.cubbyhole.library.http.CHHeader;
 import com.cubbyhole.library.http.CHHttp;
+import com.cubbyhole.library.http.CHHttpResponse;
 import com.cubbyhole.library.logger.Log;
-import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * Implementation of the ICubbyHoleApi interface to communicate with the api
@@ -42,42 +41,40 @@ public class CubbyHoleClient implements ICubbyHoleApi {
 		}
 	}
 
-	public JsonNode apiGet(String url) throws Exception {
+	public CHJsonNode apiGet(String url) throws Exception {
 		ArrayList<CHHeader> headers = new ArrayList<CHHeader>();
 		headers.add(new CHHeader("Authorization", "Bearer " + mAccessToken));
-		JsonNode resp = CHHttp.get(url, headers, null).getJson();
-		if (resp == null) {
+		CHHttpResponse resp = CHHttp.get(url, headers, null);
+		CHJsonNode json = resp.getJson();
+		if (resp.getStatusCode() != 200) {
+			throw new Exception("Expected a 200 response, got " + resp.getStatusCode());
+		} else if (json == null) {
 			throw new Exception("Expected a json response, got a plain page instead for " + url);
 		}
 
 		Log.d(TAG, "apiResponse: " + resp.toString());
-		return resp;
+		return json;
 	}
 
 	private CHFolder getRootFolder() {
-		Log.d(TAG, "Getting the root folder ...");
+		if (rootFolder == null) {
+			Log.d(TAG, "Getting the root folder from the api ...");
 
-		try {
-			JsonNode json = apiGet(API_ENDPOINT + FOLDERS_LIST);
-
-			CHFolder rootFolder = CHFolder.fromJson(json);
-
-			if (rootFolder != null) {
-				Log.d(TAG, "Got the root folder.");
+			try {
+				CHJsonNode json = apiGet(API_ENDPOINT + FOLDERS_LIST);
+				CHFolder rootFolder = CHFolder.fromJson(json);
+				if (rootFolder != null) {
+					Log.d(TAG, "Got the root folder from the api.");
+				}
+				return rootFolder;
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
+			Log.e(TAG, "Failed to get the root folder from the api");
+			return null;
+		} else {
 			return rootFolder;
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		Log.e(TAG, "Failed to get the root folder");
-		return null;
-	}
-
-	@Override
-	public ArrayList<CHItem> getItems(CHFolder parentFolder) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
