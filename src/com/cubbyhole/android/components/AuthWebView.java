@@ -13,6 +13,7 @@ import android.webkit.WebViewClient;
 
 import com.cubbyhole.android.activities.TokenStorer;
 import com.cubbyhole.android.utils.CHC;
+import com.cubbyhole.library.api.CubbyHoleClient;
 import com.cubbyhole.library.http.CHHeader;
 import com.cubbyhole.library.http.CHHttp;
 import com.cubbyhole.library.http.CHHttpData;
@@ -63,9 +64,25 @@ public class AuthWebView extends WebView {
 						.add(CHC.OAUTH_PARAM_ACCESS_CODE, accessCode);
 				CHHttpResponse response = CHHttp.post(CHC.OAUTH_URL_ACCESS_TOKEN, datas, headers,
 						null);
-				
-				String token = response.getJson().path(CHC.OAUTH_PARAM_ACESS_TOKEN).asText();
-				Log.d(TAG, token);
+
+				String token = null;
+				try {
+					token = response.getJson().asText(CHC.OAUTH_PARAM_ACESS_TOKEN);
+					Log.d(TAG, token);
+				} catch (Exception e) {
+					Log.e(TAG, "Failed to get the access_token from the response !");
+					e.printStackTrace();
+				}
+
+				if (token != null) {
+					try {
+						CubbyHoleClient.getInstance().Initialize(token);
+					} catch (Exception e) {
+						Log.e(TAG, "Failed to initialize api client context !");
+						e.printStackTrace();
+					}
+				}
+
 				return true;
 			}
 			return false;
