@@ -42,7 +42,7 @@ public class CHJsonNode {
 
 	public ArrayList<CHJsonNode> asList(String attr) {
 		ArrayList<CHJsonNode> nodes = new ArrayList<CHJsonNode>();
-		Iterator<JsonNode> it = node.elements();
+		Iterator<JsonNode> it = node.get(attr).elements();
 		while (it.hasNext()) {
 			nodes.add(new CHJsonNode(it.next()));
 		}

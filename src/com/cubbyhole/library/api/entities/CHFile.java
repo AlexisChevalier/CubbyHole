@@ -1,15 +1,18 @@
 package com.cubbyhole.library.api.entities;
 
-import java.util.ArrayList;
-import java.util.Date;
+import hirondelle.date4j.DateTime;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import java.util.ArrayList;
+
+import com.cubbyhole.library.api.CHJsonNode;
+import com.cubbyhole.library.logger.Log;
+import com.cubbyhole.library.utils.DateTimeUtils;
 
 public class CHFile extends CHItem {
 	private static final String	TAG					= CHFile.class.getName();
 
 	/// JSON FIELDS ///
-	public static final String	FIELD_FILENAME		= "filename";
+	public static final String	FIELD_FILENAME		= "fileName";
 	public static final String	FIELD_CONTENT_TYPE	= "contentType";
 	public static final String	FIELD_LENGTH		= "length";
 	public static final String	FIELD_CHUNK_SIZE	= "chunkSize";
@@ -21,23 +24,24 @@ public class CHFile extends CHItem {
 	public static final String	FIELD_SHARE_ID		= "shareId";
 	public static final String	FIELD_PARENTS		= "parents";
 	public static final String	FIELD_PARENT		= "parent";
-	public static final String	FIELD_VERSION		= "version";
-	public static final String	FIELD_OLD_VERSIONS	= "oldVersions";
 	public static final String	FIELD_MD5			= "md5";
+	//TODO: aliases
 	/// END OF JSON FIELDS ///
 
 	private String				fileName;
 	private String				contentType;
 	private Long				length;
 	private Long				chunkSize;
-	private Date				uploadDate;
-	private Long				userId;
-	private String				isShared;
-	private ArrayList<String>	parents;
-	private String				parent;
-	private Long				version;
-	private ArrayList<String>	oldVersions;
+	private DateTime			uploadDate;
 	private String				md5;
+	private Long				userId;
+	private boolean				isShared;
+	private String				parent;
+	private ArrayList<CHFolder>	parents;
+
+	private String				shareId;
+
+	//TODO: aliases
 
 	private CHFile() {
 		//Only used by the fromJson method
@@ -45,12 +49,47 @@ public class CHFile extends CHItem {
 
 	/**
 	 * Used to instantiate a {@link CHFile} from a json response
-	 * @param json
+	 * @param fileNode
 	 * @return Returns an instance of {@link CHFile} from a json response
 	 */
-	public static CHFile fromJson(JsonNode json) {
-		//TODO: Parse the json here
-		return null;
+	public static CHFile fromJson(CHJsonNode json) {
+		CHFile file = new CHFile();
+		file.setType(CHType.FILE);
+		try {
+			file.setId(json.asText(FIELD_ID));
+			//file.setFileName(json.asText(FIELD_FILE_NAME));
+			file.setContentType(json.asText(FIELD_CONTENT_TYPE));
+			file.setLength(json.asLong(FIELD_LENGTH));
+			file.setChunkSize(json.asLong(FIELD_CHUNK_SIZE));
+			file.setUploadDate(DateTimeUtils.mongoDateToDateTime(json.asText(FIELD_UPLOAD_DATE)));
+			file.setMD5(json.asText(FIELD_MD5));
+			//TODO: aliases
+
+			CHJsonNode mjson = json.asNode(FIELD_METADATA);
+			file.setFileName(mjson.asText(FIELD_FILENAME));
+			file.setUserId(mjson.asLong(FIELD_USER_ID));
+			file.setIsShared(mjson.asBoolean(FIELD_IS_SHARED));
+			file.setShareId(mjson.asText(FIELD_SHARE_ID));
+			file.setParent(mjson.asText(FIELD_PARENT));
+
+			ArrayList<CHFolder> pFolders = CHFolder.jsonArrayToFolders(mjson.asList(FIELD_PARENTS));
+			file.setParents(pFolders);
+		} catch (Exception e) {
+			Log.e(TAG, "Failed to parse json to create a CHFile instance !");
+			//TODO: Throw a CHJsonParseException
+		}
+		return file;
+	}
+
+	public static ArrayList<CHFile> jsonArrayToFiles(ArrayList<CHJsonNode> jsonArray) {
+		ArrayList<CHFile> files = new ArrayList<CHFile>();
+		for (CHJsonNode fileNode : jsonArray) {
+			CHFile file = fromJson(fileNode);
+			if (file != null) {
+				files.add(file);
+			}
+		}
+		return files;
 	}
 
 	/// GETTERS & SETTERS ///
@@ -114,14 +153,14 @@ public class CHFile extends CHItem {
 	/**
 	 * @return the uploadDate
 	 */
-	public final Date getUploadDate() {
+	public final DateTime getUploadDate() {
 		return uploadDate;
 	}
 
 	/**
-	 * @param uploadDate the uploadDate to set
+	 * @param dateTime the uploadDate to set
 	 */
-	public final void setUploadDate(Date uploadDate) {
+	public final void setUploadDate(DateTime uploadDate) {
 		this.uploadDate = uploadDate;
 	}
 
@@ -142,29 +181,29 @@ public class CHFile extends CHItem {
 	/**
 	 * @return the isShared
 	 */
-	public final String getIsShared() {
+	public final boolean getIsShared() {
 		return isShared;
 	}
 
 	/**
 	 * @param isShared the isShared to set
 	 */
-	public final void setIsShared(String isShared) {
+	public final void setIsShared(boolean isShared) {
 		this.isShared = isShared;
 	}
 
 	/**
 	 * @return the parents
 	 */
-	public final ArrayList<String> getParents() {
+	public final ArrayList<CHFolder> getParents() {
 		return parents;
 	}
 
 	/**
-	 * @param parents the parents to set
+	 * @param pFolders the parents to set
 	 */
-	public final void setParents(ArrayList<String> parents) {
-		this.parents = parents;
+	public final void setParents(ArrayList<CHFolder> pFolders) {
+		parents = pFolders;
 	}
 
 	/**
@@ -182,31 +221,17 @@ public class CHFile extends CHItem {
 	}
 
 	/**
-	 * @return the version
+	 * @return the md5
 	 */
-	public final Long getVersion() {
-		return version;
+	public final String getShareId() {
+		return shareId;
 	}
 
 	/**
-	 * @param version the version to set
+	 * @param shareId the shareId to set
 	 */
-	public final void setVersion(Long version) {
-		this.version = version;
-	}
-
-	/**
-	 * @return the oldVersions
-	 */
-	public final ArrayList<String> getOldVersions() {
-		return oldVersions;
-	}
-
-	/**
-	 * @param oldVersions the oldVersions to set
-	 */
-	public final void setOldVersions(ArrayList<String> oldVersions) {
-		this.oldVersions = oldVersions;
+	public final void setShareId(String shareId) {
+		this.shareId = shareId;
 	}
 
 	/**
@@ -219,7 +244,7 @@ public class CHFile extends CHItem {
 	/**
 	 * @param md5 the md5 to set
 	 */
-	public final void setMd5(String md5) {
+	public final void setMD5(String md5) {
 		this.md5 = md5;
 	}
 }
