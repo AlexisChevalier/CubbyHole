@@ -8,7 +8,7 @@ public final class CHC {
 	public static final String	EQUAL						= "=";
 
 	//oAuth
-	public static final String	OAUTH_BASE_URL				= "https://auth.dev.cubby-hole.me:8444";
+	public static final String	OAUTH_BASE_URL				= "https://localhost:8444";
 	public static final String	OAUTH_URL_ACCESS_CODE		= OAUTH_BASE_URL
 																	+ "/auth/dialog/authorize";
 	public static final String	OAUTH_URL_ACCESS_TOKEN		= OAUTH_BASE_URL + "/auth/oauth/token";
@@ -20,11 +20,10 @@ public final class CHC {
 	public static final String	OAUTH_PARAM_GRANT_TYPE		= "grant_type";
 	public static final String	OAUTH_PARAM_RESPONSE_TYPE	= "response_type";
 	public static final String	OAUTH_PARAM_ACESS_TOKEN		= "access_token";
-	
 
 	public static final String	OAUTH_CALLBACK_URL			= "http://localhost";
-	public static final String	OAUTH_CLIENT_ID				= "cubbyh_6f6edb93-8644-4b9c-a19a-7ae89f1fcbf9";
-	public static final String	OAUTH_CLIENT_SECRET			= "931c6693-b559-494a-8209-3495fc02a8a3";
+	public static final String	OAUTH_CLIENT_ID				= "androi_e2b2663e-587a-4fab-9d75-0aeee5c62b0f";
+	public static final String	OAUTH_CLIENT_SECRET			= "2505cf3a-ded3-42c5-9dfd-64d12b4360ab";
 	public static final String	OAUTH_GRANT_TYPE			= "authorization_code";
 
 }
