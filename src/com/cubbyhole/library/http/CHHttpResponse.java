@@ -9,6 +9,7 @@ import ch.boye.httpclientandroidlib.Header;
 import ch.boye.httpclientandroidlib.HttpRequest;
 import ch.boye.httpclientandroidlib.HttpResponse;
 
+import com.cubbyhole.library.api.CHJsonNode;
 import com.cubbyhole.library.logger.Log;
 import com.cubbyhole.library.utils.ArrayListUtils;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -44,7 +45,7 @@ public class CHHttpResponse {
 	/**
 	 * The root node of the JSON object.
 	 */
-	private JsonNode			json;
+	private CHJsonNode			json;
 
 	/**
 	 * Constructor to instantiate a {@link CHHttpResponse} using an
@@ -63,7 +64,7 @@ public class CHHttpResponse {
 		//Get the body from the response
 		body = getBody(response);
 
-		setJson(getBodyAsJson(body));
+		json = getBodyAsJson(body);
 	}
 
 	/**
@@ -126,15 +127,15 @@ public class CHHttpResponse {
 	/**
 	 * Try to parse the body to get a JSON object
 	 * @param body - a {@link String} representing the body of the response.
-	 * @return 
+	 * @return a {@link CHJsonNode} instance.
 	 */
-	private JsonNode getBodyAsJson(String body) {
-		JsonNode json = null;
+	private CHJsonNode getBodyAsJson(String body) {
+		CHJsonNode json = null;
 		try {
-			json = new ObjectMapper().readTree(body);
+			json = new CHJsonNode(new ObjectMapper().readTree(body));
 			Log.d(TAG, "Realised the body is a json, so we parsed it as a JsonNode.");
 		} catch (IOException e) {
-			Log.d(TAG, "The body is not a json response, ignoring the parse...");
+			//			Log.d(TAG, "The body is not a json response, ignoring the parse...");
 		}
 		return json;
 	}
@@ -168,16 +169,16 @@ public class CHHttpResponse {
 	}
 
 	/**
-	 * @return the json
+	 * @return the json root node
 	 */
-	public JsonNode getJson() {
+	public CHJsonNode getJson() {
 		return json;
 	}
 
 	/**
 	 * @param json the {@link JsonNode} to set
 	 */
-	public void setJson(JsonNode json) {
+	public void setJson(CHJsonNode json) {
 		this.json = json;
 	}
 
