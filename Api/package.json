@@ -28,7 +28,8 @@
     "passport-google-oauth": "~0.1.5",
     "mongoose": "~3.8.8",
     "async": "~0.7.0",
-    "connect-mongo": "~0.4.1"
+    "connect-mongo": "~0.4.1",
+    "throttle": "~1.0.3"
   },
   "devDependencies": {
     "grunt-nodemon": "~0.1.2",
