@@ -20,7 +20,7 @@ FolderSchema = new Schema({
         type: Boolean,
         default: false
     },
-    shared: {
+    isShared: {
         type: Boolean,
         default: false
     },
@@ -36,7 +36,7 @@ FolderSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Folder'
     },
-    date: {
+    updateDate: {
         type: Date,
         default: Date.now
     }
@@ -55,7 +55,10 @@ FileSchema = new Schema({
     "metadata": {
         "name": String,
         "userId": Number,
-        "isShared": Boolean,
+        "isShared": {
+            type: Boolean,
+            default: false
+        },
         "shareId": {
             type: Schema.Types.ObjectId,
             ref: 'Share'
@@ -68,10 +71,10 @@ FileSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Folder'
         },
-        "version": Number,
-        "oldVersions": [
-
-        ]
+        updateDate: {
+            type: Date,
+            default: Date.now
+        }
     },
     "md5": String
 },

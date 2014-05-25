@@ -3,6 +3,7 @@
 var passport = require('passport'),
     mongooseModels = require('../models/mongodb/schemas/index'),
     FolderHelper = require('../models/mongodb/helpers/FolderHelper'),
+    FileHelper = require('../models/mongodb/helpers/FileHelper'),
     async = require('async');
 
 module.exports = {
@@ -15,10 +16,12 @@ module.exports = {
         function (req, res) {
             var folderId = req.params.folderID;
 
-            try {
-                folderId = mongooseModels.ObjectId(folderId);
-            } catch (err) {
-                return res.send(400, "Wrong ID");
+            if (folderId) {
+                try {
+                    folderId = mongooseModels.ObjectId(folderId);
+                } catch (err) {
+                    return res.send(400, "Wrong ID");
+                }
             }
 
             if (!folderId) {
@@ -29,7 +32,7 @@ module.exports = {
                     return res.json(folder);
                 });
             } else {
-                FolderHelper.getFolder({"_id": folderId}, "", function (err, folder) {
+                FolderHelper.getFolder({"_id": folderId}, "childFiles childFolders", function (err, folder) {
                     if (err || !folder || folder == null) {
                         return res.send(404, "Folder not found");
                     }
@@ -59,10 +62,12 @@ module.exports = {
                 return res.send(400, "Missing parameters");
             }
 
-            try {
-                folderParentId = mongooseModels.ObjectId(folderParentId);
-            } catch (err) {
-                return res.send(400, "Wrong ID");
+            if (folderParentId) {
+                try {
+                    folderParentId = mongooseModels.ObjectId(folderParentId);
+                } catch (err) {
+                    return res.send(400, "Wrong ID");
+                }
             }
 
 
@@ -82,7 +87,7 @@ module.exports = {
                     return res.send(403, "Name already existing in this folder");
                 }
 
-                    //TODO: DETECT IF A SHARE IS NEEDED
+                //TODO: DETECT IF A SHARE IS NEEDED
 
                 var newParents = folder.parents;
                 newParents.push(folder._id);
@@ -92,7 +97,7 @@ module.exports = {
                     parent: folder._id,
                     userId: req.user.id,
                     parents: newParents,
-                    shared: folder.isShared,
+                    isShared: folder.isShared,
                     share: folder.share == null ? null : folder.share._id
                 }, function (err, createdFolder) {
                     if (err) {
@@ -124,27 +129,42 @@ module.exports = {
                 return res.send(400, "Missing parameters");
             }
 
-            try {
-                folderId = mongooseModels.ObjectId(folderId);
-                newParentId = mongooseModels.ObjectId(newParentId);
-            } catch (err) {
-                return res.send(400, "Wrong ID");
+            if (folderId) {
+                try {
+                    folderId = mongooseModels.ObjectId(folderId);
+
+                } catch (err) {
+                    return res.send(400, "Wrong ID");
+                }
+            }
+
+            if (newParentId) {
+                try {
+                    newParentId = mongooseModels.ObjectId(newParentId);
+                } catch (err2) {
+                    return res.send(400, "Wrong parent ID");
+                }
             }
 
             /** RECUPERATION DU DOSSIER A MODIFIER **/
             FolderHelper.getFolder({'_id': folderId}, "share parent childFolders childFiles", function (err, folder) {
-                if (err || !folder || folder == null) {
+                if (err || !folder || folder === null) {
                     return res.send(404, "Couldn't find given folder");
                 }
 
                 /** TEST D'APPARTENANCE **/
-                if (folder.userId != req.user.id) {
+                if (folder.userId !== req.user.id) {
                     //TODO: CHECK SHARES
                     return res.send(403, "You don't have any write access on this folder");
                 }
+
+                if (folder.isRoot) {
+                    return res.send(401, "You can't update your root folder !");
+                }
+
                 /** RECUPERATION DU PARENT DU DOSSIER A MODIFIER **/
                 FolderHelper.getFolder({'_id': folder.parent.id}, "share parent childFolders childFiles", function (err, oldParentFolder) {
-                    if (err || !folder || folder == null) {
+                    if (err || !oldParentFolder || oldParentFolder === null) {
                         return res.send(404, "Couldn't find parent folder");
                     }
 
@@ -171,7 +191,7 @@ module.exports = {
             function handleFolderChangeLocation(foldertoMove, oldParentFolder, newFolderDirectionId) {
                 if (foldertoMove && oldParentFolder && newFolderDirectionId) {
 
-                    var oldHierarchy, newHierarchy, foldersToChangeHierarchy = [], i;
+                    var oldHierarchy, newHierarchy, foldersToChangeHierarchy = [], filesToChangeHierarchy = [], i;
 
                     if (foldertoMove.id == newFolderDirectionId) {
                         return res.send(400, "You can't move a folder to himself.");
@@ -222,7 +242,15 @@ module.exports = {
                                     if (err) {
                                         next(err);
                                     }
-                                    next();
+                                    FileHelper.getFiles({"metadata.parents": { "$all": oldHierarchy } }, "", function (err, files) {
+                                        for (i = 0; i < folders.length; i++) {
+                                            filesToChangeHierarchy.push(files[i].id);
+                                        }
+                                        if (err) {
+                                            next(err);
+                                        }
+                                        next();
+                                    });
                                 });
                             },
                             function (next) {
@@ -257,7 +285,14 @@ module.exports = {
                                         if (err) {
                                             next(err);
                                         }
-                                        //TODO: REMOVE HIERARCHY FROM CHILD FILES
+                                        mongooseModels.File.update({"_id": { "$in": filesToChangeHierarchy } },
+                                            { $pull: { "metadata.parents": { $in: oldHierarchy } } },
+                                            function (err2, docsUpdated) {
+                                                if (err2) {
+                                                    next(err2);
+                                                }
+                                                next();
+                                            });
                                         next();
                                     });
                             },
@@ -269,9 +304,14 @@ module.exports = {
                                         if (err) {
                                             next(err);
                                         }
-
-                                        //TODO: INJECT HIERARCHY TO CHILD FILES
-                                        next();
+                                        mongooseModels.File.update({"_id": { "$in": filesToChangeHierarchy } },
+                                            { $push: { "metadata.parents": { $each: newHierarchy, $position: 0 } } },
+                                            function (err2, docsUpdated) {
+                                                if (err2) {
+                                                    next(err2);
+                                                }
+                                                next();
+                                            });
                                     });
                             },
                             function (next) {
@@ -314,20 +354,26 @@ module.exports = {
                 return res.send(400, "Missing parameter");
             }
 
-            try {
-                folderId = mongooseModels.ObjectId(folderId);
-            } catch (err) {
-                return res.send(400, "Wrong ID");
+            if (folderId) {
+                try {
+                    folderId = mongooseModels.ObjectId(folderId);
+                } catch (err) {
+                    return res.send(400, "Wrong ID");
+                }
             }
 
             FolderHelper.getFolder({'_id': folderId}, "share parent", function (err, folder) {
-                if (err || !folder || folder == null) {
+                if (err || !folder || folder === null) {
                     return res.send(404, "Couldn't find given folder");
                 }
 
-                if (folder.userId != req.user.id) {
+                if (folder.userId !== req.user.id) {
                     //TODO: CHECK SHARES
                     return res.send(403, "You don't have any write access on this folder");
+                }
+
+                if (folder.isRoot) {
+                    return res.send(401, "You can't update your root folder !");
                 }
 
                 /** Récupération de la chaine de dossiers a enlever **/
@@ -338,7 +384,7 @@ module.exports = {
                     function (next) {
                         /** RECUPERATION DU PARENT DU DOSSIER A MODIFIER **/
                         FolderHelper.getFolder({'_id': folder.parent.id}, "share parent childFolders childFiles", function (err, innerParentFolder) {
-                            if (err || !folder || folder == null) {
+                            if (err || !folder || folder === null) {
                                 return res.send(404, "Couldn't find parent folder");
                             }
 
@@ -357,12 +403,17 @@ module.exports = {
                     },
                     function (next) {
                         /** SUPRESSION DES CHILDS FILES **/
-                        //TODO: HANDLE FILES
+                        mongooseModels.File.remove({"metadata.parents": { "$all": hierarchy } }, function (err, docsUpdated) {
+                            if (err) {
+                                next(err);
+                            }
+                            next();
+                        });
                         next();
                     },
                     function (next) {
                         /** SUPRESSION DES SHARES INUTILES **/
-                            //TODO: HANDLE FILES
+                            //TODO: HANDLE SHARES
                         next();
                     },
                     function (next) {

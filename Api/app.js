@@ -156,8 +156,6 @@ app.get('/api/users/find/:terms', accountRoutes.usersFind);
 /**
  * FILES API
  */
-//List items in folder
-app.get('/api/files/byFolder/:folderID', filesRoutes.listItemsByFolder);
 
 //Search items
 app.get('/api/files/searchByTerms/:terms', filesRoutes.searchItemsByTerm);
@@ -171,7 +169,7 @@ app.get('/api/files/metadata/:fileID', filesRoutes.getFileMedatata);
 //Download
 app.get('/api/files/:fileID', filesRoutes.download);
 
-//Update
+//Update file bytes
 app.put('/api/files/:fileID', filesRoutes.updateFile);
 
 //Remove
@@ -192,6 +190,8 @@ app.delete('/api/folders/:folderID', foldersRoutes.removeFolder);
 
 //Update Folder
 app.put('/api/folders/:folderID', foldersRoutes.updateFolder);
+
+//Copy ?
 
 /**
  * OAUTH2 Routes definitions.
