@@ -1,74 +1,75 @@
 "use strict";
 var config = require('../../config/config.json'),
     https = require('https'),
+    request = require('request'),
     Files = module.exports = {};
 
 /**
  * Get details for user authentified by accessToken
- * @param {string} accessToken
  * @param {string} folderID
+ * @param {string} accessToken
  * @param {function} done
  */
-Files.listFolderContent = function (folderID, accessToken, done) {
-    if (!folderID || folderID == "") {
-        folderID = -1;
+Files.getFolder = function (folderID, accessToken, done) {
+    if (!folderID || folderID === "" || folderID === "-1") {
+        folderID = "";
     }
-    var options = {
-            host: config.apiUrl,
-            port: config.apiPort,
-            path: "/api/files/byFolder/" + folderID,
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + accessToken
-            }
-        },
-        req = https.request(options, function (res) {
-            var body = "";
-            res.on('data', function (d) {
-                body += d;
-            });
-            res.on('end', function () {
-                try {
-                    var parsed = JSON.parse(body);
-                    return done(null, parsed);
-                } catch (e) {
-                    return done(new Error("Can't fetch files from API"), null);
-                }
-            });
-        });
 
-    req.end();
+    var options = {
+        url: "https://" + config.apiUrl + ":" + config.apiPort + "/api/folders/" + folderID,
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        }
+    };
+
+    function callback(error, response, body) {
+        if (!error && response.statusCode === 200) {
+            try {
+                var parsed = JSON.parse(body);
+                return done(null, parsed);
+            } catch (e) {
+                return done({message: body, code: 500}, null);
+            }
+        } else {
+            return done({message: body || error, code: response.statusCode}, null);
+        }
+    }
+
+    request(options, callback);
 };
 
-Files.searchContentWithTerms = function (terms, accessToken, done) {
-    if (!terms || terms.length < 3) {
-        return done(new Error("Bad search criteria"), null);
-    }
+/**
+ * Add folder for user authentified by accessToken
+ * @param {string} parentFolderID
+ * @param {string} folderName
+ * @param {string} accessToken
+ * @param {function} done
+ */
+Files.addFolder = function (parentFolderID, folderName, accessToken, done) {
+
     var options = {
-            host: config.apiUrl,
-            port: config.apiPort,
-            path: "/api/files/searchByTerms/" + terms,
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + accessToken
-            }
+        url: "https://" + config.apiUrl + ":" + config.apiPort + "/api/folders/",
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
         },
-        req = https.request(options, function (res) {
-            var body = "";
-            res.on('data', function (d) {
-                body += d;
-            });
-            res.on('end', function () {
+        form: {
+            name: folderName,
+            parentId: parentFolderID
+        }
+    };
 
-                console.log(body);
-                try {
-                    var parsed = JSON.parse(body);
-                    return done(null, parsed);
-                } catch (e) {
-                    return done(new Error("Can't fetch files from API"), null);
-                }
-            });
-        });
+    function callback(error, response, body) {
+        if (!error && response.statusCode === 200) {
+            try {
+                var parsed = JSON.parse(body);
+                return done(null, parsed);
+            } catch (e) {
+                return done({message: body, code: 500}, null);
+            }
+        } else {
+            return done({message: body || error, code: response.statusCode}, null);
+        }
+    }
 
-    req.end();
+    request.post(options, callback);
 };

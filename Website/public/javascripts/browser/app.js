@@ -16,11 +16,6 @@ cubbyHoleBrowser.config(['$routeProvider', '$interpolateProvider',
                 controller: 'FileTableController',
                 reloadOnSearch: false
             }).
-            when('/search/', {
-                templateUrl: '/javascripts/browser/partials/search-template.html',
-                controller: 'SearchController',
-                reloadOnSearch: false
-            }).
             otherwise({
                 redirectTo: '/folder/'
             });

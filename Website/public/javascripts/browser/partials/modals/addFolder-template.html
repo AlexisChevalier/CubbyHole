@@ -1,13 +1,19 @@
 <div class="modal-header">
-    <h3>Add Folder in <span class="name">[[item.folderName]]</span></h3>
+    <h3>Add Folder in <span class="name">[[item.name]]</span></h3>
 </div>
+<form>
 <div class="modal-body">
+    <div class="alert alert-dismissable alert-danger" ng-show="error != null">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        [[error]]
+    </div>
     <div class="form-group">
-        <label for="EditFolder">Folder Name</label>
-        <input type="email" class="form-control" id="EditFolder" placeholder="Folder name">
+        <label for="AddFolder">Folder Name</label>
+        <input type="text" select-on-click class="form-control" id="AddFolder" ng-model="folder" placeholder="Folder name">
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-primary" ng-click="ok(folder)">OK</button>
     <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>
+</form>

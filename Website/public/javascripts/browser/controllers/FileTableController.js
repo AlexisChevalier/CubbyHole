@@ -3,30 +3,14 @@
 
 cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modal', '$upload', function ($scope, $routeParams, $http, $location, $timeout, $modal, $upload) {
 
-    $scope.searchInput = "";
     $scope.items = [];
-    $scope.path = "";
-    $scope.folderId = "-1";
+
+    $scope.folderId = "";
     $scope.folderName = "";
     $scope.parentFolders = [];
     $scope.url = "";
     $scope.orderProp = 'type';
     $scope.orderDirection = true;
-
-    //Search feature
-    var tempFilterText = '',
-        filterTextTimeout;
-    $scope.$watch('searchInput', function (val) {
-        if (filterTextTimeout) {
-            $timeout.cancel(filterTextTimeout);
-        }
-        if (val !== "" && val !== tempFilterText && val) {
-            tempFilterText = val;
-            filterTextTimeout = $timeout(function () {
-                $location.search({"terms": tempFilterText}).path("/search/");
-            }, 500); // delay 500 ms
-        }
-    });
 
     //Sort Table
     $scope.sort = function (column) {
@@ -42,11 +26,29 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
     $scope.refresh = function () {
         $http.get($scope.url)
             .success(function (data) {
-                $scope.path = data.path;
-                $scope.folderId = data.id;
+                var i, tmpItem = null;
+
+                $scope.folderId = data._id;
                 $scope.folderName = data.name;
-                $scope.items = data.items;
-                $scope.parentFolders = data.parents.reverse();
+                $scope.items = [];
+
+                for (i = 0; i < data.childFolders.length; i++) {
+                    tmpItem = data.childFolders[i];
+
+                    tmpItem.type = "folder";
+
+                    $scope.items.push(tmpItem);
+                }
+
+                for (i = 0; i < data.childFiles.length; i++) {
+                    tmpItem = data.childFiles[i];
+
+                    tmpItem.type = "file";
+
+                    $scope.items.push(tmpItem);
+                }
+
+                $scope.parentFolders = data.parents;
             });
     };
 
@@ -79,13 +81,17 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
             controller: "AddFolderModalController",
             resolve: {
                 item: function () {
-                    return $scope.parentFolder();
+                    return {
+                        name: $scope.folderName,
+                        id: $scope.folderId
+                    };
                 }
             }
         });
 
         modalInstance.result.then(function (item) {
-            console.log(item);
+            item.type = "folder";
+            $scope.items.push(item);
         }, function () {
             console.log("popup closed");
         });
@@ -172,12 +178,12 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
 
     //Listens for location changes
     $scope.$on('$locationChangeSuccess', function () {
-        $scope.url = "https://localhost:8443/ajax/listByFolders/" + ($location.search().id || -1);
+        $scope.url = "/ajax/folder/" + ($location.search().id || "");
         $scope.refresh();
     });
     //Listens for route changes
     $scope.$on('$routeChangeSuccess', function () {
-        $scope.url = "https://localhost:8443/ajax/listByFolders/" + ($location.search().id || -1);
+        $scope.url = "/ajax/folder/" + ($location.search().id || "");
         $scope.refresh();
     });
 

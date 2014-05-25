@@ -1,5 +1,9 @@
 
 
+.mainBrowserDiv {
+	position: relative;
+}
+
 div#headbar input, div#headbar div#path {
 	height: 60px; /* 50px inside */
 	margin: 0px;
@@ -17,9 +21,8 @@ div#headbar input:focus{
 }
 
 div#headbar div#path {
-	width: 70%;
+	width: 100%;
 	padding-left: 50px; /* 40(ico) + 10px */
-	border-right: 0px;
 	/* can't do sprite :/ */
 	background: url('/images/icons/tree.png') no-repeat left center #ffcc6d;
 }
@@ -236,4 +239,18 @@ div#filebrowser table tr td.shared-folder {
 
 .blackColor {
 	color: black;
+}
+
+.messagesContainer {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	position: absolute;
+	width: 100%;
+	z-index: 1000;
+}
+
+.messagesContainer li {
+	margin: 0;
+	padding: 0;
 }

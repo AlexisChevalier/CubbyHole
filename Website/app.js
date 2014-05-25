@@ -150,8 +150,8 @@ app.get('/logout', accountRoutes.logout);
 
 //File browser
 app.get(/^\/browser.*$/, fileBrowserRoutes.fileBrowserPage);
-app.get('/ajax/listByFolders/:folderID', fileBrowserRoutes.getFileList);
-app.get('/ajax/searchByTerms/:terms', fileBrowserRoutes.searchByTerms);
+app.get('/ajax/folder/:folderID?', fileBrowserRoutes.getFolder);
+app.post('/ajax/folder/', fileBrowserRoutes.addFolder);
 app.get('/ajax/searchUserByTerms/:terms', fileBrowserRoutes.searchUsersByTerms);
 
 

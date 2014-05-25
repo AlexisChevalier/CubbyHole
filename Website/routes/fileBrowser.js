@@ -17,12 +17,12 @@ module.exports = {
     /**
      * GET file list for current user (for rootFolder or a folder ID)
      */
-    getFileList: [
+    getFolder: [
         login.ensureLoggedIn(),
-        function (req, res) {
-            filesHttpDao.listFolderContent(req.params.folderID, req.user.accessToken, function (err, files) {
+        function (req, res, next) {
+            filesHttpDao.getFolder(req.params.folderID, req.user.accessToken, function (err, files) {
                 if (err) {
-                    return res.json(err);
+                    return res.send(err.code, err.message);
                 }
 
                 return res.json(files);
@@ -30,17 +30,18 @@ module.exports = {
         }],
 
     /**
-     * GET file list for current search with terms
+     * POST new folder
      */
-    searchByTerms: [
+
+    addFolder: [
         login.ensureLoggedIn(),
-        function (req, res) {
-            filesHttpDao.searchContentWithTerms(req.params.terms, req.user.accessToken, function (err, files) {
+        function (req, res, next) {
+            filesHttpDao.addFolder(req.body.parentFolderID, req.body.folderName, req.user.accessToken, function (err, file) {
                 if (err) {
-                    return res.json(err);
+                    return res.send(err.code, err.message);
                 }
 
-                return res.json(files);
+                return res.json(file);
             });
         }],
 
@@ -50,10 +51,10 @@ module.exports = {
      */
     searchUsersByTerms: [
         login.ensureLoggedIn(),
-        function (req, res) {
+        function (req, res, next) {
             usersHttpDao.findByTerms(req.params.terms, req.user.accessToken, function (err, users) {
                 if (err) {
-                    return res.json(err);
+                    return next(err);
                 }
 
                 return res.json(users);

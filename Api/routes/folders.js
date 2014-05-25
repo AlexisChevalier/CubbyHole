@@ -25,14 +25,14 @@ module.exports = {
             }
 
             if (!folderId) {
-                FolderHelper.getFolder({"userId": req.user.id, "isRoot": true}, "", function (err, folder) {
+                FolderHelper.getFolder({"userId": req.user.id, "isRoot": true}, "childFiles parents childFolders", function (err, folder) {
                     if (err || !folder || folder == null) {
                         return res.send(404, "Root folder not found");
                     }
                     return res.json(folder);
                 });
             } else {
-                FolderHelper.getFolder({"_id": folderId}, "childFiles childFolders", function (err, folder) {
+                FolderHelper.getFolder({"_id": folderId}, "childFiles parents childFolders", function (err, folder) {
                     if (err || !folder || folder == null) {
                         return res.send(404, "Folder not found");
                     }
@@ -77,9 +77,7 @@ module.exports = {
                 }
 
                 if (folder.userId != req.user.id) {
-
                     //TODO: CHECK SHARES
-
                     return res.send(403, "You don't have any write access on this folder");
                 }
 
