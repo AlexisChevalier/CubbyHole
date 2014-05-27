@@ -1,22 +1,21 @@
 "use strict";
 /*global angular, cubbyHoleBrowser */
 
-cubbyHoleBrowser.controller('AddFolderModalController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modalInstance', 'item', function ($scope, $routeParams, $http, $location, $timeout, $modalInstance, item) {
+cubbyHoleBrowser.controller('AddFolderModalController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modalInstance', 'item', 'flash', function ($scope, $routeParams, $http, $location, $timeout, $modalInstance, item, flash) {
     $scope.item = item;
-    $scope.error = null;
     $scope.folder = "New Folder";
 
     $scope.ok = function (folderName) {
-        $scope.error = null;
-        var url = "/ajax/folder/";
+        var url = "/ajax/api/folders/";
 
         $http.post(url, {
-            folderName: folderName,
-            parentFolderID: item.id
+            name: folderName,
+            parentId: item.id
         }).success(function (data) {
                 $modalInstance.close(data);
+                flash('success', "Folder \"" + data.name + "\" created successfully !");
             }).error(function (data, status) {
-                $scope.error = data;
+                flash('danger', data || "Unknown error");
             });
     };
 

@@ -123,7 +123,7 @@ module.exports = {
                 newParentId = req.body.newParentID,
                 newName = req.body.newName;
 
-            if (!folderId && (!newParentId || !newName)) {
+            if (!folderId || (!newParentId && !newName)) {
                 return res.send(400, "Missing parameters");
             }
 
@@ -439,7 +439,7 @@ module.exports = {
                         console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
                         next(err);
                     }
-                    return res.send(200, "Folder deleted");
+                    return res.json(200, {status: 'deleted'});
                 });
             });
         }

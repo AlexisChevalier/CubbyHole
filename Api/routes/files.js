@@ -284,6 +284,10 @@ module.exports = {
                 }
             }
 
+            if (!newName && !updateFile && !newParentId) {
+                return res.send(400, "Missing headers");
+            }
+
             FileHelper.getFile({'_id': id}, 'metadata.parent', function (err, file) {
                 if (err || !file || file === null) {
                     return res.send(404, "Couldn't find given file");
@@ -310,10 +314,13 @@ module.exports = {
                                 }
                                 file.metadata.name = newName;
 
-                                file.save();
+                                file.save(function (err) {
+                                    if (err) {
+                                        next(err);
+                                    }
+                                    next();
+                                });
                             }
-
-                            next();
                         },
                         function (next) {
                             /** SI ON DOIT DEPLACER LE FICHIER **/
@@ -505,7 +512,7 @@ module.exports = {
                                         return res.send(500, "Internal Error");
                                     }
 
-                                    return res.end('File deleted');
+                                    return res.json(200, {status: 'deleted'});
                                 });
                             });
                         });

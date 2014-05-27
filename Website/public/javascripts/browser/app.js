@@ -3,9 +3,11 @@
 
 var cubbyHoleBrowser = angular.module('cubbyHoleBrowser', [
     'ngRoute',
+    'ngAnimate',
     'textFilters',
     'ui.bootstrap',
-    'angularFileUpload'
+    'angularFileUpload',
+    'flash'
 ]);
 
 cubbyHoleBrowser.config(['$routeProvider', '$interpolateProvider',
@@ -23,4 +25,8 @@ cubbyHoleBrowser.config(['$routeProvider', '$interpolateProvider',
         /* Because of SWIG template engine */
         $interpolateProvider.startSymbol('[[');
         $interpolateProvider.endSymbol(']]');
+    }]).run( [ '$location', '$rootScope', function( $location, $rootScope ){
+
+        $rootScope.successMsg = ["lol"];
+
     }]);

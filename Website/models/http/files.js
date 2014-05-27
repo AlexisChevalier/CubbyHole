@@ -73,3 +73,19 @@ Files.addFolder = function (parentFolderID, folderName, accessToken, done) {
 
     request.post(options, callback);
 };
+
+/**
+ * Delete folder for user authentified by accessToken
+ * @param {string} folderID
+ * @param {string} accessToken
+ * @param {function} done
+ */
+
+
+
+/**
+ * Delete file for user authentified by accessToken
+ * @param {string} folderID
+ * @param {string} accessToken
+ * @param {function} done
+ */

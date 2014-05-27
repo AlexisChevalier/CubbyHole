@@ -92,6 +92,23 @@ div#actionbar ul li.addfolder {
 
 
 /*** File browser ***/
+
+div#filebrowser #loader {
+	position: relative;
+	height: 40px;
+	width: 100%;
+	overflow: hidden;
+}
+
+
+div#filebrowser #loader #textLoader {
+	line-height: 40px;
+	font-size: 20px;
+	text-transform: uppercase;
+	text-align: center;
+	color: #3daaf8;
+}
+
 div#filebrowser table {
 	width: 100%;
 }
@@ -116,7 +133,8 @@ div#filebrowser table tbody tr.parent-folder-row {
 }
 
 div#filebrowser table tbody tr td.options-col {
-	text-align: center;
+	/*text-align: center;*/
+	width: 202px;
 }
 
 div#filebrowser table tbody tr td.options-col button {
@@ -241,16 +259,51 @@ div#filebrowser table tr td.shared-folder {
 	color: black;
 }
 
-.messagesContainer {
-	margin: 0;
-	padding: 0;
-	list-style: none;
+/** FLASH MESSAGES **/
+
+#flash-message {
 	position: absolute;
-	width: 100%;
-	z-index: 1000;
+	z-index: 10000;
+	left: 0;
+	height: 40px;
+	right: 0;
+	background: #fde073;
+	text-align: center;
+	line-height: 2.5;
+	overflow: hidden;
+	-webkit-box-shadow: 0 0 5px black;
+	-moz-box-shadow:    0 0 5px black;
+	box-shadow:         0 0 5px black;
+	display:block!important;
 }
 
-.messagesContainer li {
-	margin: 0;
-	padding: 0;
+#flash-message.danger {
+	background: #fd5445;
+	color: white;
+}
+
+#flash-message.info {
+	background: #40a3fd;
+}
+
+#flash-message.warning {
+	background: #fde073;
+}
+
+#flash-message.success {
+	background: #29E918;
+}
+
+.slide-down{
+	-webkit-transition:top linear 0.2s;
+	transition:top linear 0.2s;
+	top: 0;
+}
+
+.slide-down.ng-hide {
+	top: -45px;
+}
+
+.slide-down.ng-hide-add, .slide-down.ng-hide-remove {
+	display:block!important;
 }

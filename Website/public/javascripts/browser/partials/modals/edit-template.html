@@ -1,13 +1,15 @@
 <div class="modal-header">
     <h3>Edit [[item.type]] <span class="name">[[item.name]]</span></h3>
 </div>
+<form>
 <div class="modal-body">
     <div class="form-group">
         <label for="EditName">Edit Name</label>
-        <input type="email" class="form-control" id="EditName" placeholder="Item name" value="[[item.name]]">
+        <input type="text" class="form-control" id="EditName" placeholder="Item name" ng-model="name" select-on-click>
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-primary" ng-click="ok(name)">OK</button>
     <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>
+</form>

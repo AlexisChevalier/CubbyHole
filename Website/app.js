@@ -150,9 +150,11 @@ app.get('/logout', accountRoutes.logout);
 
 //File browser
 app.get(/^\/browser.*$/, fileBrowserRoutes.fileBrowserPage);
-app.get('/ajax/folder/:folderID?', fileBrowserRoutes.getFolder);
-app.post('/ajax/folder/', fileBrowserRoutes.addFolder);
 app.get('/ajax/searchUserByTerms/:terms', fileBrowserRoutes.searchUsersByTerms);
+app.get('/ajax/api/*', fileBrowserRoutes.forwardRequest);
+app.post('/ajax/api/*', fileBrowserRoutes.forwardRequest);
+app.delete('/ajax/api/*', fileBrowserRoutes.forwardRequest);
+app.put('/ajax/api/*', fileBrowserRoutes.forwardRequest);
 
 
 /**

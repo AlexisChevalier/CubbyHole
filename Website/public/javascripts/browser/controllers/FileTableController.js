@@ -1,7 +1,7 @@
 "use strict";
 /*global angular, cubbyHoleBrowser */
 
-cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modal', '$upload', function ($scope, $routeParams, $http, $location, $timeout, $modal, $upload) {
+cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$routeParams', '$http', '$location', '$timeout', '$modal', '$upload', function ($scope, $rootScope, $routeParams, $http, $location, $timeout, $modal, $upload) {
 
     $scope.items = [];
 
@@ -24,6 +24,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
 
     //Update Results
     $scope.refresh = function () {
+        $rootScope.appLoading = true;
         $http.get($scope.url)
             .success(function (data) {
                 var i, tmpItem = null;
@@ -44,11 +45,15 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
                     tmpItem = data.childFiles[i];
 
                     tmpItem.type = "file";
+                    tmpItem.name = tmpItem.metadata.name;
+                    tmpItem.updateDate = tmpItem.metadata.updateDate;
 
                     $scope.items.push(tmpItem);
                 }
 
                 $scope.parentFolders = data.parents;
+
+                $rootScope.appLoading = false;
             });
     };
 
@@ -92,9 +97,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
         modalInstance.result.then(function (item) {
             item.type = "folder";
             $scope.items.push(item);
-        }, function () {
-            console.log("popup closed");
-        });
+        }, function () {});
     };
 
     //Upload Item
@@ -118,7 +121,6 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
 
     //Remove Item
     $scope.remove = function (item) {
-        console.log("REMOVE ITEM " + item.id);
         var modalInstance = $modal.open({
             templateUrl: '/javascripts/browser/partials/modals/delete-template.html',
             controller: "DeleteModalController",
@@ -130,15 +132,13 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
         });
 
         modalInstance.result.then(function (item) {
-            console.log(item);
-        }, function () {
-            console.log("popup closed");
-        });
+            var index = $scope.items.indexOf(item);
+            $scope.items.splice(index, 1);
+        }, function () {});
     };
 
     //Edit Item
     $scope.edit = function (item) {
-        console.log("EDIT ITEM " + item.id);
         var modalInstance = $modal.open({
             templateUrl: '/javascripts/browser/partials/modals/edit-template.html',
             controller: "EditModalController",
@@ -149,11 +149,10 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
             }
         });
 
-        modalInstance.result.then(function (item) {
-            console.log(item);
-        }, function () {
-            console.log("popup closed");
-        });
+        modalInstance.result.then(function (itemUpdated) {
+            var index = $scope.items.indexOf(item);
+            $scope.items[index] = itemUpdated;
+        }, function () {});
     };
 
     //Share Item
@@ -178,12 +177,12 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$routeParams', '$
 
     //Listens for location changes
     $scope.$on('$locationChangeSuccess', function () {
-        $scope.url = "/ajax/folder/" + ($location.search().id || "");
+        $scope.url = "/ajax/api/folders/" + ($location.search().id || "");
         $scope.refresh();
     });
     //Listens for route changes
     $scope.$on('$routeChangeSuccess', function () {
-        $scope.url = "/ajax/folder/" + ($location.search().id || "");
+        $scope.url = "/ajax/api/folders/" + ($location.search().id || "");
         $scope.refresh();
     });
 

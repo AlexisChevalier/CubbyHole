@@ -1,3 +1,5 @@
+<flash-message></flash-message>
+
 <div class="mainBrowserDiv" ng-controller="FileTableController">
 
     <div id="headbar">
@@ -18,7 +20,8 @@
         </ul>
         <div class="clearfix"></div>
     </div>
-    <div id="filebrowser">
+
+    <div id="filebrowser" style="position: relative;">
         <table>
             <thead>
             <tr>
@@ -28,13 +31,13 @@
                 <th ng-click="sort('type')">Type
                     <div ng-if="orderProp=='type'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
                 </th>
-                <th ng-click="sort('date')">Modified
-                    <div ng-if="orderProp=='date'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                <th ng-click="sort('updateDate')">Modified
+                    <div ng-if="orderProp=='updateDate'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
                 </th>
                 <th>Options</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody ng-hide="appLoading">
             <tr class="parent-folder-row" ng-show="hasParent()" ng-click="handleItemClick('folder', parentFolder()._id)">
                 <td class="parent-folder"></td>
                 <td>Parent Folder</td>
@@ -44,12 +47,12 @@
             </tr>
             <tr ng-repeat="item in items | orderBy:orderProp:orderDirection">
                 <td class="[[item.type]]"></td>
-                <td ng-switch on="item.type"  ng-click="handleItemClick(item.type, item._id)">
+                <td ng-click="handleItemClick(item.type, item._id)">
                     [[item.name]]
                 </td>
 
                 <td>[[item.type | Capitalize]]</td>
-                <td>[[item.date | date:"medium"]]</td>
+                <td>[[item.updateDate | date:"short"]]</td>
                 <td class="options-col">
                     <div class="btn-group">
                         <button ng-click="remove(item)" type="button" tooltip-placement="left" tooltip="Remove" class="btn btn-default optionButton removeButton">
@@ -57,6 +60,12 @@
                         </button>
                         <button ng-click="edit(item)" type="button" tooltip-placement="top" tooltip="Edit" class="btn btn-default optionButton editButton">
                             <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                        <button ng-click="move(item)" type="button" tooltip-placement="top" tooltip="Move" class="btn btn-default optionButton moveButton">
+                            <span class="glyphicon glyphicon-transfer"></span>
+                        </button>
+                        <button ng-click="copy(item)" type="button" tooltip-placement="top" tooltip="Copy" class="btn btn-default optionButton copyButton">
+                            <span class="glyphicon glyphicon glyphicon-hdd"></span>
                         </button>
                         <button ng-click="share(item)" type="button" tooltip-placement="right" tooltip="Share" class="btn btn-default optionButton shareButton">
                             <span class="glyphicon glyphicon-link"></span>
@@ -66,5 +75,11 @@
             </tr>
             </tbody>
         </table>
+        <div id="loader" ng-show="appLoading">
+            <div id="textLoader">
+                <img src="/images/ajax-loader.gif" />
+                loading ...
+            </div>
+        </div>
     </div>
 </div>

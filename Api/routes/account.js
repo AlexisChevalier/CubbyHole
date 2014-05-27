@@ -53,7 +53,7 @@ module.exports = {
                 if (err) {
                     res.send(400, err);
                 } else {
-                    res.send(200, "");
+                    res.json(200, {status: 'deleted'});
                 }
             });
         }
