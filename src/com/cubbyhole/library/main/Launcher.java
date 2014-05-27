@@ -1,7 +1,7 @@
 package com.cubbyhole.library.main;
 
 import com.cubbyhole.library.http.CHHttp;
-import com.cubbyhole.library.http.CHHttpData;
+import com.cubbyhole.library.http.CHHttpDatas;
 import com.cubbyhole.library.http.CHHttpResponse;
 import com.cubbyhole.library.logger.Log;
 
@@ -26,7 +26,7 @@ public class Launcher {
 		Log.d(Launcher.TAG, getResponse.toString());
 
 		// Testing a post request
-		CHHttpData datas = new CHHttpData()//
+		CHHttpDatas datas = new CHHttpDatas()//
 				.add("username", "tehCivilian")//
 				.add("password", "p455w0rd");
 		CHHttpResponse postResponse = CHHttp.post("http://httpbin.org/post", datas, null, null);

@@ -9,14 +9,14 @@ import ch.boye.httpclientandroidlib.message.BasicNameValuePair;
 /**
  * Class used to easily add datas to HTTP requests such as post.
  */
-public class CHHttpData {
+public class CHHttpDatas {
 	private List<NameValuePair>	nameValuePairs;
 
 	/**
 	 * The default constructor
 	 */
-	public CHHttpData() {
-		this.nameValuePairs = new ArrayList<NameValuePair>();
+	public CHHttpDatas() {
+		nameValuePairs = new ArrayList<NameValuePair>();
 	}
 
 	/**
@@ -25,8 +25,8 @@ public class CHHttpData {
 	 * @param dataValue - the value of that data
 	 * @return the current instance modified.
 	 */
-	public CHHttpData add(String dataName, String dataValue) {
-		this.nameValuePairs.add(new BasicNameValuePair(dataName, dataValue));
+	public CHHttpDatas add(String dataName, String dataValue) {
+		nameValuePairs.add(new BasicNameValuePair(dataName, dataValue));
 		return this;
 	}
 
@@ -35,10 +35,10 @@ public class CHHttpData {
 	 * @param dataName - the name of the data
 	 * @return the current instance modified.
 	 */
-	public CHHttpData remove(String dataName) {
-		for (NameValuePair nvPair : this.nameValuePairs) {
+	public CHHttpDatas remove(String dataName) {
+		for (NameValuePair nvPair : nameValuePairs) {
 			if (dataName.equals(nvPair.getName())) {
-				this.nameValuePairs.remove(nvPair);
+				nameValuePairs.remove(nvPair);
 				break;
 			}
 		}
@@ -50,7 +50,7 @@ public class CHHttpData {
 	 * @return the numbers of datas added.
 	 */
 	public int count() {
-		return this.nameValuePairs.size();
+		return nameValuePairs.size();
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class CHHttpData {
 	 * @return <code>true</code> if there is no data added yet, <code>false</code> otherwise.
 	 */
 	public boolean isEmpty() {
-		return (this.nameValuePairs.size() == 0);
+		return (nameValuePairs.size() == 0);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class CHHttpData {
 	 * @return the list of the datas to add into a request.
 	 */
 	public List<NameValuePair> getDatas() {
-		return this.nameValuePairs;
+		return nameValuePairs;
 	}
 
 }

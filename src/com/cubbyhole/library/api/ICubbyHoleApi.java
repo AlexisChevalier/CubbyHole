@@ -1,7 +1,9 @@
 package com.cubbyhole.library.api;
 
+import com.cubbyhole.library.api.entities.CHAccount;
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
+import com.cubbyhole.library.http.CHHttpDatas;
 
 /**
  * Interface that defines all API methods exposed by the server API.
@@ -39,15 +41,39 @@ public interface ICubbyHoleApi {
 
 	/// END OF API ROUTES DEFINITION ///
 
-	/// API RESPONSE FIELDS ///
-	/*public static final String APIRESPFIELD_VERSION = "__v";
-	public static final String APIRESPFIELD_ID = "_id";
-	public static final String APIRESPFIELD_VERSION = "__v";
-	public static final String APIRESPFIELD_VERSION = "__v";
-	public static final String APIRESPFIELD_VERSION = "__v";
-	public static final String APIRESPFIELD_VERSION = "__v";*/
+	/**
+	 * Used to execute a get request on the CubbyHole API
+	 * @param url - the url to execute the get request on.
+	 * @return a json response from the api.
+	 * @throws Exception
+	 */
+	public CHJsonNode apiGet(String url) throws Exception;
 
-	/// END OF API RESPONSE FIELDS ///
+	/**
+	 * Used to execute a post request on the CubbyHole API
+	 * @param url - the url to execute the post request on.
+	 * @param datas - the datas to be sent with the post request.
+	 * @return a json response from the api.
+	 * @throws Exception
+	 */
+	public CHJsonNode apiPost(String url, CHHttpDatas datas) throws Exception;
+
+	/**
+	 * Used to execute a put request on the CubbyHole API
+	 * @param url - the url to execute the put request on.
+	 * @param datas - the datas to be sent with the put request.
+	 * @return a json response from the api.
+	 * @throws Exception
+	 */
+	public CHJsonNode apiPut(String url, CHHttpDatas datas) throws Exception;
+
+	/**
+	 * Used to execute a delete request on the CubbyHole API
+	 * @param url - the url to execute the delete request on.
+	 * @return a json response from the api.
+	 * @throws Exception
+	 */
+	public CHJsonNode apiDelete(String url) throws Exception;
 
 	/**
 	 * Initialize the context with the access token
@@ -56,12 +82,38 @@ public interface ICubbyHoleApi {
 	public void Initialize(String token);
 
 	/**
+	 * Used to get the account details of the user.
+	 * @return the account of the user.
+	 */
+	public CHAccount getAccount();
+
+	/**
+	 * Used to update the account details of the user.
+	 * @param account - the account with the new datas to set.
+	 */
+	public void updateAccount(CHAccount account);
+
+	/**
+	 * Used to get the root folder of the account file system.
+	 * @return the root folder for the current account.
+	 */
+	public CHFolder getRootFolder();
+
+	/**
 	 * Used to create a folder in an other existing folder.
 	 * @param parentFolder - the folder in which the new folder must be created.
 	 * @param folderName - the name of the new folder.
 	 * @return a {@link CHFolder} instance on success.
 	 */
 	public CHFolder createFolder(CHFolder parentFolder, String folderName);
+
+	/**
+	 * Used to update a folder on the server.
+	 * @param folder - the folder you want to push the modifications
+	 * @return folder - the folder with the new modifications.
+	 * @throws Exception 
+	 */
+	public CHFolder updateFolder(CHFolder folder) throws Exception;
 
 	/**
 	 * Used to delete a folder.

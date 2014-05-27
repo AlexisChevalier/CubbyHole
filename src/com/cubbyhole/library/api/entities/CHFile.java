@@ -53,6 +53,9 @@ public class CHFile extends CHItem {
 	 * @return Returns an instance of {@link CHFile} from a json response
 	 */
 	public static CHFile fromJson(CHJsonNode json) {
+		if (json == null) {
+			return null;
+		}
 		CHFile file = new CHFile();
 		file.setType(CHType.FILE);
 		try {

@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import ch.boye.httpclientandroidlib.client.ClientProtocolException;
 import ch.boye.httpclientandroidlib.client.HttpClient;
 import ch.boye.httpclientandroidlib.client.entity.UrlEncodedFormEntity;
+import ch.boye.httpclientandroidlib.client.methods.HttpDelete;
 import ch.boye.httpclientandroidlib.client.methods.HttpEntityEnclosingRequestBase;
 import ch.boye.httpclientandroidlib.client.methods.HttpGet;
 import ch.boye.httpclientandroidlib.client.methods.HttpPost;
+import ch.boye.httpclientandroidlib.client.methods.HttpPut;
 import ch.boye.httpclientandroidlib.client.methods.HttpUriRequest;
 import ch.boye.httpclientandroidlib.conn.ssl.SSLContextBuilder;
 import ch.boye.httpclientandroidlib.conn.ssl.TrustSelfSignedStrategy;
@@ -22,17 +24,21 @@ public class CHHttp {
 	private static final String	TAG						= CHHttp.class.getName();
 	public static final boolean	IGNORE_NOT_TRUSTED_CERT	= true;
 
+	public enum REQTYPE {
+		GET, POST, PUT, DELETE, OPTIONS, HEAD, TRACE, CONNECT
+	}
+
 	/**
 	 * The http client used to execute requests
 	 */
-	private static HttpClient	mHttpclient				= null;
+	private static HttpClient	mHttpClient	= null;
 
 	/**
 	 * Used to execute a get request.
 	 * @param url - The url to perform the get request on.
 	 * @param headers - the headers to add with the get request.
 	 * @param cookies - the cookies to add with the get request.
-	 * @return an instance of  {@link CHHttpResponse}.
+	 * @return an instance of {@link CHHttpResponse}.
 	 */
 	public static CHHttpResponse get(String url, ArrayList<CHHeader> headers,
 			ArrayList<CHCookie> cookies) {
@@ -44,18 +50,51 @@ public class CHHttp {
 	/**
 	 * Used to execute a post request.
 	 * @param url - The url to perform the post request on.
-	 * @param datas - a {@link CHHttpData} instance containing the datas to send.
+	 * @param datas - a {@link CHHttpDatas} instance containing the datas to send.
 	 * @param headers - the headers to add with the post request.
 	 * @param cookies - the cookies to add with the post request.
-	 * @return an instance of  {@link CHHttpResponse}.
+	 * @return an instance of {@link CHHttpResponse}.
 	 */
-	public static CHHttpResponse post(String url, CHHttpData datas, ArrayList<CHHeader> headers,
+	public static CHHttpResponse post(String url, CHHttpDatas datas, ArrayList<CHHeader> headers,
 			ArrayList<CHCookie> cookies) {
 		HttpPost request = new HttpPost(url);
 
 		if (datas != null && !datas.isEmpty()) {
 			injectDatas(request, datas);
 		}
+
+		return execute(request, headers, cookies);
+	}
+
+	/***
+	 * Used to execute a put request.
+	 * @param url - The url to perform the put request on.
+	 * @param datas - a {@link CHHttpDatas} instance containing the datas to send.
+	 * @param headers - the headers to add with the put request.
+	 * @param cookies - the cookies to add with the put request.
+	 * @return an instance of {@link CHHttpResponse}.
+	 */
+	public static CHHttpResponse put(String url, CHHttpDatas datas, ArrayList<CHHeader> headers,
+			ArrayList<CHCookie> cookies) {
+		HttpPut request = new HttpPut(url);
+
+		if (datas != null && !datas.isEmpty()) {
+			injectDatas(request, datas);
+		}
+
+		return execute(request, headers, cookies);
+	}
+
+	/***
+	 * Used to execute a delete request.
+	 * @param url - The url to perform the delete request on.
+	 * @param headers - the headers to add with the delete request.
+	 * @param cookies - the cookies to add with the delete request.
+	 * @return an instance of {@link CHHttpResponse}.
+	 */
+	public static CHHttpResponse delete(String url, ArrayList<CHHeader> headers,
+			ArrayList<CHCookie> cookies) {
+		HttpDelete request = new HttpDelete(url);
 
 		return execute(request, headers, cookies);
 	}
@@ -92,7 +131,7 @@ public class CHHttp {
 		return null;
 	}
 
-	private static void injectDatas(HttpEntityEnclosingRequestBase request, CHHttpData datas) {
+	private static void injectDatas(HttpEntityEnclosingRequestBase request, CHHttpDatas datas) {
 		try {
 			request.setEntity(new UrlEncodedFormEntity(datas.getDatas()));
 		} catch (UnsupportedEncodingException e) {
@@ -134,16 +173,16 @@ public class CHHttp {
 	 * @return the a {@link HttpClient} instance
 	 */
 	private static final HttpClient getHttpclient() {
-		if (mHttpclient == null) {
+		if (mHttpClient == null) {
 			HttpClientBuilder cb = HttpClientBuilder.create();
 
 			if (IGNORE_NOT_TRUSTED_CERT) {
 				makeItTrustAllCertificates(cb);
 			}
 
-			mHttpclient = cb.build();
+			mHttpClient = cb.build();
 		}
-		return mHttpclient;
+		return mHttpClient;
 	}
 
 	private static void makeItTrustAllCertificates(HttpClientBuilder hcbuilder) {

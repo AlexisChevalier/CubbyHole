@@ -24,16 +24,22 @@ public class CHFolder extends CHItem {
 	public static final String	FIELD_CHILD_FILES	= "childFiles";
 	/// END OF JSON FIELDS ///
 
-	public String				name;
-	public String				parent;
-	public String				share;
-	public Long					userId;
-	public DateTime				uploadDate;
-	public ArrayList<CHFolder>	parents;
-	public boolean				isShared;
-	public Boolean				isRoot;
-	public ArrayList<CHFolder>	childFolders;
-	public ArrayList<CHFile>	childFiles;
+	private String				name;
+	private String				parent;
+	private String				share;
+	private Long				userId;
+	private DateTime			uploadDate;
+	private ArrayList<CHFolder>	parents;
+	private boolean				isShared;
+	private Boolean				isRoot;
+	private ArrayList<CHFolder>	childFolders;
+	private ArrayList<CHFile>	childFiles;
+
+	/// Modification States ////
+	private boolean				isNameHasBeenModified;
+	private boolean				isParentHasBeenModified;
+
+	/// End of Modification States ////
 
 	private CHFolder() {
 		//Only used by the fromJson method
@@ -45,6 +51,9 @@ public class CHFolder extends CHItem {
 	 * @return Returns an instance of {@link CHFolder} from a json response
 	 */
 	public static CHFolder fromJson(CHJsonNode json) {
+		if (json == null) {
+			return null;
+		}
 		CHFolder folder = new CHFolder();
 		folder.setType(CHType.FOLDER);
 		try {
@@ -97,7 +106,14 @@ public class CHFolder extends CHItem {
 	 * @param name the name to set
 	 */
 	public final void setName(String name) {
-		this.name = name;
+		if (this.name.equals(name)) {
+			this.name = name;
+			isNameHasBeenModified = true;
+		}
+	}
+
+	public final boolean isNameHasBeenModified() {
+		return isNameHasBeenModified;
 	}
 
 	/**
@@ -111,7 +127,14 @@ public class CHFolder extends CHItem {
 	 * @param parent the parent to set
 	 */
 	public final void setParent(String parent) {
-		this.parent = parent;
+		if (this.parent.equals(parent)) {
+			this.parent = parent;
+			isParentHasBeenModified = true;
+		}
+	}
+
+	public final boolean isParentHasBeenModified() {
+		return isParentHasBeenModified;
 	}
 
 	/**
@@ -226,4 +249,8 @@ public class CHFolder extends CHItem {
 		this.childFiles = childFiles;
 	}
 
+	public final void resetModificationStates() {
+		isNameHasBeenModified = false;
+		isParentHasBeenModified = false;
+	}
 }
