@@ -1,16 +1,18 @@
 package com.cubbyhole.android.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 
 import com.cubbyhole.android.R;
 import com.cubbyhole.android.components.AuthWebView;
+import com.cubbyhole.android.components.AuthWebView.ICubbyHoleAuth;
 import com.cubbyhole.android.utils.CHC;
 import com.cubbyhole.android.utils.ssl.SSLManager;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements ICubbyHoleAuth {
 
 	private static final String	TAG	= LoginActivity.class.getName();
 
@@ -40,6 +42,8 @@ public class LoginActivity extends Activity {
 				+ CHC.EQUAL //
 				+ CHC.OAUTH_PARAM_ACCESS_CODE;
 
+		mAuthWebView.setContext(this);
+
 		Log.d(TAG, url);
 		try {
 			mAuthWebView.loadUrl(url);
@@ -52,6 +56,18 @@ public class LoginActivity extends Activity {
 	private void bindView() {
 		mAuthWebView = (AuthWebView) findViewById(R.id.authWebView);
 
+	}
+
+	@Override
+	public void onAuthSuccess(String token) {
+		//TODO: store token here !
+		Intent intent = new Intent(this, BrowserActivity.class);
+		startActivity(intent);
+	}
+
+	@Override
+	public void onAuthFailed() {
+		// TODO Auto-generated method stub
 	}
 
 	@Override

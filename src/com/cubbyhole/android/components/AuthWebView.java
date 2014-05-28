@@ -22,11 +22,21 @@ import com.cubbyhole.library.http.CHHttpResponse;
 public class AuthWebView extends WebView {
 	private AuthWebViewClient	mAuthWebViewClient;
 
+	private ICubbyHoleAuth		mContext;
+
+	public interface ICubbyHoleAuth {
+		public void onAuthSuccess(String token);
+
+		public void onAuthFailed();
+	}
+
 	/**
 	 * Inner class only used by this specific {@link WebView} implementation
 	 */
-	public class AuthWebViewClient extends WebViewClient {
-		private final String	TAG	= AuthWebViewClient.class.getName();
+	public final class AuthWebViewClient extends WebViewClient {
+		private final String	TAG		= AuthWebViewClient.class.getName();
+
+		private String			token	= null;
 
 		@Override
 		public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
@@ -65,7 +75,6 @@ public class AuthWebView extends WebView {
 				CHHttpResponse response = CHHttp.post(CHC.OAUTH_URL_ACCESS_TOKEN, datas, headers,
 						null);
 
-				String token = null;
 				try {
 					token = response.getJson().asText(CHC.OAUTH_PARAM_ACESS_TOKEN);
 					Log.d(TAG, token);
@@ -73,20 +82,32 @@ public class AuthWebView extends WebView {
 					Log.e(TAG, "Failed to get the access_token from the response !");
 					e.printStackTrace();
 				}
-
-				if (token != null) {
-					try {
-						CubbyHoleClient.getInstance().Initialize(token);
-					} catch (Exception e) {
-						Log.e(TAG, "Failed to initialize api client context !");
-						e.printStackTrace();
-					}
-				}
-
 				return true;
 			}
 			return false;
 		}
+
+		@Override
+		public void onPageFinished(WebView view, String url) {
+			super.onPageFinished(view, url);
+
+			if (token != null) {
+				mContext.onAuthSuccess(token);
+				//TODO: move this part in BrowserActivity
+				try {
+					CubbyHoleClient.getInstance().Initialize(token);
+				} catch (Exception e) {
+					Log.e(TAG, "Failed to initialize api client context !");
+					e.printStackTrace();
+				}
+			} else {
+				mContext.onAuthFailed();
+			}
+		}
+	}
+
+	public void setContext(ICubbyHoleAuth context) {
+		mContext = context;
 	}
 
 	public AuthWebView(Context context) {
