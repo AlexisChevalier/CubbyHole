@@ -38,7 +38,11 @@ public class CubbyHoleClient implements ICubbyHoleApi {
 			ArrayList<CHHeader> extraHeaders) throws Exception {
 		ArrayList<CHHeader> headers = new ArrayList<CHHeader>();
 		headers.add(new CHHeader("Authorization", "Bearer " + mAccessToken));
-		headers.addAll(extraHeaders);
+		if (extraHeaders != null && !extraHeaders.isEmpty()) {
+			headers.addAll(extraHeaders);
+		}
+
+		Log.d(TAG, type.name() + " on " + url);
 
 		CHHttpResponse resp = null;
 		switch (type) {
