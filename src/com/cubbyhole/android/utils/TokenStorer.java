@@ -1,4 +1,4 @@
-package com.cubbyhole.android.activities;
+package com.cubbyhole.android.utils;
 
 public class TokenStorer {
 	

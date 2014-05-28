@@ -11,12 +11,12 @@ import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.cubbyhole.android.activities.TokenStorer;
 import com.cubbyhole.android.utils.CHC;
+import com.cubbyhole.android.utils.TokenStorer;
 import com.cubbyhole.library.api.CubbyHoleClient;
 import com.cubbyhole.library.http.CHHeader;
 import com.cubbyhole.library.http.CHHttp;
-import com.cubbyhole.library.http.CHHttpData;
+import com.cubbyhole.library.http.CHHttpDatas;
 import com.cubbyhole.library.http.CHHttpResponse;
 
 public class AuthWebView extends WebView {
@@ -56,7 +56,7 @@ public class AuthWebView extends WebView {
 				headers.add(new CHHeader("Content-Type", "application/x-www-form-urlencoded"));
 				headers.add(new CHHeader("Cookie", cookie));
 
-				CHHttpData datas = new CHHttpData() //
+				CHHttpDatas datas = new CHHttpDatas() //
 						.add(CHC.OAUTH_PARAM_CLIENT_ID, CHC.OAUTH_CLIENT_ID) //
 						.add(CHC.OAUTH_PARAM_SECRET, CHC.OAUTH_CLIENT_SECRET) //
 						.add(CHC.OAUTH_PARAM_CALLBACK, CHC.OAUTH_CALLBACK_URL) //
