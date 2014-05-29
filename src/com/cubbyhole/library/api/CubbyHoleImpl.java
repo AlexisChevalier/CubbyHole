@@ -12,24 +12,24 @@ import com.cubbyhole.library.http.CHHttpResponse;
 import com.cubbyhole.library.logger.Log;
 
 /**
- * Implementation of the ICubbyHoleApi interface to communicate with the api
+ * Default implementation of the ICubbyHoleApi interface to communicate with the api
  */
-public class CubbyHoleClient implements ICubbyHoleApi {
-	private static final String		TAG	= CubbyHoleClient.class.getName();
+public class CubbyHoleImpl implements ICubbyHoleApi {
+	private static final String		TAG	= CubbyHoleImpl.class.getName();
 
-	private static CubbyHoleClient	mInstance;
+	private static CubbyHoleImpl	mInstance;
 	private static String			mAccessToken;
 
 	private CHAccount				mAccount;
 	private CHFolder				mRootFolder;
 
-	private CubbyHoleClient() {
+	private CubbyHoleImpl() {
 		/* Singleton */
 	}
 
-	public static CubbyHoleClient getInstance() {
+	public static CubbyHoleImpl getInstance() {
 		if (mInstance == null) {
-			mInstance = new CubbyHoleClient();
+			mInstance = new CubbyHoleImpl();
 		}
 		return mInstance;
 	}
