@@ -68,7 +68,7 @@ FolderHelper.isNameAvailable = function (name, childFolders, childFiles, oldName
         if (error) {
             break;
         }
-        if (childFiles[i].metadata.fileName == name && childFiles[i].metadata.fileName != oldName) {
+        if (childFiles[i].metadata.name == name && childFiles[i].metadata.name != oldName) {
             error = true;
         }
     }

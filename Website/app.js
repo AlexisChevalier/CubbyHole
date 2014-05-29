@@ -155,6 +155,8 @@ app.get('/ajax/api/*', fileBrowserRoutes.forwardRequest);
 app.post('/ajax/api/*', fileBrowserRoutes.forwardRequest);
 app.delete('/ajax/api/*', fileBrowserRoutes.forwardRequest);
 app.put('/ajax/api/*', fileBrowserRoutes.forwardRequest);
+app.get('/ajax/download/:fileID', fileBrowserRoutes.downloadFile);
+app.post('/ajax/upload/', fileBrowserRoutes.uploadFile);
 
 
 /**

@@ -134,6 +134,10 @@ footer {
     background-color: #f5f5f5;
 }
 
+footer p {
+	margin: 0;
+}
+
 #topindex {
     text-align: center;
     margin-bottom: 70px;

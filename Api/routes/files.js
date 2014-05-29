@@ -57,7 +57,6 @@ module.exports = {
                 fileMimeType = req.headers['content-type'],
                 gs,
                 bytes = 0,
-                lastPercentage = -1,
                 shareId = null,
                 i;
 
@@ -126,12 +125,6 @@ module.exports = {
                                     console.log(err);
                                     return res.end(err.toString());
                                 }
-                                /*var percentage = Math.floor((bytes / fileLength) * 100);
-                                if (percentage > lastPercentage) {
-                                    lastPercentage = percentage;
-                                    res.write(lastPercentage.toString());
-                                    //console.log(percentage + " %");
-                                }*/
                             });
                         });
                         throttledRequest.on("end", function () {

@@ -1,6 +1,38 @@
-<flash-message></flash-message>
+<script type="text/javascript">
+    $("body").on('dragenter', function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        $("#dropCapture").show();
+    });
 
-<div class="mainBrowserDiv" ng-controller="FileTableController">
+    var hideCapture = function (e) {
+        /*e.stopPropagation();
+        e.preventDefault();*/
+        $("#dropCapture").hide();
+    };
+
+    $("#dropCapture").on('dragleave', hideCapture);
+    $("#dropCapture").on('drop', hideCapture);
+
+    //$("#dropCapture").on('mouseenter', hideCapture);
+
+    /*$("#iconDrop, #textDrop, #icondrop > span, #textDrop > p").on('dragleave', function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+    });*/
+</script>
+
+<flash-message></flash-message>
+<div id="dropCapture" ng-file-drop="onFileSelect($files)">
+    <div id="iconDrop" ng-file-drop="onFileSelect($files)">
+        <span class="glyphicon glyphicon-upload" ng-file-drop="onFileSelect($files)"></span>
+    </div>
+    <div id="textDrop" ng-file-drop="onFileSelect($files)">
+        <p ng-file-drop="onFileSelect($files)">Drop files here to upload them !</p>
+    </div>
+</div>
+
+<div class="mainBrowserDiv">
 
     <div id="headbar">
         <div id="path" type="text">
@@ -15,7 +47,10 @@
     </div>
     <div id="actionbar">
         <ul>
-            <li ng-click="upload()" class="action uploadfile">Upload file</li>
+            <li class="uploadSelector">
+                <input type="file" style="margin-top: 5px" class="pull-left" ng-file-select="onFileSelect($files)" />
+                <button type="button" class="btn pull-left btn-primary">Default</button>
+            </li>
             <li ng-click="addFolder()" class="action addfolder">Add folder</li>
         </ul>
         <div class="clearfix"></div>
@@ -47,8 +82,11 @@
             </tr>
             <tr ng-repeat="item in items | orderBy:orderProp:orderDirection">
                 <td class="[[item.type]]"></td>
-                <td ng-click="handleItemClick(item.type, item._id)">
+                <td ng-if="item.type == 'folder'" ng-click="handleItemClick(item.type, item._id)">
                     [[item.name]]
+                </td>
+                <td ng-if="item.type == 'file'" >
+                    <a ng-click="handleItemClick(item.type, item._id)" ng-href="/ajax/download/[[item._id]]">[[item.name]]</a>
                 </td>
 
                 <td>[[item.type | Capitalize]]</td>
@@ -79,6 +117,33 @@
             <div id="textLoader">
                 <img src="/images/ajax-loader.gif" />
                 loading ...
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uploadManager">
+    <div class="um_inner">
+        <div class="um_header" ng-click="uploadManagerShown = !uploadManagerShown">
+            <span class="glyphicon glyphicon-upload"></span>
+            Uploads
+            <span>([[uploads.length]])</span>
+            <span style="float: right; margin-top: 12px; margin-right: 12px;" ng-class="{false: 'glyphicon glyphicon-plus', true: 'glyphicon glyphicon-minus' }[uploadManagerShown]" ></span>
+        </div>
+        <div class="um_content" ng-class="{um_small: !uploadManagerShown}">
+            <div ng-repeat="fileItem in uploads" class="um_upload">
+                <div ng-if="!fileItem.options.existing" class="um_options">
+                    <progressbar class="progress-striped active" animate="false" value="fileItem.options.progress" type="success"><b>[[fileItem.options.progress]]% - [[fileItem.file.name]]</b></progressbar>
+                    <button type="button" ng-click="cancelUpload($index)" class="btn btn-danger">Cancel</button>
+                </div>
+                <div ng-if="fileItem.options.existing" class="um_update">
+                    <div class="um_update_text">File [[fileItem.file.name]] already exists</div>
+                    <div class="um_update_buttons">
+                        <button type="button" ng-click="updateFile($index)" class="btn btn-warning">Overwrite</button>
+                        <button type="button" ng-click="cancelUpload($index)" class="btn btn-danger">Cancel</button>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

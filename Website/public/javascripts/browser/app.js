@@ -27,6 +27,6 @@ cubbyHoleBrowser.config(['$routeProvider', '$interpolateProvider',
         $interpolateProvider.endSymbol(']]');
     }]).run( [ '$location', '$rootScope', function( $location, $rootScope ){
 
-        $rootScope.successMsg = ["lol"];
+        $rootScope.successMsg = [];
 
     }]);
