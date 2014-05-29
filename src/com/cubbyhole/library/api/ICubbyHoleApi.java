@@ -90,8 +90,9 @@ public interface ICubbyHoleApi {
 	/**
 	 * Used to update the account details of the user.
 	 * @param account - the account with the new datas to set.
+	 * @return the synced CHAccount.
 	 */
-	public void updateAccount(CHAccount account);
+	public CHAccount updateAccount(CHAccount account);
 
 	/**
 	 * Used to get the root folder of the account file system.

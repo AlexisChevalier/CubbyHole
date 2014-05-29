@@ -127,9 +127,9 @@ public class CubbyHoleImpl implements ICubbyHoleApi {
 	}
 
 	@Override
-	public void updateAccount(CHAccount account) {
+	public CHAccount updateAccount(CHAccount account) {
 		// TODO Auto-generated method stub
-
+		return account;
 	}
 
 	@Override
