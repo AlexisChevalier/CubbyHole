@@ -13,7 +13,6 @@ import android.webkit.WebViewClient;
 
 import com.cubbyhole.android.utils.CHC;
 import com.cubbyhole.android.utils.TokenStorer;
-import com.cubbyhole.library.api.CubbyHoleClient;
 import com.cubbyhole.library.http.CHHeader;
 import com.cubbyhole.library.http.CHHttp;
 import com.cubbyhole.library.http.CHHttpDatas;
@@ -93,13 +92,6 @@ public class AuthWebView extends WebView {
 
 			if (token != null) {
 				mContext.onAuthSuccess(token);
-				//TODO: move this part in BrowserActivity
-				try {
-					CubbyHoleClient.getInstance().Initialize(token);
-				} catch (Exception e) {
-					Log.e(TAG, "Failed to initialize api client context !");
-					e.printStackTrace();
-				}
 			} else {
 				mContext.onAuthFailed();
 			}
