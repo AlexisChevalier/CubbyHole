@@ -74,6 +74,14 @@ FileSchema = new Schema({
         updateDate: {
             type: Date,
             default: Date.now
+        },
+        busyWrite: {
+            type: Boolean,
+            default: false
+        },
+        readers: {
+            type: Number,
+            default: 0
         }
     },
     "md5": String

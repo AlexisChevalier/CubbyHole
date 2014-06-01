@@ -1,4 +1,11 @@
+html, body {
+	margin: 0;
+	height: 100%;
+}
 
+#content {
+	margin-bottom: 60px;
+}
 
 .mainBrowserDiv {
 	position: relative;
@@ -131,6 +138,10 @@ div#filebrowser table thead {
 div#filebrowser table tr {
 	height: 40px;
 	cursor: pointer;
+}
+
+div#filebrowser table tr.busyWriteFile {
+	opacity: 0.2;
 }
 
 div#filebrowser table tbody tr:hover,
@@ -435,21 +446,13 @@ div#filebrowser table tr td.shared-folder {
 .uploadManager .um_inner .um_content .um_options p {
 }
 
-.uploadManager .um_inner .um_content .um_options button {
-	float: right;
-	border-radius: 0;
-	height: 40px;
-	padding: 2px 12px;
-	width: 70px;
-}
-
 
 .uploadManager .um_inner .um_content .um_options .progress {
 	border-radius: 0;
 	height: 40px;
 	margin: 0;
 	text-align: center;
-	width: 230px;
+	width: 300px;
 	float: left;
 	color: #3daaf8;
 	-webkit-box-shadow: none;
@@ -472,13 +475,13 @@ div#filebrowser table tr td.shared-folder {
 .uploadManager .um_inner .um_content .um_options .progress .progress-bar b {
 	line-height: 40px;
 	text-align: center;
-	width: 230px;
+	width: 300px;
 	display: inline-block;
 	color: #4E4E4E;
 	padding: 0 5px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	max-width: 230px;
+	max-width: 300px;
 }
 
 .uploadManager .um_inner .um_content .um_update {

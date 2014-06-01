@@ -13,6 +13,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
     $scope.orderDirection = true;
     $scope.uploadManagerShown = true;
     $scope.uploads = [];
+    $scope.tempFiles = [];
 
     //Sort Table
     $scope.sort = function (column) {
@@ -102,60 +103,130 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
         }, function () {});
     };
 
+
+    $scope.onFileInputUsed = function ($files) {
+        $scope.tempFiles = $files;
+    };
+
+    $scope.onFileInputSubmit = function () {
+        var tmpFiles = $scope.tempFiles;
+        $scope.onFileSelect(tmpFiles);
+        $scope.tempFiles = [];
+
+        //Dirty things incoming...
+        var control = $("#fileInputBrowser");
+        control.replaceWith( control = control.clone( true ) );
+    };
+
+
     //Upload Items
     $scope.onFileSelect = function ($files) {
+
         for (var i = 0; i < $files.length; i++) {
             (function () {
-                var fileObject = {file: $files[i], options: {progress: 0, existing: false}};
+                var fileObject = {file: $files[i], options: {update: false, parentFolder: $scope.folderId, progress: 0, existing: false}};
+
+                var tmpFile = {
+                    "type": "file",
+                    "name": fileObject.file.name,
+                    "updateDate": new Date(),
+                    "metadata": {
+                        "name": fileObject.file.name,
+                        "busyWrite": true,
+                        "updateDate": new Date()
+                    }
+                };
 
                 $scope.uploads.push(fileObject);
+                $scope.items.push(tmpFile);
 
-                var index = $scope.uploads.indexOf(fileObject);
-
-                $scope.uploads[index].fileUpload = $upload.upload({
+                fileObject.fileUpload = $upload.upload({
                     url: '/ajax/upload/',
                     headers: {
-                        'CB-File-Type': $scope.uploads[index].file.type || "application/octet-stream",
-                        'CB-File-Name': $scope.uploads[index].file.name,
-                        'CB-File-Length': $scope.uploads[index].file.size,
+                        'CB-File-Type': fileObject.file.type || "application/octet-stream",
+                        'CB-File-Name': fileObject.file.name,
+                        'CB-File-Length': fileObject.file.size,
                         'CB-File-Parent-Folder-Id': $scope.folderId
                     },
                     method: "POST",
-                    file: $scope.uploads[index].file,
+                    file: fileObject.file,
                     fileFormDataName: 'file'
                 }).then(function(response) {
-                    var item = response.data;
-                        item['type'] = "file";
-                        item.name = item.metadata.name;
-                        item.updateDate = item.metadata.updateDate;
-                        $scope.items.push(item);
-                        $scope.uploads.splice(index, 1);
-                        flash('success', 'File ' + item.name + ' uploaded successfully !');
-                }, function(response) {
+                        var item = response.data.data,
+                            itemToReplaceIndex = null,
+                            i = 0;
+                        if (response.data.action == 'create') {
+                            if (fileObject.options.parentFolder == $scope.folderId) {
+
+                                for (i = 0; i < $scope.items.length; i++) {
+                                    if($scope.items[i].type === 'file') {
+                                        if($scope.items[i].metadata.name === item.metadata.name) {
+                                            itemToReplaceIndex = i;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                item['type'] = "file";
+                                item.name = item.metadata.name;
+                                item.updateDate = item.metadata.updateDate;
+
+                                if(itemToReplaceIndex != null) {
+                                    $scope.items[itemToReplaceIndex] = item;
+                                } else {
+                                    $scope.items.push(item);
+                                }
+
+                                $scope.uploads.splice($scope.uploads.indexOf(fileObject), 1);
+                                flash('success', 'File ' + item.name + ' uploaded successfully !');
+                            }
+                        } else {
+                            if (fileObject.options.parentFolder == $scope.folderId) {
+                                for (i = 0; i < $scope.items.length; i++) {
+                                    if($scope.items[i].type === 'file') {
+                                        if($scope.items[i].metadata.name === item.metadata.name) {
+                                            itemToReplaceIndex = i;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                item['type'] = "file";
+                                item.name = item.metadata.name;
+                                item.updateDate = item.metadata.updateDate;
+
+                                if(itemToReplaceIndex != null) {
+                                    $scope.items[itemToReplaceIndex] = item;
+                                } else {
+                                    $scope.items.push(item);
+                                }
+
+                                $scope.uploads.splice($scope.uploads.indexOf(fileObject), 1);
+                                flash('success', 'File ' + item.name + ' updated successfully !');
+                            }
+                        }
+                    }, function(response) {
                         //TODO: FIND WHY ERRORS ARE NOT CAUGHT IF LONG UPLOAD !!!
-                    if (response.data == "Name already existing in this folder") {
-                        //TODO: HANDLE FOLDER OR FILE !
-                        flash('warning', response.data);
-                        $scope.uploads[index].options.existing = true;
-                        $scope.uploads[index].fileUpload.abort();
-                    } else {
-                        $scope.uploads[index].fileUpload.abort();
-                        $scope.uploads.splice(index, 1);
-                        flash('danger', response.data);
-                    }
-                }, function(evt) {
-                        console.log(evt);
-                    // Math.min is to fix IE which reports 200% sometimes
-                    $scope.uploads[index].options.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-                }).xhr(function(xhr){
-                    xhr.upload.addEventListener('abort', function() {console.log('abort complete')}, false);
-                });
+                        if (response.data) {
+                            $scope.uploads.splice($scope.uploads.indexOf(fileObject), 1);
+                            flash('danger', response.data);
+                        } else {
+                            $scope.uploads.splice($scope.uploads.indexOf(fileObject), 1);
+                            flash('danger', "Error uploading your files !");
+                        }
+
+                    }, function(evt) {
+                        $scope.$apply(function() {
+                            fileObject.options.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                        });
+                    }).xhr(function(xhr){
+                        xhr.upload.addEventListener('abort', function() {console.log('abort complete')}, false);
+                    });
             }());
         }
     };
 
     $scope.cancelUpload = function ($index) {
-        $scope.uploads[$index].fileUpload.abort();
         flash('warning', 'Upload for file ' + $scope.uploads[$index].file.name + ' canceled successfully !');
         $scope.uploads.splice($index, 1);
     };

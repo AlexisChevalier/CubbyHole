@@ -48,8 +48,9 @@
     <div id="actionbar">
         <ul>
             <li class="uploadSelector">
-                <input type="file" style="margin-top: 5px" class="pull-left" ng-file-select="onFileSelect($files)" />
-                <button type="button" class="btn pull-left btn-primary">Default</button>
+                <input type="file" id="fileInputBrowser" style="margin-top: 5px" class="pull-left" ng-file-select="onFileInputUsed($files)" multiple/>
+                <button ng-if="tempFiles.length == 0" type="button" class="btn pull-left btn-primary" disabled>Upload files</button>
+                <button ng-if="tempFiles.length > 0" type="button" class="btn pull-left btn-primary" ng-click="onFileInputSubmit()">Upload [[tempFiles.length]] files</button>
             </li>
             <li ng-click="addFolder()" class="action addfolder">Add folder</li>
         </ul>
@@ -80,19 +81,30 @@
                 <td>[[parentFolder().date | date:"medium"]]</td>
                 <td class="options-col">-</td>
             </tr>
-            <tr ng-repeat="item in items | orderBy:orderProp:orderDirection">
+            <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-class="{false: '', true: 'busyWriteFile' }[item.metadata.busyWrite]">
+
                 <td class="[[item.type]]"></td>
+
+
                 <td ng-if="item.type == 'folder'" ng-click="handleItemClick(item.type, item._id)">
                     [[item.name]]
                 </td>
+
+
                 <td ng-if="item.type == 'file'" >
-                    <a ng-click="handleItemClick(item.type, item._id)" ng-href="/ajax/download/[[item._id]]">[[item.name]]</a>
+                    <a ng-if="!item.metadata.busyWrite" ng-click="handleItemClick(item.type, item._id)" ng-href="/ajax/download/[[item._id]]">[[item.name]]</a>
+                    <span ng-if="item.metadata.busyWrite">[[item.name]]</span>
                 </td>
 
+
                 <td>[[item.type | Capitalize]]</td>
+
+
                 <td>[[item.updateDate | date:"short"]]</td>
+
+
                 <td class="options-col">
-                    <div class="btn-group">
+                    <div class="btn-group" ng-if="!item.metadata.busyWrite">
                         <button ng-click="remove(item)" type="button" tooltip-placement="left" tooltip="Remove" class="btn btn-default optionButton removeButton">
                             <span class="glyphicon glyphicon-trash"></span>
                         </button>
@@ -134,7 +146,6 @@
             <div ng-repeat="fileItem in uploads" class="um_upload">
                 <div ng-if="!fileItem.options.existing" class="um_options">
                     <progressbar class="progress-striped active" animate="false" value="fileItem.options.progress" type="success"><b>[[fileItem.options.progress]]% - [[fileItem.file.name]]</b></progressbar>
-                    <button type="button" ng-click="cancelUpload($index)" class="btn btn-danger">Cancel</button>
                 </div>
                 <div ng-if="fileItem.options.existing" class="um_update">
                     <div class="um_update_text">File [[fileItem.file.name]] already exists</div>

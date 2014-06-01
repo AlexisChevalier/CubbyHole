@@ -18,7 +18,9 @@
     "mysql": "~2.1.0",
     "connect-mongo": "~0.4.1",
     "mongoose": "~3.8.11",
-    "request": "~2.36.0"
+    "request": "~2.36.0",
+    "throttle": "~1.0.3",
+    "multiparty": "~3.2.8"
   },
   "devDependencies": {
     "grunt-nodemon": "~0.1.2",

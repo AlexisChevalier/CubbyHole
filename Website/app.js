@@ -26,6 +26,9 @@ var express = require('express'),
     fileBrowserRoutes = require('./routes/fileBrowser'),
     auth = require('./auth/auth'),
     passport = require('passport'),
+    mongoSessionStore = new MongoStore({
+        db: mongoose.connection.db
+    }),
     app = express();
 
 /**
@@ -97,9 +100,7 @@ app.use(express.cookieParser('5cJ435umRC2lL76o27J4T8Aw8425Qgf2'));
 app.use(express.session({
     key: 'webAppCookie',
     secret: 'webAppCookie',
-    store: new MongoStore({
-        db: mongoose.connection.db
-    })
+    store: mongoSessionStore
 }));
 app.use(function (req, res, next) {
     res.locals.messages = function () { return req.flash(); };
@@ -164,6 +165,7 @@ app.post('/ajax/upload/', fileBrowserRoutes.uploadFile);
  */
 
 http.createServer(app).listen(app.get('port'));
+
 https.createServer(https_options, app).listen(app.get('sslport'), app.get('domain'), function () {
     console.log('HTTPS Express server listening on port ' + app.get('sslport') + ' | Don\'t forget to use HTTPS ');
 });

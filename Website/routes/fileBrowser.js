@@ -5,6 +5,9 @@ var login = require("../auth/ensureLoggedIn"),
     filesHttpDao = require('../models/http/files'),
     usersHttpDao = require('../models/http/users'),
     multiparty = require('multiparty'),
+    Throttle = require('throttle'),
+    Stream = require('stream'),
+    https = require('https'),
     request = require('request');
 
 module.exports = {
@@ -103,14 +106,21 @@ module.exports = {
     uploadFile: [
         login.ensureLoggedIn(),
         function (req, res) {
-            var
+
+            var form = new multiparty.Form(),
+                part = null,
+                apiRequest = null,
                 options = {
-                    url: "https://" + config.apiUrl + ":" + config.apiPort + "/api/files/",
-                    method: "POST",
-                    headers: {
-                        'Authorization': 'Bearer ' + req.user.accessToken
-                    }
-                };
+                url: "https://" + config.apiUrl + ":" + config.apiPort + "/api/files/",
+                method: "POST",
+                headers: {
+                    'Authorization': 'Bearer ' + req.user.accessToken,
+                    'Content-Type': req.get("CB-File-Type"),
+                    'Content-Length': req.get("CB-File-Length"),
+                    'CB-File-Name': req.get("CB-File-Name"),
+                    'CB-File-Parent-Folder-Id': req.get("CB-File-Parent-Folder-Id")
+                }
+            };
 
             function callback(error, response, body) {
                 if (!error && response.statusCode && response.statusCode === 200) {
@@ -121,82 +131,37 @@ module.exports = {
                         return res.send(500, body);
                     }
                 } else {
+                    //req.pause();
+                    //req.connection.destroy();
+                    //req.connection.resume = function(){};
                     if (response) {
+                        res.set("Connection", "close");
                         return res.send(response.statusCode || 500, body || error || "Unknown error");
                     }
+                    res.set("Connection", "close");
                     return res.send(500, body || error || "Unknown error");
                 }
             }
 
+            form.on('part', function (innerPart) {
+                if (!innerPart.filename) return;
 
-            var form = new multiparty.Form();
-            form.on('part', function (part) {
-                if (!part.filename) return;
+                part = innerPart;
 
-                options.headers['Content-Type'] = req.get("CB-File-Type");
-                options.headers['Content-Length'] = req.get("CB-File-Length");
-                options.headers['CB-File-Name'] = req.get("CB-File-Name");
-                options.headers['CB-File-Parent-Folder-Id'] = req.get("CB-File-Parent-Folder-Id");
+                apiRequest = request(options, callback);
 
-                part.pipe(request(options, callback));
+                // TODO : SET THIS DYNAMIC
+                part.pipe(new Throttle(1048576).pipe(apiRequest));
+            });
 
-            }).on('error', function (data) {
-                return res.send(0, "aborted");
-            }).on('close', function (data) {
-                return res.send(0, "aborted");
+            req.connection.on('close',function(){
+                apiRequest.abort();
+            });
+
+            form.on("error", function() {
+                apiRequest.abort();
             });
 
             form.parse(req);
         }],
-
-    /**
-     * Update file
-     */
-
-    updateFile: [
-        login.ensureLoggedIn(),
-        function (req, res) {
-            var
-                options = {
-                    url: "https://" + config.apiUrl + ":" + config.apiPort + "/api/files/",
-                    method: "PUT",
-                    headers: {
-                        'Authorization': 'Bearer ' + req.user.accessToken
-                    }
-                };
-
-            function callback(error, response, body) {
-                if (!error && response.statusCode && response.statusCode === 200) {
-                    try {
-                        var parsed = JSON.parse(body);
-                        return res.json(parsed);
-                    } catch (e) {
-                        return res.send(500, body);
-                    }
-                } else {
-                    if (response) {
-                        return res.send(response.statusCode || 500, body || error || "Unknown error");
-                    }
-                    return res.send(500, body || error || "Unknown error");
-                }
-            }
-
-
-            var form = new multiparty.Form();
-            form.on('part', function (part) {
-                if (!part.filename) return;
-
-                options.headers['Content-Type'] = req.get("CB-File-Type");
-                options.headers['Content-Length'] = req.get("CB-File-Length");
-                options.headers['CB-File-Name'] = req.get("CB-File-Name");
-                options.headers['CB-File-Parent-Folder-Id'] = req.get("CB-File-Parent-Folder-Id");
-
-                part.pipe(request(options, callback));
-
-            }).on('error', function (data) {
-                    return res.send(0, "aborted");
-                });
-
-            form.parse(req);
-        }]
 };

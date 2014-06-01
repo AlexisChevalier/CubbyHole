@@ -161,7 +161,7 @@ app.get('/api/users/find/:terms', accountRoutes.usersFind);
 app.get('/api/files/searchByTerms/:terms', filesRoutes.searchItemsByTerm);
 
 //Upload
-app.post('/api/files', filesRoutes.createFile);
+app.post('/api/files', filesRoutes.createOrUpdateFile);
 
 //metadata
 app.get('/api/files/metadata/:fileID', filesRoutes.getFileMedatata);

@@ -96,7 +96,8 @@ module.exports = {
                     userId: req.user.id,
                     parents: newParents,
                     isShared: folder.isShared,
-                    share: folder.share == null ? null : folder.share._id
+                    share: folder.share == null ? null : folder.share._id,
+                    updateDate: new Date()
                 }, function (err, createdFolder) {
                     if (err) {
                         return res.send(400, err.toString());
@@ -105,7 +106,13 @@ module.exports = {
                         if (err) {
                             console.log(err);
                         } else {
-                            res.json(createdFolder);
+                            //Update date
+                            mongooseModels.Folder.update({"_id": { "$in": createdFolder.parents } },
+                                { updateDate: new Date() },
+                                { multi: true },
+                                function (err, docsUpdated) {
+                                    res.json(createdFolder);
+                                });
                         }
                     });
                 });
@@ -172,12 +179,19 @@ module.exports = {
                             return res.send(400, "Name already existing in this folder");
                         } else {
                             folder.name = newName;
+                            folder.updateDate = new Date();
                             folder.save();
 
                             if (newParentId) {
                                 handleFolderChangeLocation(folder, oldParentFolder, newParentId);
                             } else {
-                                res.json(folder);
+                                //Update date
+                                mongooseModels.Folder.update({"_id": { "$in": folder.parents } },
+                                    { updateDate: new Date() },
+                                    { multi: true },
+                                    function (err, docsUpdated) {
+                                        res.json(folder);
+                                    });
                             }
                         }
                     } else if (newParentId) {
@@ -318,7 +332,7 @@ module.exports = {
                                 /** Remove actual folder **/
                                 newHierarchy.pop();
 
-                                mongooseModels.Folder.update({"_id": foldertoMove.id }, { "parents": newHierarchy, parent: newFolderDirection.id }, function (err, docsUpdated) {
+                                mongooseModels.Folder.update({"_id": foldertoMove.id }, { "parents": newHierarchy, parent: newFolderDirection.id, updateDate: new Date() }, function (err, docsUpdated) {
                                     if (err) {
                                         next(err);
                                     }
@@ -331,7 +345,14 @@ module.exports = {
                                 next(err);
                             }
                             FolderHelper.getFolder({"_id": foldertoMove.id }, "", function (err, folder) {
-                                res.json(folder);
+
+                                //Update date
+                                mongooseModels.Folder.update({"_id": { "$in": folder.parents } },
+                                    { updateDate: new Date() },
+                                    { multi: true },
+                                    function (err, docsUpdated) {
+                                        res.json(folder);
+                                    });
                             });
                         });
                     });
@@ -439,7 +460,14 @@ module.exports = {
                         console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
                         next(err);
                     }
-                    return res.json(200, {status: 'deleted'});
+
+                    //Update date
+                    mongooseModels.Folder.update({"_id": { "$in": folder.parents } },
+                        { updateDate: new Date() },
+                        { multi: true },
+                        function (err, docsUpdated) {
+                            return res.json(200, {status: 'deleted'});
+                        });
                 });
             });
         }
