@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <h3>Move [[item.type]] <span class="name">[[item.name]]</span></h3>
+</div>
+<form>
+    <div class="modal-body">
+        <p>Current folder : [[ currentFolder.name ]]</p>
+        <table>
+            <thead>
+            <tr>
+                <th colspan="2" ng-click="sort('name')">Name
+                    <div ng-if="orderProp=='name'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                </th>
+                <th ng-click="sort('updateDate')">Modified
+                    <div ng-if="orderProp=='updateDate'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="parent-folder-row" ng-show="hasParent()" ng-click="handleFolderClick(parentFolder())">
+                <td class="parent-folder"></td>
+                <td>Parent Folder</td>
+                <td>[[parentFolder().date | date:"medium"]]</td>
+            </tr>
+            <tr ng-repeat="folder in folders | orderBy:orderProp:orderDirection" ng-click="handleFolderClick(folder)">
+                <td>
+                    [[folder.name]]
+                </td>
+                <td>[[folder.updateDate | date:"short"]]</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok(folder)">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</form>

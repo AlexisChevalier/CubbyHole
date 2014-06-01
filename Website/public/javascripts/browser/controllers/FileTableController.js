@@ -126,19 +126,34 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
             (function () {
                 var fileObject = {file: $files[i], options: {update: false, parentFolder: $scope.folderId, progress: 0, existing: false}};
 
-                var tmpFile = {
-                    "type": "file",
-                    "name": fileObject.file.name,
-                    "updateDate": new Date(),
-                    "metadata": {
-                        "name": fileObject.file.name,
-                        "busyWrite": true,
-                        "updateDate": new Date()
+                var outerItemToReplaceIndex = null;
+
+                for (i = 0; i < $scope.items.length; i++) {
+                    if($scope.items[i].type === 'file') {
+                        if($scope.items[i].metadata.name === fileObject.file.name) {
+                            outerItemToReplaceIndex = i;
+                            break;
+                        }
                     }
-                };
+                }
+
+                if(outerItemToReplaceIndex == null) {
+                    var tmpFile = {
+                        "type": "file",
+                        "name": fileObject.file.name,
+                        "updateDate": new Date(),
+                        "metadata": {
+                            "name": fileObject.file.name,
+                            "busyWrite": true,
+                            "updateDate": new Date()
+                        }
+                    };
+                    $scope.items.push(tmpFile);
+                } else {
+                    $scope.items[outerItemToReplaceIndex].metadata.busyWrite = true;
+                }
 
                 $scope.uploads.push(fileObject);
-                $scope.items.push(tmpFile);
 
                 fileObject.fileUpload = $upload.upload({
                     url: '/ajax/upload/',
@@ -236,6 +251,24 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
         var modalInstance = $modal.open({
             templateUrl: '/javascripts/browser/partials/modals/delete-template.html',
             controller: "DeleteModalController",
+            resolve: {
+                item: function () {
+                    return item;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (item) {
+            var index = $scope.items.indexOf(item);
+            $scope.items.splice(index, 1);
+        }, function () {});
+    };
+
+    //Move Item
+    $scope.moveItem = function (item) {
+        var modalInstance = $modal.open({
+            templateUrl: '/javascripts/browser/partials/modals/moveItem-template.html',
+            controller: "MoveItemModalController",
             resolve: {
                 item: function () {
                     return item;

@@ -443,6 +443,7 @@ module.exports = {
                                         /** Set new metadata **/
                                         mongooseModels.File.update({"_id": insertedFileObjectId },
                                             {
+                                                "filename": oldFileToReplace.filename,
                                                 "metadata.busyWrite": false,
                                                 "metadata.updateDate": new Date(),
                                                 "metadata.name": oldFileToReplace.metadata.name,
