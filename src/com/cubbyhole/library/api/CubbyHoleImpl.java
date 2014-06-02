@@ -20,9 +20,6 @@ public class CubbyHoleImpl implements ICubbyHoleApi {
 	private static CubbyHoleImpl	mInstance;
 	private static String			mAccessToken;
 
-	private CHAccount				mAccount;
-	private CHFolder				mRootFolder;
-
 	private CubbyHoleImpl() {
 		/* Singleton */
 	}
@@ -100,14 +97,14 @@ public class CubbyHoleImpl implements ICubbyHoleApi {
 	}
 
 	@Override
-	public void Initialize(String token) {
-		if (token != null) {
-			Log.d(TAG, "Initializing client context ...");
-			mAccessToken = token;
-			mAccount = getAccount();
-			mRootFolder = getRootFolder();
-			Log.d(TAG, "Initializing process done.");
+	public void Initialize(String accessToken) {
+		if (accessToken != null) {
+			mAccessToken = accessToken;
 		}
+	}
+
+	public String getAccessToken() {
+		return mAccessToken;
 	}
 
 	/**
@@ -115,15 +112,13 @@ public class CubbyHoleImpl implements ICubbyHoleApi {
 	 */
 	@Override
 	public CHAccount getAccount() {
-		if (mAccount == null) {
-			try {
-				return CHAccount.fromJson(apiGet(API_ENDPOINT + ACCOUNT_DETAILS));
-			} catch (Exception e) { //Catch a CHJsonParseException, CHApiException
-				// TODO: Throw an exception ?
-				e.printStackTrace();
-			}
+		try {
+			return CHAccount.fromJson(apiGet(API_ENDPOINT + ACCOUNT_DETAILS));
+		} catch (Exception e) { //Catch a CHJsonParseException, CHApiException
+			// TODO: Throw an exception ?
+			e.printStackTrace();
 		}
-		return mAccount;
+		return null;
 	}
 
 	@Override
@@ -134,22 +129,13 @@ public class CubbyHoleImpl implements ICubbyHoleApi {
 
 	@Override
 	public CHFolder getRootFolder() {
-		if (mRootFolder == null) {
-			Log.d(TAG, "Getting the root folder from the api ...");
-
-			try {
-				CHJsonNode json = apiGet(API_ENDPOINT + FOLDERS_LIST);
-				CHFolder rootFolder = CHFolder.fromJson(json);
-				if (rootFolder != null) {
-					Log.d(TAG, "Got the root folder from the api.");
-				}
-				return rootFolder;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			Log.e(TAG, "Failed to get the root folder from the api");
+		try {
+			CHJsonNode json = apiGet(API_ENDPOINT + FOLDERS_LIST);
+			return CHFolder.fromJson(json);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return mRootFolder;
+		return null;
 	}
 
 	@Override
@@ -172,8 +158,9 @@ public class CubbyHoleImpl implements ICubbyHoleApi {
 		CHHttpDatas datas = new CHHttpDatas();
 		if (folder.isNameHasBeenModified()) {
 			datas.add("newName", folder.getName());
-		} else {
-			datas.add("newParentID", folder.getParent());
+		}
+		if (folder.isParentHasBeenModified()) {
+			datas.add("newParentID", folder.getParentId());
 		}
 		folder.resetModificationStates();
 		CHJsonNode json = apiPut(API_ENDPOINT + FOLDERS_UPDATE + folder.getId(), datas);

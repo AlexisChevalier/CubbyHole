@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import com.cubbyhole.library.api.CHJsonNode;
 import com.cubbyhole.library.logger.Log;
-import com.cubbyhole.library.utils.DateTimeUtils;
 
 public class CHFolder extends CHItem {
 	private static final String	TAG					= CHFolder.class.getName();
@@ -16,20 +15,22 @@ public class CHFolder extends CHItem {
 	public static final String	FIELD_PARENT		= "parent";
 	public static final String	FIELD_SHARE			= "share";
 	public static final String	FIELD_USER_ID		= "userId";
-	public static final String	FIELD_DATE			= "date";					//TODO: Rename in updateDate
+	public static final String	FIELD_DATE			= "date";
+	public static final String	FIELD_UPDATEDATE	= "updateDate";
 	public static final String	FIELD_PARENTS		= "parents";
-	public static final String	FIELD_SHARED		= "shared";				//TODO: Rename in isShared
+	public static final String	FIELD_ISSHARED		= "isShared";
 	public static final String	FIELD_IS_ROOT		= "isRoot";
 	public static final String	FIELD_CHILD_FOLDERS	= "childFolders";
 	public static final String	FIELD_CHILD_FILES	= "childFiles";
 	/// END OF JSON FIELDS ///
 
 	private String				name;
-	private String				parent;
+	private String				parentId;
+	private ArrayList<String>	parentsIds;
 	private String				share;
 	private Long				userId;
-	private DateTime			uploadDate;
-	private ArrayList<CHFolder>	parents;
+	private DateTime			creationDate;
+	private DateTime			updateDate;
 	private boolean				isShared;
 	private Boolean				isRoot;
 	private ArrayList<CHFolder>	childFolders;
@@ -37,7 +38,7 @@ public class CHFolder extends CHItem {
 
 	/// Modification States ////
 	private boolean				isNameHasBeenModified;
-	private boolean				isParentHasBeenModified;
+	private boolean				isParentIdHasBeenModified;
 
 	/// End of Modification States ////
 
@@ -59,16 +60,17 @@ public class CHFolder extends CHItem {
 		try {
 			folder.setId(json.asText(FIELD_ID));
 			folder.setName(json.asText(FIELD_NAME));
-			folder.setParent(json.asText(FIELD_PARENT));
+			folder.setParentId(json.asText(FIELD_PARENT));
+			folder.setIsShared(json.asBoolean(FIELD_ISSHARED));
 			//folder.setShare(json.asText(FIELD_SHARE));
 			folder.setUserId(json.asLong(FIELD_USER_ID));
-			folder.setUploadDate(DateTimeUtils.mongoDateToDateTime(json.asText(FIELD_DATE)));
-			folder.setIsShared(json.asBoolean(FIELD_SHARED));
+			folder.setCreationDate(json.asDateTime(FIELD_DATE));
+			folder.setUpdateDate(json.asDateTime(FIELD_UPDATEDATE));
 			folder.setIsRoot(json.asBoolean(FIELD_IS_ROOT));
 
-			//TODO: Check alexis to get detailed parents
-			//ArrayList<CHFolder> parentsFolders = jsonArrayToFolders(json.asList(FIELD_PARENTS));
-			//folder.setParents(parentsFolders);
+			for (CHJsonNode parentId : json.asList(FIELD_PARENTS)) {
+				folder.addParentId(parentId.asText());
+			}
 
 			ArrayList<CHFolder> childFolders = jsonArrayToFolders(json.asList(FIELD_CHILD_FOLDERS));
 			folder.setChildFolders(childFolders);
@@ -76,7 +78,7 @@ public class CHFolder extends CHItem {
 			ArrayList<CHFile> childFiles = CHFile.jsonArrayToFiles(json.asList(FIELD_CHILD_FILES));
 			folder.setChildFiles(childFiles);
 		} catch (Exception e) {
-			Log.e(TAG, "Failed to parse json to get a CHFile instance.");
+			Log.e(TAG, "Failed to parse json to get a CHFolder instance.");
 			e.printStackTrace();
 			// TODO: Throw CHJsonParseException
 		}
@@ -106,9 +108,11 @@ public class CHFolder extends CHItem {
 	 * @param name the name to set
 	 */
 	public final void setName(String name) {
-		if (this.name.equals(name)) {
+		if (this.name != null && this.name.equals(name)) {
 			this.name = name;
 			isNameHasBeenModified = true;
+		} else {
+			this.name = name;
 		}
 	}
 
@@ -119,22 +123,37 @@ public class CHFolder extends CHItem {
 	/**
 	 * @return the parent
 	 */
-	public final String getParent() {
-		return parent;
+	public final String getParentId() {
+		return parentId;
 	}
 
 	/**
 	 * @param parent the parent to set
 	 */
-	public final void setParent(String parent) {
-		if (this.parent.equals(parent)) {
-			this.parent = parent;
-			isParentHasBeenModified = true;
+	public final void setParentId(String parentId) {
+		if (this.parentId != null && this.parentId.equals(parentId)) {
+			this.parentId = parentId;
+			isParentIdHasBeenModified = true;
+		} else {
+			this.parentId = parentId;
 		}
 	}
 
 	public final boolean isParentHasBeenModified() {
-		return isParentHasBeenModified;
+		return isParentIdHasBeenModified;
+	}
+
+	public void addParentId(String parentId) {
+		if (parentsIds == null) {
+			parentsIds = new ArrayList<String>();
+		}
+		parentsIds.add(parentId);
+	}
+
+	public void removeParentId(String parentId) {
+		if (parentsIds != null) {
+			parentsIds.remove(parentId);
+		}
 	}
 
 	/**
@@ -168,29 +187,37 @@ public class CHFolder extends CHItem {
 	/**
 	 * @return the date
 	 */
-	public final DateTime getUploadDate() {
-		return uploadDate;
+	public final DateTime getCreationDate() {
+		return creationDate;
 	}
 
 	/**
 	 * @param dateTime the uploadDate to set
 	 */
-	public final void setUploadDate(DateTime dateTime) {
-		uploadDate = dateTime;
+	public final void setCreationDate(DateTime creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public void setUpdateDate(DateTime updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public DateTime getUpdateDate() {
+		return updateDate;
 	}
 
 	/**
 	 * @return the parents
 	 */
-	public final ArrayList<CHFolder> getParents() {
-		return parents;
+	public final ArrayList<String> getParents() {
+		return parentsIds;
 	}
 
 	/**
 	 * @param parents the parents to set
 	 */
-	public final void setParents(ArrayList<CHFolder> parents) {
-		this.parents = parents;
+	public final void setParentsIds(ArrayList<String> parentsIds) {
+		this.parentsIds = parentsIds;
 	}
 
 	/**
@@ -249,8 +276,15 @@ public class CHFolder extends CHItem {
 		this.childFiles = childFiles;
 	}
 
+	public final ArrayList<CHItem> getItems() {
+		ArrayList<CHItem> items = new ArrayList<CHItem>();
+		items.addAll(childFolders);
+		items.addAll(childFiles);
+		return items;
+	}
+
 	public final void resetModificationStates() {
 		isNameHasBeenModified = false;
-		isParentHasBeenModified = false;
+		isParentIdHasBeenModified = false;
 	}
 }

@@ -12,20 +12,18 @@ public class CHFile extends CHItem {
 	private static final String	TAG					= CHFile.class.getName();
 
 	/// JSON FIELDS ///
-	public static final String	FIELD_FILENAME		= "fileName";
 	public static final String	FIELD_CONTENT_TYPE	= "contentType";
 	public static final String	FIELD_LENGTH		= "length";
 	public static final String	FIELD_CHUNK_SIZE	= "chunkSize";
 	public static final String	FIELD_UPLOAD_DATE	= "uploadDate";
+	public static final String	FIELD_MD5			= "md5";
 	public static final String	FIELD_METADATA		= "metadata";
-	public static final String	FIELD_FILE_NAME		= "fileName";
+	public static final String	FIELD_FILENAME		= "fileName";
 	public static final String	FIELD_USER_ID		= "userId";
 	public static final String	FIELD_IS_SHARED		= "isShared";
 	public static final String	FIELD_SHARE_ID		= "shareId";
-	public static final String	FIELD_PARENTS		= "parents";
 	public static final String	FIELD_PARENT		= "parent";
-	public static final String	FIELD_MD5			= "md5";
-	//TODO: aliases
+	public static final String	FIELD_PARENTS		= "parents";
 	/// END OF JSON FIELDS ///
 
 	private String				fileName;
@@ -36,12 +34,12 @@ public class CHFile extends CHItem {
 	private String				md5;
 	private Long				userId;
 	private boolean				isShared;
-	private String				parent;
-	private ArrayList<CHFolder>	parents;
-
 	private String				shareId;
+	private String				parent;
+	private ArrayList<String>	parentsIds;
+	private DateTime			updateDate;
 
-	//TODO: aliases
+	private String				systemPath;
 
 	private CHFile() {
 		//Only used by the fromJson method
@@ -66,17 +64,17 @@ public class CHFile extends CHItem {
 			file.setChunkSize(json.asLong(FIELD_CHUNK_SIZE));
 			file.setUploadDate(DateTimeUtils.mongoDateToDateTime(json.asText(FIELD_UPLOAD_DATE)));
 			file.setMD5(json.asText(FIELD_MD5));
-			//TODO: aliases
 
-			CHJsonNode mjson = json.asNode(FIELD_METADATA);
+			CHJsonNode mjson = json.asNode(FIELD_METADATA); //Metadata part
 			file.setFileName(mjson.asText(FIELD_FILENAME));
 			file.setUserId(mjson.asLong(FIELD_USER_ID));
 			file.setIsShared(mjson.asBoolean(FIELD_IS_SHARED));
 			file.setShareId(mjson.asText(FIELD_SHARE_ID));
 			file.setParent(mjson.asText(FIELD_PARENT));
+			for (CHJsonNode parentId : mjson.asList(FIELD_PARENTS)) {
+				file.addParentId(parentId.asText());
+			}
 
-			ArrayList<CHFolder> pFolders = CHFolder.jsonArrayToFolders(mjson.asList(FIELD_PARENTS));
-			file.setParents(pFolders);
 		} catch (Exception e) {
 			Log.e(TAG, "Failed to parse json to create a CHFile instance !");
 			//TODO: Throw a CHJsonParseException
@@ -168,6 +166,20 @@ public class CHFile extends CHItem {
 	}
 
 	/**
+	 * @return the updateDate
+	 */
+	public DateTime getUpdateDate() {
+		return updateDate;
+	}
+
+	/**
+	 * @param updateDate the updateDate to set
+	 */
+	public void setUpdateDate(DateTime updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	/**
 	 * @return the userId
 	 */
 	public final Long getUserId() {
@@ -198,15 +210,28 @@ public class CHFile extends CHItem {
 	/**
 	 * @return the parents
 	 */
-	public final ArrayList<CHFolder> getParents() {
-		return parents;
+	public final ArrayList<String> getParents() {
+		return parentsIds;
 	}
 
 	/**
-	 * @param pFolders the parents to set
+	 * @param parentsIds the parents ids to set
 	 */
-	public final void setParents(ArrayList<CHFolder> pFolders) {
-		parents = pFolders;
+	public final void setParentsIds(ArrayList<String> parentsIds) {
+		this.parentsIds = parentsIds;
+	}
+
+	public void addParentId(String parentId) {
+		if (parentsIds == null) {
+			parentsIds = new ArrayList<String>();
+		}
+		parentsIds.add(parentId);
+	}
+
+	public void removeParentId(String parentId) {
+		if (parentsIds != null) {
+			parentsIds.remove(parentId);
+		}
 	}
 
 	/**
@@ -249,5 +274,27 @@ public class CHFile extends CHItem {
 	 */
 	public final void setMD5(String md5) {
 		this.md5 = md5;
+	}
+
+	/**
+	 * @return the systemPath
+	 */
+	public String getSystemPath() {
+		return systemPath;
+	}
+
+	/**
+	 * @param systemPath the system path to set
+	 */
+	public final void setSystemPath(String systemPath) {
+		this.systemPath = systemPath;
+	}
+
+	/**
+	 * Used to know if the file has been downloaded
+	 * @return <code>true</code> if it has been downloaded, <code>false</code> otherwise.
+	 */
+	public final boolean isDownloaded() {
+		return systemPath != null;
 	}
 }
