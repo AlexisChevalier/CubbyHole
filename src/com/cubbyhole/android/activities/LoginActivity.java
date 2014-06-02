@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Menu;
 
 import com.cubbyhole.android.R;
-import com.cubbyhole.android.api.ApiRequestHandler;
 import com.cubbyhole.android.api.CubbyHoleClient;
 import com.cubbyhole.android.components.AuthWebView;
 import com.cubbyhole.android.components.AuthWebView.ICubbyHoleAuth;
@@ -62,22 +61,7 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 
 	@Override
 	public void onAuthSuccess(String token) {
-		//TODO: move this Async Initialize in BrowserActivity
-		///////////////////// Async Initialize /////////////////////
-		ApiRequestHandler<Void> handler = new ApiRequestHandler<Void>() {
-
-			@Override
-			public void onApiRequestFailed() {
-				Log.e(TAG, "Async initialize failed !");
-			}
-
-			@Override
-			public void onApiRequestSuccess(Void result) {
-				Log.d(TAG, "Async initialize success !");
-			}
-		};
-		CubbyHoleClient.getInstance().Initialize(handler, token);
-		////////////////////////////////////////////////////////////
+		CubbyHoleClient.getInstance().Initialize(token);
 
 		//TODO: Store token here
 		Intent intent = new Intent(this, BrowserActivity.class);

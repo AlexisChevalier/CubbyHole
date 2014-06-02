@@ -1,5 +1,7 @@
 package com.cubbyhole.android.api;
 
+import android.util.Log;
+
 import com.cubbyhole.android.api.AsyncApiRequest.IApiRequestHandler;
 import com.cubbyhole.library.api.CubbyHoleImpl;
 import com.cubbyhole.library.api.entities.CHAccount;
@@ -12,6 +14,10 @@ public class CubbyHoleClient {
 	private static CubbyHoleClient	mInstance;
 	private CubbyHoleImpl			mImpl;
 
+	private String					mAccessToken;
+	private CHAccount				mAccount;
+	private CHFolder				mRootFolder;
+
 	private CubbyHoleClient() {
 		mImpl = CubbyHoleImpl.getInstance();
 	}
@@ -23,14 +29,24 @@ public class CubbyHoleClient {
 		return mInstance;
 	}
 
-	public void Initialize(IApiRequestHandler<Void> handler, String token) {
-		final String method = "Initialize";
-		new AsyncApiRequest<Void>(handler, mImpl, method).execute(token);
+	public void Initialize(String accessToken) {
+		mAccessToken = accessToken;
+		mImpl.Initialize(accessToken);
+	}
+
+	public final String getAccessToken() {
+		return mAccessToken;
 	}
 
 	public void getAccount(IApiRequestHandler<CHAccount> handler) {
-		final String method = "getAccount";
-		new AsyncApiRequest<CHAccount>(handler, mImpl, method).execute();
+		if (mAccount != null) {
+			Log.d(TAG, "The account has already been got from the server, returning instance ...");
+			handler.onApiRequestSuccess(mAccount);
+		} else {
+			Log.d(TAG, "Getting the account from the server");
+			final String method = "getAccount";
+			new AsyncApiRequest<CHAccount>(handler, mImpl, method).execute();
+		}
 	}
 
 	public void updateAccount(IApiRequestHandler<CHAccount> handler, CHAccount account) {
@@ -39,8 +55,12 @@ public class CubbyHoleClient {
 	}
 
 	public void getRootFolder(IApiRequestHandler<CHFolder> handler) {
-		final String method = "getRootFolder";
-		new AsyncApiRequest<CHFolder>(handler, mImpl, method).execute();
+		if (mRootFolder != null) {
+			handler.onApiRequestSuccess(mRootFolder);
+		} else {
+			final String method = "getRootFolder";
+			new AsyncApiRequest<CHFolder>(handler, mImpl, method).execute();
+		}
 	}
 
 	public void createFolder(IApiRequestHandler<CHAccount> handler, CHFolder parentFolder,
