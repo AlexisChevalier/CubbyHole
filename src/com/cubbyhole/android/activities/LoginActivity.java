@@ -18,7 +18,7 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 
 	private static final String	TAG	= LoginActivity.class.getName();
 
-	private AuthWebView			mAuthWebView;
+	private AuthWebView	mAuthWebView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
