@@ -1,6 +1,7 @@
 package com.cubbyhole.library.utils;
 
 import hirondelle.date4j.DateTime;
+import hirondelle.date4j.DateTime.DayOverflow;
 
 public class DateTimeUtils {
 
@@ -8,8 +9,6 @@ public class DateTimeUtils {
 		int ind = date.lastIndexOf("Z");
 		date = new StringBuilder(date).deleteCharAt(ind).toString();
 		DateTime dateTime = new DateTime(date);
-		//TODO: maybe +2h
-		return dateTime;
+		return dateTime.plus(0, 0, 0, 2, 0, 0, 0, DayOverflow.Spillover); //+2h
 	}
-
 }
