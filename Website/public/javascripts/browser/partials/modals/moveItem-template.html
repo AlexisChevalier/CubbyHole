@@ -3,8 +3,9 @@
 </div>
 <form>
     <div class="modal-body">
-        <p>Current folder : [[ currentFolder.name ]]</p>
-        <table>
+        <p class="lead">Current folder : <strong>[[ currentFolder.name ]]</strong></p>
+
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th colspan="2" ng-click="sort('name')">Name
@@ -22,6 +23,7 @@
                 <td>[[parentFolder().date | date:"medium"]]</td>
             </tr>
             <tr ng-repeat="folder in folders | orderBy:orderProp:orderDirection" ng-click="handleFolderClick(folder)">
+                <td class="folder"></td>
                 <td>
                     [[folder.name]]
                 </td>
@@ -31,7 +33,7 @@
         </table>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="ok(folder)">OK</button>
+        <button class="btn btn-primary" ng-click="ok(folder)">Move to this folder</button>
         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
 </form>

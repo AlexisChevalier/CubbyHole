@@ -57,7 +57,7 @@ module.exports = {
                 insertedFileObjectId = null,
                 closedNicely = false,
                 gs,
-                throttleBytesPerSeconds = 1048576, //TODO: Dynamise this
+                throttleBytesPerSeconds = 1048576, //TODO: Set this dynamically
                 bytes = 0,
                 shareId = null,
                 i,
@@ -627,8 +627,8 @@ module.exports = {
         function (req, res, next) {
 
             var id = req.params.fileID,
-                newName = req.headers['cb-new-file-name'],
-                newParentId = req.headers['cb-new-file-parent-id'];
+                newParentId = req.body.newParentID,
+                newName = req.body.newName;
 
             if (id) {
                 try {

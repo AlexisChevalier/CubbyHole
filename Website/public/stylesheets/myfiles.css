@@ -127,51 +127,51 @@ div#filebrowser #loader #textLoader {
 	color: #3daaf8;
 }
 
-div#filebrowser table {
+table {
 	width: 100%;
 }
 
-div#filebrowser table thead {
+table thead {
 	border-bottom: 1px solid #3eaafe;
 }
 
-div#filebrowser table tr {
+table tr {
 	height: 40px;
 	cursor: pointer;
 }
 
-div#filebrowser table tr.busyWriteFile {
+table tr.busyWriteFile {
 	opacity: 0.2;
 }
 
-div#filebrowser table tbody tr:hover,
-div#filebrowser table tbody tr:focus,
-div#filebrowser table tbody tr.selected {
+table tbody tr:hover,
+table tbody tr:focus,
+table tbody tr.selected {
 	background-color: rgba(62, 170, 255, 0.2);
 }
 
-div#filebrowser table tbody tr.parent-folder-row {
+table tbody tr.parent-folder-row {
 	border-bottom: 1px solid #3eaafe;
 }
 
-div#filebrowser table tbody tr td.options-col {
+table tbody tr td.options-col {
 	/*text-align: center;*/
 	width: 202px;
 }
 
-div#filebrowser table tbody tr td.options-col button {
+table tbody tr td.options-col button {
 	background-color: #fcb735;
 }
 
-div#filebrowser table tbody tr td.options-col button:hover {
+table tbody tr td.options-col button:hover {
 	background-color: #3daaf8;
 }
 
-div#filebrowser table tbody tr td:nth-child(1) {
+table tbody tr td:nth-child(1) {
 	width: 40px;
 }
 
-div#filebrowser table tbody tr td:nth-child(2) {
+table tbody tr td:nth-child(2) {
  /* No hardcoded size for the name of the file/folder
   so it will be as large as possible */
   	padding-left: 10px;
@@ -186,24 +186,24 @@ div#filebrowser table tbody tr td:nth-child(3) {
 }
 
 
-div#filebrowser table tbody tr td:nth-child(4) {
+table tbody tr td:nth-child(4) {
 	width: 20%;
 }
 
-div#filebrowser table tr td.folder {
+table tr td.folder {
 	background: url('/images/filebrowser.png') 0px -40px no-repeat;
 }
 
-div#filebrowser table tr td.file {
+table tr td.file {
 	background: url('/images/filebrowser.png') -80px -40px no-repeat;
 }
 
-div#filebrowser table tr td.parent-folder {
+table tr td.parent-folder {
 	background: url('/images/filebrowser.png') -120px -40px no-repeat;
 }
 
 
-div#filebrowser table tr td.shared-folder {
+table tr td.shared-folder {
 	background: url('/images/filebrowser.png') -40px -40px no-repeat;
 }
 
