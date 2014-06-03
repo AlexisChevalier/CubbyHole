@@ -43,8 +43,9 @@ public class CHFile extends CHItem {
 
 	//TODO: aliases
 
-	private CHFile() {
+	public CHFile() {
 		//Only used by the fromJson method
+		type = CHType.FILE;
 	}
 
 	/**
@@ -57,7 +58,6 @@ public class CHFile extends CHItem {
 			return null;
 		}
 		CHFile file = new CHFile();
-		file.setType(CHType.FILE);
 		try {
 			file.setId(json.asText(FIELD_ID));
 			//file.setFileName(json.asText(FIELD_FILE_NAME));

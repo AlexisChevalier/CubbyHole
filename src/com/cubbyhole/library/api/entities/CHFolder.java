@@ -41,8 +41,9 @@ public class CHFolder extends CHItem {
 
 	/// End of Modification States ////
 
-	private CHFolder() {
+	public CHFolder() {
 		//Only used by the fromJson method
+		type = CHType.FOLDER;
 	}
 
 	/**
@@ -55,7 +56,6 @@ public class CHFolder extends CHItem {
 			return null;
 		}
 		CHFolder folder = new CHFolder();
-		folder.setType(CHType.FOLDER);
 		try {
 			folder.setId(json.asText(FIELD_ID));
 			folder.setName(json.asText(FIELD_NAME));
@@ -106,8 +106,8 @@ public class CHFolder extends CHItem {
 	 * @param name the name to set
 	 */
 	public final void setName(String name) {
-		if (this.name.equals(name)) {
-			this.name = name;
+		this.name = name;
+		if (this.name != null && this.name.equals(name)) {
 			isNameHasBeenModified = true;
 		}
 	}
@@ -127,8 +127,8 @@ public class CHFolder extends CHItem {
 	 * @param parent the parent to set
 	 */
 	public final void setParent(String parent) {
-		if (this.parent.equals(parent)) {
-			this.parent = parent;
+		this.parent = parent;
+		if (this.parent != null && this.parent.equals(parent)) {
 			isParentHasBeenModified = true;
 		}
 	}
