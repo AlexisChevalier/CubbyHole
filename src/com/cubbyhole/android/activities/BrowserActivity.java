@@ -1,20 +1,14 @@
 package com.cubbyhole.android.activities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.cubbyhole.android.R;
-import com.cubbyhole.android.R.layout;
 import com.cubbyhole.android.adapters.StableArrayAdapter;
-import com.cubbyhole.android.components.AuthWebView;
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
 import com.cubbyhole.library.api.entities.CHItem;
@@ -33,7 +27,11 @@ public class BrowserActivity extends Activity {
 
 		bindView();
 		
-		//adapter
+		fakeItems();
+		
+		final StableArrayAdapter adapter = new StableArrayAdapter(this, mItems);
+		mListView.setAdapter(adapter);
+		
 	}
 
 	// TODO: To be removed ASAP
@@ -47,16 +45,16 @@ public class BrowserActivity extends Activity {
 		mItems = new ArrayList<CHItem>();
 
 		ArrayList<CHFolder> folders = new ArrayList<CHFolder>();
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 300; i++) {
 			CHFolder folder = new CHFolder();
 			folder.setName("Folder #" + i);
-			folder.setParent(rootFolder.getId());
+			folder.setParentId(rootFolder.getId());
 			folder.setIsShared(i == 2);
 			folders.add(folder);
 		}
 
 		ArrayList<CHFile> files = new ArrayList<CHFile>();
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 300; i++) {
 			CHFile file = new CHFile();
 			file.setFileName("File #" + i);
 			file.setParent(rootFolder.getId());
@@ -66,8 +64,6 @@ public class BrowserActivity extends Activity {
 		mItems.addAll(folders);
 		mItems.addAll(files);
 		
-		final StableArrayAdapter adapter = new StableArrayAdapter(this, mItems);
-		mListView.setAdapter(adapter);
 	}
 	
 	private void bindView() {

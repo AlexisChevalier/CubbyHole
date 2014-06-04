@@ -19,6 +19,11 @@ import com.cubbyhole.library.api.entities.CHItem.CHType;
 public class StableArrayAdapter extends ArrayAdapter<CHItem> {
   private final Context context;
   private final ArrayList<CHItem> values;
+  
+  static class ViewHolder {
+	    public TextView text;
+	    public ImageView image;
+	  }
 
   public StableArrayAdapter(Context context, ArrayList<CHItem> values) {
     super(context, R.layout.browser_list_item, values);
@@ -27,33 +32,48 @@ public class StableArrayAdapter extends ArrayAdapter<CHItem> {
   }
 
   @Override
-  public View getView(int position, View convertView, ViewGroup parent) {
-    LayoutInflater inflater = (LayoutInflater) context
-        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    View rowView = inflater.inflate(R.layout.browser_list_item, parent, false);
-    TextView textView = (TextView) rowView.findViewById(R.id.browser_item_text);
-    ImageView imageView = (ImageView) rowView.findViewById(R.id.browser_item_icon);
-    
-    CHItem item = values.get(position);
-    
-    if (item.getType() == CHType.FOLDER) {
+  public View getView(int position, View convertView, ViewGroup parent) { 
+	View rowView = convertView;
+	// reuse views
+	 if (rowView == null) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		rowView = inflater.inflate(R.layout.browser_list_item, parent, false);
+		// configure view holder
+		ViewHolder viewHolder = new ViewHolder();
+		viewHolder.text = (TextView) rowView.findViewById(R.id.browser_item_text);
+		viewHolder.image = (ImageView) rowView.findViewById(R.id.browser_item_icon);
+		rowView.setTag(viewHolder);
+	 }
+	 
+	 ViewHolder holder = (ViewHolder) rowView.getTag();
+	 
+	 CHItem item = values.get(position);
+	 
+	 if (item.getType() == CHType.FOLDER) {
 	     CHFolder folder = (CHFolder)item;
-	     textView.setText(folder.getName());
+	     holder.text.setText(folder.getName());
 	     
 	     if (folder.isShared())
 	     {
-	    	 imageView.setImageResource(R.drawable.icon_sharedfolder);
+	    	 holder.image.setImageResource(R.drawable.icon_sharedfolder);
 	     } else {
-	    	 imageView.setImageResource(R.drawable.icon_folder);
+	    	 holder.image.setImageResource(R.drawable.icon_folder);
 	     }
 	     
-    } else {
+    } else if (item.getType() == CHType.FILE){
 	     CHFile file = (CHFile)item;
-	     textView.setText(file.getFileName());
+	     holder.text.setText(file.getFileName());
 	     
+	     holder.image.setImageResource(R.drawable.icon_file);
+	     
+    } else if (item.getType() == CHType.UNKNOWN) {
+    	System.out.println("item type is UNKNOWN");
     }
-    
-    
+    else
+    {
+    	System.out.println("error on testing types");
+    }
+    	
     
     return rowView;
   }
