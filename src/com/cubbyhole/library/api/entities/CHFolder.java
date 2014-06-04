@@ -108,12 +108,8 @@ public class CHFolder extends CHItem {
 	 * @param name the name to set
 	 */
 	public final void setName(String name) {
-		if (this.name != null && this.name.equals(name)) {
-			this.name = name;
-		this.name = name;
-		if (this.name != null && this.name.equals(name)) {
+		if (name != null && !name.equals(this.name)) {
 			isNameHasBeenModified = true;
-		} else {
 			this.name = name;
 		}
 	}
@@ -133,15 +129,9 @@ public class CHFolder extends CHItem {
 	 * @param parent the parent to set
 	 */
 	public final void setParentId(String parentId) {
-		if (this.parentId != null && this.parentId.equals(parentId)) {
-			this.parentId = parentId;
+		if (parentId != null && parentId.equals(this.parentId)) {
 			isParentIdHasBeenModified = true;
-		} else {
 			this.parentId = parentId;
-	public final void setParent(String parent) {
-		this.parent = parent;
-		if (this.parent != null && this.parent.equals(parent)) {
-			isParentHasBeenModified = true;
 		}
 	}
 
