@@ -2,7 +2,7 @@
 
 var AuthorizationCodeHelper = module.exports = {},
     models = require('../../../models/mysql'),
-    config = require('../../../config/config.json');
+    config = require('../../../config/config');
 
 /**
  * Create and save an user

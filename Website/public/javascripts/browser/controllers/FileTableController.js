@@ -48,8 +48,6 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                     tmpItem = data.childFiles[i];
 
                     tmpItem.type = "file";
-                    tmpItem.name = tmpItem.metadata.name;
-                    tmpItem.updateDate = tmpItem.metadata.updateDate;
 
                     $scope.items.push(tmpItem);
                 }
@@ -130,7 +128,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
 
                 for (i = 0; i < $scope.items.length; i++) {
                     if($scope.items[i].type === 'file') {
-                        if($scope.items[i].metadata.name === fileObject.file.name) {
+                        if($scope.items[i].name === fileObject.file.name) {
                             outerItemToReplaceIndex = i;
                             break;
                         }
@@ -142,15 +140,11 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                         "type": "file",
                         "name": fileObject.file.name,
                         "updateDate": new Date(),
-                        "metadata": {
-                            "name": fileObject.file.name,
-                            "busyWrite": true,
-                            "updateDate": new Date()
-                        }
+                        "busyWrite": true
                     };
                     $scope.items.push(tmpFile);
                 } else {
-                    $scope.items[outerItemToReplaceIndex].metadata.busyWrite = true;
+                    $scope.items[outerItemToReplaceIndex].busyWrite = true;
                 }
 
                 $scope.uploads.push(fileObject);
@@ -175,7 +169,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
 
                                 for (i = 0; i < $scope.items.length; i++) {
                                     if($scope.items[i].type === 'file') {
-                                        if($scope.items[i].metadata.name === item.metadata.name) {
+                                        if($scope.items[i].name === item.name) {
                                             itemToReplaceIndex = i;
                                             break;
                                         }
@@ -183,8 +177,6 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                                 }
 
                                 item['type'] = "file";
-                                item.name = item.metadata.name;
-                                item.updateDate = item.metadata.updateDate;
 
                                 if(itemToReplaceIndex != null) {
                                     $scope.items[itemToReplaceIndex] = item;
@@ -199,7 +191,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                             if (fileObject.options.parentFolder == $scope.folderId) {
                                 for (i = 0; i < $scope.items.length; i++) {
                                     if($scope.items[i].type === 'file') {
-                                        if($scope.items[i].metadata.name === item.metadata.name) {
+                                        if($scope.items[i].name === item.name) {
                                             itemToReplaceIndex = i;
                                             break;
                                         }
@@ -207,8 +199,6 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                                 }
 
                                 item['type'] = "file";
-                                item.name = item.metadata.name;
-                                item.updateDate = item.metadata.updateDate;
 
                                 if(itemToReplaceIndex != null) {
                                     $scope.items[itemToReplaceIndex] = item;
@@ -276,9 +266,11 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
             }
         });
 
-        modalInstance.result.then(function (item) {
-            var index = $scope.items.indexOf(item);
-            $scope.items.splice(index, 1);
+        modalInstance.result.then(function (data) {
+            if (data.oldFolderId == $scope.folderId) {
+                var index = $scope.items.indexOf(item);
+                $scope.items.splice(index, 1);
+            }
         }, function () {});
     };
 

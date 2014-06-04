@@ -2,7 +2,7 @@
 
 var PaymentHelper = module.exports = {},
     models = require('../../../models/mysql'),
-    config = require('../../../config/config.json');
+    config = require('../../../config/config');
 
 
 PaymentHelper.GetActualPlanForUserID = function (userID, done) {

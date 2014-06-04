@@ -1,7 +1,7 @@
 "use strict";
 
 var passport = require('passport'),
-    config = require('../config/config.json'),
+    config = require('../config/config'),
     OAuth2Strategy = require('passport-oauth2').Strategy,
     usersDao = require('../models/http/users');
 
@@ -9,11 +9,11 @@ var passport = require('passport'),
  * OAUTH 2 Login Strategy
  */
 passport.use(new OAuth2Strategy({
-    authorizationURL: config.oauth2.authorizationURL,
-    tokenURL: config.oauth2.tokenURL,
-    clientID: config.oauth2.clientID,
-    clientSecret: config.oauth2.clientSecret,
-    callbackURL: config.oauth2.callbackURL
+    authorizationURL: config.website.oauth2.authorizationURL,
+    tokenURL: config.website.oauth2.tokenURL,
+    clientID: config.website.oauth2.clientID,
+    clientSecret: config.website.oauth2.clientSecret,
+    callbackURL: config.website.oauth2.callbackURL
 },
     function (accessToken, refreshToken, profile, done) {
         usersDao.findByToken(accessToken, function (err, user) {

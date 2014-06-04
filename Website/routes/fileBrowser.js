@@ -1,7 +1,7 @@
 "use strict";
 
 var login = require("../auth/ensureLoggedIn"),
-    config = require('../config/config.json'),
+    config = require('../config/config'),
     filesHttpDao = require('../models/http/files'),
     usersHttpDao = require('../models/http/users'),
     multiparty = require('multiparty'),

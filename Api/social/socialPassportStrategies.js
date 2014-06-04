@@ -7,7 +7,7 @@
 var passport = require('passport'),
     FacebookStrategy = require('passport-facebook').Strategy,
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
-    config = require('../config/config.json'),
+    config = require('../config/config'),
     userHelper = require('../models/mysql/helpers/UserHelper'),
     models = require('../models/mysql');
 

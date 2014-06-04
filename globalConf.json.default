@@ -1,0 +1,78 @@
+{
+    "env": "development",
+
+    "mongodb": {
+        "url": "mongodb://localhost/CubbyHole"
+    },
+
+    "mysqlServer": {
+        "dsn": "mysql://root:root@localhost:8889/CubbyHole"
+    },
+
+    "gmail": {
+        "mail":"team.cubbyhole@gmail.com",
+        "password": "bafuFRa6#_1"
+    },
+
+    "social": {
+        "facebook": {
+            "app_id": "1396165873969296",
+            "app_secret": "30fac294140b12124de98698f47bbdca",
+            "redirect_uri": "https://localhost:8444/auth/facebook/callback"
+        },
+        "google": {
+            "app_id": "59104284183-3dd5od7qjbi0mr2gpb3dnaep459gtroe.apps.googleusercontent.com",
+            "app_secret": "kWWvjZ3Gyqwjl_prRm2t1Woe",
+            "redirect_uri": "https://localhost:8444/auth/google/callback"
+        }
+    },
+
+    "apiUrl": "localhost",
+    "apiPort": 8444,
+
+    "website": {
+        "port": 8080,
+        "sslPort": 8443,
+        "ssl": {
+            "key": "./ssl_elems/web_app_key.pem",
+            "cert": "./ssl_elems/web_app_cert.pem"
+        },
+        "oauth2": {
+            "authorizationURL": "https://localhost:8444/auth/dialog/authorize",
+            "tokenURL": "https://localhost:8444/auth/oauth/token",
+            "clientID": "cubbyh_b1175f3f-9c52-4205-adfd-c9a63f7cbecb",
+            "clientSecret": "df8b08e6-215f-49ac-86fa-1212e7c9e0e6",
+            "callbackURL": "https://localhost:8443/loginCallback"
+        }
+    },
+
+    "api": {
+        "port": 8081,
+        "sslPort": 8444,
+        "ssl": {
+            "key": "./ssl_elems/api-key.pem",
+            "cert": "./ssl_elems/api-cert.pem"
+        },
+        "default_app_oauth2": {
+            "authorizationURL": "https://localhost:8444/auth/dialog/authorize",
+            "clientID": "cubbyh_b1175f3f-9c52-4205-adfd-c9a63f7cbecb",
+            "callbackURL": "https://localhost:8443/loginCallback"
+        }
+    },
+
+    "developer": {
+        "port": 8082,
+        "sslPort": 8445,
+        "ssl": {
+            "key": "./ssl_elems/api-key.pem",
+            "cert": "./ssl_elems/api-cert.pem"
+        },
+        "oauth2": {
+            "authorizationURL": "https://localhost:8444/auth/dialog/authorize",
+            "tokenURL": "https://localhost:8444/auth/oauth/token",
+            "clientID": "cubbyh_28af8ca9-368e-4ce1-8586-e2690ead096f",
+            "clientSecret": "d923c923-efa9-44bd-8980-eb541660b67e",
+            "callbackURL": "https://localhost:8445/loginCallback"
+        }
+    }
+}

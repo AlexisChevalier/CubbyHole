@@ -31,6 +31,8 @@ var express = require('express'),
     }),
     app = express();
 
+app.set("env", config.env || "development");
+
 /**
  * MYSQL DB Initialisation
  */
@@ -62,8 +64,8 @@ swig.setDefaults({
  * SSL parameters.
  */
 
-var key = fs.readFileSync('./ssl_elems/web_app_key.pem'),
-    cert = fs.readFileSync('./ssl_elems/web_app_cert.pem'),
+var key = fs.readFileSync(config.website.ssl.key || './ssl_elems/web_app_key.pem'),
+    cert = fs.readFileSync(config.website.ssl.cert || './ssl_elems/web_app_cert.pem'),
     https_options = {
         key: key,
         cert: cert
@@ -73,9 +75,10 @@ var key = fs.readFileSync('./ssl_elems/web_app_key.pem'),
  * App configuration.
  */
 
-app.set('sslport', process.env.SSLPORT || 8443);
-app.set('port', process.env.PORT || 8080);
-app.set('domain', '0.0.0.0');
+
+app.set('sslport', config.website.sslPort || 8443);
+app.set('port', config.website.port || 8080);
+app.set('domain', config.api.domain || '0.0.0.0');
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
@@ -167,5 +170,5 @@ app.post('/ajax/upload/', fileBrowserRoutes.uploadFile);
 http.createServer(app).listen(app.get('port'));
 
 https.createServer(https_options, app).listen(app.get('sslport'), app.get('domain'), function () {
-    console.log('HTTPS Express server listening on port ' + app.get('sslport') + ' | Don\'t forget to use HTTPS ');
+    console.log('[[WEBSITE]] HTTPS Express server listening on port ' + app.get('sslport') + ' | Don\'t forget to use HTTPS ');
 });

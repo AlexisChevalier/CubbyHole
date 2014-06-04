@@ -254,7 +254,7 @@ module.exports = {
                                     if (err) {
                                         next(err);
                                     }
-                                    FileHelper.getFiles({"metadata.parents": { "$all": oldHierarchy } }, "", function (err, files) {
+                                    FileHelper.getFiles({"parents": { "$all": oldHierarchy } }, "", function (err, files) {
                                         for (i = 0; i < folders.length; i++) {
                                             filesToChangeHierarchy.push(files[i].id);
                                         }
@@ -298,7 +298,7 @@ module.exports = {
                                             next(err);
                                         }
                                         mongooseModels.File.update({"_id": { "$in": filesToChangeHierarchy } },
-                                            { $pull: { "metadata.parents": { $in: oldHierarchy } } },
+                                            { $pull: { "parents": { $in: oldHierarchy } } },
                                             function (err2, docsUpdated) {
                                                 if (err2) {
                                                     next(err2);
@@ -317,7 +317,7 @@ module.exports = {
                                             next(err);
                                         }
                                         mongooseModels.File.update({"_id": { "$in": filesToChangeHierarchy } },
-                                            { $push: { "metadata.parents": { $each: newHierarchy, $position: 0 } } },
+                                            { $push: { "parents": { $each: newHierarchy, $position: 0 } } },
                                             function (err2, docsUpdated) {
                                                 if (err2) {
                                                     next(err2);
@@ -327,11 +327,10 @@ module.exports = {
                                     });
                             },
                             function (next) {
-                                /** Update element itself for hierarchy **/
-
                                 /** Remove actual folder **/
                                 newHierarchy.pop();
 
+                                /** Update element itself for hierarchy **/
                                 mongooseModels.Folder.update({"_id": foldertoMove.id }, { "parents": newHierarchy, parent: newFolderDirection.id, updateDate: new Date() }, function (err, docsUpdated) {
                                     if (err) {
                                         next(err);
@@ -363,6 +362,7 @@ module.exports = {
 
     /**
      * DELETE remove folder
+     * Les fichiers en dur ne sont pas supprimés ici, l'application Cleaner s'en charge.
      */
     removeFolder: [
         passport.authenticate('bearer', { session: false }),
@@ -399,6 +399,8 @@ module.exports = {
                 hierarchy = folder.parents;
                 hierarchy.push(folder.id);
 
+                var filesReferencesToDelete = [];
+
                 async.series([
                     function (next) {
                         /** RECUPERATION DU PARENT DU DOSSIER A MODIFIER **/
@@ -421,18 +423,39 @@ module.exports = {
                         });
                     },
                     function (next) {
+                        /** RECUPERATION DES CHILDS FILES **/
+                        mongooseModels.File.find({"parents": { "$all": hierarchy } }).exec(function (err, files) {
+                            if (err) {
+                                next(err);
+                            }
+                            for (var i = 0; i < files.length; i++) {
+                                filesReferencesToDelete.push(files[i]._id);
+                            }
+                            next();
+                        });
+                    },
+                    function (next) {
+                        /** SUPRESSION DES REFERENCES DES CHILDS FILES DANS LES REALFILES**/
+                        mongooseModels.RealFile.update({"metadata.references": { $in : filesReferencesToDelete } },
+                            { $pullAll: { "metadata.references": filesReferencesToDelete },
+                                "metadata.updateDate": new Date()}, function (err, docsUpdated) {
+                                if (err) {
+                                    next(err);
+                                }
+                                next();
+                            });
+                    },
+                    function (next) {
                         /** SUPRESSION DES CHILDS FILES **/
-                        mongooseModels.File.remove({"metadata.parents": { "$all": hierarchy } }, function (err, docsUpdated) {
+                        mongooseModels.File.remove({"parents": { "$all": hierarchy } }, function (err, docsUpdated) {
                             if (err) {
                                 next(err);
                             }
                             next();
                         });
-                        next();
                     },
                     function (next) {
                         /** SUPRESSION DES SHARES INUTILES **/
-                            //TODO: HANDLE SHARES
                         next();
                     },
                     function (next) {

@@ -21,6 +21,7 @@ FolderHelper.createRootFolder = function (userID, next) {
         childFolders: [],
         isRoot: true
     }, function (err, createdFolder) {
+        console.log(err, createdFolder);
         next(err, createdFolder);
     });
 };
@@ -68,7 +69,7 @@ FolderHelper.isNameAvailable = function (name, childFolders, childFiles, oldName
         if (error) {
             break;
         }
-        if (childFiles[i].metadata.name == name && childFiles[i].metadata.name != oldName) {
+        if (childFiles[i].name == name && childFiles[i].name != oldName) {
             error = true;
         }
     }

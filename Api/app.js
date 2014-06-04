@@ -28,6 +28,8 @@ var express = require('express'),
     flash = require('connect-flash'),
     app = express();
 
+app.set("env", config.env || "development");
+
 /**
  * Social Auth Strategies Initialisation
  */
@@ -65,8 +67,8 @@ swig.setDefaults({
  * SSL parameters.
  */
 
-var key = fs.readFileSync('./ssl_elems/api-key.pem'),
-    cert = fs.readFileSync('./ssl_elems/api-cert.pem'),
+var key = fs.readFileSync(config.api.ssl.key || './ssl_elems/api-key.pem'),
+    cert = fs.readFileSync(config.api.ssl.cert || './ssl_elems/api-cert.pem'),
     https_options = {
         key: key,
         cert: cert
@@ -76,10 +78,10 @@ var key = fs.readFileSync('./ssl_elems/api-key.pem'),
  * App configuration.
  */
 
-app.set('env', process.env.ENV || 'development');
-app.set('sslport', process.env.SSLPORT || 8444);
-app.set('port', process.env.PORT || 8081);
-app.set('domain', config.domain || '0.0.0.0');
+
+app.set('sslport', config.api.sslPort || 8444);
+app.set('port', config.api.port || 8081);
+app.set('domain', config.api.domain || '0.0.0.0');
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
@@ -224,6 +226,5 @@ app.get('/auth/oauth/token', oauth2core.token);
 
 http.createServer(app).listen(app.get('port'));
 https.createServer(https_options, app).listen(app.get('sslport'), app.get('domain'), function () {
-    console.log('HTTPS Express server listening on port ' + app.get('sslport') + ' | Don\'t forget to use HTTPS ');
-    console.log('--- IF THERE IS A CRASH WITH ECONNREFUSED CODE AT LAUNCH, CHECK IF YOUR MYSQL SERVER IS RUNNING AND IF IT FITS WITH THE config.json FILE ---');
+    console.log('[[API]] HTTPS Express server listening on port ' + app.get('sslport') + ' | Don\'t forget to use HTTPS ');
 });

@@ -2,7 +2,7 @@
 
 var ClientHelper = module.exports = {},
     models = require('../../../models/mysql'),
-    config = require('../../../config/config.json');
+    config = require('../../../config/config');
 
 ClientHelper.GetAuthorizedClientsForUserID = function (userID, done) {
     models(function (err, db) {

@@ -3,7 +3,7 @@
 var passport = require('passport'),
     mailer = require('../utils/mailer'),
     login = require('connect-ensure-login'),
-    config = require('../config/config.json'),
+    config = require('../config/config'),
     userHelper = require('../models/mysql/helpers/UserHelper'),
     https = require('https'),
     querystring = require('querystring');
@@ -14,7 +14,7 @@ var passport = require('passport'),
  * @param res
  */
 exports.index = function (req, res) {
-    res.send('<h1>CubbyHole OAuth 2.0 Server endpoint (See <a href="/api/docs">this documentation</a> for more informations).</h1>');
+    res.send('<h1>CubbyHole OAuth 2.0 Server endpoint (See the developer center documentation</a> for more informations).</h1>');
 };
 
 /**
@@ -23,11 +23,11 @@ exports.index = function (req, res) {
  * @param res
  */
 exports.loginForm = [
-    login.ensureLoggedOut(config.default_app_oauth2.authorizationURL + "?response_type=code&redirect_uri=" + config.default_app_oauth2.callbackURL + "&client_id=" + config.default_app_oauth2.clientID),
+    login.ensureLoggedOut(config.api.default_app_oauth2.authorizationURL + "?response_type=code&redirect_uri=" + config.api.default_app_oauth2.callbackURL + "&client_id=" + config.api.default_app_oauth2.clientID),
     function (req, res, next) {
         //Check URL parameters, if no parameters then redirects to the default website
         if (!req.session.returnTo) {
-            res.redirect(config.default_app_oauth2.authorizationURL + "?response_type=code&redirect_uri=" + config.default_app_oauth2.callbackURL + "&client_id=" + config.default_app_oauth2.clientID);
+            res.redirect(config.api.default_app_oauth2.authorizationURL + "?response_type=code&redirect_uri=" + config.api.default_app_oauth2.callbackURL + "&client_id=" + config.api.default_app_oauth2.clientID);
         }
 
         next();

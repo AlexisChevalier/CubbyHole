@@ -13,7 +13,8 @@ var passport = require('passport'),
 module.exports = {
 
     /**
-     * GET items in folder
+     * GET search items in folder
+     * V2 NEEDS TESTS
      */
     searchItemsByTerm: [
         passport.authenticate('bearer', { session: false }),
@@ -22,7 +23,7 @@ module.exports = {
             var response = {},
                 terms = req.params.terms;
 
-            mongooseModels.File.find({'metadata.userId': req.user.id, 'metadata.name': new RegExp(terms, "i")}).exec(function (err, data) {
+            mongooseModels.File.find({'userId': req.user.id, 'name': new RegExp(terms, "i")}).exec(function (err, data) {
                 if (err) {
                     res.json(err);
                 } else {
@@ -40,13 +41,13 @@ module.exports = {
      * Require auth + headers : cb-file-name, cb-file-parent-folder-id, content-type, content-length + Binary file as payload
      *
      *
-     * This function is a real mess : 500 lines, but i don't have the time to clean it
+     * This function is a real mess : 600 lines, but i don't have the time to clean it
+     * V2 NEEDS TESTS
      */
     createOrUpdateFile: [
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
             var newFile = false,
-                fileToUpdate,
                 name,
                 parentId,
                 fileLength,
@@ -57,6 +58,7 @@ module.exports = {
                 insertedFileObjectId = null,
                 closedNicely = false,
                 gs,
+                fileReference,
                 throttleBytesPerSeconds = 1048576, //TODO: Set this dynamically
                 bytes = 0,
                 shareId = null,
@@ -65,6 +67,7 @@ module.exports = {
 
 
             async.series([
+                //V2 : OK
                 /** VALIDATION DES DONNEES **/
                 function (next) {
                     //Présence du Content-Type
@@ -99,6 +102,7 @@ module.exports = {
 
                     return next();
                 },
+                //V2 : OK
                 /** TEST DOSSIER PARENT + SECURITE **/
                 function (next) {
                     FolderHelper.getFolder({'_id': parentId}, "share parent childFolders childFiles", function (err, folder) {
@@ -123,24 +127,49 @@ module.exports = {
                         return next();
                     });
                 },
+                //V2 : OK
                 /** CHECK UPDATE OR NEW FILE **/
                 function (next) {
                     if (!FolderHelper.isNameAvailable(name, parentFolder.childFolders, parentFolder.childFiles)) {
-                        FileHelper.getFile({'metadata.name': name, 'metadata.parent': parentId}, '', function (err, innerFileToUpdate) {
+                        FileHelper.getFile({'name': name, 'parent': parentId}, '', function (err, innerFileToUpdate) {
                             if (err || !innerFileToUpdate || innerFileToUpdate === null) {
                                 /** THE NAME IS TAKEN BY A FOLDER **/
                                 return res.send(403, "Name already existing in this folder");
                             } else {
                                 /** UPDATE FILE **/
-                                fileToUpdate = innerFileToUpdate;
+                                fileReference = innerFileToUpdate;
                                 newFile = false;
                                 return next();
                             }
                         });
                     } else {
                         /** NEW FILE **/
-                        newFile = true;
-                        return next();
+                        mongooseModels.File.create({
+                            "name": name,
+                            "userId": req.user.id,
+                            "isShared": shareId !== null,
+                            "shareId": (shareId === null) ? null : shareId,
+                            "parents": fileParents,
+                            "parent": parentId,
+                            "updateDate": new Date(),
+                            "busyWrite": true,
+                            "readers": 0,
+                            realFileData: {
+                                id: null,
+                                "contentType": null,
+                                "length": null,
+                                "chunkSize": null,
+                                "uploadDate": null,
+                                "md5": null
+                            }
+                        }, function (err, createdFile) {
+                            if (err) {
+                                return res.send(400, err.toString());
+                            }
+                            fileReference = createdFile;
+                            newFile = true;
+                            return next();
+                        });
                     }
                 },
                 /** UPLOAD HANDLERS **/
@@ -149,32 +178,27 @@ module.exports = {
                     gs = new mongo.GridStore(mongo_db_object, id, "w", {
                         "content_type": fileMimeType,
                         "metadata": {
-                            "name": name,
-                            "userId": req.user.id,
-                            "isShared": shareId !== null,
-                            "shareId": (shareId === null) ? null : shareId,
-                            "parents": fileParents,
-                            "updateDate": new Date(),
-                            "parent": parentId,
-                            "version": 0,
-                            "oldVersions": [],
-                            "busyWrite": true,
-                            "readers": 0
+                            /*busyWrite: true,*/
+                            references: [fileReference._id]
                         }
                     });
 
                     /** NEXT **/
+                    //V2 : OK
                     if (newFile) {
                         /** NEW FILE **/
                         async.series([
+                            //V2 : OK
                             /** QUOTAS **/
                             function (innerNext) {
                                 innerNext();
                             },
+                            //V2 : OK
                             /** PARTAGES **/
                             function (innerNext) {
                                 innerNext();
                             },
+                            //V2 : OK
                             /** CREATION DE L'EMPREINTE **/
                             function (innerNext) {
                                 gs.open(function (err, gs) {
@@ -188,19 +212,31 @@ module.exports = {
                                         if (innerErr) {
                                             return innerNext(innerErr);
                                         }
-                                        mongooseModels.Folder.update({'_id': parentId},
-                                            { $push: { childFiles: insertedFileObjectId } },
+                                        //Mise a jour de la référence
+                                        mongooseModels.File.update({'_id': fileReference._id},
+                                            {
+                                                'realFileData.id': insertedFileObjectId
+                                            },
                                             function (err, docsUpdated) {
                                                 if (err) {
                                                     return innerNext(err);
                                                 }
+                                                //Ajout dans le dossier parent
+                                                mongooseModels.Folder.update({'_id': parentId},
+                                                    { $push: { childFiles: fileReference._id } },
+                                                    function (err, docsUpdated) {
+                                                        if (err) {
+                                                            return innerNext(err);
+                                                        }
 
-                                                return innerNext();
+                                                        return innerNext();
 
+                                                    });
                                             });
                                     });
                                 });
                             },
+                            //V2 : OK
                             /** UPLOAD **/
                             function (innerNext) {
                                 gs.open(function (err, gs) {
@@ -245,6 +281,7 @@ module.exports = {
                                     }
                                 });
                             }
+                            //V2 : OK
                             /** NEW FILE RESPONSE **/
                         ], function (innerErr) {
                             if (innerErr) {
@@ -259,34 +296,40 @@ module.exports = {
 
                                     /** Remove reference from parent folder **/
                                     mongooseModels.Folder.update({'_id': parentId},
-                                        { $pull: { childFiles: insertedFileObjectId } },
+                                        { $pull: { childFiles: fileReference._id } },
                                         function (err, docsUpdated) {
                                             if (err) {
                                                 return next(err);
                                             }
 
-                                            /** Delete file from storage **/
-                                            new mongo.GridStore(mongo_db_object, insertedFileObjectId, 'r').open(function (err, gridStore) {
+                                            /** Delete reference file **/
+                                            mongooseModels.File.remove({"_id": fileReference._id}, function (err, docsUpdated) {
                                                 if (err) {
                                                     next(err);
                                                 }
-                                                /** Unlink the file **/
-                                                gridStore.unlink(function (err, result) {
+                                                /** Delete file from storage **/
+                                                new mongo.GridStore(mongo_db_object, insertedFileObjectId, 'r').open(function (err, gridStore) {
                                                     if (err) {
                                                         next(err);
                                                     }
-
-                                                    /** Verify that the file no longer exists **/
-                                                    mongo.GridStore.exist(mongo_db_object, insertedFileObjectId, function (err, result) {
+                                                    /** Unlink the file **/
+                                                    gridStore.unlink(function (err, result) {
                                                         if (err) {
                                                             next(err);
                                                         }
 
-                                                        if (result) {
-                                                            next(new Error('Internal Error'));
-                                                        }
+                                                        /** Verify that the file no longer exists **/
+                                                        mongo.GridStore.exist(mongo_db_object, insertedFileObjectId, function (err, result) {
+                                                            if (err) {
+                                                                next(err);
+                                                            }
 
-                                                        return res.send(200, 'aborted');
+                                                            if (result) {
+                                                                next(new Error('Internal Error'));
+                                                            }
+
+                                                            return res.send(200, 'aborted');
+                                                        });
                                                     });
                                                 });
                                             });
@@ -299,12 +342,17 @@ module.exports = {
                                     if (err) {
                                         return next(err);
                                     }
-                                    FileHelper.getFile({'_id': insertedFileObjectId}, '', function (err, file) {
+                                    FileHelper.getFile({'_id': fileReference._id}, '', function (err, file) {
                                         if (err) {
                                             return next(err);
                                         }
 
-                                        file.metadata.busyWrite = false;
+                                        file.busyWrite = false;
+                                        file.realFileData.contentType = gs.contentType;
+                                        file.realFileData.length = gs.length;
+                                        file.realFileData.chunkSize = gs.chunkSize;
+                                        file.realFileData.uploadDate = gs.uploadDate;
+                                        file.realFileData.md5 = gs.md5;
 
                                         file.save(function() {
                                             return next();
@@ -313,16 +361,21 @@ module.exports = {
                                 });
                             }
                         });
+                        /** UPDATE FILE **/
                     } else {
+                        var oldReferencedFileId = fileReference.realFileData.id;
+
                         async.series([
+                            //V2 : OK
                             /** QUOTAS **/
                             function (innerNext) {
                                 innerNext();
                             },
+                            //V2 : OK
                             /** MODIFICATION BUSYWRITE **/
                             function (innerNext) {
-                                fileToUpdate.metadata.busyWrite = true;
-                                fileToUpdate.save(function () {
+                                fileReference.busyWrite = true;
+                                fileReference.save(function () {
                                     innerNext();
                                 });
                             },
@@ -339,7 +392,33 @@ module.exports = {
                                         if (innerErr) {
                                             return innerNext(innerErr);
                                         }
-                                        return innerNext();
+                                        //Remove reference from old referenced file
+                                        mongooseModels.RealFile.update({'_id': oldReferencedFileId},
+                                            { $pull: { 'metadata.references': fileReference._id } },
+                                            function (err, docsUpdated) {
+                                                if (err) {
+                                                    return next(err);
+                                                }
+
+                                                //Add file id to reference
+                                                mongooseModels.File.update({'_id': fileReference._id},
+                                                    {
+                                                        realFileData: {
+                                                            id: insertedFileObjectId,
+                                                            "contentType": null,
+                                                            "length": null,
+                                                            "chunkSize": null,
+                                                            "uploadDate": null,
+                                                            "md5": null
+                                                        }
+                                                    },
+                                                    function (err, docsUpdated) {
+                                                        if (err) {
+                                                            return innerNext(err);
+                                                        }
+                                                        return innerNext();
+                                                    });
+                                            });
                                     });
                                 });
                             },
@@ -401,31 +480,67 @@ module.exports = {
                                         return next(err);
                                     }
 
-                                    /** Delete file from storage **/
-                                    new mongo.GridStore(mongo_db_object, insertedFileObjectId, 'r').open(function (err, gridStore) {
-                                        if (err) {
-                                            next(err);
-                                        }
-                                        /** Unlink the file **/
-                                        gridStore.unlink(function (err, result) {
+                                    /** Get back old file **/
+                                    mongooseModels.RealFile.find({'_id': oldReferencedFileId},
+                                        function (err, fileToRestore) {
                                             if (err) {
-                                                next(err);
+                                                return next(err);
                                             }
 
-                                            /** Verify that the file no longer exists **/
-                                            mongo.GridStore.exist(mongo_db_object, insertedFileObjectId, function (err, result) {
-                                                if (err) {
-                                                    next(err);
-                                                }
+                                            /** Restore metadatas **/
+                                            mongooseModels.File.update({'_id': fileReference._id},
+                                                {
+                                                    realFileData: {
+                                                        id: oldReferencedFileId,
+                                                        "contentType": fileToRestore.contentType,
+                                                        "length": fileToRestore.length,
+                                                        "chunkSize": fileToRestore.chunkSize,
+                                                        "uploadDate": fileToRestore.uploadDate,
+                                                        "md5": fileToRestore.md5
+                                                    }
+                                                },
+                                                function (err, docsUpdated) {
+                                                    if (err) {
+                                                        return next(err);
+                                                    }
+                                                    /** Update references for restored file **/
+                                                    mongooseModels.RealFile.update({'_id': oldReferencedFileId},
+                                                        { $push: { 'metadata.references': fileReference._id } },
+                                                        function (err, docsUpdated) {
+                                                            if (err) {
+                                                                return next(err);
+                                                            }
+                                                            /** Delete file from storage **/
+                                                            new mongo.GridStore(mongo_db_object, insertedFileObjectId, 'r').open(function (err, gridStore) {
+                                                                if (err) {
+                                                                    next(err);
+                                                                }
+                                                                /** Unlink the file **/
+                                                                gridStore.unlink(function (err, result) {
+                                                                    if (err) {
+                                                                        next(err);
+                                                                    }
 
-                                                if (result) {
-                                                    next(new Error('Internal Error'));
-                                                }
+                                                                    /** Verify that the file no longer exists **/
+                                                                    mongo.GridStore.exist(mongo_db_object, insertedFileObjectId, function (err, result) {
+                                                                        if (err) {
+                                                                            next(err);
+                                                                        }
 
-                                                return res.send(200, 'aborted');
+                                                                        if (result) {
+                                                                            next(new Error('Internal Error'));
+                                                                        }
+
+                                                                        return res.send(200, 'aborted');
+                                                                    });
+                                                                });
+                                                            });
+                                                        });
+
                                             });
                                         });
-                                    });
+
+
                                 });
                             }
 
@@ -435,74 +550,57 @@ module.exports = {
                                     if (err) {
                                         return next(err);
                                     }
-                                    /** Copy Good Metadatas **/
-                                    FileHelper.getFile({'_id': fileToUpdate}, '', function (err, oldFileToReplace) {
+                                    /** Set Good Metadatas **/
+                                    FileHelper.getFile({'_id': fileReference._id}, '', function (err, fileToModify) {
                                         if (err) {
                                             return next(err);
                                         }
-                                        /** Set new metadata **/
-                                        mongooseModels.File.update({"_id": insertedFileObjectId },
-                                            {
-                                                "filename": oldFileToReplace.filename,
-                                                "metadata.busyWrite": false,
-                                                "metadata.updateDate": new Date(),
-                                                "metadata.name": oldFileToReplace.metadata.name,
-                                                "metadata.isShared": oldFileToReplace.metadata.isShared,
-                                                "metadata.shareId": oldFileToReplace.metadata.shareId,
-                                                "metadata.parents": oldFileToReplace.metadata.parents,
-                                                "metadata.parent": oldFileToReplace.metadata.parent
-                                            }, function (err, docsUpdated) {
-                                                if (err) {
-                                                    return next(err);
-                                                }
-                                                /** Remove old from parent **/
-                                                mongooseModels.Folder.update({'_id': parentId},
-                                                    { $pull: { childFiles: oldFileToReplace._id } },
-                                                    function (err, docsUpdated) {
+
+                                        fileToModify.busyWrite = false;
+                                        fileToModify.updateDate = new Date();
+                                        fileToModify.realFileData.contentType = gs.contentType;
+                                        fileToModify.realFileData.length = gs.length;
+                                        fileToModify.realFileData.chunkSize = gs.chunkSize;
+                                        fileToModify.realFileData.uploadDate = gs.uploadDate;
+                                        fileToModify.realFileData.md5 = gs.md5;
+
+                                        fileToModify.save(function() {
+
+                                            mongooseModels.RealFile.findById(oldReferencedFileId, function (err, realFileToCheck) {
+                                                //Le parent n'est plus référencé, direction poubelle
+                                                if (realFileToCheck.metadata.references.length == 0) {
+                                                    /** Delete old file **/
+                                                    new mongo.GridStore(mongo_db_object, oldReferencedFileId, 'r').open(function (err, gridStore) {
                                                         if (err) {
-                                                            return next(err);
+                                                            next(err);
                                                         }
+                                                        /** Unlink the file **/
+                                                        gridStore.unlink(function (err, result) {
+                                                            if (err) {
+                                                                next(err);
+                                                            }
 
-                                                        /** Add new to parent **/
-                                                        mongooseModels.Folder.update({'_id': parentId},
-                                                            { $push: { childFiles: insertedFileObjectId } },
-                                                            function (err, docsUpdated) {
+                                                            /** Verify that the file no longer exists **/
+                                                            mongo.GridStore.exist(mongo_db_object, oldReferencedFileId, function (err, result) {
                                                                 if (err) {
-                                                                    return next(err);
+                                                                    next(err);
                                                                 }
-                                                                /** Delete old file **/
-                                                                new mongo.GridStore(mongo_db_object, oldFileToReplace._id, 'r').open(function (err, gridStore) {
-                                                                    if (err) {
-                                                                        next(err);
-                                                                    }
-                                                                    /** Unlink the file **/
-                                                                    gridStore.unlink(function (err, result) {
-                                                                        if (err) {
-                                                                            next(err);
-                                                                        }
 
-                                                                        /** Verify that the file no longer exists **/
-                                                                        mongo.GridStore.exist(mongo_db_object, oldFileToReplace._id, function (err, result) {
-                                                                            if (err) {
-                                                                                next(err);
-                                                                            }
+                                                                if (result) {
+                                                                    next(new Error('Internal Error'));
+                                                                }
 
-                                                                            if (result) {
-                                                                                next(new Error('Internal Error'));
-                                                                            }
-
-                                                                            next();
-                                                                        });
-                                                                    });
-                                                                });
+                                                                next();
                                                             });
+                                                        });
                                                     });
+                                                } else {
+                                                    next();
+                                                }
                                             });
+                                        });
                                     });
                                 });
-
-
-
                             }
                         });
                     }
@@ -514,7 +612,7 @@ module.exports = {
                     console.log(err);
                     return res.end(err.toString());
                 }
-                FileHelper.getFile({'_id': insertedFileObjectId}, '', function (err, file) {
+                FileHelper.getFile({'_id': fileReference._id}, 'realFile', function (err, file) {
                     if (err) {
                         console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !! -> ");
                         console.log(err);
@@ -522,7 +620,7 @@ module.exports = {
                     }
 
                     //Update parents updateDate
-                    mongooseModels.Folder.update({"_id": { "$in": file.metadata.parents } },
+                    mongooseModels.Folder.update({"_id": { "$in": file.parents } },
                         { updateDate: new Date() },
                         { multi: true },
                         function (err, docsUpdated) {
@@ -545,6 +643,7 @@ module.exports = {
 
     /**
      * GET file metadata
+     * V2 NEEDS TESTS
      */
     getFileMedatata: [
         passport.authenticate('bearer', { session: false }),
@@ -564,7 +663,7 @@ module.exports = {
                     return res.send(404, "Couldn't find given file");
                 }
 
-                if (file.metadata.userId !== req.user.id) {
+                if (file.userId !== req.user.id) {
                     //TODO: CHECK SHARES
                     return res.send(403, "You don't have any access on this file");
                 }
@@ -576,6 +675,7 @@ module.exports = {
 
     /**
      * GET download item
+     * V2 OK.
      */
     download: [
         passport.authenticate('bearer', { session: false }),
@@ -590,30 +690,36 @@ module.exports = {
                     return res.send(400, "Wrong ID");
                 }
             }
+            mongooseModels.File.findById(id, function (err, fileReference) {
+                if (err || !fileReference || fileReference == null) {
+                    return res.send(404, "File not found !");
+                }
 
-            gs = new mongo.GridStore(mongo_db_object, id, "r");
-
-            gs.open(function (err, file) {
-                if (file.metadata.userId !== req.user.id) {
+                if (fileReference.userId !== req.user.id) {
                     //TODO : CHECK SHARES
                     return res.send(403, "You don't have any access on this file");
                 }
 
-                res.setHeader('Content-disposition', 'attachment; filename=' + file.metadata.name);
-                res.setHeader('Content-type', file.contentType);
-                res.setHeader('Content-length', file.length);
+                gs = new mongo.GridStore(mongo_db_object, fileReference.realFileData.id, "r");
 
-                var throttledStream = file.stream(true).pipe(new Throttle(1048576));
+                gs.open(function (err, file) {
 
-                throttledStream.on("data", function (data) {
-                    res.write(data);
-                });
+                    res.setHeader('Content-disposition', 'attachment; filename=' + fileReference.name);
+                    res.setHeader('Content-type', fileReference.realFileData.contentType);
+                    res.setHeader('Content-length', fileReference.realFileData.length);
 
-                throttledStream.on("end", function () {
-                    res.end();
-                });
+                    var throttledStream = file.stream(true).pipe(new Throttle(1048576));
 
-                throttledStream.on("close", function () {
+                    throttledStream.on("data", function (data) {
+                        res.write(data);
+                    });
+
+                    throttledStream.on("end", function () {
+                        res.end();
+                    });
+
+                    throttledStream.on("close", function () {
+                    });
                 });
             });
         }
@@ -621,6 +727,7 @@ module.exports = {
 
     /**
      * PUT update file (name or location)
+     * V2 OK.
      */
     updateFile: [
         passport.authenticate('bearer', { session: false }),
@@ -647,29 +754,28 @@ module.exports = {
             }
 
             if (!id) {
-                return res.send(400, "Missing headers");
+                return res.send(400, "Missing parameters");
             }
 
             if (!newName && !newParentId) {
-                return res.send(400, "Missing headers");
+                return res.send(400, "Missing parameters");
             }
 
-            FileHelper.getFile({'_id': id}, 'metadata.parent', function (err, file) {
+            FileHelper.getFile({'_id': id}, 'parent', function (err, file) {
                 if (err || !file || file === null) {
                     return res.send(404, "Couldn't find given file");
                 }
 
-                if (file.metadata.userId !== req.user.id) {
+                if (file.userId !== req.user.id) {
                     //TODO : CHECK SHARES
                     return res.send(403, "You don't have any access on this file");
                 }
 
                 /** RECUPERATION DU PARENT DU DOSSIER A MODIFIER **/
-                FolderHelper.getFolder({'_id': file.metadata.parent.id}, "share childFolders childFiles", function (err, parentFolder) {
+                FolderHelper.getFolder({'_id': file.parent.id}, "share childFolders childFiles", function (err, parentFolder) {
                     if (err || !parentFolder || parentFolder === null) {
                         return res.send(404, "Couldn't find parent folder");
                     }
-
 
                     async.series([
                         function (next) {
@@ -678,8 +784,8 @@ module.exports = {
                                 if (!FolderHelper.isNameAvailable(newName, parentFolder.childFolders, parentFolder.childFiles, file.name)) {
                                     return res.send(400, "Name already existing in this folder");
                                 }
-                                file.metadata.name = newName;
-                                file.metadata.updateDate = new Date();
+                                file.name = newName;
+                                file.updateDate = new Date();
 
                                 file.save(function (err) {
                                     if (err) {
@@ -687,6 +793,8 @@ module.exports = {
                                     }
                                     next();
                                 });
+                            } else {
+                                next();
                             }
                         },
                         function (next) {
@@ -709,44 +817,44 @@ module.exports = {
                                     newHierarchy.push(newParentFolder.id);
 
                                     async.series([
-                                        function (next) {
+                                        function (innerNext) {
                                             /** Remove file from old parent childFiles **/
                                             mongooseModels.Folder.update({'_id': parentFolder.id},
                                                 { $pull: { childFiles: file.id } },
                                                 function (err, docsUpdated) {
                                                     if (err) {
-                                                        next(err);
+                                                        innerNext(err);
                                                     }
-                                                    next();
+                                                    innerNext();
                                                 });
                                         },
-                                        function (next) {
+                                        function (innerNext) {
                                             /** Update file itself **/
 
-                                            file.metadata.parents = newHierarchy;
-                                            file.metadata.parent = newParentFolder.id;
-                                            file.metadata.updateDate = new Date();
+                                            file.parents = newHierarchy;
+                                            file.parent = newParentFolder.id;
+                                            file.updateDate = new Date();
 
                                             file.save(function (err) {
                                                 if (err) {
-                                                    next(err);
+                                                    innerNext(err);
                                                 }
-                                                next();
+                                                innerNext();
                                             });
                                         },
-                                        function (next) {
+                                        function (innerNext) {
                                             //TODO: HANDLE SHARES HERE
-                                            next();
+                                            innerNext();
                                         },
-                                        function (next) {
+                                        function (innerNext) {
                                             /** Add folder to new parent childFolders **/
                                             mongooseModels.Folder.update({'_id': newParentFolder.id},
                                                 { $push: { childFiles: file.id } },
                                                 function (err, docsUpdated) {
                                                     if (err) {
-                                                        next(err);
+                                                        innerNext(err);
                                                     }
-                                                    next();
+                                                    innerNext();
                                                 });
                                         }
                                     ], function (err) {
@@ -768,7 +876,7 @@ module.exports = {
                         }
                         FileHelper.getFile({'_id': id}, '', function (err, innerFile) {
                             //Update parents updateDate
-                            mongooseModels.Folder.update({"_id": { "$in": innerFile.metadata.parents } },
+                            mongooseModels.Folder.update({"_id": { "$in": innerFile.parents } },
                                 { updateDate: new Date() },
                                 { multi: true },
                                 function (err, docsUpdated) {
@@ -783,6 +891,7 @@ module.exports = {
 
     /**
      * DELETE file
+     * V2 OK.
      */
     deleteFile: [
         passport.authenticate('bearer', { session: false }),
@@ -797,7 +906,7 @@ module.exports = {
                 }
             }
 
-            FileHelper.getFile({'_id': id}, 'metadata.parent', function (err, file) {
+            FileHelper.getFile({'_id': id}, 'parent', function (err, file) {
                 if (err) {
                     return next(err);
                 }
@@ -807,47 +916,62 @@ module.exports = {
                     return res.send(404, "File not found");
                 }
 
-                if (file.metadata.userId !== req.user.id) {
+                if (file.userId !== req.user.id) {
                     //TODO: CHECK SHARES
                     return res.send(403, "You don't have any access on this file");
                 }
 
-                mongooseModels.Folder.update({'_id': file.metadata.parent._id},
+                mongooseModels.Folder.update({'_id': file.parent._id},
                     { $pull: { childFiles: file._id } },
                     function (err, docsUpdated) {
                         if (err) {
                             return res.end(err.toString());
                         }
-                        new mongo.GridStore(mongo_db_object, file._id, 'r').open(function (err, gridStore) {
-
-                            // Unlink the file
-                            gridStore.unlink(function (err, result) {
+                        mongooseModels.RealFile.update({'_id': file.realFileData.id},
+                            { $pull: { 'metadata.references': file._id } },
+                            function (err, docsUpdated) {
                                 if (err) {
-                                    console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
-                                    next(err);
+                                    return res.end(err.toString());
                                 }
 
-                                // Verify that the file no longer exists
-                                mongo.GridStore.exist(mongo_db_object, file._id, function (err, result) {
-                                    if (err) {
-                                        console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
-                                        next(err);
-                                    }
+                                mongooseModels.RealFile.findById(file.realFileData.id, function (err, realFileToCheck) {
+                                    //Le parent n'est plus référencé, direction poubelle
+                                    if (realFileToCheck.metadata.references.length == 0) {
+                                        new mongo.GridStore(mongo_db_object, realFileToCheck._id, 'r').open(function (err, gridStore) {
 
-                                    if (result) {
-                                        console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
-                                        return res.send(500, "Internal Error");
-                                    }
-                                    //Update parents updateDate
-                                    mongooseModels.Folder.update({"_id": { "$in": file.metadata.parents } },
-                                        { updateDate: new Date() },
-                                        { multi: true },
-                                        function (err, docsUpdated) {
-                                            return res.json(200, {status: 'deleted'});
+                                            // Unlink the file
+                                            gridStore.unlink(function (err, result) {
+                                                if (err) {
+                                                    console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
+                                                    next(err);
+                                                }
+
+                                                // Verify that the file no longer exists
+                                                mongo.GridStore.exist(mongo_db_object, realFileToCheck._id, function (err, result) {
+                                                    if (err) {
+                                                        console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
+                                                        next(err);
+                                                    }
+
+                                                    if (result) {
+                                                        console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
+                                                        return res.send(500, "Internal Error");
+                                                    }
+                                                    //Update parents updateDate
+                                                    mongooseModels.Folder.update({"_id": { "$in": file.parents } },
+                                                        { updateDate: new Date() },
+                                                        { multi: true },
+                                                        function (err, docsUpdated) {
+                                                            return res.json(200, {status: 'deleted'});
+                                                        });
+                                                });
+                                            });
                                         });
+                                    } else {
+                                        return res.json(200, {status: 'deleted'});
+                                    }
                                 });
                             });
-                        });
                     });
             });
         }

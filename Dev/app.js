@@ -28,6 +28,8 @@ var express = require('express'),
     flash = require('connect-flash'),
     app = express();
 
+app.set("env", config.env || "development");
+
 /**
  * MYSQL DB Initialisation
  */
@@ -59,8 +61,8 @@ swig.setDefaults({
  * SSL parameters.
  */
 
-var key = fs.readFileSync('./ssl_elems/api-key.pem'),
-    cert = fs.readFileSync('./ssl_elems/api-cert.pem'),
+var key = fs.readFileSync(config.api.ssl.key || './ssl_elems/api-key.pem'),
+    cert = fs.readFileSync(config.api.ssl.cert || './ssl_elems/api-cert.pem'),
     https_options = {
         key: key,
         cert: cert
@@ -70,10 +72,10 @@ var key = fs.readFileSync('./ssl_elems/api-key.pem'),
  * App configuration.
  */
 
-app.set('env', process.env.ENV || 'development');
-app.set('sslport', process.env.SSLPORT || 8445);
-app.set('port', process.env.PORT || 8082);
-app.set('domain', '0.0.0.0');
+
+app.set('sslport', config.developer.sslPort || 8445);
+app.set('port', config.developer.port || 8082);
+app.set('domain', config.api.domain || '0.0.0.0');
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
@@ -154,6 +156,5 @@ app.get('/logout', accountRoutes.logout);
  */
 http.createServer(app).listen(app.get('port'));
 https.createServer(https_options, app).listen(app.get('sslport'), app.get('domain'), function () {
-    console.log('HTTPS Express server listening on port ' + app.get('sslport') + ' | Don\'t forget to use HTTPS ');
-    console.log('--- IF THERE IS A CRASH WITH ECONNREFUSED CODE AT LAUNCH, CHECK IF YOUR MYSQL SERVER IS RUNNING AND IF IT FITS WITH THE config.json FILE ---');
+    console.log('[[DEVELOPER]] HTTPS Express server listening on port ' + app.get('sslport') + ' | Don\'t forget to use HTTPS ');
 });

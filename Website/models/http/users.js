@@ -2,7 +2,7 @@
  * Created by alexischevalier on 20/02/2014.
  */
 "use strict";
-var config = require('../../config/config.json'),
+var config = require('../../config/config'),
     https = require('https'),
     querystring = require('querystring'),
     Users = module.exports = {};

@@ -1,7 +1,7 @@
 "use strict";
 
 var orm = require("orm"),
-    config = require("../../config/config.json"),
+    config = require("../../config/config"),
     connection = null;
 
 function setup(db, cb) {
