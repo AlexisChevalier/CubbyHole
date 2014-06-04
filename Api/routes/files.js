@@ -928,13 +928,24 @@ module.exports = {
                             return res.end(err.toString());
                         }
                         mongooseModels.RealFile.update({'_id': file.realFileData.id},
-                            { $pull: { 'metadata.references': file._id } },
+                            { $pull: { 'metadata.references': file._id },
+                                "metadata.updateDate": new Date()},
                             function (err, docsUpdated) {
                                 if (err) {
                                     return res.end(err.toString());
                                 }
 
-                                mongooseModels.RealFile.findById(file.realFileData.id, function (err, realFileToCheck) {
+                                mongooseModels.File.remove({'_id': id}, function (err, docsUpdated) {
+                                    //Update parents updateDate
+                                    mongooseModels.Folder.update({"_id": { "$in": file.parents } },
+                                        { updateDate: new Date() },
+                                        { multi: true },
+                                        function (err, docsUpdated) {
+                                            return res.json(200, {status: 'deleted'});
+                                        });
+                                });
+
+                                /*mongooseModels.RealFile.findById(file.realFileData.id, function (err, realFileToCheck) {
                                     //Le parent n'est plus référencé, direction poubelle
                                     if (realFileToCheck.metadata.references.length == 0) {
                                         new mongo.GridStore(mongo_db_object, realFileToCheck._id, 'r').open(function (err, gridStore) {
@@ -970,9 +981,158 @@ module.exports = {
                                     } else {
                                         return res.json(200, {status: 'deleted'});
                                     }
-                                });
+                                });*/
                             });
                     });
+            });
+        }
+    ],
+
+    /**
+     * POST copy file
+     */
+    copyFile: [
+        passport.authenticate('bearer', { session: false }),
+        function (req, res, next) {
+
+            var id = req.params.fileID,
+                destinationId = req.body.destinationID,
+                originalFile = null,
+                newFile = null,
+                newHierarchy = [],
+                destinationFolder = null;
+
+            if (id) {
+                try {
+                    id = mongooseModels.ObjectId(id);
+                } catch (err) {
+                    return res.send(400, "Wrong ID");
+                }
+            }
+
+            if (destinationId) {
+                try {
+                    destinationId = mongooseModels.ObjectId(destinationId);
+                } catch (err2) {
+                    return res.send(400, "Wrong destination ID");
+                }
+            }
+
+            if (!id || !destinationId) {
+                return res.send(400, "Missing parameters");
+            }
+
+            async.series([
+                function (next) {
+                    /** Get original file **/
+                    FileHelper.getFile({'_id': id}, 'parent', function (err, file) {
+                        if (err || !file || file === null) {
+                            return res.send(404, "Couldn't find given file");
+                        }
+
+                        if (file.userId !== req.user.id) {
+                            //TODO : CHECK SHARES
+                            return res.send(403, "You don't have any access on this file");
+                        }
+
+                        originalFile = file;
+
+                        next();
+                    });
+                },
+                function (next) {
+                    /** Get destination folder **/
+                    FolderHelper.getFolder({'_id': destinationId}, "share childFolders childFiles", function (err, goToFolder) {
+                        if (err || !goToFolder || goToFolder === null) {
+                            return res.send(404, "Couldn't find destination folder");
+                        }
+
+                        if (goToFolder.userId !== req.user.id) {
+                            //TODO : CHECK SHARES
+                            return res.send(403, "You don't have any access on this file");
+                        }
+
+                        if (!FolderHelper.isNameAvailable(originalFile.name, goToFolder.childFolders, goToFolder.childFiles)) {
+                            return res.send(400, "Name already existing in the new parent folder");
+                        }
+
+                        newHierarchy = goToFolder.parents;
+                        newHierarchy.push(goToFolder.id);
+
+                        destinationFolder = goToFolder;
+
+                        next();
+                    });
+                },
+                function (next) {
+                    /** Create new file **/
+                    mongooseModels.File.create({
+                        "name": originalFile.name,
+                        "userId": req.user.id,
+                        "isShared": originalFile.isShared,
+                        "shareId": originalFile.shareId,
+                        "parents": newHierarchy,
+                        "parent": destinationFolder._id,
+                        "updateDate": new Date(),
+                        "busyWrite": false,
+                        "readers": 0,
+                        realFileData: {
+                            id: originalFile.realFileData.id,
+                            "contentType": originalFile.realFileData.contentType,
+                            "length": originalFile.realFileData.length,
+                            "chunkSize": originalFile.realFileData.chunkSize,
+                            "uploadDate": originalFile.realFileData.uploadDate,
+                            "md5": originalFile.realFileData.md5
+                        }
+                    }, function (err, createdFile) {
+                        if (err) {
+                            next(err);
+                        }
+                        newFile = createdFile;
+                        return next();
+                    });
+                },
+                function (next) {
+                    /** Update realFiles reference **/
+                    mongooseModels.RealFile.update({'_id': newFile.realFileData.id},
+                        { $push: { 'metadata.references': newFile.id },
+                            "metadata.updateDate": new Date() },
+                        function (err, docsUpdated) {
+                            if (err) {
+                                next(err);
+                            }
+                            next();
+                        });
+                },
+                function (next) {
+                    /** Add file to new parent childFiles **/
+                    mongooseModels.Folder.update({'_id': destinationFolder.id},
+                        { $push: { childFiles: newFile.id } },
+                        function (err, docsUpdated) {
+                            if (err) {
+                                next(err);
+                            }
+                            next();
+                        });
+                },
+                function (next) {
+                    //TODO: HANDLE SHARES HERE
+                    next();
+                }
+            ], function (err) {
+                if (err) {
+                    console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
+                    next(err);
+                }
+                FileHelper.getFile({'_id': newFile.id}, '', function (err, innerFile) {
+                    //Update parents updateDate
+                    mongooseModels.Folder.update({"_id": { "$in": innerFile.parents } },
+                        { updateDate: new Date() },
+                        { multi: true },
+                        function (err, docsUpdated) {
+                            res.json(innerFile);
+                        });
+                });
             });
         }
     ]

@@ -274,6 +274,22 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
         }, function () {});
     };
 
+    //Move Item
+    $scope.copyItem = function (item) {
+        var modalInstance = $modal.open({
+            templateUrl: '/javascripts/browser/partials/modals/copyItem-template.html',
+            controller: "CopyItemModalController",
+            resolve: {
+                item: function () {
+                    return item;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (data) {
+        }, function () {});
+    };
+
     //Edit Item
     $scope.edit = function (item) {
         var modalInstance = $modal.open({

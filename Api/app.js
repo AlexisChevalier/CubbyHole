@@ -162,7 +162,7 @@ app.get('/api/users/find/:terms', accountRoutes.usersFind);
 //Search items
 app.get('/api/files/searchByTerms/:terms', filesRoutes.searchItemsByTerm);
 
-//Upload
+//Upload (or overwrite)
 app.post('/api/files', filesRoutes.createOrUpdateFile);
 
 //metadata
@@ -171,8 +171,11 @@ app.get('/api/files/metadata/:fileID', filesRoutes.getFileMedatata);
 //Download
 app.get('/api/files/:fileID', filesRoutes.download);
 
-//Update file bytes
+//Update file
 app.put('/api/files/:fileID', filesRoutes.updateFile);
+
+//copy file
+app.post('/api/files/copy/:fileID', filesRoutes.copyFile);
 
 //Remove
 app.delete('/api/files/:fileID', filesRoutes.deleteFile);
