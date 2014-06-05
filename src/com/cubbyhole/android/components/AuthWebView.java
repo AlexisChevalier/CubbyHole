@@ -12,7 +12,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.cubbyhole.android.utils.CHC;
-import com.cubbyhole.android.utils.TokenStorer;
 import com.cubbyhole.library.http.CHHeader;
 import com.cubbyhole.library.http.CHHttp;
 import com.cubbyhole.library.http.CHHttpDatas;
@@ -55,7 +54,6 @@ public class AuthWebView extends WebView {
 				if (accessCode != null) {
 					accessCode = accessCode.split("=")[1];
 					Log.d(TAG, "We got the access code: " + accessCode);
-					TokenStorer.setAccessCode(accessCode);
 				}
 
 				String cookie = CookieManager.getInstance().getCookie(CHC.OAUTH_BASE_URL);
