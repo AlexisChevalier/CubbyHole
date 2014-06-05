@@ -6,7 +6,6 @@ import android.content.Context;
 import android.net.http.SslError;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.webkit.CookieManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -56,12 +55,8 @@ public class AuthWebView extends WebView {
 					Log.d(TAG, "We got the access code: " + accessCode);
 				}
 
-				String cookie = CookieManager.getInstance().getCookie(CHC.OAUTH_BASE_URL);
-				Log.d(TAG, cookie);
-
 				ArrayList<CHHeader> headers = new ArrayList<CHHeader>();
 				headers.add(new CHHeader("Content-Type", "application/x-www-form-urlencoded"));
-				headers.add(new CHHeader("Cookie", cookie));
 
 				CHHttpDatas datas = new CHHttpDatas() //
 						.add(CHC.OAUTH_PARAM_CLIENT_ID, CHC.OAUTH_CLIENT_ID) //
