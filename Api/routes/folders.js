@@ -4,7 +4,8 @@ var passport = require('passport'),
     mongooseModels = require('../models/mongodb/schemas/index'),
     FolderHelper = require('../models/mongodb/helpers/FolderHelper'),
     FileHelper = require('../models/mongodb/helpers/FileHelper'),
-    async = require('async');
+    async = require('async'),
+    _ = require('lodash');
 
 module.exports = {
 
@@ -490,6 +491,255 @@ module.exports = {
                         { multi: true },
                         function (err, docsUpdated) {
                             return res.json(200, {status: 'deleted'});
+                        });
+                });
+            });
+        }
+    ],
+
+    copyFolder: [
+        passport.authenticate('bearer', { session: false }),
+        function (req, res, next) {
+
+            var id = req.params.folderID,
+                destinationId = req.body.destinationID,
+                originalFolder = null,
+                newHierarchy = [],
+                actualHierarchy = [],
+                structureToCopy = [],
+                destinationFolder = null,
+                copiedRootFolder = null,
+                errors = [];
+
+            if (id) {
+                try {
+                    id = mongooseModels.ObjectId(id);
+                } catch (err) {
+                    return res.send(400, "Wrong ID");
+                }
+            }
+
+            if (destinationId) {
+                try {
+                    destinationId = mongooseModels.ObjectId(destinationId);
+                } catch (err2) {
+                    return res.send(400, "Wrong destination ID");
+                }
+            }
+
+            if (!id || !destinationId) {
+                return res.send(400, "Missing parameters");
+            }
+
+
+            if (id == destinationId) {
+                return res.send(400, "You can't move a folder to himself.");
+            }
+
+            async.series([
+                function (next) {
+                    /** Get original folder **/
+                    FolderHelper.getFolder({'_id': id}, 'childFiles', function (err, folder) {
+                        if (err || !folder || folder === null) {
+                            return res.send(404, "Couldn't find given folder");
+                        }
+
+                        if (folder.userId !== req.user.id) {
+                            //TODO : CHECK SHARES
+                            return res.send(403, "You don't have any access on this folder");
+                        }
+
+                        actualHierarchy = folder.parents;
+
+                        originalFolder = folder;
+
+                        next();
+                    });
+                },
+                function (next) {
+                    /** Get destination folder **/
+                    FolderHelper.getFolder({'_id': destinationId}, "share childFolders childFiles parents", function (err, goToFolder) {
+                        if (err || !goToFolder || goToFolder === null) {
+                            return res.send(404, "Couldn't find destination folder");
+                        }
+
+                        if (goToFolder.userId !== req.user.id) {
+                            //TODO : CHECK SHARES
+                            return res.send(403, "You don't have any access on this file");
+                        }
+
+                        if (goToFolder.id == originalFolder.parent) {
+                            return res.send(400, "You can't move a folder to his actual emplacement.");
+                        }
+
+                        /** TEST DU DEPLACEMENT DANS UN DES ENFANTS **/
+                        for (var i = 0; i < goToFolder.parents.length; i++) {
+                            if (goToFolder.parents[i].id == originalFolder.id) {
+                                return res.send(400, "You can't move a folder to one of his children !");
+                            }
+                        }
+
+                        newHierarchy = goToFolder.parents;
+                        newHierarchy.push(goToFolder.id);
+
+                        destinationFolder = goToFolder;
+
+                        next();
+                    });
+                },
+                function (next) {
+                    //TODO : HANDLE SHARES
+                    var foldersToHandle = 0,
+                        filesToHandle = 0;
+
+                    FolderHelper.getFolders({"parents": { "$all": actualHierarchy } }, "childFiles", function (err, folders) {
+
+                        //Get folder structure (Recursive)
+                        var handleFolder = (function (folder) {
+                            foldersToHandle ++;
+                            filesToHandle += folder.childFiles.length;
+                            for (var i = 0; i < folder.childFolders.length; i++) {
+                                folder.childFolders[i] = _.find(folders, {
+                                    '_id': folder.childFolders[i]
+                                });
+                                folder.childFolders[i] = handleFolder(folder.childFolders[i]);
+                            }
+                            return folder;
+                        });
+
+                        /** START STRUCTURE BUILDING **/
+                        try {
+                            structureToCopy = handleFolder(originalFolder);
+                        } catch (e) {
+                            return res.send(400, "Can't copy very big folders ! Consider doing it in smaller parts.");
+                        }
+
+                        //Handle copy for folder (Recursive)
+                        var copyFolder = (function(currentHierarchy, parent, folder, callback) {
+                            var i;
+                            mongooseModels.Folder.create({
+                                name: folder.name,
+                                parent: parent,
+                                userId: req.user.id,
+                                parents: currentHierarchy,
+                                isShared: false,
+                                share: null,
+                                updateDate: new Date()
+                            }, function (err, createdFolder) {
+                                if (err) {
+                                    errors.push(err);
+                                }
+
+                                //Update parent
+                                mongooseModels.Folder.update({'_id': createdFolder.parent },
+                                    { $push: { childFolders: createdFolder._id } },
+                                    function (err, docsUpdated) {
+                                        if (err) {
+                                            errors.push(err);
+                                        }
+
+                                        if (errors.length != 0) {
+                                            console.log(errors);
+                                        }
+
+                                        if (folder.id === originalFolder.id) {
+                                            copiedRootFolder = createdFolder;
+                                        }
+
+                                        foldersToHandle--;
+
+                                        if (foldersToHandle === 0 && filesToHandle === 0) {
+                                            return callback();
+                                        }
+
+                                        currentHierarchy.push(createdFolder);
+
+                                        for (i = 0; i < folder.childFiles.length; i++) {
+                                            copyFile(currentHierarchy, createdFolder, folder.childFiles[i], callback);
+                                        }
+
+                                        for (i = 0; i < folder.childFolders.length; i++) {
+                                            copyFolder(currentHierarchy, createdFolder, folder.childFolders[i], callback);
+                                        }
+                                    });
+                            });
+                        });
+
+                        //Handle copy for file
+                        var copyFile = (function(currentHierarchy, parent, file, callback) {
+                            mongooseModels.File.create({
+                                "name": file.name,
+                                "userId": req.user.id,
+                                "isShared": false,
+                                "shareId": null,
+                                "parents": currentHierarchy,
+                                "parent": parent,
+                                "updateDate": new Date(),
+                                "busyWrite": false,
+                                "readers": 0,
+                                realFileData: {
+                                    id: file.realFileData.id,
+                                    "contentType": file.realFileData.contentType,
+                                    "length": file.realFileData.length,
+                                    "chunkSize": file.realFileData.chunkSize,
+                                    "uploadDate": file.realFileData.uploadDate,
+                                    "md5": file.realFileData.md5
+                                }
+                            }, function (err, copiedFile) {
+                                if (err) {
+                                    errors.push(err);
+                                }
+
+                                //Mise a jour de la référence
+                                mongooseModels.RealFile.update({'_id': copiedFile.realFileData.id},
+                                    { $push: { 'metadata.references': copiedFile.id },
+                                        "metadata.updateDate": new Date() },
+                                    function (err, docsUpdated) {
+                                        if (err) {
+                                            errors.push(err);
+                                        }
+                                        //Ajout dans le dossier parent
+                                        mongooseModels.Folder.update({'_id': parent.id},
+                                            { $push: { childFiles: copiedFile._id } },
+                                            function (err, docsUpdated) {
+                                                if (err) {
+                                                    errors.push(err);
+                                                }
+                                                filesToHandle--;
+                                                if (foldersToHandle === 0 && filesToHandle === 0) {
+                                                    return callback();
+                                                }
+                                            });
+                                    });
+
+                            });
+                        });
+
+                        try {
+                            /** START COPY **/
+                            copyFolder(newHierarchy, destinationFolder.id, structureToCopy, function () {
+                                return next();
+                            });
+                        } catch (e) {
+                            errors.add("Some files weren't copied for unknown reasons.");
+                        }
+                    });
+                }
+            ], function (err) {
+                if (err) {
+                    console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
+                    next(err);
+                }
+                FolderHelper.getFolder({"_id": copiedRootFolder.id}, "childFiles parents childFolders", function (err, folder) {
+                    //Update parents updateDate
+                    mongooseModels.Folder.update({"_id": { "$in": folder.parents } },
+                        { updateDate: new Date() },
+                        { multi: true },
+                        function (err, docsUpdated) {
+                            if(errors.length > 0) {
+                                //Todo : Handle errors
+                            }
+                            res.json(folder);
                         });
                 });
             });

@@ -177,7 +177,7 @@ app.put('/api/files/:fileID', filesRoutes.updateFile);
 //copy file
 app.post('/api/files/copy/:fileID', filesRoutes.copyFile);
 
-//Remove
+//Remove file
 app.delete('/api/files/:fileID', filesRoutes.deleteFile);
 
 /**
@@ -196,7 +196,8 @@ app.delete('/api/folders/:folderID', foldersRoutes.removeFolder);
 //Update Folder
 app.put('/api/folders/:folderID', foldersRoutes.updateFolder);
 
-//Copy ?
+//copy Folder
+app.post('/api/folders/copy/:folderID', foldersRoutes.copyFolder);
 
 /**
  * OAUTH2 Routes definitions.

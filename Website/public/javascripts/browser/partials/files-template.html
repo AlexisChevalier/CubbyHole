@@ -81,7 +81,7 @@
                 <td>[[parentFolder().date | date:"medium"]]</td>
                 <td class="options-col">-</td>
             </tr>
-            <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-class="{false: '', true: 'busyWriteFile' }[item.metadata.busyWrite]">
+            <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-class="{false: '', true: 'busyWriteFile' }[item.busyWrite]">
 
                 <td class="[[item.type]]"></td>
 
@@ -92,8 +92,8 @@
 
 
                 <td ng-if="item.type == 'file'" >
-                    <a ng-if="!item.metadata.busyWrite" ng-click="handleItemClick(item.type, item._id)" ng-href="/ajax/download/[[item._id]]">[[item.name]]</a>
-                    <span ng-if="item.metadata.busyWrite">[[item.name]]</span>
+                    <a ng-if="!item.busyWrite" ng-click="handleItemClick(item.type, item._id)" ng-href="/ajax/download/[[item._id]]">[[item.name]]</a>
+                    <span ng-if="item.busyWrite">[[item.name]]</span>
                 </td>
 
 
@@ -104,7 +104,7 @@
 
 
                 <td class="options-col">
-                    <div class="btn-group" ng-if="!item.metadata.busyWrite">
+                    <div class="btn-group" ng-if="!item.busyWrite">
                         <button ng-click="remove(item)" type="button" tooltip-placement="left" tooltip="Remove" class="btn btn-default optionButton removeButton">
                             <span class="glyphicon glyphicon-trash"></span>
                         </button>

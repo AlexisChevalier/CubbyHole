@@ -1116,6 +1116,13 @@ module.exports = {
                         });
                 },
                 function (next) {
+                    /** Get all folders to copy **/
+                    next();
+                },
+                function (next) {
+                    next();
+                },
+                function (next) {
                     //TODO: HANDLE SHARES HERE
                     next();
                 }
