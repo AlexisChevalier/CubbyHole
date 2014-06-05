@@ -17,7 +17,7 @@ import com.cubbyhole.library.utils.Base64Coder;
 
 public class CHCacheManager {
 	private final String				TAG			= CHCacheManager.class.getName();
-	public CHCacheManager				mInstance	= null;
+	public static CHCacheManager		mInstance	= null;
 
 	private static SharedPreferences	mInternalCache;
 
@@ -38,7 +38,7 @@ public class CHCacheManager {
 	 * {@link Note} You had to call Initialize first.
 	 * @return a {@link CHCacheManager} instance.
 	 */
-	public CHCacheManager getInstance() {
+	public static CHCacheManager getInstance() {
 		if (mInstance == null) {
 			mInstance = new CHCacheManager();
 		}
