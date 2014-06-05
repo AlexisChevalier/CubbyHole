@@ -63,6 +63,11 @@ public class CubbyHoleClient {
 		}
 	}
 
+	public void getFolder(IApiRequestHandler<CHFolder> handler, String id) {
+		final String method = "getFolder";
+		new AsyncApiRequest<CHFolder>(handler, mImpl, method).execute(id);
+	}
+
 	public void createFolder(IApiRequestHandler<CHAccount> handler, CHFolder parentFolder,
 			String folderName) {
 		final String method = "createFolder";
