@@ -24,8 +24,10 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 		super.onCreate(savedInstanceState);
 
 		//If we already have the token ...
-		if (TokenStorer.getAccessToken() != null) {
+		String accessToken = TokenStorer.getAccessToken();
+		if (accessToken != null) {
 			Log.i(TAG, "We already have the access token, going to the Browser activity.");
+			CubbyHoleClient.getInstance().Initialize(accessToken);
 			moveToBrowserActivity();
 			return;
 		}
