@@ -11,17 +11,25 @@ import com.cubbyhole.android.api.CubbyHoleClient;
 import com.cubbyhole.android.components.AuthWebView;
 import com.cubbyhole.android.components.AuthWebView.ICubbyHoleAuth;
 import com.cubbyhole.android.utils.CHC;
+import com.cubbyhole.android.utils.TokenStorer;
 import com.cubbyhole.android.utils.ssl.SSLManager;
 
 public class LoginActivity extends Activity implements ICubbyHoleAuth {
-
 	private static final String	TAG	= LoginActivity.class.getName();
 
-	private AuthWebView	mAuthWebView;
+	private AuthWebView			mAuthWebView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		//If we already have the token ...
+		if (TokenStorer.getAccessToken() != null) {
+			Log.i(TAG, "We already have the access token, going to the Browser activity.");
+			moveToBrowserActivity();
+			return;
+		}
+
 		setContentView(R.layout.activity_login);
 		bindView();
 
@@ -45,7 +53,6 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 
 		mAuthWebView.setContext(this);
 
-		Log.d(TAG, url);
 		try {
 			mAuthWebView.loadUrl(url);
 		} catch (Exception e) {
@@ -56,14 +63,16 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 
 	private void bindView() {
 		mAuthWebView = (AuthWebView) findViewById(R.id.authWebView);
-
 	}
 
 	@Override
 	public void onAuthSuccess(String token) {
+		TokenStorer.setAccessToken(token);
 		CubbyHoleClient.getInstance().Initialize(token);
+		moveToBrowserActivity();
+	}
 
-		//TODO: Store token here
+	private void moveToBrowserActivity() {
 		Intent intent = new Intent(this, BrowserActivity.class);
 		startActivity(intent);
 	}
