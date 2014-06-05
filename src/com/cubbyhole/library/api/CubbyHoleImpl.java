@@ -139,6 +139,17 @@ public class CubbyHoleImpl implements ICubbyHoleApi {
 	}
 
 	@Override
+	public CHFolder getFolder(String id) {
+		try {
+			CHJsonNode json = apiGet(API_ENDPOINT + FOLDERS_LIST + id);
+			return CHFolder.fromJson(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
 	public CHFolder createFolder(CHFolder parentFolder, String folderName) {
 		CHJsonNode json = null;
 		try {

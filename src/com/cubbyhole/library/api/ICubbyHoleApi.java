@@ -101,6 +101,12 @@ public interface ICubbyHoleApi {
 	public CHFolder getRootFolder();
 
 	/**
+	 * Used to get a folder using it's id.
+	 * @return the root folder for the current account.
+	 */
+	public CHFolder getFolder(String id);
+
+	/**
 	 * Used to create a folder in an other existing folder.
 	 * @param parentFolder - the folder in which the new folder must be created.
 	 * @param folderName - the name of the new folder.
