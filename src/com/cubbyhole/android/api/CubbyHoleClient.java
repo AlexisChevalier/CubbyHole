@@ -2,19 +2,19 @@ package com.cubbyhole.android.api;
 
 import android.util.Log;
 
-import com.cubbyhole.android.api.AsyncApiRequest.IApiRequestHandler;
 import com.cubbyhole.library.api.CubbyHoleImpl;
 import com.cubbyhole.library.api.entities.CHAccount;
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
+import com.cubbyhole.library.interfaces.IApiRequestHandler;
+import com.cubbyhole.library.interfaces.IAsyncCubbyHoleClient;
 
-public class CubbyHoleClient {
+public class CubbyHoleClient implements IAsyncCubbyHoleClient {
 	private static final String		TAG	= CubbyHoleClient.class.getName();
 
 	private static CubbyHoleClient	mInstance;
-	private CubbyHoleImpl			mImpl;
 
-	private String					mAccessToken;
+	private CubbyHoleImpl			mImpl;
 	private CHAccount				mAccount;
 	private CHFolder				mRootFolder;
 
@@ -30,14 +30,11 @@ public class CubbyHoleClient {
 	}
 
 	public void Initialize(String accessToken) {
-		mAccessToken = accessToken;
 		mImpl.Initialize(accessToken);
+		mImpl.setAsyncClient(this);
 	}
 
-	public final String getAccessToken() {
-		return mAccessToken;
-	}
-
+	@Override
 	public void getAccount(IApiRequestHandler<CHAccount> handler) {
 		if (mAccount != null) {
 			Log.d(TAG, "The account has already been got from the server, returning instance ...");
@@ -49,11 +46,13 @@ public class CubbyHoleClient {
 		}
 	}
 
+	@Override
 	public void updateAccount(IApiRequestHandler<CHAccount> handler, CHAccount account) {
 		final String method = "updateAccount";
 		new AsyncApiRequest<CHAccount>(handler, mImpl, method).execute(account);
 	}
 
+	@Override
 	public void getRootFolder(IApiRequestHandler<CHFolder> handler) {
 		if (mRootFolder != null) {
 			handler.onApiRequestSuccess(mRootFolder);
@@ -63,35 +62,42 @@ public class CubbyHoleClient {
 		}
 	}
 
+	@Override
 	public void getFolder(IApiRequestHandler<CHFolder> handler, String id) {
 		final String method = "getFolder";
 		new AsyncApiRequest<CHFolder>(handler, mImpl, method).execute(id);
 	}
 
-	public void createFolder(IApiRequestHandler<CHAccount> handler, CHFolder parentFolder,
+	@Override
+	public void createFolder(IApiRequestHandler<CHFolder> handler, CHFolder parentFolder,
 			String folderName) {
 		final String method = "createFolder";
-		new AsyncApiRequest<CHAccount>(handler, mImpl, method).execute(parentFolder, folderName);
+		new AsyncApiRequest<CHFolder>(handler, mImpl, method).execute(parentFolder, folderName);
 	}
 
-	public void updateFolder(IApiRequestHandler<CHAccount> handler, CHFolder folder) {
+	@Override
+	public void updateFolder(IApiRequestHandler<CHFolder> handler, CHFolder folder) {
 		final String method = "updateFolder";
-		new AsyncApiRequest<CHAccount>(handler, mImpl, method).execute(folder);
+		new AsyncApiRequest<CHFolder>(handler, mImpl, method).execute(folder);
 	}
 
-	public void deleteFolder(IApiRequestHandler<CHAccount> handler, CHFolder folder) {
+	@Override
+	public void deleteFolder(IApiRequestHandler<CHFolder> handler, CHFolder folder) {
 		final String method = "deleteFolder";
-		new AsyncApiRequest<CHAccount>(handler, mImpl, method).execute(folder);
+		new AsyncApiRequest<CHFolder>(handler, mImpl, method).execute(folder);
 	}
 
-	public void uploadFile(IApiRequestHandler<CHAccount> handler, CHFolder parentFolder, String path) {
-
-	}
-
-	public void downloadFile(IApiRequestHandler<CHAccount> handler, CHFile file) {
+	@Override
+	public void uploadFile(IApiRequestHandler<?> handler, CHFolder parentFolder, String path) {
 
 	}
 
+	@Override
+	public void downloadFile(IApiRequestHandler<?> handler, CHFile file) {
+
+	}
+
+	@Override
 	public void deleteFile(IApiRequestHandler<Boolean> handler, CHFile file) {
 		final String method = "deleteFile";
 		new AsyncApiRequest<Boolean>(handler, mImpl, method).execute(file);

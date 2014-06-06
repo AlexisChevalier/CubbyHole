@@ -5,23 +5,18 @@ import java.lang.reflect.Method;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.cubbyhole.library.api.ICubbyHoleApi;
+import com.cubbyhole.library.api.ICubbyHoleClient;
+import com.cubbyhole.library.interfaces.IApiRequestHandler;
 
 @SuppressWarnings("unchecked")
 public class AsyncApiRequest<T> extends AsyncTask<Object, Long, T> {
-	private static final String	TAG	= AsyncApiRequest.class.getName();
+	private static final String		TAG	= AsyncApiRequest.class.getName();
 
-	public interface IApiRequestHandler<T> {
-		public void onApiRequestFailed();
-
-		public void onApiRequestSuccess(T result);
-	}
-
-	private ICubbyHoleApi			mApiImpl;
+	private ICubbyHoleClient		mApiImpl;
 	private String					mApiMethod;
 	private IApiRequestHandler<T>	mHandler;
 
-	public AsyncApiRequest(IApiRequestHandler<T> handler, ICubbyHoleApi apiImplementation,
+	public AsyncApiRequest(IApiRequestHandler<T> handler, ICubbyHoleClient apiImplementation,
 			String apiMethod) {
 		mHandler = handler;
 		mApiImpl = apiImplementation;

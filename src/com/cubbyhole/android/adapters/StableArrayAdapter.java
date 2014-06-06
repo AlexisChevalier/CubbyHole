@@ -62,7 +62,7 @@ public class StableArrayAdapter extends ArrayAdapter<CHItem> {
 	     
     } else if (item.getType() == CHType.FILE){
 	     CHFile file = (CHFile)item;
-	     holder.text.setText(file.getFileName());
+	     holder.text.setText(file.getName());
 	     
 	     holder.image.setImageResource(R.drawable.icon_file);
 	     
