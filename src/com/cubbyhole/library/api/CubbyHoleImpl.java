@@ -9,16 +9,23 @@ import com.cubbyhole.library.http.CHHeader;
 import com.cubbyhole.library.http.CHHttp;
 import com.cubbyhole.library.http.CHHttpDatas;
 import com.cubbyhole.library.http.CHHttpResponse;
+import com.cubbyhole.library.interfaces.IAsyncCubbyHoleClient;
 import com.cubbyhole.library.logger.Log;
 
 /**
- * Default implementation of the ICubbyHoleApi interface to communicate with the api
+ * Default implementation of the ICubbyHoleApi and IApiRequester interface to communicate with the api
  */
-public class CubbyHoleImpl implements ICubbyHoleApi {
+public class CubbyHoleImpl implements ICubbyHoleClient, IApiRequester {
 	private static final String		TAG	= CubbyHoleImpl.class.getName();
 
 	private static CubbyHoleImpl	mInstance;
 	private static String			mAccessToken;
+
+	/**
+	 * This async client will only be used by the entities
+	 * to let them call the api asynchronously.
+	 */
+	private IAsyncCubbyHoleClient	mAsyncClient;
 
 	private CubbyHoleImpl() {
 		/* Singleton */
@@ -29,6 +36,29 @@ public class CubbyHoleImpl implements ICubbyHoleApi {
 			mInstance = new CubbyHoleImpl();
 		}
 		return mInstance;
+	}
+
+	@Override
+	public void Initialize(String accessToken) {
+		if (accessToken != null) {
+			mAccessToken = accessToken;
+		}
+	}
+
+	/**
+	 * @return the async client.
+	 */
+	public IAsyncCubbyHoleClient getAsyncClient() {
+		return mAsyncClient;
+	}
+
+	/**
+	 * @param asyncClient the asyncClient to set. This async client will
+	 * be used by the entities if they need to call the api themself.
+	 * If there is no async client available, they will still call it but synchronously.
+	 */
+	public void setAsyncClient(IAsyncCubbyHoleClient asyncClient) {
+		mAsyncClient = asyncClient;
 	}
 
 	public CHJsonNode apiRequest(CHHttp.REQTYPE type, String url, CHHttpDatas datas,
@@ -94,13 +124,6 @@ public class CubbyHoleImpl implements ICubbyHoleApi {
 	@Override
 	public CHJsonNode apiDelete(String url) throws Exception {
 		return apiRequest(CHHttp.REQTYPE.DELETE, url, null, null);
-	}
-
-	@Override
-	public void Initialize(String accessToken) {
-		if (accessToken != null) {
-			mAccessToken = accessToken;
-		}
 	}
 
 	public String getAccessToken() {

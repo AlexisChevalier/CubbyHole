@@ -18,7 +18,6 @@ public class CHFile extends CHItem {
 	public static final String	FIELD_UPLOAD_DATE	= "uploadDate";
 	public static final String	FIELD_MD5			= "md5";
 	public static final String	FIELD_METADATA		= "metadata";
-	public static final String	FIELD_FILENAME		= "fileName";
 	public static final String	FIELD_USER_ID		= "userId";
 	public static final String	FIELD_IS_SHARED		= "isShared";
 	public static final String	FIELD_SHARE_ID		= "shareId";
@@ -26,7 +25,6 @@ public class CHFile extends CHItem {
 	public static final String	FIELD_PARENTS		= "parents";
 	/// END OF JSON FIELDS ///
 
-	private String				fileName;
 	private String				contentType;
 	private Long				length;
 	private Long				chunkSize;
@@ -58,7 +56,6 @@ public class CHFile extends CHItem {
 		CHFile file = new CHFile();
 		try {
 			file.setId(json.asText(FIELD_ID));
-			//file.setFileName(json.asText(FIELD_FILE_NAME));
 			file.setContentType(json.asText(FIELD_CONTENT_TYPE));
 			file.setLength(json.asLong(FIELD_LENGTH));
 			file.setChunkSize(json.asLong(FIELD_CHUNK_SIZE));
@@ -66,11 +63,11 @@ public class CHFile extends CHItem {
 			file.setMD5(json.asText(FIELD_MD5));
 
 			CHJsonNode mjson = json.asNode(FIELD_METADATA); //Metadata part
-			file.setFileName(mjson.asText(FIELD_FILENAME));
+			file.setName(mjson.asText(FIELD_NAME));
 			file.setUserId(mjson.asLong(FIELD_USER_ID));
 			file.setIsShared(mjson.asBoolean(FIELD_IS_SHARED));
 			file.setShareId(mjson.asText(FIELD_SHARE_ID));
-			file.setParent(mjson.asText(FIELD_PARENT));
+			file.setParentId(mjson.asText(FIELD_PARENT));
 			for (CHJsonNode parentId : mjson.asList(FIELD_PARENTS)) {
 				file.addParentId(parentId.asText());
 			}
@@ -94,20 +91,6 @@ public class CHFile extends CHItem {
 	}
 
 	/// GETTERS & SETTERS ///
-
-	/**
-	 * @return the fileName
-	 */
-	public final String getFileName() {
-		return fileName;
-	}
-
-	/**
-	 * @param fileName the fileName to set
-	 */
-	public final void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
 
 	/**
 	 * @return the contentType
@@ -205,47 +188,6 @@ public class CHFile extends CHItem {
 	 */
 	public final void setIsShared(boolean isShared) {
 		this.isShared = isShared;
-	}
-
-	/**
-	 * @return the parents
-	 */
-	public final ArrayList<String> getParents() {
-		return parentsIds;
-	}
-
-	/**
-	 * @param parentsIds the parents ids to set
-	 */
-	public final void setParentsIds(ArrayList<String> parentsIds) {
-		this.parentsIds = parentsIds;
-	}
-
-	public void addParentId(String parentId) {
-		if (parentsIds == null) {
-			parentsIds = new ArrayList<String>();
-		}
-		parentsIds.add(parentId);
-	}
-
-	public void removeParentId(String parentId) {
-		if (parentsIds != null) {
-			parentsIds.remove(parentId);
-		}
-	}
-
-	/**
-	 * @return the parent
-	 */
-	public final String getParent() {
-		return parent;
-	}
-
-	/**
-	 * @param parent the parent to set
-	 */
-	public final void setParent(String parent) {
-		this.parent = parent;
 	}
 
 	/**

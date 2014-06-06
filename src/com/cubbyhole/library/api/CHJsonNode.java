@@ -9,6 +9,7 @@ import java.util.TimeZone;
 import com.cubbyhole.library.logger.Log;
 import com.cubbyhole.library.utils.DateTimeUtils;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 
 public class CHJsonNode {
 	private static final String	TAG	= CHJsonNode.class.getName();
@@ -103,10 +104,21 @@ public class CHJsonNode {
 		return nodes;
 	}
 
+	/**
+	 * @return the node
+	 */
+	public final JsonNode getNode() {
+		return node;
+	}
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return super.toString();
+	}
+
+	public static boolean areTextNodes(ArrayList<CHJsonNode> nodesArray) {
+		return !nodesArray.isEmpty() && nodesArray.get(0).getNode() instanceof TextNode;
 	}
 
 }
