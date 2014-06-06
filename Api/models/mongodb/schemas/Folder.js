@@ -16,14 +16,12 @@ module.exports = new Schema({
         type: Boolean,
         default: false
     },
-    isShared: {
-        type: Boolean,
-        default: false
-    },
-    share: {
-        type: Schema.Types.ObjectId,
-        ref: 'Share'
-    },
+    shares: [{
+        userName: String,
+        userId: Number,
+        write: Boolean,
+        read: Boolean
+    }],
     parents: [{
         type: Schema.Types.ObjectId,
         ref: 'Folder'

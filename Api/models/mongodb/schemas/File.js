@@ -4,14 +4,12 @@ var mongoose = require('mongoose'),
 module.exports = new Schema({
     "name": String,
     "userId": Number,
-    "isShared": {
-        type: Boolean,
-        default: false
-    },
-    "shareId": {
-        type: Schema.Types.ObjectId,
-        ref: 'Share'
-    },
+    "shares": [{
+        userName: String,
+        userId: Number,
+        write: Boolean,
+        read: Boolean
+    }],
     "parents": [{
         type: Schema.Types.ObjectId,
         ref: 'Folder'

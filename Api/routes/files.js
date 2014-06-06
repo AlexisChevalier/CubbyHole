@@ -61,7 +61,6 @@ module.exports = {
                 fileReference,
                 throttleBytesPerSeconds = 1048576, //TODO: Set this dynamically
                 bytes = 0,
-                shareId = null,
                 i,
                 status;
 
@@ -105,7 +104,7 @@ module.exports = {
                 //V2 : OK
                 /** TEST DOSSIER PARENT + SECURITE **/
                 function (next) {
-                    FolderHelper.getFolder({'_id': parentId}, "share parent childFolders childFiles", function (err, folder) {
+                    FolderHelper.getFolder({'_id': parentId}, "parent childFolders childFiles", function (err, folder) {
                         //Resultats de la recherche du parent
                         if (err || !folder || folder === null) {
                             return res.send(404, "Couldn't find given parent folder");
@@ -147,8 +146,7 @@ module.exports = {
                         mongooseModels.File.create({
                             "name": name,
                             "userId": req.user.id,
-                            "isShared": shareId !== null,
-                            "shareId": (shareId === null) ? null : shareId,
+                            "shares": [],
                             "parents": fileParents,
                             "parent": parentId,
                             "updateDate": new Date(),
@@ -772,7 +770,7 @@ module.exports = {
                 }
 
                 /** RECUPERATION DU PARENT DU DOSSIER A MODIFIER **/
-                FolderHelper.getFolder({'_id': file.parent.id}, "share childFolders childFiles", function (err, parentFolder) {
+                FolderHelper.getFolder({'_id': file.parent.id}, "childFolders childFiles", function (err, parentFolder) {
                     if (err || !parentFolder || parentFolder === null) {
                         return res.send(404, "Couldn't find parent folder");
                     }
@@ -800,7 +798,7 @@ module.exports = {
                         function (next) {
                             /** SI ON DOIT DEPLACER LE FICHIER **/
                             if (newParentId) {
-                                FolderHelper.getFolder({'_id': newParentId}, "share childFolders childFiles", function (err, newParentFolder) {
+                                FolderHelper.getFolder({'_id': newParentId}, "childFolders childFiles", function (err, newParentFolder) {
                                     if (err || !newParentFolder || newParentFolder === null) {
                                         return res.send(404, "Couldn't find new parent folder");
                                     }
@@ -1042,7 +1040,7 @@ module.exports = {
                 },
                 function (next) {
                     /** Get destination folder **/
-                    FolderHelper.getFolder({'_id': destinationId}, "share childFolders childFiles", function (err, goToFolder) {
+                    FolderHelper.getFolder({'_id': destinationId}, "childFolders childFiles", function (err, goToFolder) {
                         if (err || !goToFolder || goToFolder === null) {
                             return res.send(404, "Couldn't find destination folder");
                         }
@@ -1069,8 +1067,7 @@ module.exports = {
                     mongooseModels.File.create({
                         "name": originalFile.name,
                         "userId": req.user.id,
-                        "isShared": originalFile.isShared,
-                        "shareId": originalFile.shareId,
+                        "shares": [],
                         "parents": newHierarchy,
                         "parent": destinationFolder._id,
                         "updateDate": new Date(),

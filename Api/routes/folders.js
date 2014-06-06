@@ -72,7 +72,7 @@ module.exports = {
             }
 
 
-            FolderHelper.getFolder({'_id': folderParentId}, "parents share childFolders childFiles", function (err, folder) {
+            FolderHelper.getFolder({'_id': folderParentId}, "parents childFolders childFiles", function (err, folder) {
                 if (err || !folder || folder == null) {
                     return res.send(404, "Couldn't find given parent folder");
                 }
@@ -96,8 +96,7 @@ module.exports = {
                     parent: folder._id,
                     userId: req.user.id,
                     parents: newParents,
-                    isShared: folder.isShared,
-                    share: folder.share == null ? null : folder.share._id,
+                    shares: [],
                     updateDate: new Date()
                 }, function (err, createdFolder) {
                     if (err) {
@@ -153,7 +152,7 @@ module.exports = {
             }
 
             /** RECUPERATION DU DOSSIER A MODIFIER **/
-            FolderHelper.getFolder({'_id': folderId}, "share parent childFolders childFiles", function (err, folder) {
+            FolderHelper.getFolder({'_id': folderId}, "parent childFolders childFiles", function (err, folder) {
                 if (err || !folder || folder === null) {
                     return res.send(404, "Couldn't find given folder");
                 }
@@ -169,7 +168,7 @@ module.exports = {
                 }
 
                 /** RECUPERATION DU PARENT DU DOSSIER A MODIFIER **/
-                FolderHelper.getFolder({'_id': folder.parent.id}, "share parent childFolders childFiles", function (err, oldParentFolder) {
+                FolderHelper.getFolder({'_id': folder.parent.id}, "parent childFolders childFiles", function (err, oldParentFolder) {
                     if (err || !oldParentFolder || oldParentFolder === null) {
                         return res.send(404, "Couldn't find parent folder");
                     }
@@ -214,7 +213,7 @@ module.exports = {
                         return res.send(400, "You can't move a folder to his actual emplacement.");
                     }
 
-                    FolderHelper.getFolder({'_id': newFolderDirectionId}, "share parent parents childFolders childFiles", function (err, newFolderDirection) {
+                    FolderHelper.getFolder({'_id': newFolderDirectionId}, "parent parents childFolders childFiles", function (err, newFolderDirection) {
 
                         if (err || !newFolderDirection || newFolderDirection == null) {
                             return res.send(404, "Couldn't find given new folder");
@@ -382,7 +381,7 @@ module.exports = {
                 }
             }
 
-            FolderHelper.getFolder({'_id': folderId}, "share parent", function (err, folder) {
+            FolderHelper.getFolder({'_id': folderId}, "parent", function (err, folder) {
                 if (err || !folder || folder === null) {
                     return res.send(404, "Couldn't find given folder");
                 }
@@ -405,7 +404,7 @@ module.exports = {
                 async.series([
                     function (next) {
                         /** RECUPERATION DU PARENT DU DOSSIER A MODIFIER **/
-                        FolderHelper.getFolder({'_id': folder.parent.id}, "share parent childFolders childFiles", function (err, innerParentFolder) {
+                        FolderHelper.getFolder({'_id': folder.parent.id}, "parent childFolders childFiles", function (err, innerParentFolder) {
                             if (err || !folder || folder === null) {
                                 return res.send(404, "Couldn't find parent folder");
                             }
@@ -497,6 +496,9 @@ module.exports = {
         }
     ],
 
+    /**
+     * POST copy folder
+     */
     copyFolder: [
         passport.authenticate('bearer', { session: false }),
         function (req, res, next) {
@@ -532,10 +534,6 @@ module.exports = {
             }
 
 
-            if (id == destinationId) {
-                return res.send(400, "You can't move a folder to himself.");
-            }
-
             async.series([
                 function (next) {
                     /** Get original folder **/
@@ -558,7 +556,7 @@ module.exports = {
                 },
                 function (next) {
                     /** Get destination folder **/
-                    FolderHelper.getFolder({'_id': destinationId}, "share childFolders childFiles parents", function (err, goToFolder) {
+                    FolderHelper.getFolder({'_id': destinationId}, "childFolders childFiles parents", function (err, goToFolder) {
                         if (err || !goToFolder || goToFolder === null) {
                             return res.send(404, "Couldn't find destination folder");
                         }
@@ -569,14 +567,7 @@ module.exports = {
                         }
 
                         if (goToFolder.id == originalFolder.parent) {
-                            return res.send(400, "You can't move a folder to his actual emplacement.");
-                        }
-
-                        /** TEST DU DEPLACEMENT DANS UN DES ENFANTS **/
-                        for (var i = 0; i < goToFolder.parents.length; i++) {
-                            if (goToFolder.parents[i].id == originalFolder.id) {
-                                return res.send(400, "You can't move a folder to one of his children !");
-                            }
+                            return res.send(400, "You can't copy a folder to his actual emplacement.");
                         }
 
                         newHierarchy = goToFolder.parents;
@@ -622,8 +613,7 @@ module.exports = {
                                 parent: parent,
                                 userId: req.user.id,
                                 parents: currentHierarchy,
-                                isShared: false,
-                                share: null,
+                                shares: [],
                                 updateDate: new Date()
                             }, function (err, createdFolder) {
                                 if (err) {
@@ -670,8 +660,7 @@ module.exports = {
                             mongooseModels.File.create({
                                 "name": file.name,
                                 "userId": req.user.id,
-                                "isShared": false,
-                                "shareId": null,
+                                "shares": [],
                                 "parents": currentHierarchy,
                                 "parent": parent,
                                 "updateDate": new Date(),

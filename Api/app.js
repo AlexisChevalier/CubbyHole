@@ -21,6 +21,7 @@ var express = require('express'),
     supportedLocales = ["en", "fr"],
     accountRoutes = require('./routes/account'),
     filesRoutes = require('./routes/files'),
+    sharesRoutes = require('./routes/shares'),
     foldersRoutes = require('./routes/folders'),
     publicRoutes = require('./routes/public'),
     oauth2routes = require('./oauth2/routes'),
@@ -198,6 +199,14 @@ app.put('/api/folders/:folderID', foldersRoutes.updateFolder);
 
 //copy Folder
 app.post('/api/folders/copy/:folderID', foldersRoutes.copyFolder);
+
+
+/**
+ * SHARES API
+ */
+
+//Add or update share
+app.post('/api/shares/:type/:itemID', sharesRoutes.addUpdateShare);
 
 /**
  * OAUTH2 Routes definitions.

@@ -47,7 +47,7 @@ module.exports = {
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
             /*
-                MOAR LOGIC HERE (Files, etc ...)
+                TODO : MOAR LOGIC HERE (Files, etc ...)
              */
             req.models.Users.find({ id: req.user.id }).remove(function (err) {
                 if (err) {
