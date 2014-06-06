@@ -33,8 +33,6 @@ public class CHFile extends CHItem {
 	private Long				userId;
 	private boolean				isShared;
 	private String				shareId;
-	private String				parent;
-	private ArrayList<String>	parentsIds;
 	private DateTime			updateDate;
 
 	private String				systemPath;
