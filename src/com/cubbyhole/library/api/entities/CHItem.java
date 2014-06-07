@@ -21,6 +21,7 @@ public class CHItem {
 
 	protected String			id;
 	protected String			name;
+	protected CHFolder			parent;
 	protected String			parentId;
 	protected ArrayList<String>	parentsIds;
 
@@ -82,6 +83,21 @@ public class CHItem {
 	public void resetModificationStates() {
 		isNameHasBeenModified = false;
 		isParentIdHasBeenModified = false;
+	}
+
+	/**
+	 * @return the parent
+	 */
+	public final CHFolder getParent() {
+		return parent;
+	}
+
+	/**
+	 * @param parent the parent to set
+	 */
+	public final void setParent(CHFolder parent) {
+		this.parent = parent;
+		setParentId(parent.getId());
 	}
 
 	/**
