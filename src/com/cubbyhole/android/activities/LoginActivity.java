@@ -16,9 +16,21 @@ import com.cubbyhole.android.utils.ssl.SSLManager;
 
 public class LoginActivity extends Activity implements ICubbyHoleAuth {
 	private static final String	TAG	= LoginActivity.class.getName();
+	
+	private static boolean mComingFromBrowserActivity = false;
 
 	private AuthWebView			mAuthWebView;
-
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (mComingFromBrowserActivity)
+		{
+			mComingFromBrowserActivity = false;
+			finish();
+		}
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -89,5 +101,13 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
+	}
+
+	public static boolean isComingFromBrowserActivity() {
+		return mComingFromBrowserActivity;
+	}
+
+	public static void setComingFromBrowserActivity( boolean mComingFromBrowserActivity) {
+		LoginActivity.mComingFromBrowserActivity = mComingFromBrowserActivity;
 	}
 }

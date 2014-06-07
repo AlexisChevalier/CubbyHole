@@ -2,70 +2,127 @@ package com.cubbyhole.android.activities;
 
 import java.util.ArrayList;
 
+import android.support.v7.app.ActionBar;
+import android.transition.ChangeBounds;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.cubbyhole.android.R;
 import com.cubbyhole.android.adapters.StableArrayAdapter;
+import com.cubbyhole.android.api.CubbyHoleClient;
+import com.cubbyhole.android.utils.CHLoader;
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
 import com.cubbyhole.library.api.entities.CHItem;
+import com.cubbyhole.library.api.entities.CHItem.CHType;
+import com.cubbyhole.library.exceptions.CHForbiddenCallException;
+import com.cubbyhole.library.interfaces.IApiRequestHandler;
+import com.cubbyhole.library.logger.Log;
 
 public class BrowserActivity extends Activity {
 
 	private ArrayList<CHItem> mItems = new ArrayList<CHItem>();
+
+	private ListView mListView;
+
+	private CHFolder mCurrentFolder;
+
+	private StableArrayAdapter mArrayAdapter;
 	
-	private ListView	mListView;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_browser);
-		fakeItems();
 
 		bindView();
-		
-		fakeItems();
-		
-		final StableArrayAdapter adapter = new StableArrayAdapter(this, mItems);
-		mListView.setAdapter(adapter);
-		
-	}
 
-	// TODO: To be removed ASAP
-	private void fakeItems() {
-		CHFolder rootFolder = new CHFolder();
-		rootFolder.setName("CubbyHole");
-		rootFolder.setIsShared(false);
-		rootFolder.setIsRoot(true);
-		rootFolder.setUserId(55L);
+		requestGetRootFolder();
 
-		mItems = new ArrayList<CHItem>();
+		mArrayAdapter = new StableArrayAdapter(this, mItems);
 
-		ArrayList<CHFolder> folders = new ArrayList<CHFolder>();
-		for (int i = 0; i < 300; i++) {
-			CHFolder folder = new CHFolder();
-			folder.setName("Folder #" + i);
-			folder.setParentId(rootFolder.getId());
-			folder.setIsShared(i == 2);
-			folders.add(folder);
-		}
+		mListView.setAdapter(mArrayAdapter);
 
-		ArrayList<CHFile> files = new ArrayList<CHFile>();
-		for (int i = 0; i < 300; i++) {
-			CHFile file = new CHFile();
-			file.setFileName("File #" + i);
-			file.setParent(rootFolder.getId());
-			files.add(file);
-		}
+		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				CHItem clickedItem = mItems.get(position);
 
-		mItems.addAll(folders);
-		mItems.addAll(files);
-		
+				if (clickedItem.getType() == CHType.FOLDER) {
+					changeFolder((CHFolder) clickedItem);
+				}
+			}
+		});
 	}
 	
+
+	private void requestGetRootFolder() {
+		CHLoader.show(this, "Loading...", "Refreshing folder's content");
+
+		final IApiRequestHandler<CHFolder> handler = new IApiRequestHandler<CHFolder>() {
+
+			String TAG = "getRootFolder";
+
+			@Override
+			public void onApiRequestFailed() {
+				Log.e(TAG, "Async getRootFolder failed !");
+				CHLoader.hide(); // On cache le loader
+				// TODO: Afficher une erreur à l'écran par exemple (mais je
+				// ferai une classe pour ça).
+			}
+
+			@Override
+			public void onApiRequestSuccess(CHFolder result) {
+				Log.d(TAG, "Async getRootFolder success !");
+				changeFolder(result); // Méthode que t'as dû créer
+				CHLoader.hide(); // On cache le loader
+			}
+
+		};
+
+		CubbyHoleClient.getInstance().getRootFolder(handler);
+	}
+
+	private void changeFolder(final CHFolder newFolder) {
+		
+		CHLoader.show(this, "Loading...", "Refreshing folder's content");
+		
+		final IApiRequestHandler<ArrayList<CHItem>> handler = new IApiRequestHandler<ArrayList<CHItem>>()
+		{
+			
+			String TAG = "changeFolder";
+		
+			@Override
+			public void onApiRequestFailed() {
+				Log.e(TAG, "Async getRootFolder failed !");
+				CHLoader.hide(); // On cache le loader
+				// TODO: Afficher une erreur à l'écran par exemple (mais je
+				// ferai une classe pour ça).
+			}
+			
+			@Override
+			public void onApiRequestSuccess(ArrayList<CHItem> result) {
+				Log.d(TAG, "Async getRootFolder success !");
+				mArrayAdapter.clear();
+				mItems.addAll(result);
+				mCurrentFolder = newFolder;
+				CHLoader.hide(); // On cache le loader
+			}
+		};
+		
+		
+		newFolder.getItems(handler);
+		
+		
+	}
+
 	private void bindView() {
 		mListView = (ListView) findViewById(R.id.listview);
 	}
@@ -73,10 +130,24 @@ public class BrowserActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.browser, menu);
-		return true;
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.browser, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		
+		if (!mCurrentFolder.getIsRoot())
+		{
+			changeFolder(mCurrentFolder.getParent());
+		}
+		else
+		{
+			LoginActivity.setComingFromBrowserActivity(true);
+			super.onBackPressed();
+		}
+		
 	}
 
 }
-
-
