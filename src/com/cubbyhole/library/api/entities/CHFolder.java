@@ -3,6 +3,7 @@ package com.cubbyhole.library.api.entities;
 import hirondelle.date4j.DateTime;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.cubbyhole.library.api.CHJsonNode;
 import com.cubbyhole.library.api.CubbyHoleImpl;
@@ -11,29 +12,31 @@ import com.cubbyhole.library.interfaces.IApiRequestHandler;
 import com.cubbyhole.library.logger.Log;
 
 public class CHFolder extends CHItem {
-	private static final String	TAG					= CHFolder.class.getName();
+	private static final String				TAG					= CHFolder.class.getName();
+
+	public static HashMap<String, CHFolder>	folderRepository	= new HashMap<String, CHFolder>();
 
 	/// JSON FIELDS ///
-	public static final String	FIELD_SHARE			= "share";
-	public static final String	FIELD_USER_ID		= "userId";
-	public static final String	FIELD_DATE			= "date";
-	public static final String	FIELD_UPDATEDATE	= "updateDate";
-	public static final String	FIELD_ISSHARED		= "isShared";
-	public static final String	FIELD_IS_ROOT		= "isRoot";
-	public static final String	FIELD_CHILD_FOLDERS	= "childFolders";
-	public static final String	FIELD_CHILD_FILES	= "childFiles";
+	public static final String				FIELD_SHARE			= "share";
+	public static final String				FIELD_USER_ID		= "userId";
+	public static final String				FIELD_DATE			= "date";
+	public static final String				FIELD_UPDATEDATE	= "updateDate";
+	public static final String				FIELD_ISSHARED		= "isShared";
+	public static final String				FIELD_IS_ROOT		= "isRoot";
+	public static final String				FIELD_CHILD_FOLDERS	= "childFolders";
+	public static final String				FIELD_CHILD_FILES	= "childFiles";
 	/// END OF JSON FIELDS ///
 
-	private String				share;
-	private Long				userId;
-	private DateTime			creationDate;
-	private DateTime			updateDate;
-	private boolean				isShared;
-	private boolean				isRoot;
-	private ArrayList<CHFolder>	childFolders;
-	private ArrayList<CHFile>	childFiles;
+	private String							share;
+	private Long							userId;
+	private DateTime						creationDate;
+	private DateTime						updateDate;
+	private boolean							isShared;
+	private boolean							isRoot;
+	private ArrayList<CHFolder>				childFolders;
+	private ArrayList<CHFile>				childFiles;
 
-	private boolean				areChildrenSynced	= false;
+	private boolean							areChildrenSynced	= false;
 
 	public CHFolder() {
 		//Only used by the fromJson method
@@ -52,6 +55,7 @@ public class CHFolder extends CHItem {
 		CHFolder folder = new CHFolder();
 		try {
 			folder.setId(json.asText(FIELD_ID));
+			folderRepository.put(folder.getId(), folder);
 			folder.setName(json.asText(FIELD_NAME));
 			folder.setParentId(json.asText(FIELD_PARENT));
 			folder.setIsShared(json.asBoolean(FIELD_ISSHARED));
