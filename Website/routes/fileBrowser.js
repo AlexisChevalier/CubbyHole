@@ -17,7 +17,7 @@ module.exports = {
     fileBrowserPage: [
         login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
         function (req, res) {
-            res.render('files', { title: 'My files', active: "fileBrowser"  });
+            res.render('files', { title: 'My files', active: "fileBrowser", angularModule: "cubbyHoleBrowser" });
         }],
 
     //------------------------------------ SHARES ------------------------------------

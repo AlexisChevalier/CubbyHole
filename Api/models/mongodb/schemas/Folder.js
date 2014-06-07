@@ -22,6 +22,10 @@ module.exports = new Schema({
         write: Boolean,
         read: Boolean
     }],
+    publicShareEnabled: {
+        type: Boolean,
+        default: false
+    },
     parents: [{
         type: Schema.Types.ObjectId,
         ref: 'Folder'

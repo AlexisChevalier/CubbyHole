@@ -97,6 +97,7 @@ module.exports = {
                     userId: req.user.id,
                     parents: newParents,
                     shares: [],
+                    "publicShareEnabled": false,
                     updateDate: new Date()
                 }, function (err, createdFolder) {
                     if (err) {
@@ -614,6 +615,7 @@ module.exports = {
                                 userId: req.user.id,
                                 parents: currentHierarchy,
                                 shares: [],
+                                "publicShareEnabled": false,
                                 updateDate: new Date()
                             }, function (err, createdFolder) {
                                 if (err) {
@@ -661,6 +663,7 @@ module.exports = {
                                 "name": file.name,
                                 "userId": req.user.id,
                                 "shares": [],
+                                "publicShareEnabled": false,
                                 "parents": currentHierarchy,
                                 "parent": parent,
                                 "updateDate": new Date(),

@@ -167,11 +167,11 @@ table tbody tr td.options-col button:hover {
 	background-color: #3daaf8;
 }
 
-table tbody tr td:nth-child(1) {
+div#filebrowser table tbody tr td:nth-child(1), table.iconTable tbody tr td:nth-child(1) {
 	width: 40px;
 }
 
-table tbody tr td:nth-child(2) {
+div#filebrowser table tbody tr td:nth-child(2) {
  /* No hardcoded size for the name of the file/folder
   so it will be as large as possible */
   	padding-left: 10px;

@@ -22,6 +22,7 @@ var express = require('express'),
     supportedLocales = ["en", "fr"],
     defaultRoutes = require('./routes/default'),
     accountRoutes = require('./routes/account'),
+    publicSharesRoutes = require('./routes/publicShares'),
     flash = require('connect-flash'),
     fileBrowserRoutes = require('./routes/fileBrowser'),
     auth = require('./auth/auth'),
@@ -58,6 +59,12 @@ swig.setDefaults({
             return new Date();
         }
     }
+});
+swig.setFilter('humanReadableSize', function (input) {
+    var exp = Math.log(input) / Math.log(1024) | 0;
+    var result = (input / Math.pow(1024, exp)).toFixed(2);
+
+    return result + ' ' + (exp == 0 ? 'bytes': 'KMGTPEZY'[exp - 1] + 'B');
 });
 
 /**
@@ -161,6 +168,13 @@ app.delete('/ajax/api/*', fileBrowserRoutes.forwardRequest);
 app.put('/ajax/api/*', fileBrowserRoutes.forwardRequest);
 app.get('/ajax/download/:fileID', fileBrowserRoutes.downloadFile);
 app.post('/ajax/upload/', fileBrowserRoutes.uploadFile);
+
+//Public shares
+app.get(/^\/shares\/folder\/(.+)\/browser.*$/, publicSharesRoutes.publicFolderSharePage);
+app.get(/^\/shares\/folder\/(.+)$/, publicSharesRoutes.publicFolderShareRedirection);
+app.get('/shares/ajax/folder/:folderID', publicSharesRoutes.ajaxGetFolder);
+app.get('/shares/ajax/file/download/:fileID', publicSharesRoutes.downloadFile);
+app.get('/shares/file/:fileID', publicSharesRoutes.publicFileSharePage);
 
 
 /**

@@ -15,8 +15,8 @@ FolderHelper.createRootFolder = function (userID, next) {
         parent: null,
         userId: userID,
         parents: [],
-        shared: null,
-        share: null,
+        publicShareEnabled: false,
+        shares: [],
         childFiles: [],
         childFolders: [],
         isRoot: true

@@ -14,7 +14,7 @@ var passport = require('passport'),
  * @param res
  */
 exports.index = function (req, res) {
-    res.send('<h1>CubbyHole OAuth 2.0 Server endpoint (See the developer center documentation</a> for more informations).</h1>');
+    res.send('<h1>CubbyHole OAuth 2.0 Server endpoint (See <a href="https://developers.cubby-hole.me/docs">this documentation</a> for more informations).</h1>');
 };
 
 /**

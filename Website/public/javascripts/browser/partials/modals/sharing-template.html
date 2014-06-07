@@ -1,4 +1,4 @@
-<script type="text/ng-template" id="userTemplate.html">
+<script type="text/ng-template" id="userTemplate.html" xmlns="http://www.w3.org/1999/html">
     <a tabindex="-1">
         <!--<span ng-bind="match.model['name'] | typeaheadHighlight:query"></span>-->
         <span ng-bind="match.model['name']"></span> - <span ng-bind="match.model['email']"></span>
@@ -9,9 +9,10 @@
 
 
 <div class="modal-header">
-    <h3>Share [[item.type]] <span class="name">[[item.name]]</span></h3>
+    <h3>Share options for [[item.type]] <span class="name">[[item.name]]</span></h3>
 </div>
 <div class="modal-body">
+    <div ng-if="item.type =='folder'" class="alert alert-warning">Important : Sharing a folder also shares all its sub-folders and sub-files !</div>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Add a Share</h3>
@@ -44,15 +45,18 @@
             <table class="table table-hover">
                 <tr>
                     <th>User</th>
-                    <th>Read Access</th>
-                    <th>Write Access</th>
-                    <th>Remove</th>
+                    <th>Read</th>
+                    <th>Write</th>
+                    <th>Options</th>
                 </tr>
                 <tr ng-repeat="share in item.shares">
                     <td>[[share.userName]]</td>
                     <td><input type="checkbox" ng-model="share.read"></td>
                     <td><input type="checkbox" ng-model="share.write"></td>
-                    <td><button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button></td>
+                    <td>
+                        <button ng-click="updateShare(share)" type="submit" class="btn btn-primary" tooltip-placement="left" tooltip="Update"><span class="glyphicon glyphicon-ok"></span></button>
+                        <button ng-click="deleteShare(share)" type="submit" class="btn btn-danger" tooltip-placement="right" tooltip="Delete"><span class="glyphicon glyphicon-trash"></span></button>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -64,10 +68,13 @@
         <div class="panel-body">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" checked="checked"> Enabled
+                    <input type="checkbox" ng-change="handlePublicShareChange(item.publicShareEnabled)" ng-model="item.publicShareEnabled"> Enabled
                 </label>
             </div>
-            <div class="well well-sm">https://localhost:8443/shares/s56fsd54g645sg</div>
+            <div ng-if="item.publicShareEnabled" class="form-group">
+                <label for="publiShareUri">Public share URL</label>
+                <input type="url" class="form-control" id="publiShareUri" value="https://localhost:8443/shares/[[item.type]]/[[item._id]]"/>
+            </div>
         </div>
     </div>
 </div>

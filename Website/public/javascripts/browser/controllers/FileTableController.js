@@ -310,7 +310,6 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
 
     //Share Item
     $scope.share = function (item) {
-        console.log("SHARE ITEM " + item.id);
         var modalInstance = $modal.open({
             templateUrl: '/javascripts/browser/partials/modals/sharing-template.html',
             controller: "SharingModalController",
@@ -322,9 +321,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
         });
 
         modalInstance.result.then(function (item) {
-            console.log(item);
         }, function () {
-            console.log("popup closed");
         });
     };
 

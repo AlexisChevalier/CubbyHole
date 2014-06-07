@@ -23,6 +23,7 @@ var express = require('express'),
     filesRoutes = require('./routes/files'),
     sharesRoutes = require('./routes/shares'),
     foldersRoutes = require('./routes/folders'),
+    defaultRoutes = require('./routes/default'),
     publicRoutes = require('./routes/public'),
     oauth2routes = require('./oauth2/routes'),
     oauth2core = require('./oauth2/oauth2'),
@@ -143,12 +144,12 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
-app.get('/', publicRoutes.authHome);
+app.get('/', defaultRoutes.authHome);
 /**
  * API Routes definitions.
  */
 
-app.get('/api', publicRoutes.apiHome);
+app.get('/api', defaultRoutes.apiHome);
 
 //account
 app.get('/api/account/details', accountRoutes.userDetails);
@@ -206,7 +207,30 @@ app.post('/api/folders/copy/:folderID', foldersRoutes.copyFolder);
  */
 
 //Add or update share
-app.post('/api/shares/:type/:itemID', sharesRoutes.addUpdateShare);
+app.post('/api/shares/:type/:itemID/:userID', sharesRoutes.addUpdateShare);
+
+//Remove share
+app.delete('/api/shares/:type/:itemID/:userID', sharesRoutes.removeShare);
+
+//Add or update share
+app.post('/api/publicShares/:type/:itemID', sharesRoutes.enablePublicShare);
+
+//Add or update share
+app.delete('/api/publicShares/:type/:itemID', sharesRoutes.disablePublicShare);
+
+
+/**
+ * PUBLIC API
+ */
+
+//Get public file metadata
+app.get('/api/public/file/:fileID', publicRoutes.getFileMetadata);
+
+//Download file
+app.get('/api/public/file/download/:fileID', publicRoutes.download);
+
+//Get public folder
+app.get('/api/public/folder/:folderID', publicRoutes.getFolder);
 
 /**
  * OAUTH2 Routes definitions.
