@@ -232,27 +232,19 @@ public class CHFolder extends CHItem {
 	 * one with the items.
 	 */
 	public final void getItems(final IApiRequestHandler<ArrayList<CHItem>> handler) {
-		if (!areChildrenSynced) {
-			IApiRequestHandler<ArrayList<CHItem>> internalHandler = new IApiRequestHandler<ArrayList<CHItem>>() {
+		IApiRequestHandler<ArrayList<CHItem>> internalHandler = new IApiRequestHandler<ArrayList<CHItem>>() {
 
-				@Override
-				public void onApiRequestSuccess(ArrayList<CHItem> items) {
-					handler.onApiRequestSuccess(items);
-				}
-
-				@Override
-				public void onApiRequestFailed() {
-					handler.onApiRequestFailed();
-				}
-			};
-			syncChildren(internalHandler);
-		} else {
-			try {
-				handler.onApiRequestSuccess(getItems());
-			} catch (CHForbiddenCallException e) {
-				e.printStackTrace();
+			@Override
+			public void onApiRequestSuccess(ArrayList<CHItem> items) {
+				handler.onApiRequestSuccess(items);
 			}
-		}
+
+			@Override
+			public void onApiRequestFailed() {
+				handler.onApiRequestFailed();
+			}
+		};
+		syncChildren(internalHandler);
 	}
 
 	private void syncChildren(final IApiRequestHandler<ArrayList<CHItem>> handler) {
@@ -284,7 +276,7 @@ public class CHFolder extends CHItem {
 	 * @throws CHForbiddenCallException if you called it while the children aren't synchronized yet.
 	 * If this happens, call getItems(IApiRequestHandler<ArrayList<CHItem>> handler) instead.
 	 */
-	public ArrayList<CHItem> getItems() throws CHForbiddenCallException {
+	private ArrayList<CHItem> getItems() throws CHForbiddenCallException {
 		if (!areChildrenSynced) {
 			throw getChildrenNotSyncedException();
 		}
