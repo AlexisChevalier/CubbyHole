@@ -5,7 +5,6 @@ cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams',
     $scope.item = item;
 
     $scope.userToShareWithSelected = undefined;
-    $scope.allowReadAccess = true;
     $scope.allowWriteAccess = true;
 
     $scope.getNames = function (val) {
@@ -22,13 +21,11 @@ cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams',
         var url = "/ajax/api/shares/" + $scope.item.type + "/" + $scope.item._id + "/" + $scope.userToShareWithSelected.id;
 
         $http.post(url, {
-            writeAccess: $scope.allowWriteAccess,
-            readAccess: $scope.allowReadAccess
+            writeAccess: $scope.allowWriteAccess
         }).success(function (result) {
                 result.data['type'] = item.type;
                 $scope.item = result.data;
                 $scope.allowWriteAccess = false;
-                $scope.allowReadAcces = false;
                 $scope.userToShareWithSelected = undefined;
                 if (result.action == 'created') {
                     flash('success', "Share successfully added !");
@@ -44,8 +41,7 @@ cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams',
         var url = "/ajax/api/shares/" + $scope.item.type + "/" + $scope.item._id + "/" + share.userId;
 
         $http.post(url, {
-            writeAccess: share.write,
-            readAccess: share.read
+            writeAccess: share.write
         }).success(function (result) {
                 result.data['type'] = item.type;
                 $scope.item = result.data;
@@ -61,7 +57,7 @@ cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams',
     };
 
     $scope.deleteShare = function (share) {
-        var url = "/ajax/api/publicShares/" + $scope.item.type + "/" + $scope.item._id;
+        var url = "/ajax/api/shares/" + $scope.item.type + "/" + $scope.item._id + "/" + share.userId;
 
         $http.delete(url, {
             data: {

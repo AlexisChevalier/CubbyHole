@@ -83,7 +83,7 @@
             </tr>
             <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-class="{false: '', true: 'busyWriteFile' }[item.busyWrite]">
 
-                <td class="[[item.type]]"></td>
+                <td ng-class="getItemClass(item)"></td>
 
 
                 <td ng-if="item.type == 'folder'" ng-click="handleItemClick(item.type, item._id)">
@@ -105,19 +105,24 @@
 
                 <td class="options-col">
                     <div class="btn-group" ng-if="!item.busyWrite">
-                        <button ng-click="remove(item)" type="button" tooltip-placement="left" tooltip="Remove" class="btn btn-default optionButton removeButton">
+                        <button ng-if="item.sharedCode == 2 || item.sharedCode == 0" ng-click="remove(item)" type="button" tooltip-placement="left" tooltip="Remove" class="btn btn-default optionButton removeButton">
                             <span class="glyphicon glyphicon-trash"></span>
                         </button>
-                        <button ng-click="edit(item)" type="button" tooltip-placement="top" tooltip="Edit" class="btn btn-default optionButton editButton">
+
+                        <button ng-if="item.type == 'file' && (item.sharedCode == 2 || item.sharedCode == 4 || item.sharedCode == 0)" ng-click="edit(item)" type="button" tooltip-placement="top" tooltip="Edit" class="btn btn-default optionButton editButton">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </button>
-                        <button ng-click="moveItem(item)" type="button" tooltip-placement="top" tooltip="Move" class="btn btn-default optionButton moveButton">
+                        <button ng-if="item.type == 'folder' && (item.sharedCode == 2 || item.sharedCode == 0)" ng-click="edit(item)" type="button" tooltip-placement="top" tooltip="Edit" class="btn btn-default optionButton editButton">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+
+                        <button ng-if="item.sharedCode == 2 || item.sharedCode == 0" ng-click="moveItem(item)" type="button" tooltip-placement="top" tooltip="Move" class="btn btn-default optionButton moveButton">
                             <span class="glyphicon glyphicon-transfer"></span>
                         </button>
                         <button ng-click="copyItem(item)" type="button" tooltip-placement="top" tooltip="Copy" class="btn btn-default optionButton copyButton">
                             <span class="glyphicon glyphicon glyphicon-hdd"></span>
                         </button>
-                        <button ng-click="share(item)" type="button" tooltip-placement="right" tooltip="Share" class="btn btn-default optionButton shareButton">
+                        <button ng-if="item.sharedCode == 0" ng-click="share(item)" type="button" tooltip-placement="right" tooltip="Share" class="btn btn-default optionButton shareButton">
                             <span class="glyphicon glyphicon-link"></span>
                         </button>
                     </div>
@@ -125,6 +130,8 @@
             </tr>
             </tbody>
         </table>
+
+
         <div id="loader" ng-show="appLoading">
             <div id="textLoader">
                 <img src="/images/ajax-loader.gif" />

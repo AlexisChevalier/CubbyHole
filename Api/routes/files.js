@@ -6,42 +6,18 @@ var passport = require('passport'),
     mongo = require('mongoose').mongo,
     FolderHelper = require('../models/mongodb/helpers/FolderHelper'),
     FileHelper = require('../models/mongodb/helpers/FileHelper'),
+    ShareHelper = require('../models/mongodb/helpers/ShareHelper'),
     async = require('async'),
     uuid = require('node-uuid'),
     Throttle = require('throttle');
 
 module.exports = {
-
-    /**
-     * GET search items in folder
-     * V2 NEEDS TESTS
-     */
-    searchItemsByTerm: [
-        passport.authenticate('bearer', { session: false }),
-        //TODO: Update this
-        function (req, res) {
-            var response = {},
-                terms = req.params.terms;
-
-            mongooseModels.File.find({'userId': req.user.id, 'name': new RegExp(terms, "i")}).exec(function (err, data) {
-                if (err) {
-                    res.json(err);
-                } else {
-                    response.count = data.length;
-                    response.terms = terms;
-                    response.items = data;
-                    res.json(response);
-                }
-            });
-        }
-    ],
-
     /**
      * POST upload item
      * Require auth + headers : cb-file-name, cb-file-parent-folder-id, content-type, content-length + Binary file as payload
      *
      *
-     * This function is a real mess : 600 lines, but i don't have the time to clean it
+     * This function is a real mess : +600 lines, but i don't have the time to clean it
      * V2 NEEDS TESTS
      */
     createOrUpdateFile: [
@@ -59,6 +35,8 @@ module.exports = {
                 closedNicely = false,
                 gs,
                 fileReference,
+                createdInShare = true,
+                ownerId = req.user.id,
                 throttleBytesPerSeconds = 1048576, //TODO: Set this dynamically
                 bytes = 0,
                 i,
@@ -110,42 +88,90 @@ module.exports = {
                             return res.send(404, "Couldn't find given parent folder");
                         }
 
-                        //Test d'autorisation en écriture
-                        if (folder.userId !== req.user.id) {
-                            //TODO: CHECK SHARES
-                            return res.send(403, "You don't have any write access on this folder");
+                        if (folder.userId != req.user.id) {
+                            ShareHelper.GetShareCode(folder, req.user.id, function (code) {
+                                if (code != 2 && code != 4) {
+                                    return res.send(403, "You don't have any write access on the folder or file !");
+                                }
+                                createdInShare = true;
+                                ownerId = folder.userId;
+
+                                for (i = 0; i < folder.parents.length; i++) {
+                                    fileParents.push(folder.parents[i]);
+                                }
+                                fileParents.push(parentId);
+
+                                parentFolder = folder;
+
+                                return next();
+                            });
+                        } else {
+
+                            for (i = 0; i < folder.parents.length; i++) {
+                                fileParents.push(folder.parents[i]);
+                            }
+                            fileParents.push(parentId);
+
+                            parentFolder = folder;
+
+                            return next();
                         }
-
-                        for (i = 0; i < folder.parents.length; i++) {
-                            fileParents.push(folder.parents[i]);
-                        }
-                        fileParents.push(parentId);
-
-                        parentFolder = folder;
-
-                        return next();
                     });
                 },
-                //V2 : OK
                 /** CHECK UPDATE OR NEW FILE **/
                 function (next) {
-                    if (!FolderHelper.isNameAvailable(name, parentFolder.childFolders, parentFolder.childFiles)) {
-                        FileHelper.getFile({'name': name, 'parent': parentId}, '', function (err, innerFileToUpdate) {
-                            if (err || !innerFileToUpdate || innerFileToUpdate === null) {
-                                /** THE NAME IS TAKEN BY A FOLDER **/
-                                return res.send(403, "Name already existing in this folder");
-                            } else {
-                                /** UPDATE FILE **/
-                                fileReference = innerFileToUpdate;
-                                newFile = false;
+                    if (parentFolder.isRoot) {
+                        FolderHelper.checkNameInRootFolder(name, req.user.id, null, function (item) {
+                            if (item == null) {
+                                newFile = true;
                                 return next();
+                            }
+                            if (item.realFileData) {
+                                //file
+
+                                fileReference = item;
+                                newFile = false;
+
+                                if (item.userId != req.user.id) {
+
+                                    ShareHelper.GetShareCode(item, req.user.id, function (code) {
+                                        if (code != 2 && code != 4) {
+                                            return res.send(403, "You don't have any write access on this file !");
+                                        }
+                                        return next();
+                                    });
+                                } else {
+                                    return next();
+                                }
+                            } else {
+                                return res.send(403, "Name already taken by a share or a folder !");
                             }
                         });
                     } else {
+                        if (!FolderHelper.isNameAvailable(name, parentFolder.childFolders, parentFolder.childFiles)) {
+                            FileHelper.getFile({'name': name, 'parent': parentId}, '', function (err, innerFileToUpdate) {
+                                if (err || !innerFileToUpdate || innerFileToUpdate === null) {
+                                    /** THE NAME IS TAKEN BY A FOLDER **/
+                                    return res.send(403, "Name already existing in this folder");
+                                } else {
+                                    /** UPDATE FILE **/
+                                    fileReference = innerFileToUpdate;
+                                    newFile = false;
+                                    return next();
+                                }
+                            });
+                        } else {
+                            newFile = true;
+                            return next();
+                        }
+                    }
+                },
+                function (next) {
+                    if (newFile) {
                         /** NEW FILE **/
                         mongooseModels.File.create({
                             "name": name,
-                            "userId": req.user.id,
+                            "userId": ownerId,
                             "shares": [],
                             "publicShareEnabled": false,
                             "parents": fileParents,
@@ -169,6 +195,8 @@ module.exports = {
                             newFile = true;
                             return next();
                         });
+                    } else {
+                        return next();
                     }
                 },
                 /** UPLOAD HANDLERS **/
@@ -623,16 +651,32 @@ module.exports = {
                         { updateDate: new Date() },
                         { multi: true },
                         function (err, docsUpdated) {
-                            if (newFile) {
-                                return res.json({
-                                    action: 'create',
-                                    data: file
+                            if (createdInShare) {
+                                ShareHelper.AnalyzeItemShares(file, req.user.id, function(cleanedFile) {
+                                    if (newFile) {
+                                        return res.json({
+                                            action: 'create',
+                                            data: cleanedFile
+                                        });
+                                    } else {
+                                        return res.json({
+                                            action: 'update',
+                                            data: cleanedFile
+                                        });
+                                    }
                                 });
                             } else {
-                                return res.json({
-                                    action: 'update',
-                                    data: file
-                                });
+                                if (newFile) {
+                                    return res.json({
+                                        action: 'create',
+                                        data: file
+                                    });
+                                } else {
+                                    return res.json({
+                                        action: 'update',
+                                        data: file
+                                    });
+                                }
                             }
                         });
                 });
@@ -642,7 +686,7 @@ module.exports = {
 
     /**
      * GET file metadata
-     * V2 NEEDS TESTS
+     * SHARES OK
      */
     getFileMedatata: [
         passport.authenticate('bearer', { session: false }),
@@ -661,20 +705,31 @@ module.exports = {
                 if (err || !file || file === null) {
                     return res.send(404, "Couldn't find given file");
                 }
-
-                if (file.userId !== req.user.id) {
-                    //TODO: CHECK SHARES
-                    return res.send(403, "You don't have any access on this file");
-                }
-
-                res.json(file);
+                async.series([
+                    function (next) {
+                        if (file.userId != req.user.id) {
+                            ShareHelper.GetShareCode(file, req.user.id, function (code) {
+                                if (code == 0) {
+                                    return res.send(403, "You don't have any read access on this file");
+                                }
+                                return next();
+                            });
+                        } else {
+                            return next();
+                        }
+                    }
+                ], function (err) {
+                    ShareHelper.AnalyzeItemShares(file, req.user.id, function (cleanedFolder) {
+                        return res.json(cleanedFolder);
+                    });
+                });
             });
         }
     ],
 
     /**
      * GET download item
-     * V2 OK.
+     * SHARES OK.
      */
     download: [
         passport.authenticate('bearer', { session: false }),
@@ -694,30 +749,40 @@ module.exports = {
                     return res.send(404, "File not found !");
                 }
 
-                if (fileReference.userId !== req.user.id) {
-                    //TODO : CHECK SHARES
-                    return res.send(403, "You don't have any access on this file");
-                }
+                async.series([
+                    function (next) {
+                        if (fileReference.userId != req.user.id) {
+                            ShareHelper.GetShareCode(fileReference, req.user.id, function (code) {
+                                if (code == 0) {
+                                    return res.send(403, "You don't have any read access on this file");
+                                }
+                                return next();
+                            });
+                        } else {
+                            return next();
+                        }
+                    }
+                ], function (err) {
+                    gs = new mongo.GridStore(mongo_db_object, fileReference.realFileData.id, "r");
 
-                gs = new mongo.GridStore(mongo_db_object, fileReference.realFileData.id, "r");
+                    gs.open(function (err, file) {
 
-                gs.open(function (err, file) {
+                        res.setHeader('Content-disposition', 'attachment; filename=' + fileReference.name);
+                        res.setHeader('Content-type', fileReference.realFileData.contentType);
+                        res.setHeader('Content-length', fileReference.realFileData.length);
 
-                    res.setHeader('Content-disposition', 'attachment; filename=' + fileReference.name);
-                    res.setHeader('Content-type', fileReference.realFileData.contentType);
-                    res.setHeader('Content-length', fileReference.realFileData.length);
+                        var throttledStream = file.stream(true).pipe(new Throttle(1048576));
 
-                    var throttledStream = file.stream(true).pipe(new Throttle(1048576));
+                        throttledStream.on("data", function (data) {
+                            res.write(data);
+                        });
 
-                    throttledStream.on("data", function (data) {
-                        res.write(data);
-                    });
+                        throttledStream.on("end", function () {
+                            res.end();
+                        });
 
-                    throttledStream.on("end", function () {
-                        res.end();
-                    });
-
-                    throttledStream.on("close", function () {
+                        throttledStream.on("close", function () {
+                        });
                     });
                 });
             });
@@ -726,7 +791,6 @@ module.exports = {
 
     /**
      * PUT update file (name or location)
-     * V2 OK.
      */
     updateFile: [
         passport.authenticate('bearer', { session: false }),
@@ -734,7 +798,12 @@ module.exports = {
 
             var id = req.params.fileID,
                 newParentId = req.body.newParentID,
-                newName = req.body.newName;
+                newName = req.body.newName,
+                renameOnShare = false,
+                moveToShare = false,
+                newHierarchy = [],
+                newOwnerId = req.user.id;
+
 
             if (id) {
                 try {
@@ -765,11 +834,6 @@ module.exports = {
                     return res.send(404, "Couldn't find given file");
                 }
 
-                if (file.userId !== req.user.id) {
-                    //TODO : CHECK SHARES
-                    return res.send(403, "You don't have any access on this file");
-                }
-
                 /** RECUPERATION DU PARENT DU DOSSIER A MODIFIER **/
                 FolderHelper.getFolder({'_id': file.parent.id}, "childFolders childFiles", function (err, parentFolder) {
                     if (err || !parentFolder || parentFolder === null) {
@@ -778,11 +842,52 @@ module.exports = {
 
                     async.series([
                         function (next) {
+                            if (file.userId != req.user.id) {
+                                ShareHelper.GetShareCode(file, req.user.id, function (code) {
+                                    if (code != 2) {
+                                        return res.send(403, "You don't have any write access on this file or you can't rename it !");
+                                    }
+
+                                    renameOnShare = true;
+
+                                    return next();
+                                });
+                            } else {
+                                return next();
+                            }
+                        },
+                        function (next) {
                             /** SI ON DOIT MODIFIER LE NOM **/
                             if (newName) {
                                 if (!FolderHelper.isNameAvailable(newName, parentFolder.childFolders, parentFolder.childFiles, file.name)) {
-                                    return res.send(400, "Name already existing in this folder");
+                                    return res.send(403, "Name already existing in this folder");
                                 }
+                                if (parentFolder.isRoot) {
+                                    FolderHelper.checkNameInRootFolder(newName, req.user.id, file.name, function (item) {
+                                        if (item) {
+                                            return res.send(403, "Name already taken by a share !");
+                                        }
+                                        if (file.shares.length > 0) {
+                                            ShareHelper.CheckIfNameIsOkForShares(newName, file.name, file.shares, function (result) {
+                                                if (result) {
+                                                    return next();
+                                                } else {
+                                                    return res.send(403, "This name is not available for at least one of the users with whom you share this file !");
+                                                }
+                                            });
+                                        } else {
+                                            return next();
+                                        }
+                                    });
+                                } else {
+                                    return next();
+                                }
+                            } else {
+                                next();
+                            }
+                        },
+                        function (next) {
+                            if (newName) {
                                 file.name = newName;
                                 file.updateDate = new Date();
 
@@ -804,18 +909,41 @@ module.exports = {
                                         return res.send(404, "Couldn't find new parent folder");
                                     }
 
-                                    if (newParentFolder.userId !== req.user.id) {
-                                        return res.send(403, "You don't have any write access on the new folder");
-                                    }
-
-                                    if (!FolderHelper.isNameAvailable(file.name, newParentFolder.childFolders, newParentFolder.childFiles)) {
-                                        return res.send(400, "Name already existing in the new parent folder");
-                                    }
-
-                                    var newHierarchy = newParentFolder.parents;
-                                    newHierarchy.push(newParentFolder.id);
-
                                     async.series([
+                                        function (innerNext) {
+                                            if (newParentFolder.userId != req.user.id) {
+                                                ShareHelper.GetShareCode(newParentFolder, req.user.id, function (code) {
+                                                    if (code != 2) {
+                                                        return res.send(403, "You don't have any write access on the new folder or you can't move the file !");
+                                                    }
+
+                                                    moveToShare = true;
+                                                    newOwnerId = newParentFolder.userId;
+
+                                                    return innerNext();
+                                                });
+                                            } else {
+                                                return innerNext();
+                                            }
+                                        },
+                                        function (innerNext) {
+                                            newHierarchy = newParentFolder.parents;
+                                            newHierarchy.push(newParentFolder.id);
+
+                                            if (!FolderHelper.isNameAvailable(file.name, newParentFolder.childFolders, newParentFolder.childFiles)) {
+                                                return res.send(400, "Name already existing in the new parent folder");
+                                            }
+                                            if (newParentFolder.isRoot) {
+                                                FolderHelper.checkNameInRootFolder(file.name, req.user.id, null, function (item) {
+                                                    if (item) {
+                                                        return res.send(403, "Name already taken by a share !");
+                                                    }
+                                                    return innerNext();
+                                                });
+                                            } else {
+                                                return innerNext();
+                                            }
+                                        },
                                         function (innerNext) {
                                             /** Remove file from old parent childFiles **/
                                             mongooseModels.Folder.update({'_id': parentFolder.id},
@@ -833,6 +961,7 @@ module.exports = {
                                             file.parents = newHierarchy;
                                             file.parent = newParentFolder.id;
                                             file.updateDate = new Date();
+                                            file.userId = newOwnerId;
 
                                             file.save(function (err) {
                                                 if (err) {
@@ -840,10 +969,6 @@ module.exports = {
                                                 }
                                                 innerNext();
                                             });
-                                        },
-                                        function (innerNext) {
-                                            //TODO: HANDLE SHARES HERE
-                                            innerNext();
                                         },
                                         function (innerNext) {
                                             /** Add folder to new parent childFolders **/
@@ -879,7 +1004,13 @@ module.exports = {
                                 { updateDate: new Date() },
                                 { multi: true },
                                 function (err, docsUpdated) {
-                                    res.json(innerFile);
+                                    if (moveToShare || renameOnShare) {
+                                        ShareHelper.AnalyzeItemShares(innerFile, req.user.id, function (cleanedFile) {
+                                            return res.json(cleanedFile);
+                                        });
+                                    } else {
+                                        res.json(innerFile);
+                                    }
                                 });
                         });
                     });
@@ -890,7 +1021,7 @@ module.exports = {
 
     /**
      * DELETE file
-     * V2 OK.
+     * SHARE OK.
      */
     deleteFile: [
         passport.authenticate('bearer', { session: false }),
@@ -911,84 +1042,60 @@ module.exports = {
                 }
 
                 if (file == null) {
-                    //TODO: CHECK SHARES
                     return res.send(404, "File not found");
                 }
 
-                if (file.userId !== req.user.id) {
-                    //TODO: CHECK SHARES
-                    return res.send(403, "You don't have any access on this file");
-                }
+                async.series([
+                    function (next) {
+                        if (file.userId != req.user.id) {
+                            ShareHelper.GetShareCode(file, req.user.id, function (code) {
+                                if (code != 2) {
+                                    return res.send(403, "You don't have any write access on the file");
+                                }
 
-                mongooseModels.Folder.update({'_id': file.parent._id},
-                    { $pull: { childFiles: file._id } },
-                    function (err, docsUpdated) {
-                        if (err) {
-                            return res.end(err.toString());
+                                return next();
+                            });
+                        } else {
+                            return next();
                         }
-                        mongooseModels.RealFile.update({'_id': file.realFileData.id},
-                            { $pull: { 'metadata.references': file._id },
-                                "metadata.updateDate": new Date()},
+                    },
+                    function (next) {
+                        mongooseModels.Folder.update({'_id': file.parent._id},
+                            { $pull: { childFiles: file._id } },
                             function (err, docsUpdated) {
                                 if (err) {
                                     return res.end(err.toString());
                                 }
+                                mongooseModels.RealFile.update({'_id': file.realFileData.id},
+                                    { $pull: { 'metadata.references': file._id },
+                                        "metadata.updateDate": new Date()},
+                                    function (err, docsUpdated) {
+                                        if (err) {
+                                            return res.end(err.toString());
+                                        }
 
-                                mongooseModels.File.remove({'_id': id}, function (err, docsUpdated) {
-                                    //Update parents updateDate
-                                    mongooseModels.Folder.update({"_id": { "$in": file.parents } },
-                                        { updateDate: new Date() },
-                                        { multi: true },
-                                        function (err, docsUpdated) {
-                                            return res.json(200, {status: 'deleted'});
-                                        });
-                                });
-
-                                /*mongooseModels.RealFile.findById(file.realFileData.id, function (err, realFileToCheck) {
-                                    //Le parent n'est plus référencé, direction poubelle
-                                    if (realFileToCheck.metadata.references.length == 0) {
-                                        new mongo.GridStore(mongo_db_object, realFileToCheck._id, 'r').open(function (err, gridStore) {
-
-                                            // Unlink the file
-                                            gridStore.unlink(function (err, result) {
-                                                if (err) {
-                                                    console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
-                                                    next(err);
-                                                }
-
-                                                // Verify that the file no longer exists
-                                                mongo.GridStore.exist(mongo_db_object, realFileToCheck._id, function (err, result) {
-                                                    if (err) {
-                                                        console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
-                                                        next(err);
-                                                    }
-
-                                                    if (result) {
-                                                        console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !!");
-                                                        return res.send(500, "Internal Error");
-                                                    }
-                                                    //Update parents updateDate
-                                                    mongooseModels.Folder.update({"_id": { "$in": file.parents } },
-                                                        { updateDate: new Date() },
-                                                        { multi: true },
-                                                        function (err, docsUpdated) {
-                                                            return res.json(200, {status: 'deleted'});
-                                                        });
+                                        mongooseModels.File.remove({'_id': id}, function (err, docsUpdated) {
+                                            //Update parents updateDate
+                                            mongooseModels.Folder.update({"_id": { "$in": file.parents } },
+                                                { updateDate: new Date() },
+                                                { multi: true },
+                                                function (err, docsUpdated) {
+                                                    return next();
                                                 });
-                                            });
                                         });
-                                    } else {
-                                        return res.json(200, {status: 'deleted'});
-                                    }
-                                });*/
+                                    });
                             });
-                    });
+                    }
+                ], function (err) {
+                    return res.json(200, {status: 'deleted'});
+                });
             });
         }
     ],
 
     /**
      * POST copy file
+     * SHARE OK
      */
     copyFile: [
         passport.authenticate('bearer', { session: false }),
@@ -999,7 +1106,9 @@ module.exports = {
                 originalFile = null,
                 newFile = null,
                 newHierarchy = [],
-                destinationFolder = null;
+                destinationFolder = null,
+                newOwnerId = req.user.id,
+                copyToShare = false;
 
             if (id) {
                 try {
@@ -1029,45 +1138,75 @@ module.exports = {
                             return res.send(404, "Couldn't find given file");
                         }
 
-                        if (file.userId !== req.user.id) {
-                            //TODO : CHECK SHARES
-                            return res.send(403, "You don't have any access on this file");
+                        if (file.userId != req.user.id) {
+                            ShareHelper.GetShareCode(file, req.user.id, function (code) {
+                                if (code == 0) {
+                                    return res.send(403, "You don't have any access on the new file");
+                                }
+
+                                originalFile = file;
+                                return next();
+                            });
+                        } else {
+                            originalFile = file;
+                            return next();
                         }
-
-                        originalFile = file;
-
-                        next();
                     });
                 },
                 function (next) {
                     /** Get destination folder **/
+
                     FolderHelper.getFolder({'_id': destinationId}, "childFolders childFiles", function (err, goToFolder) {
                         if (err || !goToFolder || goToFolder === null) {
                             return res.send(404, "Couldn't find destination folder");
                         }
 
-                        if (goToFolder.userId !== req.user.id) {
-                            //TODO : CHECK SHARES
-                            return res.send(403, "You don't have any access on this file");
+                        if (goToFolder.userId != req.user.id) {
+                            ShareHelper.GetShareCode(goToFolder, req.user.id, function (code) {
+                                if (code != 2 && code != 4) {
+                                    return res.send(403, "You don't have any write access on the destination folder");
+                                }
+
+                                copyToShare = true;
+                                newOwnerId = goToFolder.userId;
+
+                                newHierarchy = goToFolder.parents;
+                                newHierarchy.push(goToFolder.id);
+
+                                destinationFolder = goToFolder;
+
+                                return next();
+                            });
+                        } else {
+                            newHierarchy = goToFolder.parents;
+                            newHierarchy.push(goToFolder.id);
+
+                            destinationFolder = goToFolder;
+
+                            return next();
                         }
-
-                        if (!FolderHelper.isNameAvailable(originalFile.name, goToFolder.childFolders, goToFolder.childFiles)) {
-                            return res.send(400, "Name already existing in the new parent folder");
-                        }
-
-                        newHierarchy = goToFolder.parents;
-                        newHierarchy.push(goToFolder.id);
-
-                        destinationFolder = goToFolder;
-
-                        next();
                     });
+                },
+                function (next) {
+                    if (!FolderHelper.isNameAvailable(originalFile.name, destinationFolder.childFolders, destinationFolder.childFiles)) {
+                        return res.send(400, "Name already existing in the new parent folder");
+                    }
+                    if (destinationFolder.isRoot) {
+                        FolderHelper.checkNameInRootFolder(originalFile.name, req.user.id, null, function (item) {
+                            if (item) {
+                                return res.send(403, "Name already taken by a share !");
+                            }
+                            return next();
+                        });
+                    } else {
+                        return next();
+                    }
                 },
                 function (next) {
                     /** Create new file **/
                     mongooseModels.File.create({
                         "name": originalFile.name,
-                        "userId": req.user.id,
+                        "userId": newOwnerId,
                         "shares": [],
                         "publicShareEnabled": false,
                         "parents": newHierarchy,
@@ -1113,17 +1252,6 @@ module.exports = {
                             }
                             next();
                         });
-                },
-                function (next) {
-                    /** Get all folders to copy **/
-                    next();
-                },
-                function (next) {
-                    next();
-                },
-                function (next) {
-                    //TODO: HANDLE SHARES HERE
-                    next();
                 }
             ], function (err) {
                 if (err) {
@@ -1136,7 +1264,13 @@ module.exports = {
                         { updateDate: new Date() },
                         { multi: true },
                         function (err, docsUpdated) {
-                            res.json(innerFile);
+                            if (copyToShare) {
+                                ShareHelper.AnalyzeItemShares(innerFile, req.user.id, function (cleanedFile) {
+                                    return res.json(cleanedFile);
+                                });
+                            } else {
+                                res.json(innerFile);
+                            }
                         });
                 });
             });

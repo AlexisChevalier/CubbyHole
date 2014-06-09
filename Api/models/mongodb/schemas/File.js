@@ -14,6 +14,10 @@ module.exports = new Schema({
         type: Boolean,
         default: false
     },
+    sharedCode: {
+        type: Number,
+        default: 0
+    },
     "parents": [{
         type: Schema.Types.ObjectId,
         ref: 'Folder'

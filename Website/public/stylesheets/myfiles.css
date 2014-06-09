@@ -207,6 +207,10 @@ table tr td.shared-folder {
 	background: url('/images/filebrowser.png') -40px -40px no-repeat;
 }
 
+table tr td.shared-file {
+	background: url('/images/filebrowser.png') -160px -40px no-repeat
+}
+
 /*** buttons ***/
 .optionButton {
 	color: #3eaafc;

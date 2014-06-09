@@ -21,7 +21,6 @@ FolderHelper.createRootFolder = function (userID, next) {
         childFolders: [],
         isRoot: true
     }, function (err, createdFolder) {
-        console.log(err, createdFolder);
         next(err, createdFolder);
     });
 };
@@ -75,4 +74,35 @@ FolderHelper.isNameAvailable = function (name, childFolders, childFiles, oldName
     }
 
     return !error;
+};
+
+FolderHelper.checkNameInRootFolder = function (name, userId, oldName, next) {
+    var i;
+    mongooseModels.Folder.findOne({"userId": userId, isRoot: true}).populate('childFolders childFiles').exec(function (err, rootFolder) {
+        mongooseModels.Folder.find({"shares.userId": userId}).populate('').exec(function (err, folders) {
+            for (i = 0; i < folders.length; i++) {
+                rootFolder.childFolders.push(folders[i]);
+            }
+
+            mongooseModels.File.find({"shares.userId": userId}, function (err, files) {
+                for (i = 0; i < files.length; i++) {
+                    rootFolder.childFiles.push(files[i]);
+                }
+
+                for (i = 0; i < rootFolder.childFolders.length; i++) {
+                    if (rootFolder.childFolders[i].name == name && rootFolder.childFolders[i].name != oldName) {
+                        return next(rootFolder.childFolders[i]);
+                    }
+                }
+                for (i = 0; i < rootFolder.childFiles.length; i++) {
+                    if (rootFolder.childFiles[i].name == name && rootFolder.childFiles[i].name != oldName) {
+                        return next(rootFolder.childFiles[i]);
+                    }
+                }
+
+                return next(null);
+
+            });
+        });
+    });
 };

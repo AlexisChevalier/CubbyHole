@@ -1,10 +1,10 @@
-HEYYYY... PLEASE CHANGE THIS BECAUSE IT'S AWFUL
+New share available !\n\n
 
-Welcome on CubbyHole\n\n
+Hi, {{ to.name }}\n
+{{ from.name }} just shared the {{type}} {{item.name}} with you !\n
+Here's the link : {{shareUri}}\n\n
 
-Hi, {{ username }}\n
-Welcome on our awesome service !\n
-Now you are registered you can start upload or download files. Then you can share them or synchronize them on other devices !\n\n
+Feel free to look at it and collaborate with your friends !\n\n
 
 If you have any questions, send a mail at team.cubbyhole@gmail.com !\n\n
 

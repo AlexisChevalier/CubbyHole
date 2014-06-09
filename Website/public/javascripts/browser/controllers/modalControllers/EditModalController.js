@@ -26,6 +26,6 @@ cubbyHoleBrowser.controller('EditModalController', ['$scope', '$routeParams', '$
     };
 
     $scope.cancel = function () {
-        //$modalInstance.dismiss('cancel');
+        $modalInstance.dismiss('cancel');
     };
 }]);

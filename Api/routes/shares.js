@@ -18,7 +18,6 @@ module.exports = {
                 type = req.params.type,
                 userId = req.params.userID,
                 writeAcccess = req.body["writeAccess"],
-                readAccess = req.body["readAccess"],
                 userToShare,
                 existing = false,
                 item;
@@ -53,6 +52,10 @@ module.exports = {
                             }
 
                             item = folder;
+
+                            if(item.isRoot) {
+                                return res.send(400, "You can't share your root folder !");
+                            }
                             return next();
                         });
                     } else if (type == "file") {
@@ -69,6 +72,15 @@ module.exports = {
                     }
                 },
                 function (next) {
+                    /** This is not what we want, but we found this issue too late and we can't rewrite a large part of our Virtual File System just to allow shares to be renamed for each user **/
+                    folderHelper.checkNameInRootFolder(item.name, userId, null, function (item) {
+                        if (item) {
+                            return res.send(403, "Name already taken by a share for this user, please try to rename this folder before you can share it !");
+                        }
+                        return next();
+                    });
+                },
+                function (next) {
                     if (item.userId != req.user.id) {
                         return res.send(403, "You must be the owner of this " + type + " to update its sharing parameters !");
                     }
@@ -77,28 +89,42 @@ module.exports = {
                         if(item.shares[i].userId == userId) {
                             existing = true;
                             item.shares[i].write = writeAcccess;
-                            item.shares[i].read = readAccess;
+                            item.shares[i].read = true;
                             break;
                         }
                     }
 
                     if (!existing) {
-                        item.shares.push({
-                            userName: userToShare.name,
-                            userId: userId,
-                            write: writeAcccess,
-                            read: readAccess
+                        mongooseModels.Folder.findOne({"_id": { "$in": item.parents }, "shares.userId":userId}, function (err, doc) {
+                            if (err || !doc || doc == null) {
+                                item.shares.push({
+                                    userName: userToShare.name,
+                                    userId: userId,
+                                    write: writeAcccess,
+                                    read: true
+                                });
+                                return next();
+                            } else {
+                                return res.send(400, "Can't share this " + type + " to this user because the parent folder «" + doc.name + "» is already shared with him !");
+                            }
                         });
+                    } else {
+                        return next();
                     }
-
+                },
+                function (next) {
                     item.save(function (err) {
                         if (err) {
                             return next(err);
                         }
 
                         if (!existing) {
-                            var html = mailer.compile("share.html", { type: type, item: item, from: req.user, to: userToShare }),
-                                text = mailer.compile("share.txt", { type: type, item: item, from: req.user, to: userToShare });
+                            var AccessUri = "";
+                            AccessUri += (config.currentWebClientUri || "https://cubby-hole.me/");
+                            AccessUri += "browser#/folder/?id=";
+                            AccessUri += (type == "folder") ? item._id : "";
+                            var html = mailer.compile("share.html", { type: type, item: item, from: req.user, to: userToShare, shareUri: AccessUri}),
+                                text = mailer.compile("share.txt", { type: type, item: item, from: req.user, to: userToShare, shareUri: AccessUri});
                             mailer.sendMail("CubbyHole Team <" + config.gmail.mail + ">", userToShare.email, req.user.name + " shared a " + type + " with you !", text, html);
                         }
 
@@ -229,6 +255,11 @@ module.exports = {
                             }
 
                             item = folder;
+
+                            if(item.isRoot) {
+                                return res.send(400, "You can't share your root folder !");
+                            }
+
                             return next();
                         });
                     } else if (type == "file") {
@@ -271,7 +302,6 @@ module.exports = {
     disablePublicShare: [
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
-            console.log("HY");
             var id = req.params.itemID,
                 type = req.params.type,
                 item;
@@ -293,6 +323,11 @@ module.exports = {
                             }
 
                             item = folder;
+
+                            if(item.isRoot) {
+                                return res.send(400, "You can't share your root folder !");
+                            }
+
                             return next();
                         });
                     } else if (type == "file") {

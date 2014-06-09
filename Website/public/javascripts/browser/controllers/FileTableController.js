@@ -55,6 +55,9 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                 $scope.parentFolders = data.parents;
 
                 $rootScope.appLoading = false;
+            }).error(function(data) {
+                flash("danger", data),
+                $location.search("id", "");
             });
     };
 
@@ -323,6 +326,19 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
         modalInstance.result.then(function (item) {
         }, function () {
         });
+    };
+
+    $scope.getItemClass = function(item) {
+        var className = "";
+        if(item.sharedCode != 0) {
+            className += "shared-";
+        }
+        if (item.type == "folder") {
+            className += "folder";
+        } else {
+            className += "file";
+        }
+        return className;
     };
 
     //Listens for location changes

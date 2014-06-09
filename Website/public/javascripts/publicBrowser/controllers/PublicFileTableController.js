@@ -54,6 +54,9 @@ cubbyHolePublicBrowser.controller('PublicFileTableController', ['$scope', '$root
                 $scope.parentFolders = data.parents;
 
                 $rootScope.appLoading = false;
+            }).error(function(data) {
+                flash("danger", data),
+                $location.search("id", "");
             });
     };
 

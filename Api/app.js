@@ -160,10 +160,6 @@ app.get('/api/users/find/:terms', accountRoutes.usersFind);
 /**
  * FILES API
  */
-
-//Search items
-app.get('/api/files/searchByTerms/:terms', filesRoutes.searchItemsByTerm);
-
 //Upload (or overwrite)
 app.post('/api/files', filesRoutes.createOrUpdateFile);
 

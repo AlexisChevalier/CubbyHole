@@ -26,7 +26,7 @@
             </div>
             <div class="checkbox" ng-show="userToShareWithSelected">
                 <label>
-                    <input type="checkbox" ng-model="$parent.allowReadAccess"> Allow Read Access
+                    <input type="checkbox" checked="checked" disabled> Allow Read Access
                 </label>
             </div>
             <div class="checkbox" ng-show="userToShareWithSelected">
@@ -34,7 +34,7 @@
                     <input type="checkbox" ng-model="$parent.allowWriteAccess"> Allow Write Access
                 </label>
             </div>
-            <button ng-show="userToShareWithSelected" ng-click="addShare()" type="submit" class="btn btn-default">Add</button>
+            <button ng-show="userToShareWithSelected" ng-click="addShare()" type="submit" class="btn btn-primary btn-block">Add</button>
         </div>
     </div>
     <div class="panel panel-default">
