@@ -208,10 +208,10 @@ app.post('/api/shares/:type/:itemID/:userID', sharesRoutes.addUpdateShare);
 //Remove share
 app.delete('/api/shares/:type/:itemID/:userID', sharesRoutes.removeShare);
 
-//Add or update share
+//enable Public Share
 app.post('/api/publicShares/:type/:itemID', sharesRoutes.enablePublicShare);
 
-//Add or update share
+//Disable public share
 app.delete('/api/publicShares/:type/:itemID', sharesRoutes.disablePublicShare);
 
 

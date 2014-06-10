@@ -7,7 +7,8 @@
 <blockquote>
     <p>{{__('API Documentation is only available in english at the moment !')}}</p>
 </blockquote>
-<div class="col-md-12">
+        <div class="row">
+<div class="col-md-12" style="margin-bottom: 30px;">
 <div class="doc-group">
     <h1 id="auth">I - Authentication</h1>
 
@@ -206,105 +207,12 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
 
 <div class="doc-group">
     <h1 id="files">IV - Files</h1>
-    <p><span class="label label-danger">UNSTABLE (May change soon)</span></p>
-
     <div class="panel-group">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#findFile">
-                        2 - Find items by name (!! DEPRECATED !!)
-                    </a>
-                </h4>
-            </div>
-            <div id="findFile" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <pre>https://localhost:8444/api/files/searchByTerms/:terms</pre>
-                    <ul>
-                        <li>Method : GET</li>
-                        <li>Authentication : Required</li>
-                        <li>Required url parameters :
-                            <ul>
-                                <li>:terms : The id of the folder to get the content of.</li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <p>Typical response :</p>
-<pre>
-{
-    "count": 2
-    "terms": "image"
-    "items":[
-        {
-            "_id": {
-                "$oid": "531b978d7b93df8cd20b710d"
-            },
-            "name": "myImages",
-            "type": "folder",
-            "userId": 53,
-            "systemPath": "/path/to/the/folder/myImages",
-            "version": 0,
-            "oldVersions": [],
-            "date": {
-                "$date": 1394314672822
-            },
-            "items": [
-                {
-                   "$oid": "531b98a67b93df8cd20b710e"
-                }
-            ],
-            "parents": [
-                {
-                   "$oid": "531b97497b93df8cd20b7108"
-                },
-                {
-                   "$oid": "531b8db0ab1684b5b167f362"
-                }
-             ],
-            "shareId": null,
-            "shared": false,
-            "isRoot": false
-        },
-        {
-            "_id": {
-                "$oid": "531b98a67b93df8cd20b710e"
-            },
-            "name": "image.png",
-            "type": "file",
-            "userId": 53,
-            "systemPath": "/path/to/the/folder/image.png",
-            "version": 0,
-            "oldVersions": [],
-            "date": {
-                "$date": 1394314672822
-            },
-            "items": [],
-            "parents": [
-                {
-                   "$oid": "531b978d7b93df8cd20b710d"
-                },
-                {
-                   "$oid": "531b97497b93df8cd20b7108"
-                },
-                {
-                   "$oid": "531b8db0ab1684b5b167f362"
-                }
-            ],
-            "shareId": null,
-            "shared": false,
-            "isRoot": false
-        }
-   ]
-}
-</pre>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
                     <a data-toggle="collapse" href="#getFileInfo">
-                        3 - Get file metadatas
+                        1 - Get file metadatas
                     </a>
                 </h4>
             </div>
@@ -322,27 +230,31 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
                     </ul>
                     <p>Typical response : </p>
         <pre>{
-  "_id": "537bdc85b7f8a5415b16184b",
-  "filename": "1400626309362_85016d5c-13c8-491a-9830-62bb897e568c",
-  "contentType": "image/jpeg",
-  "length": 180224,
-  "chunkSize": 262144,
-  "uploadDate": "2014-05-20T22:51:50.289Z",
-  "md5": "1e9c487846064b3415a248cf3674398e",
-  "metadata": {
-    "name": "IMG_14456.JPG",
-    "userId": 68,
-    "isShared": false,
-    "shareId": null,
-    "parent": "537bd726bd910b1c18519bc4",
-    "version": 0,
-    "oldVersions": [],
-    "parents": [
-      "537bd651bd910b1c18519bc2",
-      "537bd726bd910b1c18519bc4"
-    ]
+  "__v": 0,
+  "_id": ObjectId("5394b8a5d57dfadd2cf49d81"),
+  "busyWrite": false,
+  "name": "test.png",
+  "parent": ObjectId("5394b85fd57dfadd2cf49d7c"),
+  "parents": [
+    ObjectId("53907779068b7400000416ce"),
+    ObjectId("5394b85fd57dfadd2cf49d7c")
+  ],
+  "publicShareEnabled": false,
+  "readers": 0,
+  "realFileData": {
+    "chunkSize": 262144,
+    "contentType": "image/png",
+    "id": ObjectId("5394b8a5d57dfadd2cf49d82"),
+    "length": 524285,
+    "md5": "b768ac0e338ef116089452fc90582dcf",
+    "uploadDate": new Date(1402255525409)
   },
-  "aliases": null
+  "sharedCode": 0,
+  "shares": [
+
+  ],
+  "updateDate": new Date(1402255525402),
+  "userId": 75
 }</pre>
                 </div>
             </div>
@@ -351,13 +263,23 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" href="#downloadFile">
-                        4 - Download file
+                        2 - Download file
                     </a>
                 </h4>
             </div>
             <div id="downloadFile" class="panel-collapse collapse">
                 <div class="panel-body">
-                    Not available Yet
+                    <pre>https://localhost:8444/api/files/:fileID</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>fileID: The id of the file to download</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : A binary stream of the file</p>
                 </div>
             </div>
         </div>
@@ -365,7 +287,7 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" href="#postFile">
-                        5 - Upload File
+                        3 - Upload File (Overwrite if exists (needs write rights))
                     </a>
                 </h4>
             </div>
@@ -383,26 +305,40 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
                                 <li>Content-Length: Real file size in Bytes</li>
                             </ul>
                         </li>
+                        <li>Required parameters
+                            <ul>
+                                <li>A binary stream representing the file you want to upload (We don't accept form/multipart data)</li>
+                            </ul>
+                        </li>
+
                     </ul>
                     <p>Typical response : </p>
-        <pre>{ "_id" : "537bd9bfe186be155397c6c6",
-  "chunkSize" : 262144,
-  "contentType" : "image/jpeg",
-  "filename" : "1400625599361_5b5c6100-1741-4daa-a433-d4fcf545f437",
-  "length" : 180429,
-  "md5" : "5dd8ade36979f8a9ab6ee53701001625",
-  "metadata" : { "isShared" : false,
-      "name" : "IMG_1445.JPG",
-      "oldVersions" : [  ],
-      "parent" : "537bd726bd910b1c18519bc4",
-      "parents" : [
-                "537bd726bd910b1c18519bc4"
-            ],
-      "shareId" : null,
-      "userId" : 68,
-      "version" : 0
+        <pre>{
+  "action": "create",
+  "data": {
+    "__v": 0,
+    "_id": "53978013fadcb2c2062ad570",
+    "name": "mickambp.png",
+    "parent": "53907779068b7400000416ce",
+    "userId": 75,
+    "realFileData": {
+      "chunkSize": 262144,
+      "contentType": "image/png",
+      "id": "53978013fadcb2c2062ad571",
+      "length": 524285,
+      "md5": "b768ac0e338ef116089452fc90582dcf",
+      "uploadDate": "2014-06-10T22:00:51.294Z"
     },
-  "uploadDate" : "2014-05-20T22:40:00.328Z"
+    "readers": 0,
+    "busyWrite": false,
+    "updateDate": "2014-06-10T22:00:51.248Z",
+    "parents": [
+      "53907779068b7400000416ce"
+    ],
+    "sharedCode": 0,
+    "publicShareEnabled": false,
+    "shares": []
+  }
 }</pre>
                 </div>
             </div>
@@ -411,13 +347,53 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" href="#putFile">
-                        6 - Update or Move file
+                        4 - Rename or/and Move file
                     </a>
                 </h4>
             </div>
             <div id="putFile" class="panel-collapse collapse">
                 <div class="panel-body">
-                    Not available Yet
+                    <pre>https://localhost:8444/api/files/:fileID</pre>
+                    <ul>
+                        <li>Method : PUT</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>fileID: ID of the file you want to update</li>
+                            </ul>
+                        </li>
+                        <li>Required body values <strong>(At least one is required)</strong> :
+                            <ul>
+                                <li>newName: New Real name of the file</li>
+                                <li>newParentId: Id of the file's new parent folder</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "__v": 0,
+  "_id": "5394ed47ab4b7bdac64da611",
+  "name": "android2.png",
+  "parent": "53907779068b7400000416ce",
+  "userId": 75,
+  "realFileData": {
+    "id": "5394c166ca482eb048354ee0",
+    "contentType": "image/png",
+    "length": 2377,
+    "chunkSize": 262144,
+    "uploadDate": "2014-06-08T20:02:46.631Z",
+    "md5": "bddc7dd2dc3e3b8a659cc34211b4e906"
+  },
+  "readers": 0,
+  "busyWrite": false,
+  "updateDate": "2014-06-10T22:07:58.694Z",
+  "parents": [
+    "53907779068b7400000416ce"
+  ],
+  "sharedCode": 0,
+  "publicShareEnabled": false,
+  "shares": []
+}</pre>
                 </div>
             </div>
         </div>
@@ -425,7 +401,7 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" href="#deleteFile">
-                        7 - Remove file
+                        5 - Remove file
                     </a>
                 </h4>
             </div>
@@ -442,7 +418,63 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
                         </li>
                     </ul>
                     <p>Typical response : </p>
-                    <pre>File deleted</pre>
+                    <pre>{
+  "status": "deleted"
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#copyFile">
+                        6 - Copy file
+                    </a>
+                </h4>
+            </div>
+            <div id="copyFile" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/files/copy/:fileID'</pre>
+                    <ul>
+                        <li>Method : POST</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>fileID: The id of the file to delete</li>
+                            </ul>
+                        </li>
+                        <li>Required body values :
+                            <ul>
+                                <li>destinationID: The id of the folder where you want to copy the file</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{
+  "name": "IMG_1445.JPG",
+  "userId": 76,
+  "parent": "539598d33748c92a41179b81",
+  "_id": "5397887dfadcb2c2062ad576",
+  "__v": 0,
+  "realFileData": {
+    "id": "5394f46c7131c85ddbb32fbe",
+    "contentType": "image/jpeg",
+    "length": 1361238,
+    "chunkSize": 262144,
+    "uploadDate": "2014-06-08T23:40:28.551Z",
+    "md5": "426a1098479b871eb5d110034a317454"
+  },
+  "readers": 0,
+  "busyWrite": false,
+  "updateDate": "2014-06-10T22:36:45.888Z",
+  "parents": [
+    "53907779068b7400000416ce",
+    "539598d33748c92a41179b81"
+  ],
+  "sharedCode": 2,
+  "publicShareEnabled": false,
+  "shares": []
+}</pre>
                 </div>
             </div>
         </div>
@@ -451,8 +483,6 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
 
 <div class="doc-group">
     <h1 id="folders">V - Folders</h1>
-    <p><span class="label label-danger">UNSTABLE (May change soon)</span></p>
-
     <div class="panel-group">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -477,19 +507,68 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
                     <p>Typical response : </p>
         <pre>{
   "__v": 0,
-  "_id": "537bd726bd910b1c18519bc4",
-  "name": "InnerFolder",
-  "parent": "537bd651bd910b1c18519bc2",
+  "_id": "53907779068b7400000416ce",
+  "isShared": false,
+  "name": "CubbyHole",
+  "parent": null,
   "share": null,
-  "userId": 68,
-  "date": "2014-05-20T22:28:54.232Z",
-  "parents": [
-    "537bd651bd910b1c18519bc2"
+  "userId": 75,
+  "updateDate": "2014-06-08T23:40:29.864Z",
+  "parents": [],
+  "sharedCode": 0,
+  "publicShareEnabled": false,
+  "shares": [],
+  "isRoot": true,
+  "childFolders": [
+    {
+      "__v": 0,
+      "_id": "5394b85fd57dfadd2cf49d7c",
+      "name": "Movies",
+      "parent": "53907779068b7400000416ce",
+      "userId": 75,
+      "updateDate": "2014-06-08T22:16:24.362Z",
+      "parents": [
+        "53907779068b7400000416ce"
+      ],
+      "sharedCode": 0,
+      "publicShareEnabled": false,
+      "shares": [],
+      "isRoot": false,
+      "childFolders": [
+        "5394ded3f9751e61982d7ab4",
+        "5394e0b8b97d7e1ca3415356"
+      ],
+      "childFiles": [
+        "5394b8a5d57dfadd2cf49d81"
+      ]
+    },
   ],
-  "shared": false,
-  "isRoot": false,
-  "childFolders": [],
-  "childFiles": []
+  "childFiles": [
+    {
+      "name": "android.png",
+      "userId": 75,
+      "parent": "53907779068b7400000416ce",
+      "_id": "5394ed47ab4b7bdac64da611",
+      "__v": 0,
+      "realFileData": {
+        "id": "5394c166ca482eb048354ee0",
+        "contentType": "image/png",
+        "length": 2377,
+        "chunkSize": 262144,
+        "uploadDate": "2014-06-08T20:02:46.631Z",
+        "md5": "bddc7dd2dc3e3b8a659cc34211b4e906"
+      },
+      "readers": 0,
+      "busyWrite": false,
+      "updateDate": "2014-06-08T23:09:59.625Z",
+      "parents": [
+        "53907779068b7400000416ce"
+      ],
+      "sharedCode": 0,
+      "publicShareEnabled": false,
+      "shares": []
+    },
+  ]
 }</pre>
                 </div>
             </div>
@@ -518,15 +597,17 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
                     <p>Typical response : </p>
         <pre>{
   "__v": 0,
-  "name": "MyFolder",
-  "parent": "537bd651bd910b1c18519bc2",
-  "userId": 68,
-  "share": null,
-  "_id": "537bd682bd910b1c18519bc3",
-  "date": "2014-05-20T22:26:10.234Z",
+  "name": "New Folder",
+  "parent": "53907779068b7400000416ce",
+  "userId": 75,
+  "_id": "53978a28fadcb2c2062ad577",
+  "updateDate": "2014-06-10T22:43:52.592Z",
   "parents": [
-    "537bd651bd910b1c18519bc2"
+    "53907779068b7400000416ce"
   ],
+  "sharedCode": 0,
+  "publicShareEnabled": false,
+  "shares": [],
   "isRoot": false,
   "childFolders": [],
   "childFiles": []
@@ -563,16 +644,62 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
                     <p>Typical response : </p>
         <pre>{
   "__v": 0,
-  "_id": "537bd726bd910b1c18519bc4",
-  "name": "InnerFolder",
-  "parent": "537bd651bd910b1c18519bc2",
-  "share": null,
-  "userId": 68,
-  "date": "2014-05-20T22:28:54.232Z",
+  "_id": "53978a28fadcb2c2062ad577",
+  "name": "New Folder",
+  "parent": "5394b85fd57dfadd2cf49d7c",
+  "userId": 75,
+  "updateDate": "2014-06-10T22:46:22.780Z",
   "parents": [
-    "537bd651bd910b1c18519bc2"
+    {
+      "__v": 0,
+      "_id": "53907779068b7400000416ce",
+      "isShared": false,
+      "name": "CubbyHole",
+      "parent": null,
+      "share": null,
+      "userId": 75,
+      "updateDate": "2014-06-10T22:43:52.596Z",
+      "parents": [],
+      "sharedCode": 0,
+      "publicShareEnabled": false,
+      "shares": [],
+      "isRoot": true,
+      "childFolders": [
+        "5394b85fd57dfadd2cf49d7c",
+        "5394b863d57dfadd2cf49d7d"
+      ],
+      "childFiles": [
+        "5394f4667131c85ddbb32fb5",
+        "53978013fadcb2c2062ad570"
+      ]
+    },
+    {
+      "__v": 0,
+      "_id": "5394b85fd57dfadd2cf49d7c",
+      "name": "Movies",
+      "parent": "53907779068b7400000416ce",
+      "userId": 75,
+      "updateDate": "2014-06-08T22:16:24.362Z",
+      "parents": [
+        "53907779068b7400000416ce"
+      ],
+      "sharedCode": 0,
+      "publicShareEnabled": false,
+      "shares": [],
+      "isRoot": false,
+      "childFolders": [
+        "5394ded3f9751e61982d7ab4",
+        "5394e0b8b97d7e1ca3415356",
+        "53978a28fadcb2c2062ad577"
+      ],
+      "childFiles": [
+        "5394b8a5d57dfadd2cf49d81"
+      ]
+    }
   ],
-  "shared": false,
+  "sharedCode": 0,
+  "publicShareEnabled": false,
+  "shares": [],
   "isRoot": false,
   "childFolders": [],
   "childFiles": []
@@ -601,7 +728,127 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
                         </li>
                     </ul>
                     <p>Typical response : </p>
-        <pre>Folder deleted</pre>
+        <pre>{
+  "status": "deleted"
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#copyFolder">
+                        5 - Copy folder
+                    </a>
+                </h4>
+            </div>
+            <div id="copyFolder" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/folders/copy/:folderID</pre>
+                    <ul>
+                        <li>Method : POST</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>folderID: The id of the folder to copy</li>
+                            </ul>
+                        </li>
+                        <li>Required body values :
+                            <ul>
+                                <li>destinationID: The id of the folder where you want to copy the folder</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "__v": 0,
+  "_id": "53979014fadcb2c2062ad578",
+  "name": "Pictures",
+  "parent": "5394b86dd57dfadd2cf49d7f",
+  "userId": 76,
+  "updateDate": "2014-06-10T23:09:08.076Z",
+  "parents": [
+    {
+      "userId": 75,
+      "parent": null,
+      "name": "CubbyHole",
+      "_id": "53907779068b7400000416ce",
+      "__v": 0,
+      "updateDate": "2014-06-10T23:06:55.370Z",
+      "parents": [],
+      "sharedCode": 0,
+      "publicShareEnabled": false,
+      "shares": [],
+      "isRoot": true,
+      "childFolders": [],
+      "childFiles": []
+    },
+    {
+      "__v": 3,
+      "_id": "5394b86dd57dfadd2cf49d7f",
+      "name": "Alexis",
+      "parent": "53922dc4b33f11de2d7cf4e1",
+      "userId": 76,
+      "updateDate": "2014-06-08T23:05:39.985Z",
+      "parents": [
+        "53922dc4b33f11de2d7cf4e1"
+      ],
+      "sharedCode": 0,
+      "publicShareEnabled": false,
+      "shares": [
+        {
+          "userName": "Alexis Chevalier",
+          "userId": 75,
+          "write": true,
+          "read": true,
+          "_id": "5394e512a3caf0b8af3550d3"
+        }
+      ],
+      "isRoot": false,
+      "childFolders": [
+        "5394b8e8d57dfadd2cf49d94",
+        "53979014fadcb2c2062ad578"
+      ],
+      "childFiles": [
+        "5394c166ca482eb048354edf",
+        "5394ec433dcab01bc4250713"
+      ]
+    }
+  ],
+  "sharedCode": 2,
+  "publicShareEnabled": false,
+  "shares": [],
+  "isRoot": false,
+  "childFolders": [],
+  "childFiles": [
+    {
+      "name": "tumblr_n6c6s6fJSe1r00l9eo6_500.jpg",
+      "userId": 76,
+      "parent": "53979014fadcb2c2062ad578",
+      "_id": "53979014fadcb2c2062ad579",
+      "__v": 0,
+      "realFileData": {
+        "id": "5394b8a9d57dfadd2cf49d88",
+        "contentType": "image/jpeg",
+        "length": 24995,
+        "chunkSize": 262144,
+        "uploadDate": "2014-06-08T19:25:29.195Z",
+        "md5": "f2554b0d908d9d87704737961e73428d"
+      },
+      "readers": 0,
+      "busyWrite": false,
+      "updateDate": "2014-06-10T23:09:08.079Z",
+      "parents": [
+        "53907779068b7400000416ce",
+        "5394b86dd57dfadd2cf49d7f",
+        "53979014fadcb2c2062ad578"
+      ],
+      "sharedCode": 2,
+      "publicShareEnabled": false,
+      "shares": []
+    }
+  ]
+}</pre>
                 </div>
             </div>
         </div>
@@ -610,11 +857,363 @@ https://localhost:8444/api/users/find/bob%40mail.com</pre>
 
 <div class="doc-group">
     <h1 id="shares">VI - Shares</h1>
+    <div class="well">
+        About Share Codes <br/>
+        A share code describes the internal sharing status of a file or a folder <br/><br>
+        <ul>
+            <li>0 - Not shared</li>
+            <li>1 - Shared in Read Only mode</li>
+            <li>2 - Shared in Read-Write mode</li>
+            <li>3 - Root of the Share, in Read Only mode</li>
+            <li>4 - Root of the Share, in Read-Write mode</li>
+        </ul>
+    </div>
 
-    <p><span class="label label-danger">UNSTABLE (May change soon)</span></p>
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#addShare">
+                        1 - Add share
+                    </a>
+                </h4>
+            </div>
+            <div id="addShare" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/shares/:TYPE/:ID/:USERID</pre>
+                    <ul>
+                        <li>Method : POST</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>TYPE: folder or file, depending on what you need to share</li>
+                                <li>ID: id of the folder or file you need to share</li>
+                                <li>USERID: id of the user who you want to share with</li>
+                            </ul>
+                        </li>
+                        <li>Required body values :
+                            <ul>
+                                <li>writeAccess: (boolean) Allows or not the write access</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "action": "created",
+  "data": {
+    "__v": 1,
+    "_id": "5394b863d57dfadd2cf49d7d",
+    "name": "Pictures",
+    "parent": "53907779068b7400000416ce",
+    "userId": 75,
+    "updateDate": "2014-06-08T22:08:19.431Z",
+    "parents": [
+      "53907779068b7400000416ce"
+    ],
+    "sharedCode": 0,
+    "publicShareEnabled": false,
+    "shares": [
+      {
+        "userName": "Alexis Chevalier",
+        "userId": 76,
+        "write": true,
+        "read": true,
+        "_id": "5397932e631fa2126e35cfd0"
+      }
+    ],
+    "isRoot": false,
+    "childFolders": [],
+    "childFiles": [
+      "5394b8a9d57dfadd2cf49d87"
+    ]
+  }
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#removeShare">
+                        2 - Remove share
+                    </a>
+                </h4>
+            </div>
+            <div id="removeShare" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/shares/:TYPE/:ID/:USERID</pre>
+                    <ul>
+                        <li>Method : DELETE</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>TYPE: folder or file, depending on what you need to 'unshare'</li>
+                                <li>ID: id of the folder or file you need to 'unshare'</li>
+                                <li>USERID: id of the user who you want to 'unshare' with</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{
+  "__v": 2,
+  "_id": "5394b863d57dfadd2cf49d7d",
+  "name": "Pictures",
+  "parent": "53907779068b7400000416ce",
+  "userId": 75,
+  "updateDate": "2014-06-08T22:08:19.431Z",
+  "parents": [
+    "53907779068b7400000416ce"
+  ],
+  "sharedCode": 0,
+  "publicShareEnabled": false,
+  "shares": [],
+  "isRoot": false,
+  "childFolders": [],
+  "childFiles": [
+    "5394b8a9d57dfadd2cf49d87"
+  ]
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#enablePublicShare">
+                        3 - Enable public sharing
+                    </a>
+                </h4>
+            </div>
+            <div id="enablePublicShare" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/publicShares/:TYPE/:ID</pre>
+                    <ul>
+                        <li>Method : POST</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>TYPE: folder or file, depending on what you need to share</li>
+                                <li>ID: id of the folder or file you need to share</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>
+                        {
+  "__v": 2,
+  "_id": "5394b863d57dfadd2cf49d7d",
+  "name": "Pictures",
+  "parent": "53907779068b7400000416ce",
+  "userId": 75,
+  "updateDate": "2014-06-08T22:08:19.431Z",
+  "parents": [
+    "53907779068b7400000416ce"
+  ],
+  "sharedCode": 0,
+  "publicShareEnabled": true,
+  "shares": [],
+  "isRoot": false,
+  "childFolders": [],
+  "childFiles": [
+    "5394b8a9d57dfadd2cf49d87"
+  ]
+}
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#disablePublicShare">
+                        4 - Disable public sharing
+                    </a>
+                </h4>
+            </div>
+            <div id="disablePublicShare" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/publicShares/:TYPE/:ID</pre>
+                    <ul>
+                        <li>Method : DELETE</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>TYPE: folder or file, depending on what you need to 'unshare'</li>
+                                <li>ID: id of the folder or file you need to 'unshare'</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{
+  "__v": 2,
+  "_id": "5394b863d57dfadd2cf49d7d",
+  "name": "Pictures",
+  "parent": "53907779068b7400000416ce",
+  "userId": 75,
+  "updateDate": "2014-06-08T22:08:19.431Z",
+  "parents": [
+    "53907779068b7400000416ce"
+  ],
+  "sharedCode": 0,
+  "publicShareEnabled": false,
+  "shares": [],
+  "isRoot": false,
+  "childFolders": [],
+  "childFiles": [
+    "5394b8a9d57dfadd2cf49d87"
+  ]
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <div class="doc-group-item">
-        <h3 id="none-yet">Not available yet !</h3>
+
+<div class="doc-group">
+    <h1 id="public">VII - Public</h1>
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#publicMeta">
+                        1 - Get public file metadatas
+                    </a>
+                </h4>
+            </div>
+            <div id="publicMeta" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/public/file/:fileID</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : <strong>Not required</strong></li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>fileID: The file you want to access</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{
+  "__v": 0,
+  "_id": "53978013fadcb2c2062ad570",
+  "name": "mickambp.png",
+  "parent": null,
+  "userId": 75,
+  "realFileData": {
+    "chunkSize": 262144,
+    "contentType": "image/png",
+    "id": "53978013fadcb2c2062ad571",
+    "length": 524285,
+    "md5": "b768ac0e338ef116089452fc90582dcf",
+    "uploadDate": "2014-06-10T22:00:51.294Z"
+  },
+  "readers": 0,
+  "busyWrite": false,
+  "updateDate": "2014-06-10T22:00:51.248Z",
+  "parents": [],
+  "sharedCode": 0,
+  "publicShareEnabled": true,
+  "shares": []
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#publicDownload">
+                        2 - Download public file
+                    </a>
+                </h4>
+            </div>
+            <div id="publicDownload" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/public/file/download/:fileID</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : <strong>Not required</strong></li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>fileID: The file you want to access</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : A binary stream of the file</p>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#publicFolderDetails">
+                        3 - Public folder details
+                    </a>
+                </h4>
+            </div>
+            <div id="publicFolderDetails" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://localhost:8444/api/public/folder/:folderID</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : <strong>Not required</strong></li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>folderID: The folder you want to access</li>
+                            </ul>
+                        </li>
+                        <li>Required body values :
+                            <ul>
+                                <li>Body: values</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{
+  "__v": 2,
+  "_id": "5394b863d57dfadd2cf49d7d",
+  "name": "Pictures",
+  "parent": null,
+  "userId": 75,
+  "updateDate": "2014-06-08T22:08:19.431Z",
+  "parents": [],
+  "sharedCode": 0,
+  "publicShareEnabled": true,
+  "shares": [],
+  "isRoot": true,
+  "childFolders": [],
+  "childFiles": [
+    {
+      "__v": 0,
+      "_id": "5394b8a9d57dfadd2cf49d87",
+      "name": "tumblr_n6c6s6fJSe1r00l9eo6_500.jpg",
+      "parent": "5394b863d57dfadd2cf49d7d",
+      "userId": 75,
+      "realFileData": {
+        "chunkSize": 262144,
+        "contentType": "image/jpeg",
+        "id": "5394b8a9d57dfadd2cf49d88",
+        "length": 24995,
+        "md5": "f2554b0d908d9d87704737961e73428d",
+        "uploadDate": "2014-06-08T19:25:29.195Z"
+      },
+      "readers": 0,
+      "busyWrite": false,
+      "updateDate": "2014-06-08T19:25:29.190Z",
+      "parents": [
+        "53907779068b7400000416ce",
+        "5394b863d57dfadd2cf49d7d"
+      ],
+      "sharedCode": 0,
+      "publicShareEnabled": false,
+      "shares": []
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
