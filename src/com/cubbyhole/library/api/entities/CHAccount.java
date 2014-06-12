@@ -1,5 +1,7 @@
 package com.cubbyhole.library.api.entities;
 
+import java.util.ArrayList;
+
 import com.cubbyhole.library.api.CHJsonNode;
 
 public class CHAccount {
@@ -15,7 +17,7 @@ public class CHAccount {
 	private Long				id;
 	private String				email;
 	private String				name;
-	private boolean				isSocialAccount;
+	private Boolean				isSocialAccount;
 
 	//private String				actualPlan;
 
@@ -34,6 +36,14 @@ public class CHAccount {
 			// TODO: throw a CHJsonParseException
 		}
 		return acc;
+	}
+
+	public static ArrayList<CHAccount> fromJsonArray(CHJsonNode json) {
+		ArrayList<CHAccount> accounts = new ArrayList<CHAccount>();
+		for (CHJsonNode accNode : json.asList()) {
+			accounts.add(fromJson(accNode));
+		}
+		return accounts;
 	}
 
 	/// GETTERS & SETTERS ///
@@ -91,5 +101,15 @@ public class CHAccount {
 	 */
 	public final void setSocialAccount(boolean isSocialAccount) {
 		this.isSocialAccount = isSocialAccount;
+	}
+
+	@Override
+	public String toString() {
+		String str = "[id: " + id + ", name: " + name + ", email: " + email;
+		if (isSocialAccount != null) {
+			str += ", isSocialAccount: " + isSocialAccount;
+		}
+		str += "]";
+		return str;
 	}
 }

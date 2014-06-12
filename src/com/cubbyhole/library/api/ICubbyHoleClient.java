@@ -1,5 +1,7 @@
 package com.cubbyhole.library.api;
 
+import java.util.ArrayList;
+
 import com.cubbyhole.library.api.entities.CHAccount;
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
@@ -8,10 +10,10 @@ import com.cubbyhole.library.interfaces.IAsyncCubbyHoleClient;
 /**
  * Interface that defines all API methods exposed by the server API.
  * <pre>Note: Don't forget to update {@link IAsyncCubbyHoleClient} if you update it.</pre>
- * @version 1.0
+ * @version 2.0
  */
 public interface ICubbyHoleClient {
-	public static final float	API_VERSION		= 1.0F;
+	public static final float	API_VERSION		= 2.0F;
 
 	/// API ROUTES DEFINITION ///
 
@@ -60,6 +62,13 @@ public interface ICubbyHoleClient {
 	 * @return the synced CHAccount.
 	 */
 	public CHAccount updateAccount(CHAccount account);
+
+	/**
+	 * Used to find one or a list of users using it's name or email
+	 * @param term - the name or part of the name or an email
+	 * @return an {@link ArrayList} of {@link CHAccount}s
+	 */
+	public ArrayList<CHAccount> findUser(String term);
 
 	/**
 	 * Used to get the root folder of the account file system.

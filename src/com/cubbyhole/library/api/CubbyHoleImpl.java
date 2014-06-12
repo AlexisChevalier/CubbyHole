@@ -11,6 +11,7 @@ import com.cubbyhole.library.http.CHHttpDatas;
 import com.cubbyhole.library.http.CHHttpResponse;
 import com.cubbyhole.library.interfaces.IAsyncCubbyHoleClient;
 import com.cubbyhole.library.logger.Log;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 /**
  * Default implementation of the ICubbyHoleApi and IApiRequester interface to communicate with the api
@@ -148,6 +149,23 @@ public class CubbyHoleImpl implements ICubbyHoleClient, IApiRequester {
 	public CHAccount updateAccount(CHAccount account) {
 		// TODO Auto-generated method stub
 		return account;
+	}
+
+	@Override
+	public ArrayList<CHAccount> findUser(String term) {
+		try {
+			ArrayList<CHAccount> accounts = new ArrayList<CHAccount>();
+			CHJsonNode json = apiGet(API_ENDPOINT + ACCOUNT_FIND + term);
+			if (json.getNode() instanceof ArrayNode) {
+				accounts.addAll(CHAccount.fromJsonArray(json));
+			} else {
+				accounts.add(CHAccount.fromJson(json));
+			}
+			return accounts;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
 	}
 
 	@Override

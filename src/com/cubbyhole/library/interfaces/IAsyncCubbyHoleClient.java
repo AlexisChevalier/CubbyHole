@@ -22,6 +22,12 @@ public interface IAsyncCubbyHoleClient {
 	public void updateAccount(IApiRequestHandler<CHAccount> handler, CHAccount account);
 
 	/**
+	 * Used to find one or a list of users using it's name or email.
+	 * @param term - the name or part of the name or an email
+	 */
+	public void findUser(IApiRequestHandler<CHAccount> handler, String term);
+
+	/**
 	 * Used to get the root folder of the account file system.
 	 */
 	public void getRootFolder(IApiRequestHandler<CHFolder> handler);
@@ -69,4 +75,5 @@ public interface IAsyncCubbyHoleClient {
 	 * @param file - the file you want to delete.
 	 */
 	public void deleteFile(IApiRequestHandler<Boolean> handler, CHFile file);
+
 }
