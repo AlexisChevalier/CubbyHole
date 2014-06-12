@@ -1,8 +1,9 @@
 package com.cubbyhole.library.main;
 
-import com.cubbyhole.library.http.CHHttp;
-import com.cubbyhole.library.http.CHHttpDatas;
-import com.cubbyhole.library.http.CHHttpResponse;
+import java.util.ArrayList;
+
+import com.cubbyhole.library.api.CubbyHoleImpl;
+import com.cubbyhole.library.api.entities.CHAccount;
 import com.cubbyhole.library.logger.Log;
 
 public class Launcher {
@@ -13,23 +14,17 @@ public class Launcher {
 	 * Should be replaced by JUnit tests
 	 */
 	public static void main(String[] args) {
-		Log.d(Launcher.TAG, "This is a debug message");
-		Log.w(Launcher.TAG, "This is a warning message");
-		Log.e(Launcher.TAG, "This is an error message");
+		String accessToken = "adCPe1zGVeMBZgJ8MqLiu62pmPiSpPHAaCKce8lbndQkHng4fZ3CJ0QzDssiqEZb9LnMd1UrIKu89asDYc4H8j6oALLEAssiWYbY3ds9glEF3h2bSPjIUwwGj8Hk8FayfusHMZB3CqmOrHt9Z6W8QE8ldyNnMIa1HdYjAK9ZZVAmWmSMojd7CTeBwXT0LPLJOJjRCcJw6qsZef3AJnfG1j376FoONztNWQVqwJ2L9MV3mgAYIbnSFJfkeX8YN465";
 
-		// Testing a get request
-		CHHttpResponse tmp = CHHttp.get("http://google.com", null, null);
-		Log.d(Launcher.TAG, tmp.toString());
+		CubbyHoleImpl.getInstance().Initialize(accessToken);
 
-		// Testing a get request
-		CHHttpResponse getResponse = CHHttp.get("http://httpbin.org/get", null, null);
-		Log.d(Launcher.TAG, getResponse.toString());
-
-		// Testing a post request
-		CHHttpDatas datas = new CHHttpDatas()//
-				.add("username", "tehCivilian")//
-				.add("password", "p455w0rd");
-		CHHttpResponse postResponse = CHHttp.post("http://httpbin.org/post", datas, null, null);
-		Log.d(Launcher.TAG, postResponse.toString());
+		ArrayList<CHAccount> accounts = CubbyHoleImpl.getInstance().findUser("alexis");
+		if (accounts != null) {
+			for (CHAccount chAccount : accounts) {
+				Log.d(TAG, chAccount.toString());
+			}
+		} else {
+			Log.e(TAG, "Failed to find users !");
+		}
 	}
 }
