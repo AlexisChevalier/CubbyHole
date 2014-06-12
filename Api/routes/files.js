@@ -7,6 +7,7 @@ var passport = require('passport'),
     FolderHelper = require('../models/mongodb/helpers/FolderHelper'),
     FileHelper = require('../models/mongodb/helpers/FileHelper'),
     ShareHelper = require('../models/mongodb/helpers/ShareHelper'),
+    ActionHelper = require('../models/mongodb/helpers/ActionHelper'),
     async = require('async'),
     uuid = require('node-uuid'),
     Throttle = require('throttle');
@@ -651,6 +652,11 @@ module.exports = {
                         { updateDate: new Date() },
                         { multi: true },
                         function (err, docsUpdated) {
+                            if (newFile) {
+                                ActionHelper.Log('file', file._id, req.user.id, "create");
+                            } else {
+                                ActionHelper.Log('file', file._id, req.user.id, "update");
+                            }
                             if (createdInShare) {
                                 ShareHelper.AnalyzeItemShares(file, req.user.id, function(cleanedFile) {
                                     if (newFile) {
@@ -782,6 +788,7 @@ module.exports = {
                         });
 
                         throttledStream.on("close", function () {
+                            ActionHelper.Log('file', file._id, req.user.id, "download");
                         });
                     });
                 });
@@ -895,6 +902,7 @@ module.exports = {
                                     if (err) {
                                         next(err);
                                     }
+                                    ActionHelper.Log('file', file._id, req.user.id, "edit");
                                     next();
                                 });
                             } else {
@@ -1004,6 +1012,7 @@ module.exports = {
                                 { updateDate: new Date() },
                                 { multi: true },
                                 function (err, docsUpdated) {
+                                    ActionHelper.Log('file', file._id, req.user.id, "move");
                                     if (moveToShare || renameOnShare) {
                                         ShareHelper.AnalyzeItemShares(innerFile, req.user.id, function (cleanedFile) {
                                             return res.json(cleanedFile);
@@ -1087,6 +1096,7 @@ module.exports = {
                             });
                     }
                 ], function (err) {
+                    ActionHelper.Log('file', file._id, req.user.id, "delete");
                     return res.json(200, {status: 'deleted'});
                 });
             });
@@ -1264,6 +1274,7 @@ module.exports = {
                         { updateDate: new Date() },
                         { multi: true },
                         function (err, docsUpdated) {
+                            ActionHelper.Log('file', innerFile._id, req.user.id, "copy");
                             if (copyToShare) {
                                 ShareHelper.AnalyzeItemShares(innerFile, req.user.id, function (cleanedFile) {
                                     return res.json(cleanedFile);

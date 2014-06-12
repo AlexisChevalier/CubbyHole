@@ -196,7 +196,6 @@ ShareHelper.GetShareCode = function (item, userId, next) {
  * @param item
  * @param userId
  * @returns {object|null}
- * @constructor
  */
 ShareHelper.GetDirectShare = function (item, userId) {
     for (var i = 0; i < item.shares.length; i++) {

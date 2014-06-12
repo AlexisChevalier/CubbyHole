@@ -151,10 +151,27 @@ app.get('/', defaultRoutes.authHome);
 
 app.get('/api', defaultRoutes.apiHome);
 
-//account
+/**
+ * ACCOUNT API
+ */
+// Get account details
 app.get('/api/account/details', accountRoutes.userDetails);
+
+//Update account details
 app.put('/api/account/details', accountRoutes.userUpdate);
+
+// Delete account (TODO: Handle cleaning)
 app.delete('/api/account', accountRoutes.userDelete);
+
+// Get quotas
+//app.get('/api/account/quotas', accountRoutes.userQuotas);
+
+// Get actions
+app.get('/api/account/actions/:timestamp', accountRoutes.userActions);
+
+/**
+ * USERS API
+ */
 app.get('/api/users/find/:terms', accountRoutes.usersFind);
 
 /**

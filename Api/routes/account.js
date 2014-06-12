@@ -2,7 +2,9 @@
 
 var passport = require('passport'),
     userHelper = require('../models/mysql/helpers/UserHelper'),
-    planHelper = require('../models/mysql/helpers/PlanHelper');
+    planHelper = require('../models/mysql/helpers/PlanHelper'),
+    ActionHelper = require('../models/mongodb/helpers/ActionHelper'),
+    mongooseModels = require('../models/mongodb/schemas');
 
 module.exports = {
     /**
@@ -19,6 +21,65 @@ module.exports = {
                     socialAccount: (req.user.social_type != null),
                     actualPlan: actualPlanArray[0]
                 });
+            });
+        }
+    ],
+
+    /**
+     * GET user quotas
+     */
+    userQuotas: [
+        passport.authenticate('bearer', { session: false }),
+        function (req, res) {
+            planHelper.GetActualPlanForUserID(req.user.id, function (err, actualPlanArray) {
+
+                mongooseModels.File.aggregate([
+                    {
+                        $match: {
+                            userId: req.user.id
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: '$userId',
+                            spaceUsed: {
+                                $sum: '$realFileData.length'
+                            }
+                        }
+                    }
+                ], function (err, results) {
+                        if (err) {
+                            console.error(err);
+                            return res.send(500, err.toString());
+                        }
+                        return res.json({
+                            id: req.user.id,
+                            diskQuota: {
+                                limit: 10000000,
+                                used: results[0].spaceUsed,
+                                available: 10000000 - results[0].spaceUsed
+                            },
+                            bandWidthQuota: {
+                                limit: 500,
+                                used: 250,
+                                available: 250
+                            }
+                        })
+                    }
+                );
+            });
+        }
+    ],
+
+    /**
+     * GET user actions
+     */
+    userActions: [
+        passport.authenticate('bearer', { session: false }),
+        function (req, res) {
+            ActionHelper.GetActionsForUserAndTime(req.user.id, req.params.time, function (err, result) {
+                console.log(err, result);
+                res.json(result);
             });
         }
     ],

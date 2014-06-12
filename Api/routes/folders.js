@@ -5,6 +5,7 @@ var passport = require('passport'),
     FolderHelper = require('../models/mongodb/helpers/FolderHelper'),
     FileHelper = require('../models/mongodb/helpers/FileHelper'),
     ShareHelper = require('../models/mongodb/helpers/ShareHelper'),
+    ActionHelper = require('../models/mongodb/helpers/ActionHelper'),
     async = require('async'),
     _ = require('lodash');
 
@@ -182,6 +183,7 @@ module.exports = {
                         { updateDate: new Date() },
                         { multi: true },
                         function (err, docsUpdated) {
+                            ActionHelper.Log('folder', newFolder._id, req.user.id, "create");
                             if (writeOnShare) {
                                 ShareHelper.AnalyzeItemShares(newFolder, req.user.id, function (cleanedFolder) {
                                     return res.json(cleanedFolder);
@@ -312,6 +314,7 @@ module.exports = {
                                 { updateDate: new Date() },
                                 { multi: true },
                                 function (err, docsUpdated) {
+                                    ActionHelper.Log('folder', folder._id, req.user.id, "edit");
                                     if (renameOnShare) {
                                         ShareHelper.AnalyzeItemShares(folder, req.user.id, function (cleanedFolder) {
                                             return res.json(cleanedFolder);
@@ -499,6 +502,7 @@ module.exports = {
                                     { updateDate: new Date() },
                                     { multi: true },
                                     function (err, docsUpdated) {
+                                        ActionHelper.Log('folder', folder._id, req.user.id, "move");
                                         if (moveToShare) {
                                             ShareHelper.AnalyzeItemShares(folder, req.user.id, function (cleanedFolder) {
                                                 return res.json(cleanedFolder);
@@ -648,6 +652,7 @@ module.exports = {
                         { updateDate: new Date() },
                         { multi: true },
                         function (err, docsUpdated) {
+                            ActionHelper.Log('folder', folder._id, req.user.id, "delete");
                             return res.json(200, {status: 'deleted'});
                         });
                 });
@@ -921,6 +926,7 @@ module.exports = {
                             if(errors.length > 0) {
                                 //Todo : Handle errors
                             }
+                            ActionHelper.Log('folder', folder._id, req.user.id, "copy");
                             if (copyToShare) {
                                 ShareHelper.AnalyzeItemShares(folder, req.user.id, function (cleanedFolder) {
                                     return res.json(cleanedFolder);

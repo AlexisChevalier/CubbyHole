@@ -5,6 +5,7 @@ var passport = require('passport'),
     fileHelper = require('../models/mongodb/helpers/FileHelper'),
     folderHelper = require('../models/mongodb/helpers/FolderHelper'),
     mailer = require('../utils/mailer'),
+    ActionHelper = require('../models/mongodb/helpers/ActionHelper'),
     config = require('../config/config'),
     mongo = require('mongoose').mongo,
     async = require('async');
@@ -119,6 +120,7 @@ module.exports = {
                         }
 
                         if (!existing) {
+                            ActionHelper.LogShare(type, item._id, req.user.id, "shareAdded", userId);
                             var AccessUri = "";
                             AccessUri += (config.currentWebClientUri || "https://cubby-hole.me/");
                             AccessUri += "browser#/folder/?id=";
@@ -126,6 +128,8 @@ module.exports = {
                             var html = mailer.compile("share.html", { type: type, item: item, from: req.user, to: userToShare, shareUri: AccessUri}),
                                 text = mailer.compile("share.txt", { type: type, item: item, from: req.user, to: userToShare, shareUri: AccessUri});
                             mailer.sendMail("CubbyHole Team <" + config.gmail.mail + ">", userToShare.email, req.user.name + " shared a " + type + " with you !", text, html);
+                        } else {
+                            ActionHelper.LogShare(type, item._id, req.user.id, "shareUpdated", userId);
                         }
 
                         return next();
@@ -225,6 +229,7 @@ module.exports = {
                 if (err) {
                     return res.send(500, err.toString());
                 }
+                ActionHelper.LogShare(type, item._id, req.user.id, "shareRemoved", userId);
                 return res.json(item);
             });
         }
