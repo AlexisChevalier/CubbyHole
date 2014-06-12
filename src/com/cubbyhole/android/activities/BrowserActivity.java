@@ -2,9 +2,6 @@ package com.cubbyhole.android.activities;
 
 import java.util.ArrayList;
 
-import android.support.v7.app.ActionBar;
-import android.transition.ChangeBounds;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,24 +14,21 @@ import com.cubbyhole.android.R;
 import com.cubbyhole.android.adapters.StableArrayAdapter;
 import com.cubbyhole.android.api.CubbyHoleClient;
 import com.cubbyhole.android.utils.CHLoader;
-import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
 import com.cubbyhole.library.api.entities.CHItem;
 import com.cubbyhole.library.api.entities.CHItem.CHType;
-import com.cubbyhole.library.exceptions.CHForbiddenCallException;
 import com.cubbyhole.library.interfaces.IApiRequestHandler;
 import com.cubbyhole.library.logger.Log;
 
 public class BrowserActivity extends Activity {
 
-	private ArrayList<CHItem> mItems = new ArrayList<CHItem>();
+	private ArrayList<CHItem>	mItems	= new ArrayList<CHItem>();
 
-	private ListView mListView;
+	private ListView			mListView;
 
-	private CHFolder mCurrentFolder;
+	private CHFolder			mCurrentFolder;
 
-	private StableArrayAdapter mArrayAdapter;
-	
+	private StableArrayAdapter	mArrayAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +45,7 @@ public class BrowserActivity extends Activity {
 
 		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				CHItem clickedItem = mItems.get(position);
 
 				if (clickedItem.getType() == CHType.FOLDER) {
@@ -61,27 +54,26 @@ public class BrowserActivity extends Activity {
 			}
 		});
 	}
-	
 
 	private void requestGetRootFolder() {
 		CHLoader.show(this, "Loading...", "Refreshing folder's content");
 
 		final IApiRequestHandler<CHFolder> handler = new IApiRequestHandler<CHFolder>() {
 
-			String TAG = "getRootFolder";
+			String	TAG	= "getRootFolder";
 
 			@Override
 			public void onApiRequestFailed() {
 				Log.e(TAG, "Async getRootFolder failed !");
 				CHLoader.hide(); // On cache le loader
-				// TODO: Afficher une erreur à l'écran par exemple (mais je
-				// ferai une classe pour ça).
+				// TODO: Afficher une erreur ï¿½ l'ï¿½cran par exemple (mais je
+				// ferai une classe pour ï¿½a).
 			}
 
 			@Override
 			public void onApiRequestSuccess(CHFolder result) {
 				Log.d(TAG, "Async getRootFolder success !");
-				changeFolder(result); // Méthode que t'as dû créer
+				changeFolder(result); // Mï¿½thode que t'as dï¿½ crï¿½er
 				CHLoader.hide(); // On cache le loader
 			}
 
@@ -91,22 +83,21 @@ public class BrowserActivity extends Activity {
 	}
 
 	private void changeFolder(final CHFolder newFolder) {
-		
+
 		CHLoader.show(this, "Loading...", "Refreshing folder's content");
-		
-		final IApiRequestHandler<ArrayList<CHItem>> handler = new IApiRequestHandler<ArrayList<CHItem>>()
-		{
-			
-			String TAG = "changeFolder";
-		
+
+		final IApiRequestHandler<ArrayList<CHItem>> handler = new IApiRequestHandler<ArrayList<CHItem>>() {
+
+			String	TAG	= "changeFolder";
+
 			@Override
 			public void onApiRequestFailed() {
 				Log.e(TAG, "Async getRootFolder failed !");
 				CHLoader.hide(); // On cache le loader
-				// TODO: Afficher une erreur à l'écran par exemple (mais je
-				// ferai une classe pour ça).
+				// TODO: Afficher une erreur ï¿½ l'ï¿½cran par exemple (mais je
+				// ferai une classe pour ï¿½a).
 			}
-			
+
 			@Override
 			public void onApiRequestSuccess(ArrayList<CHItem> result) {
 				Log.d(TAG, "Async getRootFolder success !");
@@ -116,11 +107,9 @@ public class BrowserActivity extends Activity {
 				CHLoader.hide(); // On cache le loader
 			}
 		};
-		
-		
+
 		newFolder.getItems(handler);
-		
-		
+
 	}
 
 	private void bindView() {
@@ -134,20 +123,17 @@ public class BrowserActivity extends Activity {
 		inflater.inflate(R.menu.browser, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	@Override
 	public void onBackPressed() {
-		
-		if (!mCurrentFolder.getIsRoot())
-		{
+
+		if (!mCurrentFolder.getIsRoot()) {
 			changeFolder(mCurrentFolder.getParent());
-		}
-		else
-		{
+		} else {
 			LoginActivity.setComingFromBrowserActivity(true);
 			super.onBackPressed();
 		}
-		
+
 	}
 
 }
