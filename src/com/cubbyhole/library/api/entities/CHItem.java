@@ -3,6 +3,8 @@ package com.cubbyhole.library.api.entities;
 import java.util.ArrayList;
 
 public class CHItem {
+	private static final String	TAG				= CHItem.class.getName();
+
 	public static final String	FIELD_ID		= "_id";
 	public static final String	FIELD_NAME		= "name";
 	public static final String	FIELD_PARENT	= "parent";
@@ -113,7 +115,7 @@ public class CHItem {
 	 * @param parent the parent to set
 	 */
 	public final void setParentId(String parentId) {
-		if (parentId != null && parentId.equals(this.parentId)) {
+		if (parentId != null && !parentId.equals(this.parentId)) {
 			isParentIdHasBeenModified = true;
 			this.parentId = parentId;
 			setParent(CHFolder.folderRepository.get(parentId));
