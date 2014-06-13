@@ -6,6 +6,9 @@ import android.support.v7.app.ActionBar;
 import android.transition.ChangeBounds;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +38,7 @@ public class BrowserActivity extends Activity {
 
 	private StableArrayAdapter mArrayAdapter;
 	
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +64,58 @@ public class BrowserActivity extends Activity {
 				}
 			}
 		});
+		
+		mListView.setLongClickable(true);
+		mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+		    public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+		    	
+		    	CHItem clickedItem = mItems.get(position);
+		    	
+		    	if (clickedItem.getType() == CHType.FOLDER) {
+		    		longClickOnFolder();
+				}
+		    	else if (clickedItem.getType() == CHType.FILE) {
+		    		longClickOnFile();
+				}
+		    	
+		        return true;
+		    }
+		});
 	}
 	
+	
+	private void longClickOnFolder() {
+		final CharSequence[] items = {"Rename", "Remove", "Move", "Copy", "Share"};
 
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setTitle("Choose an action");
+    	builder.setItems(items, new DialogInterface.OnClickListener() {
+    	    public void onClick(DialogInterface dialog, int item) {
+    	         // Do something with the selection
+    	    }
+    	});
+    	
+    	AlertDialog alert = builder.create();
+    	alert.setCanceledOnTouchOutside(true);
+    	alert.show();
+	}
+	
+	private void longClickOnFile() {
+		final CharSequence[] items = {"Download", "Rename", "Remove", "Move", "Copy", "Share"};
+
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setTitle("Choose an action");
+    	builder.setItems(items, new DialogInterface.OnClickListener() {
+    	    public void onClick(DialogInterface dialog, int item) {
+    	         // Do something with the selection
+    	    }
+    	});
+    	
+    	AlertDialog alert = builder.create();
+    	alert.setCanceledOnTouchOutside(true);
+    	alert.show();
+	}
+	
 	private void requestGetRootFolder() {
 		CHLoader.show(this, "Loading...", "Refreshing folder's content");
 
