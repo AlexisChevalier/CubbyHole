@@ -136,7 +136,9 @@ public class CHItem {
 		if (parentId != null && !parentId.equals(this.parentId)) {
 			isParentIdHasBeenModified = true;
 			this.parentId = parentId;
-			setParent(CHFolder.folderRepository.get(parentId));
+			CHFolder parentFolder = CHFolder.folderRepository.get(parentId);
+			setParent(parentFolder);
+			parentFolder.addChild(this);
 		}
 	}
 

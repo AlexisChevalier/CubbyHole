@@ -223,4 +223,12 @@ public class CHFolder extends CHItem {
 				+ "yet. Call getItems(getItems(IApiRequestHandler<ArrayList<CHItem>> handler))"
 				+ " instead !");
 	}
+	
+	public void addChild(CHItem item) {
+		if (item.getType() == CHType.FOLDER) {
+			childFolders.add((CHFolder)item);
+		} else {
+			childFiles.add((CHFile)item);
+		}
+	}
 }
