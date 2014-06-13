@@ -46,6 +46,7 @@ public class CHItem {
 	protected ArrayList<CHShare>	shares;
 
 	/// Modification States ////
+	protected boolean				preventStateListening;
 	protected boolean				isNameHasBeenModified;
 	protected boolean				isParentIdHasBeenModified;
 
@@ -133,11 +134,11 @@ public class CHItem {
 	 * @param parent the parent to set
 	 */
 	public final void setParentId(String parentId) {
-		if (parentId != null && !parentId.equals(this.parentId)) {
+		if (parentId != null && !parentId.equals(this.parentId) && !isPreventStateListening()) {
 			isParentIdHasBeenModified = true;
-			this.parentId = parentId;
 			setParent(CHFolder.folderRepository.get(parentId));
 		}
+		this.parentId = parentId;
 	}
 
 	public final boolean isParentHasBeenModified() {
@@ -256,6 +257,20 @@ public class CHItem {
 	 */
 	public void setShares(ArrayList<CHShare> shares) {
 		this.shares = shares;
+	}
+
+	/**
+	 * @return the preventStateListening
+	 */
+	public final boolean isPreventStateListening() {
+		return preventStateListening;
+	}
+
+	/**
+	 * @param preventStateListening the preventStateListening to set
+	 */
+	public final void setPreventStateListening(boolean preventStateListening) {
+		this.preventStateListening = preventStateListening;
 	}
 
 }

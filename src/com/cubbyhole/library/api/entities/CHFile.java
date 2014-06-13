@@ -48,6 +48,7 @@ public class CHFile extends CHItem {
 		}
 		CHFile file = new CHFile();
 		try {
+			file.setPreventStateListening(true);
 			file.setId(json.asText(FIELD_ID));
 			file.setName(json.asText(FIELD_NAME));
 			file.setParentId(json.asText(FIELD_PARENT));
@@ -74,6 +75,8 @@ public class CHFile extends CHItem {
 
 			ArrayList<CHShare> shares = CHShare.jsonArrayToShares(json.asList(FIELD_SHARES));
 			file.setShares(shares);
+
+			file.setPreventStateListening(true);
 		} catch (Exception e) {
 			Log.e(TAG, "Failed to parse json to create a CHFile instance !");
 			//TODO: Throw a CHJsonParseException
