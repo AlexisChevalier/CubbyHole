@@ -35,11 +35,24 @@ public class Launcher {
 			Log.e(TAG, "Failed to get the root folder !");
 		}
 
-		CHFolder folder = CubbyHoleImpl.getInstance().createFolder(rootFolder, "My new Folder");
+		CHFolder folder = CubbyHoleImpl.getInstance().createFolder(rootFolder, "My new Folder2");
 		if (folder != null) {
 			Log.d(TAG, "Folder successfully created !");
 		} else {
 			Log.e(TAG, "Failed to create the folder !");
+		}
+
+		folder.setName("Renamed2");
+		CHFolder newfolder = null;
+		try {
+			newfolder = CubbyHoleImpl.getInstance().updateFolder(folder);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (newfolder != null) {
+			Log.d(TAG, "Folder successfully renamed !");
+		} else {
+			Log.e(TAG, "Failed to rename the folder !");
 		}
 	}
 }

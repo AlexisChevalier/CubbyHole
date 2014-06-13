@@ -42,6 +42,7 @@ public class CHFolder extends CHItem {
 		}
 		CHFolder folder = new CHFolder();
 		try {
+			folder.setPreventStateListening(true);
 			folder.setId(json.asText(FIELD_ID));
 			folderRepository.put(folder.getId(), folder);
 			folder.setName(json.asText(FIELD_NAME));
@@ -69,9 +70,9 @@ public class CHFolder extends CHItem {
 
 				ArrayList<CHFile> childFiles = CHFile.jsonArrayToFiles(cfiNodes);
 				folder.setChildFiles(childFiles);
-
 				folder.areChildrenSynced(true);
 			}
+			folder.setPreventStateListening(false);
 		} catch (Exception e) {
 			Log.e(TAG, "Failed to parse json to get a CHFolder instance.");
 			e.printStackTrace();
