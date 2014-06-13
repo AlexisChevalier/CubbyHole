@@ -12,17 +12,15 @@ public class CHFile extends CHItem {
 	private static final String	TAG					= CHFile.class.getName();
 
 	/// JSON FIELDS ///
+	public static final String	FIELD_REALFILEDATA	= "realFileData";
 	public static final String	FIELD_CONTENT_TYPE	= "contentType";
 	public static final String	FIELD_LENGTH		= "length";
 	public static final String	FIELD_CHUNK_SIZE	= "chunkSize";
 	public static final String	FIELD_UPLOAD_DATE	= "uploadDate";
 	public static final String	FIELD_MD5			= "md5";
-	public static final String	FIELD_METADATA		= "metadata";
-	public static final String	FIELD_USER_ID		= "userId";
-	public static final String	FIELD_IS_SHARED		= "isShared";
-	public static final String	FIELD_SHARE_ID		= "shareId";
-	public static final String	FIELD_PARENT		= "parent";
-	public static final String	FIELD_PARENTS		= "parents";
+	private static final String	FIELD_READERS		= "readers";
+	private static final String	FIELD_BUSYWRITE		= "busyWrite";
+
 	/// END OF JSON FIELDS ///
 
 	private String				contentType;
@@ -30,10 +28,7 @@ public class CHFile extends CHItem {
 	private Long				chunkSize;
 	private DateTime			uploadDate;
 	private String				md5;
-	private Long				userId;
-	private boolean				isShared;
-	private String				shareId;
-	private DateTime			updateDate;
+	private int					readers;
 
 	private String				systemPath;
 
@@ -48,28 +43,37 @@ public class CHFile extends CHItem {
 	 * @return Returns an instance of {@link CHFile} from a json response
 	 */
 	public static CHFile fromJson(CHJsonNode json) {
-		if (json == null) {
+		if (json == null || json.asBoolean(FIELD_BUSYWRITE)) {
 			return null;
 		}
 		CHFile file = new CHFile();
 		try {
 			file.setId(json.asText(FIELD_ID));
-			file.setContentType(json.asText(FIELD_CONTENT_TYPE));
-			file.setLength(json.asLong(FIELD_LENGTH));
-			file.setChunkSize(json.asLong(FIELD_CHUNK_SIZE));
-			file.setUploadDate(DateTimeUtils.mongoDateToDateTime(json.asText(FIELD_UPLOAD_DATE)));
-			file.setMD5(json.asText(FIELD_MD5));
+			file.setName(json.asText(FIELD_NAME));
+			file.setParentId(json.asText(FIELD_PARENT));
+			file.setUserId(json.asLong(FIELD_USER_ID));
 
-			CHJsonNode mjson = json.asNode(FIELD_METADATA); //Metadata part
-			file.setName(mjson.asText(FIELD_NAME));
-			file.setUserId(mjson.asLong(FIELD_USER_ID));
-			file.setIsShared(mjson.asBoolean(FIELD_IS_SHARED));
-			file.setShareId(mjson.asText(FIELD_SHARE_ID));
-			file.setParentId(mjson.asText(FIELD_PARENT));
-			for (CHJsonNode parentId : mjson.asList(FIELD_PARENTS)) {
+			//realFileData part
+			CHJsonNode rjson = json.asNode(FIELD_REALFILEDATA);
+			file.setChunkSize(rjson.asLong(FIELD_CHUNK_SIZE));
+			file.setContentType(rjson.asText(FIELD_CONTENT_TYPE));
+			file.setLength(rjson.asLong(FIELD_LENGTH));
+			file.setMD5(rjson.asText(FIELD_MD5));
+			file.setUploadDate(DateTimeUtils.mongoDateToDateTime(rjson.asText(FIELD_UPLOAD_DATE)));
+			//end of realFileData part
+
+			file.setReaders(json.asInt(FIELD_READERS));
+			file.setUpdateDate(json.asDateTime(FIELD_UPDATEDATE));
+
+			for (CHJsonNode parentId : json.asList(FIELD_PARENTS)) {
 				file.addParentId(parentId.asText());
 			}
 
+			file.setSharedCode(json.asInt(FIELD_SHAREDCODE));
+			file.isPublicShareEnabled(json.asBoolean(FIELD_PUBLICSHAREENABLED));
+
+			ArrayList<CHShare> shares = CHShare.jsonArrayToShares(json.asList(FIELD_SHARES));
+			file.setShares(shares);
 		} catch (Exception e) {
 			Log.e(TAG, "Failed to parse json to create a CHFile instance !");
 			//TODO: Throw a CHJsonParseException
@@ -146,60 +150,13 @@ public class CHFile extends CHItem {
 		this.uploadDate = uploadDate;
 	}
 
-	/**
-	 * @return the updateDate
-	 */
-	public DateTime getUpdateDate() {
-		return updateDate;
+	public void setReaders(int asInt) {
+		// TODO Auto-generated method stub
+
 	}
 
-	/**
-	 * @param updateDate the updateDate to set
-	 */
-	public void setUpdateDate(DateTime updateDate) {
-		this.updateDate = updateDate;
-	}
-
-	/**
-	 * @return the userId
-	 */
-	public final Long getUserId() {
-		return userId;
-	}
-
-	/**
-	 * @param userId the userId to set
-	 */
-	public final void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	/**
-	 * @return the isShared
-	 */
-	public final boolean getIsShared() {
-		return isShared;
-	}
-
-	/**
-	 * @param isShared the isShared to set
-	 */
-	public final void setIsShared(boolean isShared) {
-		this.isShared = isShared;
-	}
-
-	/**
-	 * @return the md5
-	 */
-	public final String getShareId() {
-		return shareId;
-	}
-
-	/**
-	 * @param shareId the shareId to set
-	 */
-	public final void setShareId(String shareId) {
-		this.shareId = shareId;
+	public int getReaders(int readers) {
+		return this.readers;
 	}
 
 	/**

@@ -1,7 +1,5 @@
 package com.cubbyhole.library.api.entities;
 
-import hirondelle.date4j.DateTime;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,21 +15,11 @@ public class CHFolder extends CHItem {
 	public static HashMap<String, CHFolder>	folderRepository	= new HashMap<String, CHFolder>();
 
 	/// JSON FIELDS ///
-	public static final String				FIELD_SHARE			= "share";
-	public static final String				FIELD_USER_ID		= "userId";
-	public static final String				FIELD_DATE			= "date";
-	public static final String				FIELD_UPDATEDATE	= "updateDate";
-	public static final String				FIELD_ISSHARED		= "isShared";
 	public static final String				FIELD_IS_ROOT		= "isRoot";
 	public static final String				FIELD_CHILD_FOLDERS	= "childFolders";
 	public static final String				FIELD_CHILD_FILES	= "childFiles";
-	/// END OF JSON FIELDS ///
 
-	private String							share;
-	private Long							userId;
-	private DateTime						creationDate;
-	private DateTime						updateDate;
-	private boolean							isShared;
+	/// END OF JSON FIELDS ///
 	private boolean							isRoot;
 	private ArrayList<CHFolder>				childFolders;
 	private ArrayList<CHFile>				childFiles;
@@ -58,16 +46,20 @@ public class CHFolder extends CHItem {
 			folderRepository.put(folder.getId(), folder);
 			folder.setName(json.asText(FIELD_NAME));
 			folder.setParentId(json.asText(FIELD_PARENT));
-			folder.setIsShared(json.asBoolean(FIELD_ISSHARED));
-			//folder.setShare(json.asText(FIELD_SHARE));
 			folder.setUserId(json.asLong(FIELD_USER_ID));
-			folder.setCreationDate(json.asDateTime(FIELD_DATE));
 			folder.setUpdateDate(json.asDateTime(FIELD_UPDATEDATE));
-			folder.setIsRoot(json.asBoolean(FIELD_IS_ROOT));
 
 			for (CHJsonNode parentId : json.asList(FIELD_PARENTS)) {
 				folder.addParentId(parentId.asText());
 			}
+
+			folder.setSharedCode(json.asInt(FIELD_SHAREDCODE));
+			folder.isPublicShareEnabled(json.asBoolean(FIELD_PUBLICSHAREENABLED));
+
+			ArrayList<CHShare> shares = CHShare.jsonArrayToShares(json.asList(FIELD_SHARES));
+			folder.setShares(shares);
+
+			folder.setIsRoot(json.asBoolean(FIELD_IS_ROOT));
 
 			ArrayList<CHJsonNode> cfoNodes = json.asList(FIELD_CHILD_FOLDERS);
 			ArrayList<CHJsonNode> cfiNodes = json.asList(FIELD_CHILD_FILES);
@@ -100,70 +92,6 @@ public class CHFolder extends CHItem {
 	}
 
 	/// GETTER & SETTERS ///
-
-	/**
-	 * @return the share
-	 */
-	public final String getShare() {
-		return share;
-	}
-
-	/**
-	 * @param share the share to set
-	 */
-	public final void setShare(String share) {
-		this.share = share;
-	}
-
-	/**
-	 * @return the userId
-	 */
-	public final Long getUserId() {
-		return userId;
-	}
-
-	/**
-	 * @param userId the userId to set
-	 */
-	public final void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	/**
-	 * @return the date
-	 */
-	public final DateTime getCreationDate() {
-		return creationDate;
-	}
-
-	/**
-	 * @param dateTime the uploadDate to set
-	 */
-	public final void setCreationDate(DateTime creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	public void setUpdateDate(DateTime updateDate) {
-		this.updateDate = updateDate;
-	}
-
-	public DateTime getUpdateDate() {
-		return updateDate;
-	}
-
-	/**
-	 * @return the shared
-	 */
-	public final boolean isShared() {
-		return isShared;
-	}
-
-	/**
-	 * @param isShared - set the isShared attribute
-	 */
-	public final void setIsShared(boolean isShared) {
-		this.isShared = isShared;
-	}
 
 	/**
 	 * @return the isRoot

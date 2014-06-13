@@ -1,14 +1,26 @@
 package com.cubbyhole.library.api.entities;
 
+import hirondelle.date4j.DateTime;
+
 import java.util.ArrayList;
 
-public class CHItem {
-	private static final String	TAG				= CHItem.class.getName();
+import com.cubbyhole.library.api.entities.CHShare.SharedCode;
 
-	public static final String	FIELD_ID		= "_id";
-	public static final String	FIELD_NAME		= "name";
-	public static final String	FIELD_PARENT	= "parent";
-	public static final String	FIELD_PARENTS	= "parents";
+public class CHItem {
+	private static final String	TAG							= CHItem.class.getName();
+
+	/// JSON FIELDS ///
+	public static final String	FIELD_ID					= "_id";
+	public static final String	FIELD_USER_ID				= "userId";
+	public static final String	FIELD_NAME					= "name";
+	public static final String	FIELD_PARENT				= "parent";
+	public static final String	FIELD_PARENTS				= "parents";
+	public static final String	FIELD_UPDATEDATE			= "updateDate";
+	public static final String	FIELD_SHAREDCODE			= "sharedCode";
+	public static final String	FIELD_PUBLICSHAREENABLED	= "publicShareEnabled";
+	public static final String	FIELD_SHARES				= "shares";
+
+	/// END OF JSON FIELDS ///
 
 	public enum CHType {
 		UNKNOWN, //
@@ -19,17 +31,23 @@ public class CHItem {
 	/**
 	 * The type of the {@link CHItem}
 	 */
-	protected CHType			type;
+	protected CHType				type;
 
-	protected String			id;
-	protected String			name;
-	protected CHFolder			parent;
-	protected String			parentId;
-	protected ArrayList<String>	parentsIds;
+	protected String				id;
+	protected Long					userId;
+	protected String				name;
+	protected CHFolder				parent;
+	protected String				parentId;
+	protected ArrayList<String>		parentsIds;
+	protected DateTime				updateDate;
+	protected SharedCode			sharedCode;
+	protected boolean				publicShareEnabled;
+	protected boolean				isShared;
+	protected ArrayList<CHShare>	shares;
 
 	/// Modification States ////
-	protected boolean			isNameHasBeenModified;
-	protected boolean			isParentIdHasBeenModified;
+	protected boolean				isNameHasBeenModified;
+	protected boolean				isParentIdHasBeenModified;
 
 	/// End of Modification States ////
 
@@ -151,6 +169,93 @@ public class CHItem {
 		if (parentsIds != null) {
 			parentsIds.remove(parentId);
 		}
+	}
+
+	/**
+	 * @return the userId
+	 */
+	public final Long getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public final void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public void setUpdateDate(DateTime updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public DateTime getUpdateDate() {
+		return updateDate;
+	}
+
+	/**
+	 * @return <code>true</code> if shared, <code>false</code> otherwise.
+	 */
+	public final boolean isShared() {
+		return isShared;
+	}
+
+	/**
+	 * @param isShared - set the isShared attribute
+	 */
+	public final void isShared(boolean isShared) {
+		this.isShared = isShared;
+	}
+
+	/**
+	 * @return the sharedCode
+	 */
+	public SharedCode getSharedCode() {
+		return sharedCode;
+	}
+
+	/**
+	 * Set the shared code
+	 * @param sharedCode the share code to set
+	 */
+	public void setSharedCode(SharedCode sharedCode) {
+		this.sharedCode = sharedCode;
+	}
+
+	/**
+	 * Set the shared code
+	 * @param sharedCode the share code to set
+	 */
+	public void setSharedCode(int sharedCode) {
+		setSharedCode(SharedCode.fromValue(sharedCode));
+	}
+
+	/**
+	 * @return the publicShareEnabled
+	 */
+	public boolean isPublicShareEnabled() {
+		return publicShareEnabled;
+	}
+
+	/**
+	 * @param publicShareEnabled the publicShareEnabled to set
+	 */
+	public void isPublicShareEnabled(boolean publicShareEnabled) {
+		this.publicShareEnabled = publicShareEnabled;
+	}
+
+	/**
+	 * @return the shares
+	 */
+	public ArrayList<CHShare> getShares() {
+		return shares;
+	}
+
+	/**
+	 * @param shares the shares to set
+	 */
+	public void setShares(ArrayList<CHShare> shares) {
+		this.shares = shares;
 	}
 
 }
