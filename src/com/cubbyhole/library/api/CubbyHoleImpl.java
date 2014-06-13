@@ -9,7 +9,10 @@ import com.cubbyhole.library.http.CHHeader;
 import com.cubbyhole.library.http.CHHttp;
 import com.cubbyhole.library.http.CHHttpDatas;
 import com.cubbyhole.library.http.CHHttpResponse;
+import com.cubbyhole.library.interfaces.IApiRequester;
 import com.cubbyhole.library.interfaces.IAsyncCubbyHoleClient;
+import com.cubbyhole.library.interfaces.ICubbyHoleClient;
+import com.cubbyhole.library.interfaces.IDownloadHandler;
 import com.cubbyhole.library.logger.Log;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
@@ -240,7 +243,7 @@ public class CubbyHoleImpl implements ICubbyHoleClient, IApiRequester {
 	}
 
 	@Override
-	public CHFile downloadFile(CHFile file) {
+	public CHFile downloadFile(IDownloadHandler handler, CHFile file, String path) {
 		// TODO Auto-generated method stub
 		return null;
 	}

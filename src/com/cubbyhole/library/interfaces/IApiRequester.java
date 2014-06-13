@@ -1,5 +1,6 @@
-package com.cubbyhole.library.api;
+package com.cubbyhole.library.interfaces;
 
+import com.cubbyhole.library.api.CHJsonNode;
 import com.cubbyhole.library.http.CHHttpDatas;
 
 public interface IApiRequester {
