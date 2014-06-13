@@ -1,6 +1,8 @@
 package com.cubbyhole.library.api.entities;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import com.cubbyhole.library.api.CHJsonNode;
@@ -204,7 +206,7 @@ public class CHFolder extends CHItem {
 	}
 
 	/**
-	 * Used to get the items of the folder.
+	 * Used to get the items of the folder (sorted by type and names).
 	 * @return an {@link ArrayList} of {@link CHItem}
 	 * @throws CHForbiddenCallException if you called it while the children aren't synchronized yet.
 	 * If this happens, call getItems(IApiRequestHandler<ArrayList<CHItem>> handler) instead.
@@ -213,9 +215,23 @@ public class CHFolder extends CHItem {
 		if (!areChildrenSynced) {
 			throw getChildrenNotSyncedException();
 		}
+
+		Comparator<CHItem> comparator = new Comparator<CHItem>() {
+			@Override
+			public int compare(CHItem item1, CHItem item2) {
+				return item1.name.compareTo(item2.name);
+			}
+		};
+
+		//Sorting folders
+		Collections.sort(childFolders, comparator);
+		//Sorting files
+		Collections.sort(childFiles, comparator);
+
 		ArrayList<CHItem> items = new ArrayList<CHItem>();
 		items.addAll(childFolders);
 		items.addAll(childFiles);
+
 		return items;
 	}
 
@@ -224,12 +240,12 @@ public class CHFolder extends CHItem {
 				+ "yet. Call getItems(getItems(IApiRequestHandler<ArrayList<CHItem>> handler))"
 				+ " instead !");
 	}
-	
+
 	public void addChild(CHItem item) {
 		if (item.getType() == CHType.FOLDER) {
-			childFolders.add((CHFolder)item);
+			childFolders.add((CHFolder) item);
 		} else {
-			childFiles.add((CHFile)item);
+			childFiles.add((CHFile) item);
 		}
 	}
 }
