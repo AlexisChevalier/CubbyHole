@@ -133,7 +133,8 @@ public class CHHttp {
 
 	private static void injectDatas(HttpEntityEnclosingRequestBase request, CHHttpDatas datas) {
 		try {
-			request.setEntity(new UrlEncodedFormEntity(datas.getDatas()));
+			request.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+			request.setEntity(new UrlEncodedFormEntity(datas.getDatas(), "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			Log.e(TAG, "Failed to inject datas in the request !");
 			e.printStackTrace();
