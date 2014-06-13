@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.cubbyhole.library.api.CubbyHoleImpl;
 import com.cubbyhole.library.api.entities.CHAccount;
+import com.cubbyhole.library.api.entities.CHFolder;
 import com.cubbyhole.library.logger.Log;
 
 public class Launcher {
@@ -14,7 +15,7 @@ public class Launcher {
 	 * Should be replaced by JUnit tests
 	 */
 	public static void main(String[] args) {
-		String accessToken = "adCPe1zGVeMBZgJ8MqLiu62pmPiSpPHAaCKce8lbndQkHng4fZ3CJ0QzDssiqEZb9LnMd1UrIKu89asDYc4H8j6oALLEAssiWYbY3ds9glEF3h2bSPjIUwwGj8Hk8FayfusHMZB3CqmOrHt9Z6W8QE8ldyNnMIa1HdYjAK9ZZVAmWmSMojd7CTeBwXT0LPLJOJjRCcJw6qsZef3AJnfG1j376FoONztNWQVqwJ2L9MV3mgAYIbnSFJfkeX8YN465";
+		String accessToken = "dDeHtm1GYpo3itXNc1dVMrgNIOABSGbGRVkDvKLBbmPOf0Kj3Qaf9kTgnFRuLEp6m0cT4pUPQBs810wTDCNkpqhzAHTIozWYg42QQqU85Vfr9uGg6sbpd1kwxA97D3QLGEMv3fyjjyKYijgJkdN7OvLjs4G0rk4qwuVBBOawRGasIft18kPGW7PunN9meiVQfYxeMc3w32hbogd00rFZSsQu9bPsBPKREh7g7XUyXtuHFMkyVAmGVIQ0MdC2kKxr";
 
 		CubbyHoleImpl.getInstance().Initialize(accessToken);
 
@@ -25,6 +26,13 @@ public class Launcher {
 			}
 		} else {
 			Log.e(TAG, "Failed to find users !");
+		}
+
+		CHFolder rootFolder = CubbyHoleImpl.getInstance().getRootFolder();
+		if (rootFolder != null) {
+			Log.d(TAG, "RootFolder: " + rootFolder.toString());
+		} else {
+			Log.e(TAG, "Failed to get the root folder !");
 		}
 	}
 }
