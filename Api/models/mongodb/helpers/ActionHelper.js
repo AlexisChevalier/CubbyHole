@@ -11,11 +11,19 @@ ActionHelper.Log = function (itemType, itemId, actorId, action) {
         function (innerNext) {
             if (itemType == "file") {
                 mongooseModels.File.findOne({"_id": itemId}).populate('parents').exec(function (err, result) {
+                    if (err || !result || result == null) {
+                        return;
+                    }
+
                     item = result;
                     return innerNext();
                 });
             } else {
                 mongooseModels.Folder.findOne({"_id": itemId}).populate('parents').exec(function (err, result) {
+                    if (err || !result || result == null) {
+                        return;
+                    }
+
                     item = result;
                     return innerNext();
                 });
@@ -46,6 +54,12 @@ ActionHelper.Log = function (itemType, itemId, actorId, action) {
         },
         /** CREATE LOG **/
         function () {
+
+            var length = 0;
+            if (itemType == "file") {
+                length = item.realFileData.length;
+            }
+
             mongooseModels.Action.create({
                 "relatedId": itemId,
                 "actorUserId": actorId,
@@ -53,7 +67,7 @@ ActionHelper.Log = function (itemType, itemId, actorId, action) {
                 "action": action, //create/edit/update/move/copy/delete/share
                 "type": itemType, //file or folder
                 "time": new Date(),
-                "length": item.length || 0
+                "length": length
             }, function (err, createdFile) {
             });
         }
@@ -90,7 +104,13 @@ ActionHelper.LogShare = function (itemType, itemId, actorId, action, shareUserCo
             innerNext();
         },
         /** CREATE LOG **/
-            function () {
+        function () {
+
+            var length = 0;
+            if (itemType == "file") {
+                length = item.realFileData.length;
+            }
+
             mongooseModels.Action.create({
                 "relatedId": itemId,
                 "actorUserId": actorId,
@@ -98,7 +118,7 @@ ActionHelper.LogShare = function (itemType, itemId, actorId, action, shareUserCo
                 "action": action, //create/edit/update/move/copy/delete/share
                 "type": itemType, //file or folder
                 "time": new Date(),
-                "length": item.length || 0
+                "length": length
             }, function (err, createdFile) {
             });
         }
