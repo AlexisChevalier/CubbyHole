@@ -5,8 +5,8 @@ import java.lang.reflect.Method;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.cubbyhole.library.api.ICubbyHoleClient;
 import com.cubbyhole.library.interfaces.IApiRequestHandler;
+import com.cubbyhole.library.interfaces.ICubbyHoleClient;
 
 @SuppressWarnings("unchecked")
 public class AsyncApiRequest<T> extends AsyncTask<Object, Long, T> {
