@@ -53,6 +53,12 @@ public class CubbyHoleClient implements IAsyncCubbyHoleClient {
 	}
 
 	@Override
+	public void findUser(IApiRequestHandler<CHAccount> handler, String term) {
+		final String method = "findUser";
+		new AsyncApiRequest<CHAccount>(handler, mImpl, method).execute(term);
+	}
+
+	@Override
 	public void getRootFolder(IApiRequestHandler<CHFolder> handler) {
 		if (mRootFolder != null) {
 			handler.onApiRequestSuccess(mRootFolder);
