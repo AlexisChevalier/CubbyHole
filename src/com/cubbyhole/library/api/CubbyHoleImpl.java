@@ -114,12 +114,12 @@ public class CubbyHoleImpl implements ICubbyHoleClient, IApiRequester {
 
 	@Override
 	public CHJsonNode apiPost(String url, CHHttpDatas datas) throws Exception {
-		return apiRequest(CHHttp.REQTYPE.POST, url, null, null);
+		return apiRequest(CHHttp.REQTYPE.POST, url, datas, null);
 	}
 
 	@Override
 	public CHJsonNode apiPut(String url, CHHttpDatas datas) throws Exception {
-		return apiRequest(CHHttp.REQTYPE.PUT, url, null, null);
+		return apiRequest(CHHttp.REQTYPE.PUT, url, datas, null);
 	}
 
 	@Override
