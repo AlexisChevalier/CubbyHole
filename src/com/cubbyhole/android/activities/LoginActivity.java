@@ -13,6 +13,9 @@ import com.cubbyhole.android.components.AuthWebView.ICubbyHoleAuth;
 import com.cubbyhole.android.utils.CHC;
 import com.cubbyhole.android.utils.TokenStorer;
 import com.cubbyhole.android.utils.ssl.SSLManager;
+import com.cubbyhole.library.api.entities.CHAccount;
+import com.cubbyhole.library.api.entities.CHFolder;
+import com.cubbyhole.library.interfaces.IApiRequestHandler;
 
 public class LoginActivity extends Activity implements ICubbyHoleAuth {
 	private static final String	TAG	= LoginActivity.class.getName();
@@ -40,10 +43,37 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 		if (accessToken != null) {
 			Log.i(TAG, "We already have the access token, going to the Browser activity.");
 			CubbyHoleClient.getInstance().Initialize(accessToken);
-			moveToBrowserActivity();
-			return;
+			final IApiRequestHandler<CHAccount> handler = new IApiRequestHandler<CHAccount>() {
+
+				@Override
+				public void onApiRequestFailed() {
+					onInvalidToken();
+					
+				}
+
+				@Override
+				public void onApiRequestSuccess(CHAccount result) {
+					onValidToken(TokenStorer.getAccessToken());
+				}
+				
+			};
+			CubbyHoleClient.getInstance().getAccount(handler);
+			
 		}
 
+
+		
+		
+	}
+
+	private void onValidToken(String token)
+	{
+		CubbyHoleClient.getInstance().Initialize(token);
+		moveToBrowserActivity();
+		
+	}
+	
+	private void onInvalidToken() {
 		setContentView(R.layout.activity_login);
 		bindView();
 
@@ -72,9 +102,8 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
-
+	
 	private void bindView() {
 		mAuthWebView = (AuthWebView) findViewById(R.id.authWebView);
 	}
