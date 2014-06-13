@@ -34,5 +34,12 @@ public class Launcher {
 		} else {
 			Log.e(TAG, "Failed to get the root folder !");
 		}
+
+		CHFolder folder = CubbyHoleImpl.getInstance().createFolder(rootFolder, "My new Folder");
+		if (folder != null) {
+			Log.d(TAG, "Folder successfully created !");
+		} else {
+			Log.e(TAG, "Failed to create the folder !");
+		}
 	}
 }
