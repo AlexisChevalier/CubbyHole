@@ -1,6 +1,5 @@
 package com.cubbyhole.library.interfaces;
 
-import com.cubbyhole.library.api.ICubbyHoleClient;
 import com.cubbyhole.library.api.entities.CHAccount;
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;

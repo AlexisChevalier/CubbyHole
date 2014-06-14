@@ -1,11 +1,10 @@
-package com.cubbyhole.library.api;
+package com.cubbyhole.library.interfaces;
 
 import java.util.ArrayList;
 
 import com.cubbyhole.library.api.entities.CHAccount;
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
-import com.cubbyhole.library.interfaces.IAsyncCubbyHoleClient;
 
 /**
  * Interface that defines all API methods exposed by the server API.
@@ -118,7 +117,7 @@ public interface ICubbyHoleClient {
 	 * @param file - the file you want to download.
 	 * @return a {@link CHFile} instance representing the downloaded file.
 	 */
-	public CHFile downloadFile(CHFile file);
+	public CHFile downloadFile(IDownloadHandler handler, CHFile file, String path);
 
 	/**
 	 * Used to delete a file.
