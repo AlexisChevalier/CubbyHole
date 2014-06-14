@@ -11,7 +11,7 @@ var PlanHelper = module.exports = {},
  */
 PlanHelper.GetAvailablePlans = function (done) {
     models(function (err, db) {
-        db.driver.execQuery("SELECT p.* FROM Plans p INNER JOIN (SELECT planNumber, MAX(dateAdded) max_time FROM Plans GROUP BY planNumber) innerResult ON p.planNumber = innerResult.planNumber AND p.dateAdded = innerResult.max_time ORDER BY p.planNumber ASC", function (err, data) {
+        db.driver.execQuery("SELECT * FROM Plans WHERE available = 1 ORDER BY id ASC LIMIT 4", function (err, data) {
             if (err) {
                 return done(err, null);
             }
@@ -23,17 +23,28 @@ PlanHelper.GetAvailablePlans = function (done) {
 
 PlanHelper.GetActualPlanForUserID = function (userID, done) {
     models(function (err, db) {
-        //2 592 000 is the number of seconds in 30 days
-        db.driver.execQuery("SELECT pl.* FROM Payments pa INNER JOIN Plans pl ON pl.id = pa.planId WHERE pa.userId = ? AND pa.paymentTime > UNIX_TIMESTAMP(NOW()) - 2592000 ORDER BY pa.paymentTime DESC",
+        //2 592 000 000 is the number of milliseconds in 30 days
+        db.driver.execQuery("SELECT pl.*, (pa.paymentTime + 2592000000) AS 'expirationTime' FROM Payments pa INNER JOIN Plans pl ON pl.id = pa.planId WHERE pa.paypal_state = 'approved' AND pa.userId = ? AND pa.paymentTime > UNIX_TIMESTAMP(NOW()) - 2592000000 ORDER BY pa.paymentTime DESC",
             [userID],
             function (err, data) {
                 if (err) {
+                    console.log(err);
                     return done(err, null);
                 }
                 if (data.length == 0) {
-                    db.driver.execQuery("SELECT * FROM Plans WHERE planNumber = 1 ORDER BY id DESC LIMIT 1", function (err, data) {
+                    db.driver.execQuery("SELECT * FROM Plans WHERE pricePerMonth = 0 ORDER BY id DESC LIMIT 1", function (err, data) {
                         return done(null, data);
                     });
+                } else if (data.length > 0) {
+                    var highestValue = 0,
+                        goodPlan = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].id > highestValue) {
+                            highestValue = data[i].id;
+                            goodPlan = [data[i]];
+                        }
+                    }
+                    return done(null, goodPlan);
                 } else {
                     return done(null, data);
                 }

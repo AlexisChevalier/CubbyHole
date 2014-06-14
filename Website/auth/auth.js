@@ -3,6 +3,7 @@
 var passport = require('passport'),
     config = require('../config/config'),
     OAuth2Strategy = require('passport-oauth2').Strategy,
+    models = require('../models/mysql'),
     usersDao = require('../models/http/users');
 
 /**
@@ -20,8 +21,15 @@ passport.use(new OAuth2Strategy({
             if (err) {
                 return done(new Error("Login Failed"), null);
             }
-            user.accessToken = accessToken;
-            return done(null, user);
+            models(function (err, db) {
+                db.models.Users.get(user.id, function (err, innerUser) {
+                    if (innerUser) {
+                        user.isAdmin = innerUser.isAdmin;
+                    }
+                    user.accessToken = accessToken;
+                    return done(null, user);
+                });
+            });
         });
     }
     ));

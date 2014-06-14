@@ -73,19 +73,6 @@ module.exports = {
                     }
                 },
                 function (next) {
-                    /** This is not what we want, but we found this issue too late and we can't rewrite a large part of our Virtual File System just to allow shares to be renamed for each user **/
-                    folderHelper.checkNameInRootFolder(item.name, userId, null, function (item) {
-                        if (item) {
-                            return res.send(403, "Name already taken by a share for this user, please try to rename this folder before you can share it !");
-                        }
-                        return next();
-                    });
-                },
-                function (next) {
-                    if (item.userId != req.user.id) {
-                        return res.send(403, "You must be the owner of this " + type + " to update its sharing parameters !");
-                    }
-
                     for (var i = 0; i < item.shares.length; i++) {
                         if(item.shares[i].userId == userId) {
                             existing = true;
@@ -93,6 +80,25 @@ module.exports = {
                             item.shares[i].read = true;
                             break;
                         }
+                    }
+                    return next();
+                },
+                function (next) {
+                    /** This is not what we want, but we found this issue too late and we can't rewrite a large part of our Virtual File System just to allow shares to be renamed for each user **/
+                    if (!existing) {
+                        folderHelper.checkNameInRootFolder(item.name, userId, null, function (item) {
+                            if (item) {
+                                return res.send(403, "Name already taken by a share for this user, please try to rename this folder before you can share it !");
+                            }
+                            return next();
+                        });
+                    } else {
+                        return next();
+                    }
+                },
+                function (next) {
+                    if (item.userId != req.user.id) {
+                        return res.send(403, "You must be the owner of this " + type + " to update its sharing parameters !");
                     }
 
                     if (!existing) {

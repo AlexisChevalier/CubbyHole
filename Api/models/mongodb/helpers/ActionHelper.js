@@ -3,7 +3,7 @@ var mongooseModels = require('../schemas'),
     _ = require('lodash'),
     ActionHelper = module.exports;
 
-ActionHelper.Log = function (itemType, itemId, actorId, action) {
+ActionHelper.Log = function (itemType, itemId, actorId, action, finished, next) {
     var item,
         usersConcerned = [];
     async.series([
@@ -67,16 +67,21 @@ ActionHelper.Log = function (itemType, itemId, actorId, action) {
                 "action": action, //create/edit/update/move/copy/delete/share
                 "type": itemType, //file or folder
                 "time": new Date(),
-                "length": length
-            }, function (err, createdFile) {
+                "length": length,
+                "finished": finished ? true : false
+            }, function (err, createdAction) {
+                if (typeof next == "function") {
+                    next(err, createdAction);
+                }
             });
         }
     ]);
 };
 
-ActionHelper.LogShare = function (itemType, itemId, actorId, action, shareUserConcernedId) {
+ActionHelper.LogShare = function (itemType, itemId, actorId, action, shareUserConcernedId, finished, next) {
     var item,
         usersConcerned = [];
+
     async.series([
         /** GET ITEM **/
             function (innerNext) {
@@ -118,8 +123,12 @@ ActionHelper.LogShare = function (itemType, itemId, actorId, action, shareUserCo
                 "action": action, //create/edit/update/move/copy/delete/share
                 "type": itemType, //file or folder
                 "time": new Date(),
-                "length": length
-            }, function (err, createdFile) {
+                "length": length,
+                "finished": finished ? true : false
+            }, function (err, createdAction) {
+                if (typeof next == "function") {
+                    next(err, createdAction);
+                }
             });
         }
     ]);
@@ -129,9 +138,25 @@ ActionHelper.GetActionsForUserAndTime = function (userId, timestamp, next) {
     mongooseModels.Action.find({
         "concernedUsers":userId,
         "time": {
-            $gte: new Date(timestamp)
-        }
+            $gte: new Date(parseInt(timestamp, 10))
+        },
+        "finished": true
     }).exec(function(err, results) {
         next(err, results);
+    });
+};
+
+ActionHelper.UpdateAction = function (actionId, length, finished, next) {
+    mongooseModels.Action.findOne({
+        "_id": actionId
+    }).exec(function(err, action) {
+        action.length = length;
+        action.finished = finished;
+
+        action.save(function (err) {
+            if (typeof next == "function") {
+                next(err, action);
+            }
+        });
     });
 };

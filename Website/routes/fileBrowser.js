@@ -96,7 +96,12 @@ module.exports = {
                         'Authorization': 'Bearer ' + req.user.accessToken
                     }
                 };
-            request(options).pipe(res);
+            var apiReq = request(options);
+            apiReq.pipe(res);
+
+            req.on('close', function () {
+                apiReq.abort();
+            });
         }],
 
     /**
@@ -150,8 +155,7 @@ module.exports = {
 
                 apiRequest = request(options, callback);
 
-                // TODO : SET THIS DYNAMIC
-                part.pipe(new Throttle(1048576).pipe(apiRequest));
+                part.pipe(new Throttle(req.user.actualPlan.bandwidthSpeed).pipe(apiRequest));
             });
 
             req.connection.on('close',function(){
@@ -163,5 +167,5 @@ module.exports = {
             });
 
             form.parse(req);
-        }],
+        }]
 };

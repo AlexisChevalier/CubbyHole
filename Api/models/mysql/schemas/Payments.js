@@ -7,10 +7,11 @@ module.exports = function (db) {
         id: Number,
         userId: Number,
         planId: Number,
-        saleId: String,
-        paymentId: String,
         amount: Number,
         paymentTime: Number,
-        currency: String
+        currency: String,
+        paypal_payerId: String,
+        paypal_state: String,
+        paypal_paymentId: String
     });
 };

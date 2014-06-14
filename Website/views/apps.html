@@ -1,10 +1,49 @@
 {% extends 'layouts/layout.html' %}
 {% block css %}
+<link href="/stylesheets/pricing.css" rel="stylesheet">
 <link href="/stylesheets/applications.css" rel="stylesheet">
 {% endblock %}
 {% block body %}
 <div class="page-header">
-    <h1 id="pricingtitle">Applications Page</h1>
+    <h1 id="pricingtitle">{{__("We made some applications for you !")}}</h1>
+</div>
+<div id="contentplan">
+    <div class="appContainer">
+        <div class="appIcon">
+            <img src="/images/windows.png">
+        </div>
+        <div class="appText">
+            {{__("Windows Desktop Client")}}
+        </div>
+        <div class="appButton">
+            <a class="button inline" href="#">{{__("Download")}}</a>
+        </div>
+    </div>
+    <img class="lbrand-logo" src="/images/logo.png" alt="Logo Cubbyhole" />
+    <div class="appContainer">
+        <div class="appIcon">
+            <img src="/images/android.png">
+        </div>
+        <div class="appText">
+            {{__("Android Application")}}
+        </div>
+        <div class="appButton">
+            <a class="button inline" href="#">{{__("Download")}}</a>
+        </div>
+    </div>
+    <img class="lbrand-logo" src="/images/logo.png" alt="Logo Cubbyhole" />
+    <div class="appContainer">
+        <div class="appIcon">
+            <img src="/images/macos.png">
+        </div>
+        <div class="appText">
+            {{__("Mac OS X Application")}}
+        </div>
+        <div class="appButton">
+            <a class="button inline" href="#">{{__("Download")}}</a>
+        </div>
+    </div>
 </div>
 
+</div>
 {% endblock %}

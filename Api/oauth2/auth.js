@@ -8,6 +8,7 @@ var passport = require('passport'),
     BasicStrategy = require('passport-http').BasicStrategy,
     ClientPasswordStrategy = require('passport-oauth2-client-password').Strategy,
     BearerStrategy = require('passport-http-bearer').Strategy,
+    planHelper = require('../models/mysql/helpers/PlanHelper'),
     bcrypt = require('bcrypt-nodejs');
 
 /**
@@ -126,10 +127,14 @@ passport.use(new BearerStrategy({
                 if (!user) {
                     return done(null, false);
                 }
-                // to keep this example simple, restricted scopes are not implemented,
-                // and this is just for illustrative purposes
-                var info = { scope: '*' };
-                done(null, user, info);
+                planHelper.GetActualPlanForUserID(user.id, function (err, actualPlanArray) {
+                    user.actualPlan = actualPlanArray[0];
+
+                    // to keep this example simple, restricted scopes are not implemented,
+                    // and this is just for illustrative purposes
+                    var info = { scope: '*' };
+                    done(null, user, info);
+                });
             });
         });
     }

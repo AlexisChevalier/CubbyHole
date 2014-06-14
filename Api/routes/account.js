@@ -4,7 +4,7 @@ var passport = require('passport'),
     userHelper = require('../models/mysql/helpers/UserHelper'),
     planHelper = require('../models/mysql/helpers/PlanHelper'),
     ActionHelper = require('../models/mongodb/helpers/ActionHelper'),
-    mongooseModels = require('../models/mongodb/schemas');
+    QuotaHelper = require('../models/mongodb/helpers/QuotaHelper');
 
 module.exports = {
     /**
@@ -13,14 +13,12 @@ module.exports = {
     userDetails: [
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
-            planHelper.GetActualPlanForUserID(req.user.id, function (err, actualPlanArray) {
-                res.json({
-                    id: req.user.id,
-                    email: req.user.email,
-                    name: req.user.name,
-                    socialAccount: (req.user.social_type != null),
-                    actualPlan: actualPlanArray[0]
-                });
+            res.json({
+                id: req.user.id,
+                email: req.user.email,
+                name: req.user.name,
+                socialAccount: (req.user.social_type != null),
+                actualPlan: req.user.actualPlan
             });
         }
     ],
@@ -32,41 +30,12 @@ module.exports = {
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
             planHelper.GetActualPlanForUserID(req.user.id, function (err, actualPlanArray) {
-
-                mongooseModels.File.aggregate([
-                    {
-                        $match: {
-                            userId: req.user.id
-                        }
-                    },
-                    {
-                        $group: {
-                            _id: '$userId',
-                            spaceUsed: {
-                                $sum: '$realFileData.length'
-                            }
-                        }
+                QuotaHelper.getQuotas(req.user, function(err, quotas) {
+                    if (err || !quotas) {
+                        res.send(500, err.toString());
                     }
-                ], function (err, results) {
-                        if (err) {
-                            console.error(err);
-                            return res.send(500, err.toString());
-                        }
-                        return res.json({
-                            id: req.user.id,
-                            diskQuota: {
-                                limit: 10000000,
-                                used: results[0].spaceUsed,
-                                available: 10000000 - results[0].spaceUsed
-                            },
-                            bandWidthQuota: {
-                                limit: 500,
-                                used: 250,
-                                available: 250
-                            }
-                        })
-                    }
-                );
+                    res.json(quotas)
+                });
             });
         }
     ],
@@ -77,8 +46,10 @@ module.exports = {
     userActions: [
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
-            ActionHelper.GetActionsForUserAndTime(req.user.id, req.params.time, function (err, result) {
-                console.log(err, result);
+            ActionHelper.GetActionsForUserAndTime(req.user.id, req.params.timestamp, function (err, result) {
+                if (err) {
+                    res.end(500, err.toString());
+                }
                 res.json(result);
             });
         }
@@ -90,6 +61,7 @@ module.exports = {
     userUpdate: [
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
+            //TODO: Update shares
             userHelper.Update(req.user.id, req.body.email, req.body.name, req.body.password, function (err, user) {
                 if (err) {
                     res.send(err.code, err.status);
@@ -110,13 +82,28 @@ module.exports = {
             /*
                 TODO : MOAR LOGIC HERE (Files, etc ...)
              */
-            req.models.Users.find({ id: req.user.id }).remove(function (err) {
-                if (err) {
-                    res.send(400, err);
-                } else {
-                    res.json(200, {status: 'deleted'});
+            async.series([
+                function (next) {
+                    //TODO: Remove files
+                    next();
+                },
+                function (next) {
+                    //TODO: Remove folders
+                    next();
+                },function (next) {
+                    //TODO: Remove shares and from others shares
+                    next();
+                },function () {
+                    //Delete itself
+                    req.models.Users.find({ id: req.user.id }).remove(function (err) {
+                        if (err) {
+                            res.send(400, err);
+                        } else {
+                            res.json(200, {status: 'deleted'});
+                        }
+                    });
                 }
-            });
+            ]);
         }
     ],
 

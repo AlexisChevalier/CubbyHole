@@ -214,7 +214,6 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                             }
                         }
                     }, function(response) {
-                        //TODO: FIND WHY ERRORS ARE NOT CAUGHT IF LONG UPLOAD !!!
                         if (response.data) {
                             $scope.uploads.splice($scope.uploads.indexOf(fileObject), 1);
                             flash('danger', response.data);

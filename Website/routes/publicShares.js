@@ -52,6 +52,11 @@ module.exports = {
                     url: "https://" + config.apiUrl + ":" + config.apiPort + "/api/public/file/download/" + req.params.fileID,
                     method: "GET"
                 };
-            request(options).pipe(res);
+            var apiReq = request(options);
+            apiReq.pipe(res);
+
+            req.on('close', function () {
+                apiReq.abort();
+            });
         }]
 };

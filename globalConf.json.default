@@ -7,6 +7,20 @@
         "url": "mongodb://localhost/CubbyHole"
     },
 
+    "paypal" : {
+        "port": 5000,
+        "api": {
+            "host": "api.sandbox.paypal.com",
+            "port": "",
+            "client_id": "AWqTORDOEKNiyeqhDAGmvihMSoXDRoEt7Bd8GIO_OnhCvcJ8I3fjBZVwmLI9",
+            "client_secret": "ELSOmBDK_eshvGJn69q0Yj-ezZEo0bv5Dp5sdxj1JLA5EoTyh_k7VvefX1bV"
+        },
+         "redirect_urls": {
+             "return_url": "https://localhost:8443/account/executePaypal",
+             "cancel_url": "https://localhost:8443/account/cancelPaypal"
+         }
+    },
+
     "mysqlServer": {
         "dsn": "mysql://root:root@localhost:8889/CubbyHole"
     },

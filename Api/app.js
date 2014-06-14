@@ -30,6 +30,9 @@ var express = require('express'),
     flash = require('connect-flash'),
     app = express();
 
+http.globalAgent.maxSockets = Infinity;
+https.globalAgent.maxSockets = Infinity;
+
 app.set("env", config.env || "development");
 
 /**
@@ -164,7 +167,7 @@ app.put('/api/account/details', accountRoutes.userUpdate);
 app.delete('/api/account', accountRoutes.userDelete);
 
 // Get quotas
-//app.get('/api/account/quotas', accountRoutes.userQuotas);
+app.get('/api/account/quotas', accountRoutes.userQuotas);
 
 // Get actions
 app.get('/api/account/actions/:timestamp', accountRoutes.userActions);

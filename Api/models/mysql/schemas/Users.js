@@ -9,6 +9,7 @@ module.exports = function (db) {
         email: String,
         name: String,
         social_type: String,
-        social_id: String
+        social_id: String,
+        isAdmin: Number
     });
 };

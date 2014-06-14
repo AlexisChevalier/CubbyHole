@@ -1,0 +1,20 @@
+.appContainer {
+
+}
+
+.appIcon {
+	display: inline-block;
+}
+.appIcon img {
+	width: 80px;
+}
+
+.appText {
+	display: inline-block;
+	width: 400px;
+	font-size: 20px;
+}
+
+.appButton {
+	display: inline-block;
+}

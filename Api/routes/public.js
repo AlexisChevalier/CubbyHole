@@ -6,9 +6,11 @@ var passport = require('passport'),
     mongo = require('mongoose').mongo,
     FolderHelper = require('../models/mongodb/helpers/FolderHelper'),
     FileHelper = require('../models/mongodb/helpers/FileHelper'),
+    QuotaHelper = require('../models/mongodb/helpers/QuotaHelper'),
+    PlanHelper = require('../models/mysql/helpers/PlanHelper'),
+    ActionHelper = require('../models/mongodb/helpers/ActionHelper'),
     ShareHelper = require('../models/mongodb/helpers/ShareHelper'),
     async = require('async'),
-    uuid = require('node-uuid'),
     Throttle = require('throttle');
 
 module.exports = {
@@ -52,6 +54,7 @@ module.exports = {
     download: [
         function (req, res) {
             var id = req.params.fileID,
+                throttleBytesPerSeconds = 100000000,
                 gs;
 
             if (id) {
@@ -65,33 +68,55 @@ module.exports = {
                 if (err || !fileReference || fileReference == null) {
                     return res.send(404, "File not found !");
                 }
-
-                ShareHelper.isPubliclyShared(fileReference, function (shared) {
-                    if (shared) {
-                        gs = new mongo.GridStore(mongo_db_object, fileReference.realFileData.id, "r");
-
-                        gs.open(function (err, file) {
-
-                            res.setHeader('Content-disposition', 'attachment; filename=' + fileReference.name);
-                            res.setHeader('Content-type', fileReference.realFileData.contentType);
-                            res.setHeader('Content-length', fileReference.realFileData.length);
-
-                            var throttledStream = file.stream(true).pipe(new Throttle(1048576));
-
-                            throttledStream.on("data", function (data) {
-                                res.write(data);
-                            });
-
-                            throttledStream.on("end", function () {
-                                res.end();
-                            });
-
-                            throttledStream.on("close", function () {
-                            });
-                        });
-                    } else {
-                        res.send(403, "File not shared publicly");
+                PlanHelper.GetActualPlanForUserID(fileReference.userId, function (err, plan) {
+                    if (!err && plan != null) {
+                        throttleBytesPerSeconds = plan[0].bandwidthSpeed;
                     }
+                    QuotaHelper.getQuotas({id: fileReference.userId, actualPlan: plan[0]}, function (err, quotas) {
+                        if (quotas.bandwidth.available < fileReference.realFileData.length) {
+                            return res.send(403, "You can't download this file because this user made to much transfer for the day, you should try tomorrow !");
+                        }
+                        ShareHelper.isPubliclyShared(fileReference, function (shared) {
+                            if (shared) {
+                                gs = new mongo.GridStore(mongo_db_object, fileReference.realFileData.id, "r");
+                                ActionHelper.Log('file', fileReference._id, fileReference.userId, "publicDownload", false, function (err, action) {
+                                    var bytes = 0;
+
+                                    gs.open(function (err, file) {
+
+                                        res.setHeader('Content-disposition', 'attachment; filename=' + fileReference.name);
+                                        res.setHeader('Content-type', fileReference.realFileData.contentType);
+                                        res.setHeader('Content-length', fileReference.realFileData.length);
+
+                                        var closed = false;
+
+                                        var throttledStream = file.stream(true).pipe(new Throttle(throttleBytesPerSeconds));
+
+                                        throttledStream.pipe(res);
+
+                                        throttledStream.on("data", function (data) {
+                                            bytes += data.length;
+                                        });
+
+                                        var closeHandler = function () {
+                                            if (!closed) {
+                                                closed = true;
+                                                ActionHelper.UpdateAction(action._id, bytes, true, function (err, actionUpdated) {
+                                                    res.end();
+                                                });
+                                            }
+                                        };
+
+                                        throttledStream.on("end", closeHandler);
+                                        throttledStream.on("close", closeHandler);
+                                        req.on("close", closeHandler);
+                                    });
+                                });
+                            } else {
+                                res.send(403, "File not shared publicly");
+                            }
+                        });
+                    });
                 });
             });
         }

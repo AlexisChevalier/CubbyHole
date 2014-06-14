@@ -5,13 +5,12 @@ var orm = require("orm");
 module.exports = function (db) {
     db.define("Plans", {
         id: Number,
-        planNumber: Number,
         name: String,
         pricePerMonth: Number,
-        bandwitdhPerDay: String,
-        diskSpace: String,
-        logsHistory: String,
-        support: String,
-        dateAdded: Number
+        bandwidthPerDay: Number,
+        bandwidthSpeed: Number,
+        diskSpace: Number,
+        description: String,
+        available: Number
     });
 };

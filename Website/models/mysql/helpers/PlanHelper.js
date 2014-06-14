@@ -4,9 +4,19 @@ var PlanHelper = module.exports = {},
     models = require('../../mysql');
 
 
-PlanHelper.GetAvailablePlans = function (done) {
+PlanHelper.GetAvailablePlans = function (all, done) {
+    if (typeof all == 'function') {
+        done = all;
+        all = false;
+    }
     models(function (err, db) {
-        db.driver.execQuery("SELECT p.* FROM Plans p INNER JOIN (SELECT planNumber, MAX(dateAdded) max_time FROM Plans GROUP BY planNumber) innerResult ON p.planNumber = innerResult.planNumber AND p.dateAdded = innerResult.max_time ORDER BY p.planNumber ASC", function (err, data) {
+        var query = "";
+        if (all) {
+            query = "SELECT * FROM Plans ORDER BY id ASC LIMIT 4";
+        } else {
+            query = "SELECT * FROM Plans WHERE available = 1 ORDER BY id ASC LIMIT 4";
+        }
+        db.driver.execQuery(query, function (err, data) {
             if (err) {
                 return done(err, null);
             }

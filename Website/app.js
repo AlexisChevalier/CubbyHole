@@ -19,8 +19,10 @@ var express = require('express'),
     fs = require('fs'),
     I18n = require('i18n-2'),
     locale = require("locale"),
+    paypal = require('paypal-rest-sdk'),
     supportedLocales = ["en", "fr"],
     defaultRoutes = require('./routes/default'),
+    administrationRoutes = require('./routes/administration'),
     accountRoutes = require('./routes/account'),
     publicSharesRoutes = require('./routes/publicShares'),
     flash = require('connect-flash'),
@@ -32,7 +34,17 @@ var express = require('express'),
     }),
     app = express();
 
+
+http.globalAgent.maxSockets = Infinity;
+https.globalAgent.maxSockets = Infinity;
+
 app.set("env", config.env || "development");
+
+/**
+ * PAYPAL Initialsation
+ */
+
+paypal.configure(config.paypal.api);
 
 /**
  * MYSQL DB Initialisation
@@ -63,6 +75,11 @@ swig.setDefaults({
 swig.setFilter('humanReadableSize', function (input) {
     var exp = Math.log(input) / Math.log(1024) | 0;
     var result = (input / Math.pow(1024, exp)).toFixed(2);
+
+    var regex = /0+$/;
+    result = result.replace(regex, "");
+    regex = /\.$/;
+    result = result.replace(regex, "");
 
     return result + ' ' + (exp == 0 ? 'bytes': 'KMGTPEZY'[exp - 1] + 'B');
 });
@@ -115,6 +132,14 @@ app.use(express.session({
 app.use(function (req, res, next) {
     res.locals.messages = function () { return req.flash(); };
     res.locals.isLoggedIn = function () { return req.isAuthenticated(); };
+    res.locals.isAdmin = function () {
+        if (req.user) {
+            if (req.user.isAdmin == 1) {
+                return true;
+            }
+        }
+        return false;
+    };
     next();
 });
 app.use(flash());
@@ -154,10 +179,20 @@ app.post('/account/delete', accountRoutes.deleteAccount);
 app.get('/account/removeApp/:tokenId', accountRoutes.removeApp);
 app.get('/account/payPlan/:planId', accountRoutes.planPay);
 app.get('/account/payResult', accountRoutes.payResult);
+
+app.get('/account/sendToPaypal/:planId', accountRoutes.sendToPaypal);
+app.post('/account/executePaypal', accountRoutes.executePaypal);
+app.get('/account/confirmPayment', accountRoutes.confirmPayment);
+app.get('/account/cancelPaypal', accountRoutes.cancelPaypal);
+
 app.get('/apps', defaultRoutes.apps);
 app.get('/loginsignup', accountRoutes.perform);
 app.get('/loginCallback', accountRoutes.handleCallback);
 app.get('/logout', accountRoutes.logout);
+
+//Administration
+app.get('/administration', administrationRoutes.home);
+app.post('/administration/updatePlan/:planId', administrationRoutes.updatePlan);
 
 //File browser
 app.get(/^\/browser.*$/, fileBrowserRoutes.fileBrowserPage);

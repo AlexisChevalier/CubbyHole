@@ -50,5 +50,19 @@ module.exports =  {
             }
             next();
         };
+    },
+    /**
+     * Checks if user is admin to continue
+     * @returns {Function}
+     */
+    ensureIsAdmin: function () {
+        return function (req, res, next) {
+
+            if (!req.user.isAdmin || req.user.isAdmin != 1) {
+                return res.redirect("/");
+            }
+
+            next();
+        };
     }
 };

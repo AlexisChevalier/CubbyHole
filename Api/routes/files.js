@@ -8,6 +8,7 @@ var passport = require('passport'),
     FileHelper = require('../models/mongodb/helpers/FileHelper'),
     ShareHelper = require('../models/mongodb/helpers/ShareHelper'),
     ActionHelper = require('../models/mongodb/helpers/ActionHelper'),
+    QuotaHelper = require('../models/mongodb/helpers/QuotaHelper'),
     async = require('async'),
     uuid = require('node-uuid'),
     Throttle = require('throttle');
@@ -38,8 +39,9 @@ module.exports = {
                 fileReference,
                 createdInShare = true,
                 ownerId = req.user.id,
-                throttleBytesPerSeconds = 1048576, //TODO: Set this dynamically
+                throttleBytesPerSeconds = req.user.actualPlan.bandwidthSpeed,
                 bytes = 0,
+                quotas,
                 i,
                 status;
 
@@ -119,6 +121,28 @@ module.exports = {
                         }
                     });
                 },
+                /** TEST QUOTAS  **/
+                function (next) {
+                    QuotaHelper.getQuotas(req.user, function (err, innerQuotas) {
+                        quotas = innerQuotas;
+                        var len = 0;
+                        try {
+                            len = parseInt(fileLength, 10);
+                        } catch (e) {
+                            return res.send(403, "File length invalid !");
+                        }
+
+                        if (quotas.disk.available < len) {
+                            return res.send(403, "Your CubbyHole is full, clean it or update your plan !");
+                        }
+
+                        if (quotas.bandwidth.available < fileLength) {
+                            return res.send(403, "Your daily bandwidth quota is full, wait tomorrow or update your plan !");
+                        }
+
+                        return next();
+                    });
+                },
                 /** CHECK UPDATE OR NEW FILE **/
                 function (next) {
                     if (parentFolder.isRoot) {
@@ -183,7 +207,7 @@ module.exports = {
                             realFileData: {
                                 id: null,
                                 "contentType": null,
-                                "length": null,
+                                "length": fileLength,
                                 "chunkSize": null,
                                 "uploadDate": null,
                                 "md5": null
@@ -218,11 +242,6 @@ module.exports = {
                         async.series([
                             //V2 : OK
                             /** QUOTAS **/
-                            function (innerNext) {
-                                innerNext();
-                            },
-                            //V2 : OK
-                            /** PARTAGES **/
                             function (innerNext) {
                                 innerNext();
                             },
@@ -741,6 +760,7 @@ module.exports = {
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
             var id = req.params.fileID,
+                throttleBytesPerSeconds = req.user.actualPlan.bandwidthSpeed,
                 gs;
 
             if (id) {
@@ -767,28 +787,50 @@ module.exports = {
                         } else {
                             return next();
                         }
+                    },
+                    function (next) {
+                        QuotaHelper.getQuotas(req.user, function (err, quotas) {
+                            if (quotas.bandwidth.available < fileReference.realFileData.length) {
+                                return res.send(403, "Your daily bandwidth quota is full, wait tomorrow or update your plan !");
+                            } else {
+                                return next();
+                            }
+                        });
                     }
                 ], function (err) {
                     gs = new mongo.GridStore(mongo_db_object, fileReference.realFileData.id, "r");
+                    ActionHelper.Log('file', fileReference._id, req.user.id, "download", false, function (err, action) {
+                        var bytes = 0;
 
-                    gs.open(function (err, file) {
+                        gs.open(function (err, file) {
 
-                        res.setHeader('Content-disposition', 'attachment; filename=' + fileReference.name);
-                        res.setHeader('Content-type', fileReference.realFileData.contentType);
-                        res.setHeader('Content-length', fileReference.realFileData.length);
+                            res.setHeader('Content-disposition', 'attachment; filename=' + fileReference.name);
+                            res.setHeader('Content-type', fileReference.realFileData.contentType);
+                            res.setHeader('Content-length', fileReference.realFileData.length);
 
-                        var throttledStream = file.stream(true).pipe(new Throttle(1048576));
+                            var closed = false;
 
-                        throttledStream.on("data", function (data) {
-                            res.write(data);
-                        });
+                            var throttledStream = file.stream(true).pipe(new Throttle(throttleBytesPerSeconds));
 
-                        throttledStream.on("end", function () {
-                            res.end();
-                        });
+                            throttledStream.pipe(res);
 
-                        throttledStream.on("close", function () {
-                            ActionHelper.Log('file', file._id, req.user.id, "download");
+                            throttledStream.on("data", function (data) {
+                                bytes += data.length;
+                            });
+
+                            var closeHandler = function () {
+                                if (!closed) {
+                                    closed = true;
+                                    ActionHelper.UpdateAction(action._id, bytes, true, function (err, actionUpdated) {
+                                        res.end();
+                                    });
+                                }
+                            };
+
+                            throttledStream.on("end", closeHandler);
+                            throttledStream.on("close", closeHandler);
+                            req.on("close", closeHandler);
+
                         });
                     });
                 });

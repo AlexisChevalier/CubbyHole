@@ -28,6 +28,9 @@ var express = require('express'),
     flash = require('connect-flash'),
     app = express();
 
+http.globalAgent.maxSockets = Infinity;
+https.globalAgent.maxSockets = Infinity;
+
 app.set("env", config.env || "development");
 
 /**
@@ -137,7 +140,7 @@ if ('development' == app.get('env')) {
 }
 
 /**
- * DEVELOPPER Routes definitions.
+ * DEVELOPER Routes definitions.
  */
 
 app.get('/', devRoutes.home);

@@ -34,6 +34,9 @@
       <div class="wrapper">
           <p>
               {{__("Logged as")}} {{ loggedUser.name }}
+              {% if isAdmin() == true %}
+                - <a href="/administration">{{__("Administration")}}</a>
+              {% endif %}
           </p>
       </div>
   </div>
@@ -61,7 +64,7 @@
             <div class="alert alert-info alert-dismissable">
           {% endif %}
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            {{ message }}
+            {{ __(message) }}
           </div>
         {% endfor %}
       {% endfor %}
