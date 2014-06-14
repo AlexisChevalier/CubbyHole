@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.internal.view.menu.MenuView.ItemView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -101,8 +99,8 @@ public class BrowserActivity extends Activity {
 			public void onApiRequestFailed() {
 				Log.e(TAG, "Async getRootFolder failed !");
 				CHLoader.hide(); // On cache le loader
-				// TODO: Afficher une erreur à l'écran par exemple (mais je
-				// ferai une classe pour ça).
+				// TODO: Afficher une erreur Ã  l'Ã©cran par exemple (mais je
+				// ferai une classe pour Ã§a).
 			}
 
 			@Override
@@ -127,8 +125,8 @@ public class BrowserActivity extends Activity {
 			public void onApiRequestFailed() {
 				Log.e(TAG, "Async getRootFolder failed !");
 				CHLoader.hide(); // On cache le loader
-				// TODO: Afficher une erreur à l'écran par exemple (mais je
-				// ferai une classe pour ça).
+				// TODO: Afficher une erreur Ã  l'Ã©cran par exemple (mais je
+				// ferai une classe pour Ã§a).
 			}
 
 			@Override
