@@ -92,7 +92,9 @@ public class CHItem {
 	 */
 	public final void setName(String name) {
 		if (name != null && !name.equals(this.name)) {
-			isNameHasBeenModified = true;
+			if (!isPreventStateListening()) {
+				isNameHasBeenModified = true;
+			}
 			this.name = name;
 		}
 	}
@@ -134,8 +136,10 @@ public class CHItem {
 	 * @param parent the parent to set
 	 */
 	public final void setParentId(String parentId) {
-		if (parentId != null && !parentId.equals(this.parentId) && !isPreventStateListening()) {
-			isParentIdHasBeenModified = true;
+		if (parentId != null && !parentId.equals(this.parentId)) {
+			if (!isPreventStateListening()) {
+				isParentIdHasBeenModified = true;
+			}
 			this.parentId = parentId;
 			CHFolder parentFolder = CHFolder.folderRepository.get(parentId);
 			if (parentFolder != null) {
