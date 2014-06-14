@@ -54,7 +54,7 @@ public interface IAsyncCubbyHoleClient {
 	 * Used to delete a folder.
 	 * @param folder - the folder you want to delete.
 	 */
-	public void deleteFolder(IApiRequestHandler<CHFolder> handler, CHFolder folder);
+	public void deleteFolder(IApiRequestHandler<Boolean> handler, CHFolder folder);
 
 	/**
 	 * Used to upload a file into a specific folder.
