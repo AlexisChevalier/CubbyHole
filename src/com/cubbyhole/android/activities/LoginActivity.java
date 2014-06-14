@@ -43,6 +43,7 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 		if (accessToken != null) {
 			Log.i(TAG, "We already have the access token, going to the Browser activity.");
 			CubbyHoleClient.getInstance().Initialize(accessToken);
+			//onInvalidToken();
 			final IApiRequestHandler<CHAccount> handler = new IApiRequestHandler<CHAccount>() {
 
 				@Override
@@ -57,6 +58,7 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 				}
 				
 			};
+			
 			CubbyHoleClient.getInstance().getAccount(handler);
 			
 		}
@@ -76,7 +78,8 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 	private void onInvalidToken() {
 		setContentView(R.layout.activity_login);
 		bindView();
-
+		
+		
 		if (CHC.IGNORE_NOT_TRUSTED_CERT) {
 			SSLManager.allowNotTrustedCertificates();
 		}
@@ -99,6 +102,7 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 
 		try {
 			mAuthWebView.loadUrl(url);
+			//mAuthWebView.loadUrl("https://localhost:8444/auth/logout");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

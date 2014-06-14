@@ -20,6 +20,7 @@ import com.cubbyhole.android.R;
 import com.cubbyhole.android.adapters.StableArrayAdapter;
 import com.cubbyhole.android.api.CubbyHoleClient;
 import com.cubbyhole.android.utils.CHLoader;
+import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
 import com.cubbyhole.library.api.entities.CHItem;
 import com.cubbyhole.library.api.entities.CHItem.CHType;
@@ -38,17 +39,10 @@ public class BrowserActivity extends Activity {
 
 	private StableArrayAdapter	mArrayAdapter;
 	
-	private MenuItem mAddFolderBtn;
-	
-	private MenuItem mUploadBtn;
-	
-	private MenuItem mDisconnectBtn;
-	
 	private CHItem mLongClickedItem;
 	
 	private ArrayList<String> mLongClickOptions = new ArrayList<String>();
 	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,6 +66,7 @@ public class BrowserActivity extends Activity {
 				}
 			}
 		});
+		
 		
 		mListView.setLongClickable(true);
 		mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -235,10 +230,15 @@ public class BrowserActivity extends Activity {
 	
 	private void onLongClick() {
 		
-		if (mLongClickedItem.getType() == CHType.FILE)
+		if (mLongClickedItem.getType() == CHType.FILE && mLongClickOptions.get(0) != "Download")
 		{
 			mLongClickOptions.add(0, "Download");
 		}
+		else if (mLongClickedItem.getType() == CHType.FOLDER && mLongClickOptions.get(0) == "Download")
+		{
+			mLongClickOptions.remove(0);
+		}
+		
 
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setTitle("Choose an action");
@@ -269,9 +269,17 @@ public class BrowserActivity extends Activity {
 	{
 		
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-
-		alert.setTitle("Rename a folder :");
-		alert.setMessage("Folder name :");
+		
+		if (mLongClickedItem.getType() == CHType.FOLDER)
+		{
+			alert.setTitle("Rename a folder :");
+			alert.setMessage("Folder name :");
+		}
+		else if (mLongClickedItem.getType() == CHType.FILE)
+		{
+			alert.setTitle("Rename a file :");
+			alert.setMessage("File name :");
+		}
 
 		// Set an EditText view to get user input 
 		final EditText input = new EditText(this);
@@ -281,7 +289,7 @@ public class BrowserActivity extends Activity {
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				  String value = input.getText().toString();
-				  rename(value);
+				  renameSelectedItem(value);
 			}
 		});
 
@@ -296,44 +304,149 @@ public class BrowserActivity extends Activity {
 	}
 	private void showRemoveDialog()
 	{
-		
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+		if (mLongClickedItem.getType() == CHType.FOLDER)
+		{
+			alert.setTitle("Remove a folder :");
+			alert.setMessage("Do you really want to remove the folder " + "'" +  mLongClickedItem.getName() + "' ?");
+		}
+		else if (mLongClickedItem.getType() == CHType.FILE)
+		{
+			alert.setTitle("Remove a file :");
+			alert.setMessage("Do you really want to remove the file " + "'" +  mLongClickedItem.getName() + "' ?");
+		}
+
+
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				  
+				deleteSelectedItem();
+			}
+		});
+
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				// Canceled.
+			}
+		});
+
+		alert.show();
 	}
 	
-	private void rename(String name){
-		CHLoader.show(this, "Loading...", "Refreshing folder's content");
-		
-		final IApiRequestHandler<CHFolder> handler = new IApiRequestHandler<CHFolder>() {
-
-			@Override
-			public void onApiRequestFailed() {
-				Log.e(TAG, "Async renameFolder failed !");
-				CHLoader.hide();
-				
-			}
-
-			@Override
-			public void onApiRequestSuccess(CHFolder result) {
-				Log.d(TAG, "Async renameFolder success !");
-				
-				refresh();
-				
-				CHLoader.hide();
-			}
-		};
-		
-		mLongClickedItem.setName(name);
+	private void renameSelectedItem(String newName){
 		
 		if (mLongClickedItem.getType() == CHType.FILE)
 		{
+			CHLoader.show(this, "Loading...", "Refreshing folder's content");
+			
+			final IApiRequestHandler<CHFile> handler = new IApiRequestHandler<CHFile>() {
+
+				@Override
+				public void onApiRequestFailed() {
+					Log.e(TAG, "Async renameFile failed !");
+					CHLoader.hide();
+					
+				}
+
+				@Override
+				public void onApiRequestSuccess(CHFile result) {
+					Log.d(TAG, "Async renameFile success !");
+					
+					refresh();
+					
+					CHLoader.hide();
+				}
+			};
+			
+			mLongClickedItem.setName(newName);
+			
 			//CubbyHoleClient.getInstance().update
 		}
-		else
+		else //selected item is a folder
 		{
+			CHLoader.show(this, "Loading...", "Refreshing folder's content");
+			
+			final IApiRequestHandler<CHFolder> handler = new IApiRequestHandler<CHFolder>() {
+
+				@Override
+				public void onApiRequestFailed() {
+					Log.e(TAG, "Async renameFolder failed !");
+					CHLoader.hide();
+					
+				}
+
+				@Override
+				public void onApiRequestSuccess(CHFolder result) {
+					Log.d(TAG, "Async renameFolder success !");
+					
+					refresh();
+					
+					CHLoader.hide();
+				}
+			};
+			
+			mLongClickedItem.setName(newName);
+			
 			CubbyHoleClient.getInstance().updateFolder(handler, (CHFolder)mLongClickedItem);
+		}
+	}
+	
+	private void deleteSelectedItem() {
+		
+		if (mLongClickedItem.getType() == CHType.FILE)
+		{
+			CHLoader.show(this, "Loading...", "Refreshing folder's content");
+			
+			final IApiRequestHandler<Boolean> handler = new IApiRequestHandler<Boolean>() {
+
+				@Override
+				public void onApiRequestFailed() {
+					Log.e(TAG, "Async deleteFile failed !");
+					CHLoader.hide();
+					
+				}
+
+				@Override
+				public void onApiRequestSuccess(Boolean result) {
+					Log.d(TAG, "Async deleteFile success !");
+					
+					refresh();
+					
+					CHLoader.hide();
+				}
+			};
+			
+			CubbyHoleClient.getInstance().deleteFile(handler, (CHFile)mLongClickedItem);
+		}
+		else //selected item is a folder
+		{
+			CHLoader.show(this, "Loading...", "Refreshing folder's content");
+			
+			final IApiRequestHandler<Boolean> handler = new IApiRequestHandler<Boolean>() {
+
+				@Override
+				public void onApiRequestFailed() {
+					Log.e(TAG, "Async deleteFolder failed !");
+					CHLoader.hide();
+					
+				}
+
+				@Override
+				public void onApiRequestSuccess(Boolean result) {
+					Log.d(TAG, "Async deleteFolder success !");
+					
+					refresh();
+					
+					CHLoader.hide();
+				}
+				
+			};
+			
+			CubbyHoleClient.getInstance().deleteFolder(handler, (CHFolder)mLongClickedItem);
 		}
 		
 	}
-	
 	
 
 	@Override

@@ -88,9 +88,9 @@ public class CubbyHoleClient implements IAsyncCubbyHoleClient {
 	}
 
 	@Override
-	public void deleteFolder(IApiRequestHandler<CHFolder> handler, CHFolder folder) {
+	public void deleteFolder(IApiRequestHandler<Boolean> handler, CHFolder folder) {
 		final String method = "deleteFolder";
-		new AsyncApiRequest<CHFolder>(handler, mImpl, method).execute(folder);
+		new AsyncApiRequest<Boolean>(handler, mImpl, method).execute(folder);
 	}
 
 	@Override
