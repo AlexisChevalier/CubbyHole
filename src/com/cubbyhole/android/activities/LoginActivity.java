@@ -14,7 +14,6 @@ import com.cubbyhole.android.utils.CHC;
 import com.cubbyhole.android.utils.TokenStorer;
 import com.cubbyhole.android.utils.ssl.SSLManager;
 import com.cubbyhole.library.api.entities.CHAccount;
-import com.cubbyhole.library.api.entities.CHFolder;
 import com.cubbyhole.library.interfaces.IApiRequestHandler;
 
 public class LoginActivity extends Activity implements ICubbyHoleAuth {

@@ -12,7 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.cubbyhole.android.R;
 import com.cubbyhole.android.adapters.StableArrayAdapter;
@@ -39,15 +41,21 @@ public class BrowserActivity extends Activity {
 	
 	private CHItem mLongClickedItem;
 	
+	private String mBrowserUrl;
+	
 	private ArrayList<String> mLongClickOptions = new ArrayList<String>();
+	
+	private HorizontalScrollView mHScrollView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_browser);
-
+		
+		//setTitleColor(Color.parseColor("#ffcc6d"));
+		
 		bindView();
-
+		
 		requestGetRootFolder();
 
 		mArrayAdapter = new StableArrayAdapter(this, mItems);
@@ -60,7 +68,7 @@ public class BrowserActivity extends Activity {
 				CHItem clickedItem = mItems.get(position);
 
 				if (clickedItem.getType() == CHType.FOLDER) {
-					changeFolder((CHFolder) clickedItem);
+					changeFolder((CHFolder) clickedItem, "in");
 				}
 			}
 		});
@@ -106,7 +114,7 @@ public class BrowserActivity extends Activity {
 			@Override
 			public void onApiRequestSuccess(CHFolder result) {
 				Log.d(TAG, "Async getRootFolder success !");
-				changeFolder(result); 
+				changeFolder(result, "root"); 
 				CHLoader.hide(); // On cache le loader
 			}
 
@@ -142,7 +150,35 @@ public class BrowserActivity extends Activity {
 		mCurrentFolder.getItems(handler);
 	}
 
-	private void changeFolder(final CHFolder newFolder) {
+	private void changeFolder(final CHFolder newFolder, String action) {
+		
+		if (action == "root")
+		{
+			mBrowserUrl = "/CubbyHole";
+		}
+		else if (action == "in")
+		{
+			mBrowserUrl += "/" + newFolder.getName();
+		}
+		else if (action == "out")
+		{
+			mBrowserUrl = mBrowserUrl.substring(0, mBrowserUrl.length() - (mCurrentFolder.getName().length() + 1));
+		}
+		
+		TextView browserUrlTextView = (TextView)findViewById(R.id.browser_url_textView);
+		
+		browserUrlTextView.setText(mBrowserUrl);
+		
+		mHScrollView = (HorizontalScrollView)findViewById(R.id.browser_url_HorizontalScrollView);
+		
+		mHScrollView.post(new Runnable() {
+		    @Override
+		    public void run() {
+		    	mHScrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+		    } 
+		});
+		
+		System.out.println(mBrowserUrl);
 		mCurrentFolder = newFolder;
 		refresh();
 	}
@@ -239,7 +275,7 @@ public class BrowserActivity extends Activity {
 		
 
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setTitle("Choose an action");
+    	builder.setTitle(mLongClickedItem.getName());
     	   	
     	CharSequence[] optionsCharSeq = mLongClickOptions.toArray(new CharSequence[mLongClickOptions.size()]);
     	
@@ -253,6 +289,9 @@ public class BrowserActivity extends Activity {
     	    	
     	    	else if (clickedOption == "Remove") {
     	    		showRemoveDialog();
+    	    	}
+    	    	else if (clickedOption == "Download") {
+    	    		showDownloadDialog();
     	    	}
     	    }
     	});
@@ -330,6 +369,25 @@ public class BrowserActivity extends Activity {
 		});
 
 		alert.show();
+	}
+	
+	private void showDownloadDialog()
+	{
+		CharSequence destinations[] = new CharSequence[] {"Sd Card", "Phone memory"};
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Where do you want to download '" + mLongClickedItem.getName() + "' ?");
+		builder.setItems(destinations, new DialogInterface.OnClickListener() {
+		    @Override
+		    public void onClick(DialogInterface dialog, int which) {
+		       
+		    	
+		    }
+		});
+		
+		AlertDialog alert = builder.create();
+    	alert.setCanceledOnTouchOutside(true);
+    	alert.show();
 	}
 	
 	private void renameSelectedItem(String newName){
@@ -451,7 +509,7 @@ public class BrowserActivity extends Activity {
 	public void onBackPressed() {
 
 		if (!mCurrentFolder.getIsRoot()) {
-			changeFolder(mCurrentFolder.getParent());
+			changeFolder(mCurrentFolder.getParent(), "out");
 		} else {
 			LoginActivity.setComingFromBrowserActivity(true);
 			super.onBackPressed();

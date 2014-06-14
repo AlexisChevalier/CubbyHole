@@ -4,7 +4,7 @@
     <string name="app_name">CubbyHole</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_browser">BrowserActivity</string>
+    <string name="title_activity_browser">CubbyHole Browser</string>
     <string name="action_addFolder">Add a folder</string>
     <string name="action_upload">Upload a file</string>
     <string name="action_disconnect">Disconnect</string>
