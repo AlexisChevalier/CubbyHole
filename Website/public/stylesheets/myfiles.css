@@ -63,7 +63,7 @@ div#actionbar ul {
 	list-style-type: none;
 	padding: 0px;
 	margin: 10px 0px;
-	float: right;
+	width: 100%;
 }
 
 div#actionbar ul li{
@@ -72,6 +72,21 @@ div#actionbar ul li{
 	margin-left: 5px;
 	display: inline-block;
 	cursor: pointer;
+}
+
+div#actionbar ul li.quotas {
+	float: left;
+	padding: 0;
+	margin: 0;
+	font: 16px Helvetica, Arial, sans-serif;
+}
+
+div#actionbar ul li.quotas p {
+	line-height: 45px;
+}
+
+div#actionbar ul li.quotas span {
+	color: #3daaf8;
 }
 
 div#actionbar ul li.action {
@@ -86,6 +101,7 @@ div#actionbar ul li.action:hover {
 }
 
 div#actionbar ul li.uploadSelector {
+	float: right;
 	vertical-align: middle;
 	font-size: medium;
 	padding: 5px;
@@ -96,18 +112,12 @@ div#actionbar ul li.uploadSelector {
 	box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
 }
 
-div#actionbar ul li.uploadfile {
-	/*TODO let's do a sprite !*/
-	background-image: url('/images/icons/upload-file.png');
-}
-
-div#actionbar ul li.sharefolder {
-	/*TODO: let's do a sprite !*/
-	background-image: url('/images/icons/share-folder.png');
+div#actionbar ul li.uploadSelector input[type=file] {
+	width: 260px;
 }
 
 div#actionbar ul li.addfolder {
-	/*TODO let's do a sprite !*/
+	float: right;
 	background-image: url('/images/icons/add-folder.png');
 }
 

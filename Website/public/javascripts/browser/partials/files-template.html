@@ -47,6 +47,12 @@
     </div>
     <div id="actionbar">
         <ul>
+            <li class="quotas" ng-click="refreshQuotas()">
+                <p>
+                    <span class="glyphicon glyphicon-hdd"></span> [[quotas.bandwidth.humanAvailable]] -
+                    <span class="glyphicon glyphicon-transfer"></span> [[quotas.disk.humanAvailable]]
+                </p>
+            </li>
             <li class="uploadSelector">
                 <input type="file" id="fileInputBrowser" style="margin-top: 5px" class="pull-left" ng-file-select="onFileInputUsed($files)" multiple/>
                 <button ng-if="tempFiles.length == 0" type="button" class="btn pull-left btn-primary" disabled>Upload files</button>
@@ -92,7 +98,6 @@
 
 
                 <td ng-if="item.type == 'file'" >
-                    <!--<a ng-if="!item.busyWrite" ng-click="handleItemClick(item.type, item._id)" ng-href="/ajax/download/[[item._id]]">[[item.name]]</a>-->
                     <a ng-if="!item.busyWrite" ng-click="handleItemClick(item.type, item._id)">[[item.name]]</a>
                     <span ng-if="item.busyWrite">[[item.name]]</span>
                 </td>

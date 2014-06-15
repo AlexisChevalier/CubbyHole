@@ -14,6 +14,30 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
     $scope.uploadManagerShown = true;
     $scope.uploads = [];
     $scope.tempFiles = [];
+    $scope.quotas = {};
+
+    window.onbeforeunload = function(){
+        if ($scope.uploads.length > 0){
+            return 'Are you sure you want to leave now ? your upload will be stopped !';
+        }
+    };
+
+    $scope.refreshQuotas = function () {
+        $http.get("/ajax/api/account/quotas")
+            .success(function (data) {
+                $scope.quotas = data;
+                var exp = Math.log($scope.quotas.disk.available) / Math.log(1024) | 0;
+                var result = ($scope.quotas.disk.available / Math.pow(1024, exp)).toFixed(2);
+
+                $scope.quotas.disk.humanAvailable = result + ' ' + (exp == 0 ? 'bytes': 'KMGTPEZY'[exp - 1] + 'B');
+
+                exp = Math.log($scope.quotas.bandwidth.available) / Math.log(1024) | 0;
+                result = ($scope.quotas.bandwidth.available / Math.pow(1024, exp)).toFixed(2);
+
+                $scope.quotas.bandwidth.humanAvailable = result + ' ' + (exp == 0 ? 'bytes': 'KMGTPEZY'[exp - 1] + 'B');
+            });
+    };
+    $scope.refreshQuotas();
 
     //Sort Table
     $scope.sort = function (column) {
@@ -72,6 +96,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                     hiddenElement.href = '/ajax/download/' + id;
                     hiddenElement.click();
                     flash('success', "Your download started !");
+                    $scope.refreshQuotas();
                 }).error(function (data) {
                     flash('danger', data || "Unknown error");
                 });
@@ -167,7 +192,10 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                     }
 
                     $scope.uploads.push(fileObject);
-
+                    setTimeout(function () {
+                        $scope.refreshQuotas();
+                        flash('success', 'File upload started !');
+                    }, 1000);
                     fileObject.fileUpload = $upload.upload({
                         url: '/ajax/upload/',
                         headers: {
@@ -205,6 +233,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
 
                                 $scope.uploads.splice($scope.uploads.indexOf(fileObject), 1);
                                 flash('success', 'File ' + item.name + ' uploaded successfully !');
+                                $scope.refreshQuotas();
                             }
                         } else {
                             if (fileObject.options.parentFolder == $scope.folderId) {
@@ -227,6 +256,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
 
                                 $scope.uploads.splice($scope.uploads.indexOf(fileObject), 1);
                                 flash('success', 'File ' + item.name + ' updated successfully !');
+                                $scope.refreshQuotas();
                             }
                         }
                     }, function(response) {
