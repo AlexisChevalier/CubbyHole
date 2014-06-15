@@ -85,7 +85,7 @@ div#actionbar ul li.quotas p {
 	line-height: 45px;
 }
 
-div#actionbar ul li.quotas span {
+div#actionbar ul li.quotas .glyphicon {
 	color: #3daaf8;
 }
 

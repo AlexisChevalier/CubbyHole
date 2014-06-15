@@ -6,20 +6,11 @@
     });
 
     var hideCapture = function (e) {
-        /*e.stopPropagation();
-        e.preventDefault();*/
         $("#dropCapture").hide();
     };
 
     $("#dropCapture").on('dragleave', hideCapture);
     $("#dropCapture").on('drop', hideCapture);
-
-    //$("#dropCapture").on('mouseenter', hideCapture);
-
-    /*$("#iconDrop, #textDrop, #icondrop > span, #textDrop > p").on('dragleave', function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-    });*/
 </script>
 
 <flash-message></flash-message>
@@ -49,8 +40,8 @@
         <ul>
             <li class="quotas" ng-click="refreshQuotas()">
                 <p>
-                    <span class="glyphicon glyphicon-hdd"></span> [[quotas.bandwidth.humanAvailable]] -
-                    <span class="glyphicon glyphicon-transfer"></span> [[quotas.disk.humanAvailable]]
+                    <span tooltip-placement="bottom" tooltip="Disk space available"><span class="glyphicon glyphicon-hdd"></span> [[quotas.disk.humanAvailable]] -</span>
+                    <span tooltip-placement="bottom" tooltip="Daily transfer quota available"><span class="glyphicon glyphicon-transfer"></span> [[quotas.bandwidth.humanAvailable]]</span>
                 </p>
             </li>
             <li class="uploadSelector">
