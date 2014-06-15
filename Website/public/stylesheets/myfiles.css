@@ -430,7 +430,8 @@ table tr td.shared-file {
 
 .uploadManager .um_inner .um_content {
 	max-height: 260px;
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 .uploadManager .um_inner .um_content.um_small {
@@ -459,7 +460,7 @@ table tr td.shared-file {
 	height: 40px;
 	margin: 0;
 	text-align: center;
-	width: 300px;
+	width: 100%;
 	float: left;
 	color: #3daaf8;
 	-webkit-box-shadow: none;
