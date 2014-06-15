@@ -248,6 +248,20 @@ public class CubbyHoleImpl implements ICubbyHoleClient, IApiRequester {
 	}
 
 	@Override
+	public CHFile updateFile(CHFile file) throws Exception {
+		CHHttpDatas datas = new CHHttpDatas();
+		if (file.isNameHasBeenModified()) {
+			datas.add("newName", file.getName());
+		}
+		if (file.isParentHasBeenModified()) {
+			datas.add("newParentID", file.getParentId());
+		}
+		file.resetModificationStates();
+		CHJsonNode json = apiPut(API_ENDPOINT + FILES_UPDATE + file.getId(), datas);
+		return CHFile.fromJson(json);
+	}
+
+	@Override
 	public CHFile uploadFile(CHFolder parentFolder, String path) {
 		// TODO Auto-generated method stub
 		return null;

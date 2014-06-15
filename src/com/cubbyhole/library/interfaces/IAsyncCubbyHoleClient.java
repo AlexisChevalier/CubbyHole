@@ -57,6 +57,13 @@ public interface IAsyncCubbyHoleClient {
 	public void deleteFolder(IApiRequestHandler<Boolean> handler, CHFolder folder);
 
 	/**
+	 * Used to update a file on the server.
+	 * @param handler - the handler that will listen for responses.
+	 * @param file - the file you want to update.
+	 */
+	void updateFile(IApiRequestHandler<CHFile> handler, CHFile file);
+
+	/**
 	 * Used to upload a file into a specific folder.
 	 * @param parentFolder - the folder to upload the file into.
 	 * @param path - the absolute path of the file that must be uploaded.
@@ -75,5 +82,4 @@ public interface IAsyncCubbyHoleClient {
 	 * @param file - the file you want to delete.
 	 */
 	public void deleteFile(IApiRequestHandler<Boolean> handler, CHFile file);
-
 }

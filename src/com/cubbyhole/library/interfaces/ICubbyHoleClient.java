@@ -91,7 +91,7 @@ public interface ICubbyHoleClient {
 
 	/**
 	 * Used to update a folder on the server.
-	 * @param folder - the folder you want to push the modifications
+	 * @param folder - the folder you want to push the modifications of.
 	 * @return folder - the folder with the new modifications.
 	 * @throws Exception 
 	 */
@@ -103,6 +103,14 @@ public interface ICubbyHoleClient {
 	 * @return <code>true</code> if the folder has been deleted, <code>false</code> otherwise.
 	 */
 	public boolean deleteFolder(CHFolder folder);
+
+	/**
+	 * Used to update a file on the server.
+	 * @param file - the file you want to push the modifications of.
+	 * @return file - the file with the new modifications.
+	 * @throws Exception if something went wrong.
+	 */
+	public CHFile updateFile(CHFile file) throws Exception;
 
 	/**
 	 * Used to upload a file into a specific folder.
