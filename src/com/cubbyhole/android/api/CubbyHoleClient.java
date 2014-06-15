@@ -35,6 +35,10 @@ public class CubbyHoleClient implements IAsyncCubbyHoleClient {
 		mImpl.setAsyncClient(this);
 	}
 
+	public CubbyHoleImpl getImplementation() {
+		return mImpl;
+	}
+
 	@Override
 	public void getAccount(IApiRequestHandler<CHAccount> handler) {
 		if (mAccount != null) {
