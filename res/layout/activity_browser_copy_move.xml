@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BrowserCopyMoveActivity" >
+
+    
+    <HorizontalScrollView
+    android:id="@+id/browsercm_url_HorizontalScrollView"
+    android:layout_width="wrap_content"
+     android:layout_height="26dp"
+     android:layout_alignParentLeft="true"
+     android:layout_alignParentRight="true"
+     android:layout_alignParentTop="true"
+     android:orientation="vertical" 
+     android:background="#C4C4C4"
+     android:paddingTop="3dp"
+     android:paddingLeft="5dp">
+    
+		<TextView
+	        android:id="@+id/browsercm_url_textView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="#3DAAF8" />
+	
+	</HorizontalScrollView>
+
+	<LinearLayout
+		android:id="@+id/browsercm_action_linearLayout"
+		android:layout_width="200dp"
+		android:layout_height="35dp"
+		android:layout_below="@+id/browsercm_url_HorizontalScrollView"
+		android:layout_centerHorizontal="true"
+		android:orientation="horizontal"
+		android:paddingTop="2dp">
+
+		<Button
+		    android:id="@+id/browsercm_cancel_button"
+		    android:layout_width="0.0dip" 
+		    android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:layout_marginRight="7dp"
+		    android:text="@string/browsercm_cancel_button" />
+
+		<Button
+		    android:id="@+id/browsercm_action_button"
+		    android:layout_width="0.0dip" 
+		    android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:layout_marginLeft="7dp" 
+            android:text=""/>
+
+	</LinearLayout>
+
+        <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/browsercm_action_linearLayout"
+        android:layout_centerHorizontal="true" />
+    
+</RelativeLayout>

@@ -13,7 +13,6 @@ import com.cubbyhole.android.components.AuthWebView.ICubbyHoleAuth;
 import com.cubbyhole.android.utils.CHC;
 import com.cubbyhole.android.utils.TokenStorer;
 import com.cubbyhole.library.api.entities.CHAccount;
-import com.cubbyhole.library.api.entities.CHFolder;
 import com.cubbyhole.library.interfaces.IApiRequestHandler;
 import com.cubbyhole.library.ssl.SSLManager;
 
@@ -43,6 +42,7 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 		if (accessToken != null) {
 			Log.i(TAG, "We already have the access token, going to the Browser activity.");
 			CubbyHoleClient.getInstance().Initialize(accessToken);
+			//onInvalidToken();
 			final IApiRequestHandler<CHAccount> handler = new IApiRequestHandler<CHAccount>() {
 
 				@Override
@@ -57,6 +57,7 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 				}
 				
 			};
+			
 			CubbyHoleClient.getInstance().getAccount(handler);
 			
 		}
@@ -76,7 +77,8 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 	private void onInvalidToken() {
 		setContentView(R.layout.activity_login);
 		bindView();
-
+		
+		
 		if (CHC.IGNORE_NOT_TRUSTED_CERT) {
 			SSLManager.allowNotTrustedCertificates();
 		}
@@ -99,6 +101,7 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 
 		try {
 			mAuthWebView.loadUrl(url);
+			//mAuthWebView.loadUrl("https://localhost:8444/auth/logout");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
