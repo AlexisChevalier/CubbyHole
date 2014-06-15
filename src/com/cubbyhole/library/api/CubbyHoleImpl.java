@@ -246,6 +246,22 @@ public class CubbyHoleImpl implements ICubbyHoleClient, IApiRequester {
 		}
 		return false;
 	}
+	
+	@Override
+	public CHFolder copyFolder(CHFolder folder, CHFolder destinationFolder) {
+		CHJsonNode json = null;
+		if (folder != null) {
+			try {
+				CHHttpDatas datas = new CHHttpDatas()//
+				.add("destinationID", destinationFolder.getId());
+				json = apiPost(API_ENDPOINT + FOLDERS_COPY + folder.getId(), datas);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return CHFolder.fromJson(json);
+	}
 
 	@Override
 	public CHFile updateFile(CHFile file) throws Exception {
@@ -368,6 +384,22 @@ public class CubbyHoleImpl implements ICubbyHoleClient, IApiRequester {
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public CHFile copyFile(CHFile file, CHFolder destinationFolder) {
+		CHJsonNode json = null;
+		if (file != null) {
+			try {
+				CHHttpDatas datas = new CHHttpDatas()//
+				.add("destinationID", destinationFolder.getId());
+				json = apiPost(API_ENDPOINT + FILES_COPY + file.getId(), datas);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return CHFile.fromJson(json);
 	}
 
 }

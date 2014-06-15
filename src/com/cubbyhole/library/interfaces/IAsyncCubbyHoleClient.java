@@ -82,4 +82,18 @@ public interface IAsyncCubbyHoleClient {
 	 * @param file - the file you want to delete.
 	 */
 	public void deleteFile(IApiRequestHandler<Boolean> handler, CHFile file);
+	
+	/**
+	 * Used to copy a file.
+	 * @param file - the file you want to copy.
+	 * @param destinationFolder - the destination of the copied file.
+	 */
+	public void copyFile(IApiRequestHandler<CHFile> handler, CHFile file, CHFolder destinationFolder);
+	
+	/**
+	 * Used to copy a folder.
+	 * @param folder - the folder you want to copy.
+	 * @param destinationFolder - the destination of the copied file.
+	 */
+	public void copyFolder(IApiRequestHandler<CHFolder> handler, CHFolder folder, CHFolder destinationFolder);
 }
