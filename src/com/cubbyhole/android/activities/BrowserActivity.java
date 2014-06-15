@@ -1,6 +1,5 @@
 package com.cubbyhole.android.activities;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -345,7 +344,7 @@ public class BrowserActivity extends Activity {
 	private void moveToBrowserCopyMoveActivity(String action) {
 		Intent intent = new Intent(this, BrowserCopyMoveActivity.class);
 		intent.putExtra("action", action);
-		intent.putExtra("item", (Serializable) mLongClickedItem);
+		intent.putExtra("item", mLongClickedItem);
 		startActivity(intent);
 	}
 
@@ -402,7 +401,7 @@ public class BrowserActivity extends Activity {
 				String text = "Download succeeded !";
 				Toast.makeText(BrowserActivity.this, text, Toast.LENGTH_SHORT).show();
 
-				CHItemsManager.getInstance().registerFile(file);
+				CHItemsManager.getInstance().registerItem(file.getId(), file.getSystemPath());
 
 				//TODO: Cacher la progression
 			}
