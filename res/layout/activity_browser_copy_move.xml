@@ -28,7 +28,7 @@
 	<LinearLayout
 		android:id="@+id/browsercm_action_linearLayout"
 		android:layout_width="200dp"
-		android:layout_height="35dp"
+		android:layout_height="37dp"
 		android:layout_below="@+id/browsercm_url_HorizontalScrollView"
 		android:layout_centerHorizontal="true"
 		android:orientation="horizontal"

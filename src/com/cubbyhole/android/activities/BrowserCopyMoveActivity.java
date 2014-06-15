@@ -6,6 +6,7 @@ import com.cubbyhole.android.R;
 import com.cubbyhole.android.adapters.StableArrayAdapter;
 import com.cubbyhole.android.api.CubbyHoleClient;
 import com.cubbyhole.android.utils.CHLoader;
+import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
 import com.cubbyhole.library.api.entities.CHItem;
 import com.cubbyhole.library.api.entities.CHItem.CHType;
@@ -39,6 +40,8 @@ public class BrowserCopyMoveActivity extends Activity {
 	
 	private Button mActionButton;
 	
+	private Button mCancelButton;
+	
 	private TextView mBrowserUrlTextView;
 	
 	private String mAction;
@@ -52,7 +55,7 @@ public class BrowserCopyMoveActivity extends Activity {
 		
 		mAction = (String)getIntent().getStringExtra("action");
 		
-		mActionItem = (CHItem)getIntent().getSerializableExtra("item");
+		mActionItem = BrowserActivity.mLongClickedItem;
 		
 		bindView();
 		
@@ -78,14 +81,21 @@ public class BrowserCopyMoveActivity extends Activity {
 		mActionButton.setOnClickListener(new View.OnClickListener() {
 		    @Override
 		    public void onClick(View v) {
-		        if(mAction == "Move")
+		        if(mAction.equals("Move"))
 		        {
 		        	moveItem();
 		        }
-		        else if(mAction == "Copy")
+		        else if(mAction.equals("Copy"))
 		        {
 		        	copyItem();
 		        }
+		    }
+		});
+		
+		mCancelButton.setOnClickListener(new View.OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+		        doFinish();
 		    }
 		});
 	}
@@ -95,6 +105,7 @@ public class BrowserCopyMoveActivity extends Activity {
 		mHScrollView = (HorizontalScrollView)findViewById(R.id.browsercm_url_HorizontalScrollView);
 		mBrowserUrlTextView = (TextView)findViewById(R.id.browsercm_url_textView);
 		mActionButton = (Button)findViewById(R.id.browsercm_action_button);
+		mCancelButton = (Button)findViewById(R.id.browsercm_cancel_button);
 	}
 	
 	private void setActionButtonText()
@@ -202,12 +213,107 @@ private void changeFolder(final CHFolder newFolder, String action) {
 
 	private void moveItem() {
 		
+		if (mActionItem.getType() == CHType.FILE) {
+			CHLoader.show(this, "Loading...", "Refreshing folder's content");
+
+			final IApiRequestHandler<CHFile> handler = new IApiRequestHandler<CHFile>() {
+				@Override
+				public void onApiRequestFailed() {
+					Log.e(TAG, "Async moveFile failed !");
+					CHLoader.hide();
+				}
+
+				@Override
+				public void onApiRequestSuccess(CHFile result) {
+					Log.d(TAG, "Async moveFile success !");
+					informBrowserActivity();
+					doFinish();
+					CHLoader.hide();
+				}
+			};
+
+			mActionItem.setParentId(mCurrentFolder.getId());
+			CubbyHoleClient.getInstance().updateFile(handler, (CHFile) mActionItem);
+			
+		} else { //selected item is a folder
+			CHLoader.show(this, "Loading...", "Refreshing folder's content");
+
+			final IApiRequestHandler<CHFolder> handler = new IApiRequestHandler<CHFolder>() {
+				@Override
+				public void onApiRequestFailed() {
+					Log.e(TAG, "Async moveFolder failed !");
+					CHLoader.hide();
+				}
+
+				@Override
+				public void onApiRequestSuccess(CHFolder result) {
+					Log.d(TAG, "Async moveFolder success !");
+					informBrowserActivity();
+					doFinish();
+					CHLoader.hide();
+				}
+			};
+
+			mActionItem.setParentId(mCurrentFolder.getId());
+			CubbyHoleClient.getInstance().updateFolder(handler, (CHFolder) mActionItem);
+		}
+	}
+	private void copyItem() {
+		if (mActionItem.getType() == CHType.FILE) {
+			CHLoader.show(this, "Loading...", "Refreshing folder's content");
+
+			final IApiRequestHandler<CHFile> handler = new IApiRequestHandler<CHFile>() {
+				@Override
+				public void onApiRequestFailed() {
+					Log.e(TAG, "Async copyFile failed !");
+					CHLoader.hide();
+				}
+
+				@Override
+				public void onApiRequestSuccess(CHFile result) {
+					Log.d(TAG, "Async copyFile success !");
+					informBrowserActivity();
+					doFinish();
+					CHLoader.hide();
+				}
+			};
+
+			CubbyHoleClient.getInstance().copyFile(handler, (CHFile)mActionItem, mCurrentFolder);
+		} else { //selected item is a folder
+			
+			CHLoader.show(this, "Loading...", "Refreshing folder's content");
+
+			final IApiRequestHandler<CHFolder> handler = new IApiRequestHandler<CHFolder>() {
+				@Override
+				public void onApiRequestFailed() {
+					Log.e(TAG, "Async copyFile failed !");
+					CHLoader.hide();
+				}
+
+				@Override
+				public void onApiRequestSuccess(CHFolder result) {
+					Log.d(TAG, "Async copyFile success !");
+					informBrowserActivity();
+					doFinish();
+					CHLoader.hide();
+				}
+			};
+			
+			CubbyHoleClient.getInstance().copyFolder(handler, (CHFolder)mActionItem, mCurrentFolder);
+		}
 		
 	}
-	protected void copyItem() {
-		
-		
+	
+	private void informBrowserActivity() {
+		BrowserActivity.mNeedToRefresh = true;
+		BrowserActivity.mNewFolderLocation = mCurrentFolder;
+		BrowserActivity.mNewURL = mBrowserUrl;
 	}
+	private void doFinish() {
+		this.finish();
+	}
+	
+	
 
 	@Override
 	public void onBackPressed() {

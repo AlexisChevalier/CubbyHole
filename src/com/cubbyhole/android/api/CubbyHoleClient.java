@@ -116,5 +116,17 @@ public class CubbyHoleClient implements IAsyncCubbyHoleClient {
 		final String method = "deleteFile";
 		new AsyncApiRequest<Boolean>(handler, mImpl, method).execute(file);
 	}
+	
+	@Override
+	public void copyFile(IApiRequestHandler<CHFile> handler, CHFile file, CHFolder destinationFolder) {
+		final String method = "copyFile";
+		new AsyncApiRequest<CHFile>(handler, mImpl, method).execute(file, destinationFolder);
+	}
+	
+	@Override
+	public void copyFolder(IApiRequestHandler<CHFolder> handler, CHFolder folder, CHFolder destinationFolder) {
+		final String method = "copyFolder";
+		new AsyncApiRequest<CHFolder>(handler, mImpl, method).execute(folder, destinationFolder);
+	}
 
 }

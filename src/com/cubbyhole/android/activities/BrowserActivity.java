@@ -1,5 +1,6 @@
 package com.cubbyhole.android.activities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -44,13 +45,28 @@ public class BrowserActivity extends Activity {
 	private MenuItem				mUploadBtn;
 	private MenuItem				mDisconnectBtn;
 
-	private CHItem					mLongClickedItem;
+	public static CHItem			mLongClickedItem;
 	private ArrayList<String>		mLongClickOptions	= new ArrayList<String>();
 
 	private String					mBrowserUrl;
 	private HorizontalScrollView	mHScrollView;
 	private TextView				mBrowserUrlTextView;
+	
+	public static boolean mNeedToRefresh = false;
+	public static CHFolder mNewFolderLocation;
+	public static String mNewURL;
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (mNeedToRefresh)
+		{
+			mNeedToRefresh = false;
+			changeFolder(mNewFolderLocation, "newLocation");
+		}
+		
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -121,7 +137,7 @@ public class BrowserActivity extends Activity {
 		CubbyHoleClient.getInstance().getRootFolder(handler);
 	}
 
-	private void refresh() {
+	public void refresh() {
 		CHLoader.show(this, "Loading...", "Refreshing folder's content");
 
 		final IApiRequestHandler<ArrayList<CHItem>> handler = new IApiRequestHandler<ArrayList<CHItem>>() {
@@ -154,6 +170,8 @@ public class BrowserActivity extends Activity {
 		} else if (action.equals("out")) {
 			mBrowserUrl = mBrowserUrl.substring(0, mBrowserUrl.length()
 					- (mCurrentFolder.getName().length() + 1));
+		} else if (action.equals("newLocation")) {
+			mBrowserUrl = mNewURL;
 		}
 
 		mBrowserUrlTextView.setText(mBrowserUrl);
@@ -344,7 +362,6 @@ public class BrowserActivity extends Activity {
 	private void moveToBrowserCopyMoveActivity(String action) {
 		Intent intent = new Intent(this, BrowserCopyMoveActivity.class);
 		intent.putExtra("action", action);
-		intent.putExtra("item", mLongClickedItem);
 		startActivity(intent);
 	}
 
@@ -368,7 +385,8 @@ public class BrowserActivity extends Activity {
 			};
 
 			mLongClickedItem.setName(newName);
-			//CubbyHoleClient.getInstance().updateFile((CHFile) mLongClickedItem)
+			CubbyHoleClient.getInstance().updateFile(handler, (CHFile) mLongClickedItem);
+			
 		} else { //selected item is a folder
 			CHLoader.show(this, "Loading...", "Refreshing folder's content");
 
