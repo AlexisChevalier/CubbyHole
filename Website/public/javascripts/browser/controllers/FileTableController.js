@@ -96,7 +96,9 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                     hiddenElement.href = '/ajax/download/' + id;
                     hiddenElement.click();
                     flash('success', "Your download started !");
-                    $scope.refreshQuotas();
+                    setTimeout(function() {
+                        $scope.refreshQuotas();
+                    }, 1000);
                 }).error(function (data) {
                     flash('danger', data || "Unknown error");
                 });
@@ -192,9 +194,9 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                     }
 
                     $scope.uploads.push(fileObject);
+                    flash('success', 'File upload started !');
                     setTimeout(function () {
                         $scope.refreshQuotas();
-                        flash('success', 'File upload started !');
                     }, 1000);
                     fileObject.fileUpload = $upload.upload({
                         url: '/ajax/upload/',
