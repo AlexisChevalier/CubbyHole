@@ -79,6 +79,9 @@ FolderHelper.isNameAvailable = function (name, childFolders, childFiles, oldName
 FolderHelper.checkNameInRootFolder = function (name, userId, oldName, next) {
     var i;
     mongooseModels.Folder.findOne({"userId": userId, isRoot: true}).populate('childFolders childFiles').exec(function (err, rootFolder) {
+        if (rootFolder == null) {
+            throw new Error("There is a problem with this user !");
+        }
         mongooseModels.Folder.find({"shares.userId": userId}).populate('').exec(function (err, folders) {
             for (i = 0; i < folders.length; i++) {
                 rootFolder.childFolders.push(folders[i]);

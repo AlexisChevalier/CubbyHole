@@ -65,7 +65,18 @@ cubbyHolePublicBrowser.controller('PublicFileTableController', ['$scope', '$root
         if (type == "folder") {
             $location.search("id", id);
         } else {
-            flash('success', 'Your download has started !');
+            $http.get('/shares/ajax/file/test/' + id)
+                .success(function (data) {
+                    var hiddenElement = document.createElement('a');
+                    hiddenElement.href = '/ajax/download/' + id;
+                    hiddenElement.click();
+                    flash('success', "Your download started !");
+                    setTimeout(function() {
+                        $scope.refreshQuotas();
+                    }, 1000);
+                }).error(function (data) {
+                    flash('danger', data || "Unknown error");
+                });
         }
     };
 

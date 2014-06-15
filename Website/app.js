@@ -210,6 +210,7 @@ app.get(/^\/shares\/folder\/(.+)\/browser.*$/, publicSharesRoutes.publicFolderSh
 app.get(/^\/shares\/folder\/(.+)$/, publicSharesRoutes.publicFolderShareRedirection);
 app.get('/shares/ajax/folder/:folderID', publicSharesRoutes.ajaxGetFolder);
 app.get('/shares/ajax/file/download/:fileID', publicSharesRoutes.downloadFile);
+app.get('/shares/ajax/file/test/:fileID', publicSharesRoutes.testFile);
 app.get('/shares/file/:fileID', publicSharesRoutes.publicFileSharePage);
 
 

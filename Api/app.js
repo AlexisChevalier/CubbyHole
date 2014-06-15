@@ -251,6 +251,9 @@ app.delete('/api/publicShares/:type/:itemID', sharesRoutes.disablePublicShare);
 //Get public file metadata
 app.get('/api/public/file/:fileID', publicRoutes.getFileMetadata);
 
+//Test Download file
+app.get('/api/public/file/test/:fileID', publicRoutes.checkDownload);
+
 //Download file
 app.get('/api/public/file/download/:fileID', publicRoutes.download);
 

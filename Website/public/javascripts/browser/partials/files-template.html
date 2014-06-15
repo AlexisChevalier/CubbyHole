@@ -28,10 +28,10 @@
     <div id="headbar">
         <div id="path" type="text">
             <p>
-                            <span ng-repeat="part in parentFolders">
-                                <a ng-click="handleItemClick('folder', part._id)">[[part.name]]</a> /
-                            </span>
-                <span>[[folderName]]</span>
+                <span ng-repeat="part in parentFolders">
+                    <a ng-click="handleItemClick('folder', part._id)">[[part.name]]</a> /
+                </span>
+                <a ng-click="handleItemClick('folder', folderId)">[[folderName]]</a>
             </p>
         </div>
         <div class="clearfix"></div>

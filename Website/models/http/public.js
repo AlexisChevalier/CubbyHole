@@ -38,4 +38,4 @@ Public.GetFolder = function (folderID, next) {
             return next(body || error || "Unknown Error", null);
         }
     });
-}
+};

@@ -45,6 +45,23 @@ module.exports = {
             });
         }],
 
+    testFile: [
+        function (req, res) {
+            request.get("https://" + config.apiUrl + ":" + config.apiPort + "/api/public/file/test/" + req.params.fileID, function (error, response, body) {
+                if (!error && response.statusCode && response.statusCode === 200) {
+                    try {
+                        var parsed = JSON.parse(body);
+                        return res.json(parsed);
+                    } catch (e) {
+                        return res.send(500, body || error || "Unknown Error", null);
+                    }
+                } else {
+                    console.log(body, response.statusCode);
+                    return res.send(500, body || error || "Unknown Error", null);
+                }
+            });
+        }],
+
     downloadFile: [
         function (req, res) {
             var

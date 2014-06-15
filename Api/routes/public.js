@@ -48,6 +48,42 @@ module.exports = {
     ],
 
     /**
+     * Get download availability for an item
+     */
+    checkDownload: [
+        function (req, res) {
+            var id = req.params.fileID;
+
+            if (id) {
+                try {
+                    id = mongooseModels.ObjectId(id);
+                } catch (err) {
+                    return res.send(400, "Wrong ID");
+                }
+            }
+            mongooseModels.File.findById(id, function (err, fileReference) {
+                if (err || !fileReference || fileReference == null) {
+                    return res.send(404, "File not found !");
+                }
+                PlanHelper.GetActualPlanForUserID(fileReference.userId, function (err, plan) {
+                    QuotaHelper.getQuotas({id: fileReference.userId, actualPlan: plan[0]}, function (err, quotas) {
+                        if (quotas.bandwidth.available < fileReference.realFileData.length) {
+                            return res.send(403, "You can't download this file because this user made to much transfer for the day, you should try tomorrow !");
+                        }
+                        ShareHelper.isPubliclyShared(fileReference, function (shared) {
+                            if (shared) {
+                                return res.json({ fileAvailable: true });
+                            } else {
+                                res.send(403, "File not shared publicly");
+                            }
+                        });
+                    });
+                });
+            });
+        }
+    ],
+
+    /**
      * GET download PUBLICLY SHARED item only
      * V2 OK.
      */

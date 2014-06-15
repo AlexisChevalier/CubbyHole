@@ -209,8 +209,7 @@ module.exports = {
                 oldParentFolder = null,
                 renameOnShare = false,
                 newOwnerId = req.user.id,
-                moveToShare = false,
-                nameAvailable = true;
+                moveToShare = false;
 
             if (!folderId || (!newParentId && !newName)) {
                 return res.send(400, "Missing parameters");
