@@ -4,7 +4,9 @@ var passport = require('passport'),
     userHelper = require('../models/mysql/helpers/UserHelper'),
     planHelper = require('../models/mysql/helpers/PlanHelper'),
     ActionHelper = require('../models/mongodb/helpers/ActionHelper'),
-    QuotaHelper = require('../models/mongodb/helpers/QuotaHelper');
+    QuotaHelper = require('../models/mongodb/helpers/QuotaHelper'),
+    async = require('async'),
+    mongooseModels = require('../models/mongodb/schemas');
 
 module.exports = {
     /**
@@ -79,21 +81,67 @@ module.exports = {
     userDelete: [
         passport.authenticate('bearer', { session: false }),
         function (req, res) {
-            /*
-                TODO : MOAR LOGIC HERE (Files, etc ...)
-             */
+            var filesToDelete = [];
             async.series([
                 function (next) {
-                    //TODO: Remove files
-                    next();
+                    /** SUPRESSION DES CHILDS FOLDERS **/
+                    mongooseModels.Folder.remove({"userId": req.user.id }, function (err, docsUpdated) {
+                        next();
+                    });
                 },
                 function (next) {
-                    //TODO: Remove folders
-                    next();
-                },function (next) {
-                    //TODO: Remove shares and from others shares
-                    next();
-                },function () {
+                    /** RECUPERATION DES CHILDS FILES **/
+                    mongooseModels.File.find({"userId": req.user.id }).exec(function (err, files) {
+                        if (err) {
+                            next();
+                        }
+                        for (var i = 0; i < files.length; i++) {
+                            filesToDelete.push(files[i]._id);
+                        }
+                        next();
+                    });
+                },
+                function (next) {
+                    /** SUPRESSION DES REFERENCES DES CHILDS FILES DANS LES REALFILES**/
+                    mongooseModels.RealFile.update({"metadata.references": { $in : filesToDelete } },
+                        { $pullAll: { "metadata.references": filesToDelete },
+                            "metadata.updateDate": new Date()}, function (err, docsUpdated) {
+                            next();
+                        });
+                },
+                function (next) {
+                    /** SUPRESSION DES CHILDS FILES **/
+                    mongooseModels.File.remove({"userId": req.user.id }, function (err, docsUpdated) {
+                        next();
+                    });
+                },
+                function (next) {
+                    /** SUPRESSION DES SHARES **/
+                    mongooseModels.File.update({
+                        'shares.userId': req.user.id
+                    }, {
+                        $pull: { 'shares': { userId: req.user.id } }
+                    }, { multi: true }, function (err, docsUpdated) {
+                        mongooseModels.Folder.update({
+                            'shares.userId': req.user.id
+                        }, {
+                            $pull: { 'shares': { userId: req.user.id } }
+                        }, { multi: true }, function (err, docsUpdated) {
+                            next();
+                        });
+                    });
+                },
+                function (next) {
+                    /** SUPRESSION DES ACTIONS **/
+                    mongooseModels.Action.update({
+                        'concernedUsers': req.user.id
+                    }, {
+                        $pull: { 'concernedUsers': req.user.id }
+                    }, { multi: true }, function (err, docsUpdated) {
+                        next();
+                    });
+                },
+                function () {
                     //Delete itself
                     req.models.Users.find({ id: req.user.id }).remove(function (err) {
                         if (err) {
@@ -122,5 +170,11 @@ module.exports = {
                 }
             });
         }
-    ]
+    ],
+
+    /**
+     * Logout
+     */
+    userLogout: function () {
+    }
 };

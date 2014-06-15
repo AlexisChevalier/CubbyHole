@@ -2,22 +2,22 @@
 -- version 4.0.6
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Mar 04, 2014 at 12:28 AM
--- Server version: 5.5.33
--- PHP Version: 5.5.3
+-- Client: localhost
+-- Généré le: Sam 14 Juin 2014 à 21:39
+-- Version du serveur: 5.5.33
+-- Version de PHP: 5.5.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Database: `CubbyHole`
+-- Base de données: `CubbyHole`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `AccessTokens`
+-- Structure de la table `AccessTokens`
 --
 
 CREATE TABLE `AccessTokens` (
@@ -28,12 +28,13 @@ CREATE TABLE `AccessTokens` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `PREVENT_DUPLICATES_TOKENS_INDEX` (`userID`,`clientID`) COMMENT 'Prevents multipes tokens for an app and an user',
   KEY `clientID` (`clientID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=116 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=160 ;
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `AuthorizationCodes`
+-- Structure de la table `AuthorizationCodes`
 --
 
 CREATE TABLE `AuthorizationCodes` (
@@ -45,12 +46,12 @@ CREATE TABLE `AuthorizationCodes` (
   `timeCreated` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `PREVENT_DUPLICATES_CODES_INDEX` (`clientID`,`userID`) COMMENT 'Prevents multipes codes for an app and an user'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Clients`
+-- Structure de la table `Clients`
 --
 
 CREATE TABLE `Clients` (
@@ -64,78 +65,70 @@ CREATE TABLE `Clients` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE_NAME` (`name`(500)),
   UNIQUE KEY `UNIQUE_CLIENTID` (`clientId`(500))
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
--- Dumping data for table `Clients`
+-- Contenu de la table `Clients`
 --
 
 INSERT INTO `Clients` (`id`, `name`, `clientId`, `clientSecret`, `redirect_uri`, `dialog_disabled`, `userID`) VALUES
 (7, 'CubbyHole Website', 'cubbyh_b1175f3f-9c52-4205-adfd-c9a63f7cbecb', 'df8b08e6-215f-49ac-86fa-1212e7c9e0e6', 'https://localhost:8443/loginCallback', 1, 1),
-(9, 'CubbyHole Developer Center', 'cubbyh_28af8ca9-368e-4ce1-8586-e2690ead096f', 'd923c923-efa9-44bd-8980-eb541660b67e', 'https://localhost:8445/loginCallback', 0, 1);
+(9, 'CubbyHole Developer Center', 'cubbyh_28af8ca9-368e-4ce1-8586-e2690ead096f', 'd923c923-efa9-44bd-8980-eb541660b67e', 'https://localhost:8445/loginCallback', 0, 1)
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Payments`
+-- Structure de la table `Payments`
 --
 
 CREATE TABLE `Payments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
   `planId` int(11) NOT NULL,
-  `paymentId` text NOT NULL,
   `amount` int(11) NOT NULL,
-  `saleId` text NOT NULL,
-  `paymentTime` int(11) NOT NULL,
+  `paymentTime` bigint(11) NOT NULL,
   `currency` text NOT NULL,
+  `paypal_payerId` varchar(250) DEFAULT NULL,
+  `paypal_state` varchar(250) NOT NULL,
+  `paypal_paymentId` varchar(250) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
   KEY `planId` (`planId`),
   KEY `planId_2` (`planId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `Payments`
---
-
-INSERT INTO `Payments` (`id`, `userId`, `planId`, `paymentId`, `amount`, `saleId`, `paymentTime`, `currency`) VALUES
-(1, 1, 2, '87498494684', 5, '6564646451654', 1393366785, 'EUR'),
-(2, 1, 3, '87498494684', 5, '6564646451654', 1390774785, 'EUR');
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Plans`
+-- Structure de la table `Plans`
 --
 
 CREATE TABLE `Plans` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `planNumber` int(11) NOT NULL,
   `name` text NOT NULL,
   `pricePerMonth` int(11) NOT NULL,
-  `bandwidthPerDay` text NOT NULL,
-  `diskSpace` text NOT NULL,
-  `logsHistory` text NOT NULL,
-  `support` text NOT NULL,
-  `dateAdded` int(11) NOT NULL,
+  `bandwidthPerDay` bigint(20) NOT NULL,
+  `diskSpace` bigint(20) NOT NULL,
+  `bandwidthSpeed` bigint(20) NOT NULL,
+  `description` longtext NOT NULL,
+  `available` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `Plans`
+-- Contenu de la table `Plans`
 --
 
-INSERT INTO `Plans` (`id`, `planNumber`, `name`, `pricePerMonth`, `bandwidthPerDay`, `diskSpace`, `logsHistory`, `support`, `dateAdded`) VALUES
-(1, 1, 'Free', 0, 'b_500m', 'd_250m', 'l_0', 's_t', 1393276022),
-(2, 2, 'Basic', 5, 'b_2g', 'd_1g', 'l_1w', 's_tm', 1393276022),
-(3, 3, 'Premium', 20, 'b_15g', 'd_6g', 'l_6m', 's_tp', 1393276022),
-(4, 4, 'Enterprise', 50, 'b_u', 'd_u', 'l_1y', 's_tp', 1393276022);
+INSERT INTO `Plans` (`id`, `name`, `pricePerMonth`, `bandwidthPerDay`, `diskSpace`, `bandwidthSpeed`, `description`, `available`) VALUES
+(1, 'Free', 0, 1073741824, 52428800, 262144, 'The free plan is perfect if you want to try our solution or synchronize some small files over two or three devices', 1),
+(2, 'Basic', 5, 2684354560, 10737418240, 524288, 'The basic plan will help you to synchronize all your important files over all your devices and share them with some of your friends', 1),
+(3, 'Premium', 20, 8053063680, 26843545600, 1048576, 'With the premium plan, you can share your awesome pictures with your family or save your backups online', 1),
+(4, 'Enterprise', 50, 32212254720, 107374182400, 5242880, 'The enterprise plan is perfect for your company, with the unlimited storage and bandwidth, you can work without any problems on our system ! In case of errors, you can contact us or find the problem using the history logs !', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Users`
+-- Structure de la table `Users`
 --
 
 CREATE TABLE `Users` (
@@ -145,32 +138,23 @@ CREATE TABLE `Users` (
   `name` text NOT NULL,
   `social_type` text,
   `social_id` text,
+  `isAdmin` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQUE_MAIL` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=55 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=77 ;
 
 --
--- Dumping data for table `Users`
---
-
-INSERT INTO `Users` (`id`, `password`, `email`, `name`, `social_type`, `social_id`) VALUES
-(0, '$2a$10$KOuEH0nbB4rw8ABgsDWWtu8faO/WVJCz9avDsV1iYVWMxzah8rjza', 'admin@mail.com', 'admin', NULL, NULL),
-(1, '$2a$10$qUq0NHXqei7QCF42gXdH7.FZHbgriukTE008Zyw7I27zv/HlOz5J2', 'bob@mail1.com', 'bobyd', NULL, NULL),
-(53, '$2a$10$8i5y5ZuSklcri0GQxiCrme8l0Dm0dGJgCFulOaDiR4AlSUNbq8zsy', 'clear_sky@hotmail.fr', 'Alexis Chevalier', 'FACEBOOK', '1556201368'),
-(54, '$2a$10$LHXtk3mP/cOeUrIMEmVE/uPy182V21aEvTvAyptiw0SkCIU4ZrUlK', 'alexis.chevalier.wtf@gmail.com', 'LOL', NULL, NULL);
-
---
--- Constraints for dumped tables
+-- Contraintes pour les tables exportées
 --
 
 --
--- Constraints for table `AccessTokens`
+-- Contraintes pour la table `AccessTokens`
 --
 ALTER TABLE `AccessTokens`
   ADD CONSTRAINT `ACCESS_TOKEN_IS_OWNED_BY_A_CLIENT` FOREIGN KEY (`clientID`) REFERENCES `Clients` (`id`);
 
 --
--- Constraints for table `Payments`
+-- Contraintes pour la table `Payments`
 --
 ALTER TABLE `Payments`
   ADD CONSTRAINT `PREVENT_PAIMENT_DELETION_ON_PLAN_DELETION` FOREIGN KEY (`planId`) REFERENCES `Plans` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,

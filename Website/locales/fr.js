@@ -90,5 +90,7 @@
 	"Administration": "Administration",
 	"Plan not found !": "Plan non trouvé !",
 	"Plan updated successfully !": "Plan mis à jour avec succès !",
-	"Never expires": "N'expire jamais"
+	"Never expires": "N'expire jamais",
+	"Account deletion failed, please contact support !": "Account deletion failed, please contact support !",
+	"Account successfully deleted !": "Account successfully deleted !"
 }

@@ -48,7 +48,7 @@ ActionHelper.Log = function (itemType, itemId, actorId, action, finished, next) 
                 }
             }
 
-            _.uniq(usersConcerned);
+            usersConcerned = _.uniq(usersConcerned);
 
             innerNext();
         },

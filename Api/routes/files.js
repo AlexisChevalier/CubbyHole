@@ -19,7 +19,7 @@ module.exports = {
      * Require auth + headers : cb-file-name, cb-file-parent-folder-id, content-type, content-length + Binary file as payload
      *
      *
-     * This function is a real mess : +600 lines, but i don't have the time to clean it
+     * This function is a real mess : 700 lines, but i don't have the time to clean it
      * V2 NEEDS TESTS
      */
     createOrUpdateFile: [
@@ -43,6 +43,7 @@ module.exports = {
                 bytes = 0,
                 quotas,
                 i,
+                action,
                 status;
 
 
@@ -243,7 +244,10 @@ module.exports = {
                             //V2 : OK
                             /** QUOTAS **/
                             function (innerNext) {
-                                innerNext();
+                                ActionHelper.Log('file', fileReference._id, req.user.id, "create", false, function (err, innerAction) {
+                                    action = innerAction;
+                                    innerNext();
+                                });
                             },
                             //V2 : OK
                             /** CREATION DE L'EMPREINTE **/
@@ -335,6 +339,8 @@ module.exports = {
                                 return next(innerErr);
                             }
 
+
+
                             if (status == 'aborted') {
                                 gs.close(function (err, gs) {
                                     if (err) {
@@ -375,7 +381,9 @@ module.exports = {
                                                                 next(new Error('Internal Error'));
                                                             }
 
-                                                            return res.send(200, 'aborted');
+                                                            ActionHelper.UpdateAction(action._id, bytes, true, function (err, actionUpdated) {
+                                                                return res.send(200, 'aborted');
+                                                            });
                                                         });
                                                     });
                                                 });
@@ -414,11 +422,6 @@ module.exports = {
 
                         async.series([
                             //V2 : OK
-                            /** QUOTAS **/
-                            function (innerNext) {
-                                innerNext();
-                            },
-                            //V2 : OK
                             /** MODIFICATION BUSYWRITE **/
                             function (innerNext) {
                                 fileReference.busyWrite = true;
@@ -453,7 +456,7 @@ module.exports = {
                                                         realFileData: {
                                                             id: insertedFileObjectId,
                                                             "contentType": null,
-                                                            "length": null,
+                                                            "length": fileLength,
                                                             "chunkSize": null,
                                                             "uploadDate": null,
                                                             "md5": null
@@ -467,6 +470,13 @@ module.exports = {
                                                     });
                                             });
                                     });
+                                });
+                            },
+                            /** QUOTAS **/
+                            function (innerNext) {
+                                ActionHelper.Log('file', fileReference._id, req.user.id, "update", false, function (err, innerAction) {
+                                    action = innerAction;
+                                    innerNext();
                                 });
                             },
                             /** UPLOAD **/
@@ -578,7 +588,9 @@ module.exports = {
                                                                             next(new Error('Internal Error'));
                                                                         }
 
-                                                                        return res.send(200, 'aborted');
+                                                                        ActionHelper.UpdateAction(action._id, bytes, true, function (err, actionUpdated) {
+                                                                            return res.send(200, 'aborted');
+                                                                        });
                                                                     });
                                                                 });
                                                             });
@@ -654,6 +666,7 @@ module.exports = {
                 }
                 /** SEND FINAL RESPONSE **/
             ], function (err) {
+
                 if (err) {
                     console.log("[CRITICAL ERROR] PLEASE REPORT IT IF YOU SEE THIS !! -- THE VIRTUAL FILESYSTEM IS PROBABLY CORRUPTED !! -> ");
                     console.log(err);
@@ -671,38 +684,35 @@ module.exports = {
                         { updateDate: new Date() },
                         { multi: true },
                         function (err, docsUpdated) {
-                            if (newFile) {
-                                ActionHelper.Log('file', file._id, req.user.id, "create");
-                            } else {
-                                ActionHelper.Log('file', file._id, req.user.id, "update");
-                            }
-                            if (createdInShare) {
-                                ShareHelper.AnalyzeItemShares(file, req.user.id, function(cleanedFile) {
+                            ActionHelper.UpdateAction(action._id, bytes, true, function (err, actionUpdated) {
+                                if (createdInShare) {
+                                    ShareHelper.AnalyzeItemShares(file, req.user.id, function(cleanedFile) {
+                                        if (newFile) {
+                                            return res.json({
+                                                action: 'create',
+                                                data: cleanedFile
+                                            });
+                                        } else {
+                                            return res.json({
+                                                action: 'update',
+                                                data: cleanedFile
+                                            });
+                                        }
+                                    });
+                                } else {
                                     if (newFile) {
                                         return res.json({
                                             action: 'create',
-                                            data: cleanedFile
+                                            data: file
                                         });
                                     } else {
                                         return res.json({
                                             action: 'update',
-                                            data: cleanedFile
+                                            data: file
                                         });
                                     }
-                                });
-                            } else {
-                                if (newFile) {
-                                    return res.json({
-                                        action: 'create',
-                                        data: file
-                                    });
-                                } else {
-                                    return res.json({
-                                        action: 'update',
-                                        data: file
-                                    });
                                 }
-                            }
+                            });
                         });
                 });
             });

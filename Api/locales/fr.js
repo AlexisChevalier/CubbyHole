@@ -57,5 +57,7 @@
 	"Permissions error": "Permissions error",
 	"Reset password": "Réinitialiser le mot de passe",
 	"Invalid account !": "Compte invalide !",
-	"A mail containing your new password has been sent to you !": "Un email contenant votre nouveau mot de passe vous a été envoyé !"
+	"A mail containing your new password has been sent to you !": "Un email contenant votre nouveau mot de passe vous a été envoyé !",
+	"ER_BAD_NULL_ERROR: Column 'isAdmin' cannot be null": "ER_BAD_NULL_ERROR: Column 'isAdmin' cannot be null",
+	"An account with this email already exists !": "An account with this email already exists !"
 }
