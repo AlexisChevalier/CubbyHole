@@ -116,6 +116,7 @@ public interface ICubbyHoleClient {
 	 * Used to download a file. The file will be automatically stored on the filesystem.
 	 * @param file - the file you want to download.
 	 * @return a {@link CHFile} instance representing the downloaded file.
+	 * <b>Note:</b> Don't forget to check the available space on the system.
 	 */
 	public CHFile downloadFile(IDownloadHandler handler, CHFile file, String path);
 

@@ -65,9 +65,10 @@ public interface IAsyncCubbyHoleClient {
 
 	/**
 	 * Used to download a file. The file will be automatically stored on the filesystem.
+	 * @param handler - the download handler that will be called for events notifications.
 	 * @param file - the file you want to download.
 	 */
-	public void downloadFile(IApiRequestHandler<?> handler, CHFile file);
+	public void downloadFile(IDownloadHandler handler, CHFile file, String path);
 
 	/**
 	 * Used to delete a file.

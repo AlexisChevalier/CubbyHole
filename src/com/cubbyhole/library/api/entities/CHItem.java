@@ -5,6 +5,9 @@ import hirondelle.date4j.DateTime;
 import java.util.ArrayList;
 
 import com.cubbyhole.library.api.entities.CHShare.SharedCode;
+import com.cubbyhole.library.logger.Log;
+import com.cubbyhole.library.system.SystemHelper;
+import com.cubbyhole.library.utils.CHItemsManager;
 
 public class CHItem {
 	private static final String	TAG							= CHItem.class.getName();
@@ -45,6 +48,8 @@ public class CHItem {
 	protected boolean				isShared;
 	protected ArrayList<CHShare>	shares;
 
+	protected String				systemPath;
+
 	/// Modification States ////
 	protected boolean				preventStateListening;
 	protected boolean				isNameHasBeenModified;
@@ -64,6 +69,8 @@ public class CHItem {
 	 */
 	public final void setId(String id) {
 		this.id = id;
+		//Try to resolve this file on the filesystem
+		systemPath = CHItemsManager.getInstance().getSystemPathOfItem(id);
 	}
 
 	/**
@@ -120,9 +127,9 @@ public class CHItem {
 	 */
 	public final void setParent(CHFolder parent) {
 		this.parent = parent;
-		if (parent != null) {
-			setParentId(parent.getId());
-		}
+		//		if (parent != null) {
+		//			setParentId(parent.getId());
+		//		}
 	}
 
 	/**
@@ -140,12 +147,12 @@ public class CHItem {
 			if (!isPreventStateListening()) {
 				isParentIdHasBeenModified = true;
 			}
-			this.parentId = parentId;
 			CHFolder parentFolder = CHFolder.folderRepository.get(parentId);
 			if (parentFolder != null) {
 				setParent(parentFolder);
 				parentFolder.addChild(this);
 			}
+			this.parentId = parentId;
 		}
 		this.parentId = parentId;
 	}
@@ -280,6 +287,53 @@ public class CHItem {
 	 */
 	public final void setPreventStateListening(boolean preventStateListening) {
 		this.preventStateListening = preventStateListening;
+	}
+
+	/**
+	 * It will check the cache and try to get the system path of this item.
+	 */
+	public void tryToResolveSystemPath() {
+		systemPath = CHItemsManager.getInstance().getSystemPathOfItem(id);
+		if (systemPath == null) {
+			Log.d(TAG, "This item isn't on the filsystem !");
+		} else {
+			Log.d(TAG, "Found the item path on the filesystem !");
+		}
+	}
+
+	/**
+	 * @return the systemPath
+	 */
+	public String getSystemPath() {
+		return systemPath;
+	}
+
+	/**
+	 * @param systemPath the system path to set
+	 */
+	public final void setSystemPath(String systemPath) {
+		this.systemPath = systemPath;
+	}
+
+	/**
+	 * Generate a systemPath for this item.
+	 * @return
+	 */
+	public String generateSystemPath() {
+		String separator = SystemHelper.getSeparator();
+		CHItem parent = getParent();
+		if (parent != null) {
+			return parent.generateSystemPath() + separator + name;
+		}
+		return SystemHelper.getRootPath() + separator + name;
+	}
+
+	/**
+	 * Used to know if the file has been downloaded
+	 * @return <code>true</code> if it has been downloaded, <code>false</code> otherwise.
+	 */
+	public final boolean isDownloaded() {
+		return systemPath != null;
 	}
 
 }

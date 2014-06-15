@@ -23,8 +23,8 @@ public class CHFolder extends CHItem {
 
 	/// END OF JSON FIELDS ///
 	private boolean							isRoot;
-	private ArrayList<CHFolder>				childFolders;
-	private ArrayList<CHFile>				childFiles;
+	private ArrayList<CHFolder>				childFolders		= new ArrayList<CHFolder>();
+	private ArrayList<CHFile>				childFiles			= new ArrayList<CHFile>();
 
 	private boolean							areChildrenSynced	= false;
 
@@ -68,10 +68,12 @@ public class CHFolder extends CHItem {
 			ArrayList<CHJsonNode> cfiNodes = json.asList(FIELD_CHILD_FILES);
 			if (!CHJsonNode.areTextNodes(cfoNodes) && !CHJsonNode.areTextNodes(cfiNodes)) {
 				ArrayList<CHFolder> childFolders = jsonArrayToFolders(cfoNodes);
-				folder.setChildFolders(childFolders);
-
 				ArrayList<CHFile> childFiles = CHFile.jsonArrayToFiles(cfiNodes);
-				folder.setChildFiles(childFiles);
+
+				//Already handled with auto-linking system
+				//folder.setChildFiles(childFiles);
+				//folder.setChildFolders(childFolders);
+
 				folder.areChildrenSynced(true);
 			}
 			folder.setPreventStateListening(false);

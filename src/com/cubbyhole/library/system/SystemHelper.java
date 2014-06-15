@@ -1,11 +1,31 @@
 package com.cubbyhole.library.system;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
 
 /**
  * Class that provides static methods helper related to the system.
  */
 public class SystemHelper {
+
+	private static String	rootPath;
+
+	public static String getRootPath() {
+		if (rootPath == null) {
+			if (isAndroid()) {
+				File f = null;
+				try {
+					Method m = getAndroidEnvironement().getMethod("getExternalStorageDirectory");
+					f = (File) m.invoke(f);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				rootPath = f.getPath();
+			}
+		}
+		return rootPath;
+	}
 
 	/**
 	 * Used to know if the code is currently running on an android device.
@@ -19,6 +39,15 @@ public class SystemHelper {
 	public static Class<?> getAndroidLogger() {
 		try {
 			return Class.forName("android.util.Log");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static Class<?> getAndroidEnvironement() {
+		try {
+			return Class.forName("android.os.Environment");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -52,5 +81,25 @@ public class SystemHelper {
 	 */
 	public static boolean createFolder(String path) {
 		return (new File(path)).mkdirs();
+	}
+
+	public static String getSeparator() {
+		if (isAndroid()) {
+			return "/";
+		}
+		//Windows
+		return "\\";
+	}
+
+	public static File createFile(String path) throws IOException {
+		File file = new File(path);
+		File folder = file.getParentFile();
+		if (!folder.exists()) {
+			createFolder(folder.getAbsolutePath());
+		}
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+		return file;
 	}
 }

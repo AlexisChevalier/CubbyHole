@@ -1,5 +1,12 @@
 package com.cubbyhole.library.api;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import com.cubbyhole.library.api.entities.CHAccount;
@@ -14,16 +21,20 @@ import com.cubbyhole.library.interfaces.IAsyncCubbyHoleClient;
 import com.cubbyhole.library.interfaces.ICubbyHoleClient;
 import com.cubbyhole.library.interfaces.IDownloadHandler;
 import com.cubbyhole.library.logger.Log;
+import com.cubbyhole.library.ssl.SSLManager;
+import com.cubbyhole.library.system.SystemHelper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
 /**
  * Default implementation of the ICubbyHoleApi and IApiRequester interface to communicate with the api
  */
 public class CubbyHoleImpl implements ICubbyHoleClient, IApiRequester {
-	private static final String		TAG	= CubbyHoleImpl.class.getName();
+	private static final String		TAG					= CubbyHoleImpl.class.getName();
 
 	private static CubbyHoleImpl	mInstance;
 	private static String			mAccessToken;
+
+	private boolean					isTransferCanceled	= false;
 
 	/**
 	 * This async client will only be used by the entities
@@ -242,10 +253,93 @@ public class CubbyHoleImpl implements ICubbyHoleClient, IApiRequester {
 		return null;
 	}
 
+	//False warning
+	@SuppressWarnings("resource")
 	@Override
 	public CHFile downloadFile(IDownloadHandler handler, CHFile file, String path) {
-		// TODO Auto-generated method stub
-		return null;
+		SSLManager.allowNotTrustedCertificates();
+		InputStream input = null;
+		OutputStream output = null;
+		HttpURLConnection connection = null;
+		try {
+			URL url = new URL(file.getDownloadUrl());
+			connection = (HttpURLConnection) url.openConnection();
+
+			//Add our access token
+			connection.setRequestProperty("Authorization", "Bearer " + mAccessToken);
+
+			connection.connect();
+
+			if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+				return null;
+			}
+
+			//Can be -1 if the server didn't send it
+			int fileLength = connection.getContentLength();
+
+			// download the file
+			input = connection.getInputStream();
+
+			File targetFile = SystemHelper.createFile(path);
+
+			output = new FileOutputStream(targetFile, false);
+
+			handler.onDownloadStarted();
+
+			byte data[] = new byte[4096];
+			long total = 0;
+			int count;
+			while ((count = input.read(data)) != -1) {
+				// allow canceling
+				if (isTransferCanceled) {
+					handler.onDownloadCanceled();
+					return null;
+				}
+				total += count;
+				// publishing the progress....
+				if (fileLength > 0) {
+					handler.onDownloadProgress((int) (total * 100 / fileLength));
+				}
+				output.write(data, 0, count);
+			}
+			file.setSystemPath(path);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (output != null) {
+					output.close();
+				}
+				if (input != null) {
+					input.close();
+				}
+			} catch (IOException ignored) {
+			}
+
+			if (connection != null) {
+				connection.disconnect();
+			}
+		}
+		return file; //Only reached when everything worked
+	}
+
+	/**
+	 * Used to cancel the current download
+	 */
+	public void cancelDownload() {
+		cancelTransfert();
+	}
+
+	/**
+	 * Used to cancel the current upload
+	 */
+	public void cancelUpload() {
+		cancelTransfert();
+	}
+
+	private void cancelTransfert() {
+		isTransferCanceled = true;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import hirondelle.date4j.DateTime;
 import java.util.ArrayList;
 
 import com.cubbyhole.library.api.CHJsonNode;
+import com.cubbyhole.library.interfaces.ICubbyHoleClient;
 import com.cubbyhole.library.logger.Log;
 import com.cubbyhole.library.utils.DateTimeUtils;
 
@@ -29,8 +30,6 @@ public class CHFile extends CHItem {
 	private DateTime			uploadDate;
 	private String				md5;
 	private int					readers;
-
-	private String				systemPath;
 
 	public CHFile() {
 		//Only used by the fromJson method
@@ -176,25 +175,7 @@ public class CHFile extends CHItem {
 		this.md5 = md5;
 	}
 
-	/**
-	 * @return the systemPath
-	 */
-	public String getSystemPath() {
-		return systemPath;
-	}
-
-	/**
-	 * @param systemPath the system path to set
-	 */
-	public final void setSystemPath(String systemPath) {
-		this.systemPath = systemPath;
-	}
-
-	/**
-	 * Used to know if the file has been downloaded
-	 * @return <code>true</code> if it has been downloaded, <code>false</code> otherwise.
-	 */
-	public final boolean isDownloaded() {
-		return systemPath != null;
+	public String getDownloadUrl() {
+		return ICubbyHoleClient.API_ENDPOINT + ICubbyHoleClient.FILES_DOWNLOAD + id;
 	}
 }
