@@ -1,13 +1,10 @@
 package com.cubbyhole.library.utils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.cubbyhole.library.api.entities.CHFile;
-import com.cubbyhole.library.api.entities.CHFolder;
 import com.cubbyhole.library.interfaces.ICacheManager;
 import com.cubbyhole.library.logger.Log;
 import com.cubbyhole.library.system.SystemHelper;
@@ -45,26 +42,6 @@ public class CHItemsManager {
 			mInstance = new CHItemsManager();
 		}
 		return mInstance;
-	}
-
-	public void registerFile(CHFile file) {
-		//Register every parent folder
-		File f = new File(file.getSystemPath()).getParentFile();
-		CHFolder parent = file.getParent();
-		while (parent != null && f != null) {
-			String systemPath = parent.getSystemPath();
-			if (systemPath == null) {
-				systemPath = parent.generateSystemPath();
-				parent.setSystemPath(systemPath);
-			}
-			if (SystemHelper.folderExists(systemPath)) {
-				registerItem(parent.getId(), systemPath); //Register the folder
-			}
-			parent = file.getParent();
-			f = f.getParentFile();
-		}
-		//Register the file itself
-		registerItem(file.getId(), file.getSystemPath());
 	}
 
 	/**

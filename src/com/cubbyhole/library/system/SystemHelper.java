@@ -21,7 +21,7 @@ public class SystemHelper {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				rootPath = f.getPath();
+				rootPath = f.getPath() + getSeparator() + "CubbyHole";
 			}
 		}
 		return rootPath;

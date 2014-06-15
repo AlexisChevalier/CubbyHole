@@ -10,9 +10,9 @@ import com.cubbyhole.library.logger.Log;
 import com.cubbyhole.library.system.SystemHelper;
 import com.cubbyhole.library.utils.CHItemsManager;
 
-public class CHItem implements Serializable{
-	
-	private static final long serialVersionUID = 2014061505;
+public class CHItem implements Serializable {
+
+	private static final long	serialVersionUID			= 2014061505L;
 
 	private static final String	TAG							= CHItem.class.getName();
 
@@ -324,12 +324,26 @@ public class CHItem implements Serializable{
 	 * @return
 	 */
 	public String generateSystemPath() {
-		String separator = SystemHelper.getSeparator();
-		CHItem parent = getParent();
-		if (parent != null) {
-			return parent.generateSystemPath() + separator + name;
+		String path = CHItemsManager.getInstance().getSystemPathOfItem(id);
+		if (path != null) {
+			return path; //We will replace it (already downloaded)
 		}
-		return SystemHelper.getRootPath() + separator + name;
+		//Generate a brand new one
+		String separator = SystemHelper.getSeparator();
+		path = SystemHelper.getRootPath() + separator + name;
+		int counter = 1;
+		String newPath = path;
+		while (SystemHelper.fileExists(newPath)) {
+			String[] parts = path.split("\\.");
+			newPath = parts[0];
+			for (int i = 1; i < parts.length - 2; i++) {
+				newPath += parts[i];
+			}
+			newPath += " (" + counter + ")"; //Add "(x)"
+			newPath += "." + parts[parts.length - 1]; //Add extension
+			counter++;
+		}
+		return newPath;
 	}
 
 	/**
