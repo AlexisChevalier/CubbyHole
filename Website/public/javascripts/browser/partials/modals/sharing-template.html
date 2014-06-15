@@ -73,7 +73,7 @@
             </div>
             <div ng-if="item.publicShareEnabled" class="form-group">
                 <label for="publiShareUri">Public share URL</label>
-                <input type="url" class="form-control" id="publiShareUri" value="https://localhost:8443/shares/[[item.type]]/[[item._id]]"/>
+                <input type="url" class="form-control" id="publiShareUri" value="[[baseUrl]]shares/[[item.type]]/[[item._id]]"/>
             </div>
         </div>
     </div>

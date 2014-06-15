@@ -7,6 +7,12 @@ cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams',
     $scope.userToShareWithSelected = undefined;
     $scope.allowWriteAccess = true;
 
+    $scope.baseUrl = "https://" + $location.host();
+    if ($location.port() != 443) {
+        $scope.baseUrl += ":" + $location.port();
+    }
+    $scope.baseUrl += "/";
+
     $scope.getNames = function (val) {
         return $http.get('/ajax/searchUserByTerms/' + val).then(function (res) {
             var users = [];
