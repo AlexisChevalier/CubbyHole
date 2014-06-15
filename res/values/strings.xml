@@ -8,5 +8,6 @@
     <string name="action_addFolder">Add a folder</string>
     <string name="action_upload">Upload a file</string>
     <string name="action_disconnect">Disconnect</string>
+    <string name="browsercm_cancel_button">Cancel</string>
 
 </resources>

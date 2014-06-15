@@ -1,10 +1,12 @@
 package com.cubbyhole.android.activities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,6 +48,8 @@ public class BrowserActivity extends Activity {
 	private ArrayList<String> mLongClickOptions = new ArrayList<String>();
 	
 	private HorizontalScrollView mHScrollView;
+	
+	private TextView mBrowserUrlTextView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +100,8 @@ public class BrowserActivity extends Activity {
 	
 	private void bindView() {
 		mListView = (ListView) findViewById(R.id.listview);
+		mHScrollView = (HorizontalScrollView)findViewById(R.id.browser_url_HorizontalScrollView);
+		mBrowserUrlTextView = (TextView)findViewById(R.id.browser_url_textView);
 	}
 	
 	private void requestGetRootFolder() {
@@ -152,24 +158,20 @@ public class BrowserActivity extends Activity {
 
 	private void changeFolder(final CHFolder newFolder, String action) {
 		
-		if (action == "root")
+		if (action.equals("root"))
 		{
 			mBrowserUrl = "/CubbyHole";
 		}
-		else if (action == "in")
+		else if (action.equals("in"))
 		{
 			mBrowserUrl += "/" + newFolder.getName();
 		}
-		else if (action == "out")
+		else if (action.equals("out"))
 		{
 			mBrowserUrl = mBrowserUrl.substring(0, mBrowserUrl.length() - (mCurrentFolder.getName().length() + 1));
 		}
 		
-		TextView browserUrlTextView = (TextView)findViewById(R.id.browser_url_textView);
-		
-		browserUrlTextView.setText(mBrowserUrl);
-		
-		mHScrollView = (HorizontalScrollView)findViewById(R.id.browser_url_HorizontalScrollView);
+		mBrowserUrlTextView.setText(mBrowserUrl);
 		
 		mHScrollView.post(new Runnable() {
 		    @Override
@@ -264,11 +266,11 @@ public class BrowserActivity extends Activity {
 	
 	private void onLongClick() {
 		
-		if (mLongClickedItem.getType() == CHType.FILE && mLongClickOptions.get(0) != "Download")
+		if (mLongClickedItem.getType() == CHType.FILE && !mLongClickOptions.get(0).equals("Download"))
 		{
 			mLongClickOptions.add(0, "Download");
 		}
-		else if (mLongClickedItem.getType() == CHType.FOLDER && mLongClickOptions.get(0) == "Download")
+		else if (mLongClickedItem.getType() == CHType.FOLDER && mLongClickOptions.get(0).equals("Download"))
 		{
 			mLongClickOptions.remove(0);
 		}
@@ -283,15 +285,23 @@ public class BrowserActivity extends Activity {
     	    public void onClick(DialogInterface dialog, int position) {
     	    	String clickedOption = (String)mLongClickOptions.get(position);
     	    	
-    	    	if (clickedOption == "Rename") {
+    	    	if (clickedOption.equals("Rename")) {
     	    		showRenameDialog();
     	    	}
     	    	
-    	    	else if (clickedOption == "Remove") {
+    	    	else if (clickedOption.equals("Remove")) {
     	    		showRemoveDialog();
     	    	}
-    	    	else if (clickedOption == "Download") {
+    	    	else if (clickedOption.equals("Download")) {
     	    		showDownloadDialog();
+    	    	}
+    	    	else if (clickedOption.equals("Move")) {
+    	    		moveToBrowserCopyMoveActivity("Move");
+    	    		
+    	    	}
+    	    	else if (clickedOption.equals("Copy")) {
+    	    		moveToBrowserCopyMoveActivity("Copy");
+    	    		
     	    	}
     	    }
     	});
@@ -389,6 +399,16 @@ public class BrowserActivity extends Activity {
     	alert.setCanceledOnTouchOutside(true);
     	alert.show();
 	}
+	private void moveToBrowserCopyMoveActivity(String action) {
+		
+		Intent intent = new Intent(this, BrowserCopyMoveActivity.class);
+		intent.putExtra("action", action);
+		
+		
+		intent.putExtra("item", (Serializable)mLongClickedItem);
+		startActivity(intent);
+	}
+	
 	
 	private void renameSelectedItem(String newName){
 		

@@ -29,6 +29,10 @@
             android:name="com.cubbyhole.android.activities.BrowserActivity"
             android:label="@string/title_activity_browser" >
         </activity>
+        <activity
+            android:name="com.cubbyhole.android.activities.BrowserCopyMoveActivity"
+            android:label="@string/title_activity_browser" >
+        </activity>
     </application>
 
 </manifest>
