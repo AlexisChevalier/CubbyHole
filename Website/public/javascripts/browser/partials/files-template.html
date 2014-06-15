@@ -92,7 +92,8 @@
 
 
                 <td ng-if="item.type == 'file'" >
-                    <a ng-if="!item.busyWrite" ng-click="handleItemClick(item.type, item._id)" ng-href="/ajax/download/[[item._id]]">[[item.name]]</a>
+                    <!--<a ng-if="!item.busyWrite" ng-click="handleItemClick(item.type, item._id)" ng-href="/ajax/download/[[item._id]]">[[item.name]]</a>-->
+                    <a ng-if="!item.busyWrite" ng-click="handleItemClick(item.type, item._id)">[[item.name]]</a>
                     <span ng-if="item.busyWrite">[[item.name]]</span>
                 </td>
 

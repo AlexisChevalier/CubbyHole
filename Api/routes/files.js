@@ -763,6 +763,55 @@ module.exports = {
     ],
 
     /**
+     * Get download availability for an item
+     */
+    checkDownload: [
+        passport.authenticate('bearer', { session: false }),
+        function (req, res) {
+            var id = req.params.fileID;
+
+            if (id) {
+                try {
+                    id = mongooseModels.ObjectId(id);
+                } catch (err) {
+                    return res.send(400, "Wrong ID");
+                }
+            }
+            mongooseModels.File.findById(id, function (err, fileReference) {
+                if (err || !fileReference || fileReference == null) {
+                    return res.send(404, "File not found !");
+                }
+
+                async.series([
+                    function (next) {
+                        if (fileReference.userId != req.user.id) {
+                            ShareHelper.GetShareCode(fileReference, req.user.id, function (code) {
+                                if (code == 0) {
+                                    return res.send(403, "You don't have any read access on this file");
+                                }
+                                return next();
+                            });
+                        } else {
+                            return next();
+                        }
+                    },
+                    function (next) {
+                        QuotaHelper.getQuotas(req.user, function (err, quotas) {
+                            if (quotas.bandwidth.available < fileReference.realFileData.length) {
+                                return res.send(403, "Your daily bandwidth quota is full, wait tomorrow or update your plan !");
+                            } else {
+                                return next();
+                            }
+                        });
+                    }
+                ], function () {
+                    return res.json({fileAvailable: true});
+                });
+            });
+        }
+    ],
+
+    /**
      * GET download item
      * SHARES OK.
      */

@@ -189,6 +189,9 @@ app.post('/api/files', filesRoutes.createOrUpdateFile);
 app.get('/api/files/metadata/:fileID', filesRoutes.getFileMedatata);
 
 //Download
+app.get('/api/files/test/:fileID', filesRoutes.checkDownload);
+
+//Download
 app.get('/api/files/:fileID', filesRoutes.download);
 
 //Update file

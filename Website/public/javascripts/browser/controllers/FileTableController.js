@@ -56,7 +56,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
 
                 $rootScope.appLoading = false;
             }).error(function(data) {
-                flash("danger", data),
+                flash("danger", data);
                 $location.search("id", "");
             });
     };
@@ -66,7 +66,15 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
         if (type == "folder") {
             $location.search("id", id);
         } else {
-            flash('success', 'Your download has started !');
+            $http.get('/ajax/api/files/test/' + id)
+                .success(function (data) {
+                    var hiddenElement = document.createElement('a');
+                    hiddenElement.href = '/ajax/download/' + id;
+                    hiddenElement.click();
+                    flash('success', "Your download started !");
+                }).error(function (data) {
+                    flash('danger', data || "Unknown error");
+                });
         }
     };
 
