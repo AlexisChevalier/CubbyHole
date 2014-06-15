@@ -1,17 +1,17 @@
 {
-  "name": "application-name",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node app.js"
-  },
-  "dependencies": {
-    "mongoose": "~3.8.8",
-    "async": "~0.9.0",
-    "lodash": "~2.4.1"
-  },
-  "devDependencies": {
-    "grunt-nodemon": "~0.1.2",
-    "grunt": "~0.4.2"
-  }
+    "name": "application-name",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "mongoose": "~3.8.12",
+        "async": "~0.9.0",
+        "lodash": "~2.4.1"
+    },
+    "devDependencies": {
+        "grunt-nodemon": "~0.1.2",
+        "grunt": "~0.4.2"
+    }
 }

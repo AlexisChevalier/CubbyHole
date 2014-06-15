@@ -33,7 +33,7 @@ module.exports = {
                         return res.send(404, "Root folder not found");
                     }
                     /** Handle Shares **/
-                    mongooseModels.Folder.find({"shares.userId":req.user.id}, function (err, folders) {
+                    mongooseModels.Folder.find({"shares.userId": req.user.id}, function (err, folders) {
                         for (var i = 0; i < folders.length; i++) {
                             folder.childFolders.push(folders[i]);
                         }
@@ -62,7 +62,7 @@ module.exports = {
                         });
                     } else if (folder.isRoot) {
                         /** Handle Shares **/
-                        mongooseModels.Folder.find({"shares.userId":req.user.id}, function (err, folders) {
+                        mongooseModels.Folder.find({"shares.userId": req.user.id}, function (err, folders) {
                             for (var i = 0; i < folders.length; i++) {
                                 folder.childFolders.push(folders[i]);
                             }
@@ -582,7 +582,7 @@ module.exports = {
                     },
                     function (next) {
                         /** SUPRESSION DES CHILDS FOLDERS **/
-                        mongooseModels.Folder.remove({"parents": { $all: hierarchy } }, function (err, docsUpdated) {
+                        mongooseModels.Folder.remove({"parents": { "$all": hierarchy } }, function (err, docsUpdated) {
                             if (err) {
                                 next(err);
                             }
@@ -591,7 +591,7 @@ module.exports = {
                     },
                     function (next) {
                         /** RECUPERATION DES CHILDS FILES **/
-                        mongooseModels.File.find({"parents": { $all: hierarchy } }).exec(function (err, files) {
+                        mongooseModels.File.find({"parents": { "$all": hierarchy } }).exec(function (err, files) {
                             if (err) {
                                 next(err);
                             }
@@ -603,7 +603,7 @@ module.exports = {
                     },
                     function (next) {
                         /** SUPRESSION DES REFERENCES DES CHILDS FILES DANS LES REALFILES**/
-                        mongooseModels.RealFile.update({"metadata.references": { $in : filesReferencesToDelete } },
+                        mongooseModels.RealFile.update({"metadata.references": { $in: filesReferencesToDelete } },
                             { $pullAll: { "metadata.references": filesReferencesToDelete },
                                 "metadata.updateDate": new Date()}, function (err, docsUpdated) {
                                 if (err) {
@@ -614,7 +614,7 @@ module.exports = {
                     },
                     function (next) {
                         /** SUPRESSION DES CHILDS FILES **/
-                        mongooseModels.File.remove({"parents": { $all: hierarchy } }, function (err, docsUpdated) {
+                        mongooseModels.File.remove({"parents": { "$all": hierarchy } }, function (err, docsUpdated) {
                             if (err) {
                                 next(err);
                             }
@@ -648,7 +648,7 @@ module.exports = {
                     }
 
                     //Update date
-                    mongooseModels.Folder.update({"_id": { $in: folder.parents } },
+                    mongooseModels.Folder.update({"_id": { "$in": folder.parents } },
                         { updateDate: new Date() },
                         { multi: true },
                         function (err, docsUpdated) {
@@ -781,7 +781,7 @@ module.exports = {
 
                         //Get folder structure (Recursive)
                         var handleFolder = (function (folder) {
-                            foldersToHandle ++;
+                            foldersToHandle++;
                             filesToHandle += folder.childFiles.length;
                             for (var i = 0; i < folder.childFolders.length; i++) {
                                 folder.childFolders[i] = _.find(folders, {
@@ -800,7 +800,7 @@ module.exports = {
                         }
 
                         //Handle copy for folder (Recursive)
-                        var copyFolder = (function(currentHierarchy, parent, folder, callback) {
+                        var copyFolder = (function (currentHierarchy, parent, folder, callback) {
                             var i;
                             mongooseModels.Folder.create({
                                 name: folder.name,
@@ -853,7 +853,7 @@ module.exports = {
                         });
 
                         //Handle copy for file
-                        var copyFile = (function(currentHierarchy, parent, file, callback) {
+                        var copyFile = (function (currentHierarchy, parent, file, callback) {
                             mongooseModels.File.create({
                                 "name": file.name,
                                 "userId": destinationUserId,
@@ -923,7 +923,7 @@ module.exports = {
                         { updateDate: new Date() },
                         { multi: true },
                         function (err, docsUpdated) {
-                            if(errors.length > 0) {
+                            if (errors.length > 0) {
                                 //Todo : Handle errors
                             }
                             ActionHelper.Log('folder', folder._id, req.user.id, "copy");
