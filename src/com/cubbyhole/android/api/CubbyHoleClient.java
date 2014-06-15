@@ -95,6 +95,12 @@ public class CubbyHoleClient implements IAsyncCubbyHoleClient {
 	}
 
 	@Override
+	public void updateFile(IApiRequestHandler<CHFile> handler, CHFile file) {
+		final String method = "updateFile";
+		new AsyncApiRequest<CHFile>(handler, mImpl, method).execute(file);
+	}
+
+	@Override
 	public void uploadFile(IApiRequestHandler<?> handler, CHFolder parentFolder, String path) {
 
 	}
