@@ -91,12 +91,21 @@
                     </ul>
                     <p>Typical response : </p>
                 <pre>{
-        "id": 1,
-        "email": "bob@mail.com",
-        "name": "bob",
-        "socialAccount": "true",
-        "actualPlan": "à compléter"
-    }</pre>
+  "id": 81,
+  "email": "alexis.chevalier@cubby-hole.me",
+  "name": "Alexis Chevalier",
+  "socialAccount": true,
+  "actualPlan": {
+    "id": 1,
+    "name": "Free",
+    "pricePerMonth": 0,
+    "bandwidthPerDay": 1073741824,
+    "diskSpace": 52428800,
+    "bandwidthSpeed": 262144,
+    "description": "The free plan is perfect if you want to try our solution or synchronize some small files over two or three devices",
+    "available": 1
+  }
+}</pre>
                 </div>
             </div>
         </div>
@@ -150,14 +159,100 @@
                     <ul>
                         <li>Method : DELETE</li>
                         <li>Authentication : Required</li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{status: 'deleted'}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#userQuotas">
+                        4 - Get user quotas
+                    </a>
+                </h4>
+            </div>
+            <div id="userQuotas" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/account/quotas</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{
+  "disk": {
+    "limit": 52428800,
+    "used": 43515470,
+    "available": 8913330
+  },
+  "bandwidth": {
+    "limit": 1073741824,
+    "used": 43515470,
+    "available": 1030226354
+  }
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#userActions">
+                        3 - Get user actions
+                    </a>
+                </h4>
+            </div>
+            <div id="userActions" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/account/actions/:time</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
                         <li>Required parameters :
                             <ul>
-                                <li>id : The id of the user to delete</li>
+                                <li>time : The timestamp (With milliseconds) from when you want to get the user's actions (the last time you fetched)</li>
                             </ul>
                         </li>
                     </ul>
+                    <div class="well well-sm">
+                        Typical actions : create, edit, update, move, copy, delete, shareAdded, shareRemoved, shareUpdated, download, publicDownload
+                    </div>
+                    <div class="alert alert-danger">
+                        You won't get an action if someone who shared/file a folder with you delete its account. That's why you should also check your root folder for outdated shares.
+                    </div>
                     <p>Typical response : </p>
-                    <pre></pre>
+                    <pre>[
+  {
+    "relatedId": "539cf0f80a0c8748c4fbfa50",
+    "actorUserId": 81,
+    "action": "create",
+    "type": "file",
+    "time": "2014-06-15T01:03:52.305Z",
+    "length": 78642,
+    "finished": true,
+    "_id": "539cf0f80a0c8748c4fbfa52",
+    "__v": 0,
+    "concernedUsers": [
+      81
+    ]
+  },
+  {
+    "relatedId": "539d640d098f025c06af0b7e",
+    "actorUserId": 81,
+    "action": "create",
+    "type": "file",
+    "time": "2014-06-15T09:14:53.801Z",
+    "length": 43436828,
+    "finished": true,
+    "_id": "539d640d098f025c06af0b80",
+    "__v": 0,
+    "concernedUsers": [
+      81
+    ]
+  }
+]</pre>
                 </div>
             </div>
         </div>
@@ -1216,6 +1311,7 @@ https://api.cubby-hole.me/api/users/find/bob%40mail.com</pre>
         </div>
     </div>
 </div>
+
 
 
 </div><!--/row-->

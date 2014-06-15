@@ -144,6 +144,7 @@ module.exports = {
                 function () {
                     //Delete itself
                     req.models.Users.find({ id: req.user.id }).remove(function (err) {
+                        console.log(err);
                         if (err) {
                             res.send(400, err);
                         } else {

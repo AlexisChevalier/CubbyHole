@@ -163,7 +163,7 @@ app.get('/api/account/details', accountRoutes.userDetails);
 //Update account details
 app.put('/api/account/details', accountRoutes.userUpdate);
 
-// Delete account (TODO: Handle cleaning)
+// Delete account
 app.delete('/api/account', accountRoutes.userDelete);
 
 // Get quotas

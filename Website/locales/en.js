@@ -87,5 +87,10 @@
     "Administration": "Administration",
     "Plan not found !": "Plan not found !",
     "Plan updated successfully !": "Plan updated successfully !",
-    "Never expires": "Never expires"
+    "Never expires": "Never expires",
+	"Account deletion failed, please contact support !": "Account deletion failed, please contact support !",
+	"Account successfully deleted !": "Account successfully deleted !",
+	"If you want to change your password you'll have to fill the two password fields !": "If you want to change your password you'll have to fill the two password fields !",
+	"Password": "Password",
+	"Confirm password": "Confirm password"
 }

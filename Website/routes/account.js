@@ -47,6 +47,10 @@ module.exports = {
             if (req.body.email) {
                 userToUpdate.email = req.body.email;
             }
+
+            req.user.name = userToUpdate.name;
+            req.user.email = userToUpdate.email;
+
             if (req.body.password || req.body.passwordConfirm) {
                 if (req.body.passwordConfirm == req.body.password) {
                     userToUpdate.password = req.body.password;

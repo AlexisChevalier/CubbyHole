@@ -91,6 +91,9 @@
 	"Plan not found !": "Plan non trouvé !",
 	"Plan updated successfully !": "Plan mis à jour avec succès !",
 	"Never expires": "N'expire jamais",
-	"Account deletion failed, please contact support !": "Account deletion failed, please contact support !",
-	"Account successfully deleted !": "Account successfully deleted !"
+	"Account deletion failed, please contact support !": "Echec de la suppression du compte, merci de contacter le support !",
+	"Account successfully deleted !": "Compte supprimé avec succès !",
+	"If you want to change your password you'll have to fill the two password fields !": "Si vous voulez changer votre mot de pase, merci de remplir les deux champs !",
+	"Password": "Mot de passe",
+	"Confirm password": "Confirmez le mot de passe"
 }
