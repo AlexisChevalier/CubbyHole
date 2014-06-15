@@ -2,6 +2,7 @@ package com.cubbyhole.library.api.entities;
 
 import hirondelle.date4j.DateTime;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.cubbyhole.library.api.entities.CHShare.SharedCode;
@@ -9,7 +10,10 @@ import com.cubbyhole.library.logger.Log;
 import com.cubbyhole.library.system.SystemHelper;
 import com.cubbyhole.library.utils.CHItemsManager;
 
-public class CHItem {
+public class CHItem implements Serializable{
+	
+	private static final long serialVersionUID = 2014061505;
+
 	private static final String	TAG							= CHItem.class.getName();
 
 	/// JSON FIELDS ///

@@ -344,7 +344,15 @@ public class CubbyHoleImpl implements ICubbyHoleClient, IApiRequester {
 
 	@Override
 	public boolean deleteFile(CHFile file) {
-		// TODO Auto-generated method stub
+		if (file != null) {
+			try {
+				CHJsonNode json = apiDelete(API_ENDPOINT + FILES_DELETE + file.getId());
+				return true;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
