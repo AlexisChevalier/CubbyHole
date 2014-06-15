@@ -8,6 +8,7 @@ import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
 import com.cubbyhole.library.interfaces.IApiRequestHandler;
 import com.cubbyhole.library.interfaces.IAsyncCubbyHoleClient;
+import com.cubbyhole.library.interfaces.IDownloadHandler;
 
 public class CubbyHoleClient implements IAsyncCubbyHoleClient {
 	private static final String		TAG	= CubbyHoleClient.class.getName();
@@ -88,9 +89,9 @@ public class CubbyHoleClient implements IAsyncCubbyHoleClient {
 	}
 
 	@Override
-	public void deleteFolder(IApiRequestHandler<CHFolder> handler, CHFolder folder) {
+	public void deleteFolder(IApiRequestHandler<Boolean> handler, CHFolder folder) {
 		final String method = "deleteFolder";
-		new AsyncApiRequest<CHFolder>(handler, mImpl, method).execute(folder);
+		new AsyncApiRequest<Boolean>(handler, mImpl, method).execute(folder);
 	}
 
 	@Override
@@ -99,8 +100,9 @@ public class CubbyHoleClient implements IAsyncCubbyHoleClient {
 	}
 
 	@Override
-	public void downloadFile(IApiRequestHandler<?> handler, CHFile file) {
-
+	public void downloadFile(IDownloadHandler handler, CHFile file, String path) {
+		final String method = "downloadFile";
+		new AsyncApiDownload(handler, mImpl, method).execute(file, path);
 	}
 
 	@Override

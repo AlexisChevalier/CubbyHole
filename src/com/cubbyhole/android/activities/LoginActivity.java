@@ -12,10 +12,10 @@ import com.cubbyhole.android.components.AuthWebView;
 import com.cubbyhole.android.components.AuthWebView.ICubbyHoleAuth;
 import com.cubbyhole.android.utils.CHC;
 import com.cubbyhole.android.utils.TokenStorer;
-import com.cubbyhole.android.utils.ssl.SSLManager;
 import com.cubbyhole.library.api.entities.CHAccount;
 import com.cubbyhole.library.api.entities.CHFolder;
 import com.cubbyhole.library.interfaces.IApiRequestHandler;
+import com.cubbyhole.library.ssl.SSLManager;
 
 public class LoginActivity extends Activity implements ICubbyHoleAuth {
 	private static final String	TAG	= LoginActivity.class.getName();

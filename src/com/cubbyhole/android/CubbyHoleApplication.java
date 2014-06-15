@@ -3,6 +3,7 @@ package com.cubbyhole.android;
 import android.app.Application;
 
 import com.cubbyhole.android.utils.CHCacheManager;
+import com.cubbyhole.library.utils.CHItemsManager;
 
 public class CubbyHoleApplication extends Application {
 
@@ -13,6 +14,8 @@ public class CubbyHoleApplication extends Application {
 		//Initialize the cache manager to be ready to use.
 		CHCacheManager.Initialize(this);
 
-	}
+		//Initialize the Items manager
+		CHItemsManager.Initialize(CHCacheManager.getInstance());
 
+	}
 }
