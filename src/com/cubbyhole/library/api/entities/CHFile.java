@@ -75,7 +75,7 @@ public class CHFile extends CHItem {
 			ArrayList<CHShare> shares = CHShare.jsonArrayToShares(json.asList(FIELD_SHARES));
 			file.setShares(shares);
 
-			file.setPreventStateListening(true);
+			file.setPreventStateListening(false);
 		} catch (Exception e) {
 			Log.e(TAG, "Failed to parse json to create a CHFile instance !");
 			//TODO: Throw a CHJsonParseException
