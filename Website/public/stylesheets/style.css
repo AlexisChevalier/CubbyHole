@@ -77,6 +77,7 @@ nav #nav-right {
 }
 
 nav img#brand-logo {
+	-webkit-backface-visibility: hidden;
     margin: auto;
     margin-top: -45px;
     display: block; /* needed for margin auto */
