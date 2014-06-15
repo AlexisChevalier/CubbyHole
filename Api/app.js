@@ -182,13 +182,17 @@ app.get('/api/users/find/:terms', accountRoutes.usersFind);
 /**
  * FILES API
  */
+
+//Check if can Upload (or overwrite)
+app.post('/api/files/test', filesRoutes.checkUpload);
+
 //Upload (or overwrite)
 app.post('/api/files', filesRoutes.createOrUpdateFile);
 
 //metadata
 app.get('/api/files/metadata/:fileID', filesRoutes.getFileMedatata);
 
-//Download
+//Check if can Download
 app.get('/api/files/test/:fileID', filesRoutes.checkDownload);
 
 //Download

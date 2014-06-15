@@ -68,8 +68,7 @@
     <div class="bs-callout bs-callout-info">
         <h4>Information</h4>
 
-        <p>{{__("You can connect to your account with these applications and then they can access your files, you can
-            remove these application's authorizations here.")}}</p>
+        <p>{{__("You can connect to your account with these applications and then they can access your files, you can remove these application's authorizations here.")}}</p>
     </div>
     {% if userAccount.authorizedApps.length > 0 %}
     {% for app in userAccount.authorizedApps %}
@@ -80,8 +79,7 @@
         </tr>
         <tr>
             <td>{{app.name}}</td>
-            <td><a href="/account/removeApp/{{ app.tokenID }}" type="button" class="btn btn-danger">{{__("Remove
-                authorization")}}</a></td>
+            <td><a href="/account/removeApp/{{ app.tokenID }}" type="button" class="btn btn-danger">{{__("Remove authorization")}}</a></td>
         </tr>
     </table>
     {% endfor %}

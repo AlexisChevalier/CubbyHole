@@ -14,13 +14,168 @@ var passport = require('passport'),
     Throttle = require('throttle');
 
 module.exports = {
+
+    /**
+     * Get upload ability for an item
+     */
+    checkUpload: [
+        passport.authenticate('bearer', { session: false }),
+        function (req, res) {
+            var newFile = false,
+                name,
+                parentId,
+                fileLength,
+                fileMimeType,
+                parentFolder = null,
+                fileParents = [],
+                id = new Date().getTime() + '_' + uuid.v4(),
+                createdInShare = true,
+                ownerId = req.user.id,
+                quotas,
+                i;
+
+
+            async.series([
+                //V2 : OK
+                /** VALIDATION DES DONNEES **/
+                    function (next) {
+
+                    //Stokage des valeurs
+                    name = req.body['cb-file-name'];
+                    parentId = req.body['cb-file-parent-folder-id'];
+                    fileLength = req.body['cb-file-length'];
+                    fileMimeType = req.body['cb-file-type'];
+
+
+
+                    //Test des valeurs
+                    if (!name || !parentId || !fileLength || !fileMimeType) {
+                        return res.send(400, "Missing parameters");
+                    }
+
+                    //Conversion du parentId
+                    if (parentId) {
+                        try {
+                            parentId = mongooseModels.ObjectId(parentId);
+                        } catch (err) {
+                            return res.send(400, "Wrong ID");
+                        }
+                    }
+
+                    return next();
+                },
+                //V2 : OK
+                /** TEST DOSSIER PARENT + SECURITE **/
+                    function (next) {
+                    FolderHelper.getFolder({'_id': parentId}, "parent childFolders childFiles", function (err, folder) {
+                        //Resultats de la recherche du parent
+                        if (err || !folder || folder === null) {
+                            return res.send(404, "Couldn't find given parent folder");
+                        }
+
+                        if (folder.userId != req.user.id) {
+                            ShareHelper.GetShareCode(folder, req.user.id, function (code) {
+                                if (code != 2 && code != 4) {
+                                    return res.send(403, "You don't have any write access on the folder or file !");
+                                }
+                                createdInShare = true;
+                                ownerId = folder.userId;
+
+                                for (i = 0; i < folder.parents.length; i++) {
+                                    fileParents.push(folder.parents[i]);
+                                }
+                                fileParents.push(parentId);
+
+                                parentFolder = folder;
+
+                                return next();
+                            });
+                        } else {
+
+                            for (i = 0; i < folder.parents.length; i++) {
+                                fileParents.push(folder.parents[i]);
+                            }
+                            fileParents.push(parentId);
+
+                            parentFolder = folder;
+
+                            return next();
+                        }
+                    });
+                },
+                /** TEST QUOTAS  **/
+                    function (next) {
+                    QuotaHelper.getQuotas(req.user, function (err, innerQuotas) {
+                        quotas = innerQuotas;
+                        var len = 0;
+                        try {
+                            len = parseInt(fileLength, 10);
+                        } catch (e) {
+                            return res.send(403, "File length invalid !");
+                        }
+
+                        if (quotas.disk.available < len) {
+                            return res.send(403, "Your CubbyHole is full, clean it or update your plan !");
+                        }
+
+                        if (quotas.bandwidth.available < len) {
+                            return res.send(403, "Your daily bandwidth quota is full, wait tomorrow or update your plan !");
+                        }
+
+                        return next();
+                    });
+                },
+                /** CHECK UPDATE OR NEW FILE **/
+                    function (next) {
+                    if (parentFolder.isRoot) {
+                        FolderHelper.checkNameInRootFolder(name, req.user.id, null, function (item) {
+                            if (item == null) {
+                                return next();
+                            }
+                            if (item.realFileData) {
+
+                                if (item.userId != req.user.id) {
+
+                                    ShareHelper.GetShareCode(item, req.user.id, function (code) {
+                                        if (code != 2 && code != 4) {
+                                            return res.send(403, "You don't have any write access on this file !");
+                                        }
+                                        return next();
+                                    });
+                                } else {
+                                    return next();
+                                }
+                            } else {
+                                return res.send(403, "Name already taken by a share or a folder !");
+                            }
+                        });
+                    } else {
+                        if (!FolderHelper.isNameAvailable(name, parentFolder.childFolders, parentFolder.childFiles)) {
+                            FileHelper.getFile({'name': name, 'parent': parentId}, '', function (err, innerFileToUpdate) {
+                                if (err || !innerFileToUpdate || innerFileToUpdate === null) {
+                                    /** THE NAME IS TAKEN BY A FOLDER **/
+                                    return res.send(403, "Name already existing in this folder");
+                                } else {
+                                    return next();
+                                }
+                            });
+                        } else {
+                            return next();
+                        }
+                    }
+                }
+            ], function () {
+                return res.json({ canUpload: true });
+            });
+        }
+    ],
+
     /**
      * POST upload item
      * Require auth + headers : cb-file-name, cb-file-parent-folder-id, content-type, content-length + Binary file as payload
      *
      *
      * This function is a real mess : 700 lines, but i don't have the time to clean it
-     * V2 NEEDS TESTS
      */
     createOrUpdateFile: [
         passport.authenticate('bearer', { session: false }),
@@ -137,7 +292,7 @@ module.exports = {
                             return res.send(403, "Your CubbyHole is full, clean it or update your plan !");
                         }
 
-                        if (quotas.bandwidth.available < fileLength) {
+                        if (quotas.bandwidth.available < len) {
                             return res.send(403, "Your daily bandwidth quota is full, wait tomorrow or update your plan !");
                         }
 
@@ -805,7 +960,7 @@ module.exports = {
                         });
                     }
                 ], function () {
-                    return res.json({fileAvailable: true});
+                    return res.json({ fileAvailable: true });
                 });
             });
         }

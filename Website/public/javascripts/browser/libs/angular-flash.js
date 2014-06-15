@@ -8,7 +8,7 @@ angular.module('flash', [])
             reset = $timeout(function() {
                 message = null;
                 $rootScope.$emit('flash:message', message);
-            }, 4000);
+            }, 5000);
         };
 
         var emit = function() {

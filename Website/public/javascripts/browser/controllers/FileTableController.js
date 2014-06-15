@@ -135,43 +135,51 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
             (function () {
                 var fileObject = {file: $files[i], options: {update: false, parentFolder: $scope.folderId, progress: 0, existing: false}};
 
-                var outerItemToReplaceIndex = null;
+                $http.post('/ajax/api/files/test/', {
+                    'cb-file-type': fileObject.file.type || "application/octet-stream",
+                    'cb-file-name': fileObject.file.name,
+                    'cb-file-length': fileObject.file.size,
+                    'cb-file-parent-folder-id': $scope.folderId
+                })
+                .success(function (data) {
 
-                for (i = 0; i < $scope.items.length; i++) {
-                    if($scope.items[i].type === 'file') {
-                        if($scope.items[i].name === fileObject.file.name) {
-                            outerItemToReplaceIndex = i;
-                            break;
+                    var outerItemToReplaceIndex = null;
+
+                    for (i = 0; i < $scope.items.length; i++) {
+                        if($scope.items[i].type === 'file') {
+                            if($scope.items[i].name === fileObject.file.name) {
+                                outerItemToReplaceIndex = i;
+                                break;
+                            }
                         }
                     }
-                }
 
-                if(outerItemToReplaceIndex == null) {
-                    var tmpFile = {
-                        "type": "file",
-                        "name": fileObject.file.name,
-                        "updateDate": new Date(),
-                        "busyWrite": true
-                    };
-                    $scope.items.push(tmpFile);
-                } else {
-                    $scope.items[outerItemToReplaceIndex].busyWrite = true;
-                }
+                    if(outerItemToReplaceIndex == null) {
+                        var tmpFile = {
+                            "type": "file",
+                            "name": fileObject.file.name,
+                            "updateDate": new Date(),
+                            "busyWrite": true
+                        };
+                        $scope.items.push(tmpFile);
+                    } else {
+                        $scope.items[outerItemToReplaceIndex].busyWrite = true;
+                    }
 
-                $scope.uploads.push(fileObject);
+                    $scope.uploads.push(fileObject);
 
-                fileObject.fileUpload = $upload.upload({
-                    url: '/ajax/upload/',
-                    headers: {
-                        'CB-File-Type': fileObject.file.type || "application/octet-stream",
-                        'CB-File-Name': fileObject.file.name,
-                        'CB-File-Length': fileObject.file.size,
-                        'CB-File-Parent-Folder-Id': $scope.folderId
-                    },
-                    method: "POST",
-                    file: fileObject.file,
-                    fileFormDataName: 'file'
-                }).then(function(response) {
+                    fileObject.fileUpload = $upload.upload({
+                        url: '/ajax/upload/',
+                        headers: {
+                            'CB-File-Type': fileObject.file.type || "application/octet-stream",
+                            'CB-File-Name': fileObject.file.name,
+                            'CB-File-Length': fileObject.file.size,
+                            'CB-File-Parent-Folder-Id': $scope.folderId
+                        },
+                        method: "POST",
+                        file: fileObject.file,
+                        fileFormDataName: 'file'
+                    }).then(function(response) {
                         var item = response.data.data,
                             itemToReplaceIndex = null,
                             i = 0;
@@ -237,6 +245,9 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                     }).xhr(function(xhr){
                         xhr.upload.addEventListener('abort', function() {console.log('abort complete')}, false);
                     });
+                }).error(function (data) {
+                    flash('danger', data || "Unknown error");
+                });
             }());
         }
     };
