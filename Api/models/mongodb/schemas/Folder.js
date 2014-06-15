@@ -6,19 +6,22 @@ module.exports = new Schema({
     userId: Number,
     childFiles: [{
         type: Schema.Types.ObjectId,
-        ref: 'File'
+        ref: 'File',
+        index: true
     }],
     childFolders: [{
         type: Schema.Types.ObjectId,
-        ref: 'Folder'
+        ref: 'Folder',
+        index: true
     }],
     isRoot: {
         type: Boolean,
-        default: false
+        default: false,
+        index: true
     },
     shares: [{
         userName: String,
-        userId: Number,
+        userId: { type: Number, index: true },
         write: Boolean,
         read: Boolean
     }],
@@ -32,11 +35,13 @@ module.exports = new Schema({
     },
     parents: [{
         type: Schema.Types.ObjectId,
-        ref: 'Folder'
+        ref: 'Folder',
+        index: true
     }],
     parent: {
         type: Schema.Types.ObjectId,
-        ref: 'Folder'
+        ref: 'Folder',
+        index: true
     },
     updateDate: {
         type: Date,

@@ -11,13 +11,10 @@ module.exports = new Schema({
             type: String
         }],
         "metadata": {
-            /*busyWrite: {
-             type: Boolean,
-             default: false
-             },*/
             references: [{
                 type: Schema.Types.ObjectId,
-                ref: 'File'
+                ref: 'File',
+                index: true
             }],
             "updateDate": Date
         },

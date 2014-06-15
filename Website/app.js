@@ -34,6 +34,7 @@ var express = require('express'),
     }),
     app = express();
 
+app.use(require('express-domain-middleware'));
 
 http.globalAgent.maxSockets = Infinity;
 https.globalAgent.maxSockets = Infinity;

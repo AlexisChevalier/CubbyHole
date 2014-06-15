@@ -3,10 +3,10 @@ var mongoose = require('mongoose'),
 
 module.exports = new Schema({
     "name": String,
-    "userId": Number,
+    "userId": { type: Number, index: true },
     "shares": [{
         userName: String,
-        userId: Number,
+        userId: { type: Number, index: true },
         write: Boolean,
         read: Boolean
     }],
@@ -20,11 +20,13 @@ module.exports = new Schema({
     },
     "parents": [{
         type: Schema.Types.ObjectId,
-        ref: 'Folder'
+        ref: 'Folder',
+        index: true
     }],
     "parent": {
         type: Schema.Types.ObjectId,
-        ref: 'Folder'
+        ref: 'Folder',
+        index: true
     },
     updateDate: {
         type: Date,
@@ -41,7 +43,8 @@ module.exports = new Schema({
     realFileData: {
         id: {
             type: Schema.Types.ObjectId,
-            ref: 'RealFile'
+            ref: 'RealFile',
+            index: true
         },
         "contentType": String,
         "length": Number,

@@ -28,8 +28,11 @@ var express = require('express'),
     flash = require('connect-flash'),
     app = express();
 
+app.use(require('express-domain-middleware'));
+
 http.globalAgent.maxSockets = Infinity;
 https.globalAgent.maxSockets = Infinity;
+
 
 app.set("env", config.env || "development");
 
