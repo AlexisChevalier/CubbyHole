@@ -28,6 +28,7 @@ div#headbar input:focus{
 }
 
 div#headbar div#path {
+	overflow: hidden;
 	width: 100%;
 	padding-left: 50px; /* 40(ico) + 10px */
 	/* can't do sprite :/ */
@@ -35,7 +36,9 @@ div#headbar div#path {
 }
 
 div#headbar div#path p {
-	overflow: scroll;
+	overflow-y: hidden;
+	padding-bottom: 20px;
+	overflow-x: scroll;
 	white-space: nowrap;
 }
 

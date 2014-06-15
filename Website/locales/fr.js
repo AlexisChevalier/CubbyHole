@@ -95,5 +95,7 @@
 	"Account successfully deleted !": "Compte supprimé avec succès !",
 	"If you want to change your password you'll have to fill the two password fields !": "Si vous voulez changer votre mot de pase, merci de remplir les deux champs !",
 	"Password": "Mot de passe",
-	"Confirm password": "Confirmez le mot de passe"
+	"Confirm password": "Confirmez le mot de passe",
+	"Login Failed !": "Login Failed !",
+	"There is an error with your profile, you have been logged out !": "There is an error with your profile, you have been logged out !"
 }

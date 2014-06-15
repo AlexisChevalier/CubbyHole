@@ -2,7 +2,6 @@
 
 var login = require("../auth/ensureLoggedIn"),
     config = require('../config/config'),
-    filesHttpDao = require('../models/http/files'),
     usersHttpDao = require('../models/http/users'),
     multiparty = require('multiparty'),
     Throttle = require('throttle'),
@@ -88,8 +87,7 @@ module.exports = {
     downloadFile: [
         login.ensureLoggedIn(),
         function (req, res) {
-            var
-                options = {
+            var options = {
                     url: "https://" + config.apiUrl + ":" + config.apiPort + "/api/files/" + req.params.fileID,
                     method: "GET",
                     headers: {

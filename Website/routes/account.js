@@ -9,8 +9,8 @@ var passport = require('passport'),
     paymentHelper = require('../models/mysql/helpers/PaymentHelper');
 
 module.exports = {
-    /*
-     * GET account page.
+    /**
+     * GET Account Page
      */
     account: [
         login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
@@ -24,7 +24,6 @@ module.exports = {
                 } else {
                     clientHelper.GetAuthorizedClientsForUserID(req.user.id, function (err, clients) {
                         user.authorizedApps = clients;
-                        console.log();
                         if (user.actualPlan.expirationTime) {
                             user.actualPlan.expirationTime = new Date(user.actualPlan.expirationTime);
                         }
@@ -34,6 +33,9 @@ module.exports = {
             });
         }],
 
+    /**
+     * PUT Account Update
+     */
     updateAccount: [
         login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
         function (req, res) {
@@ -71,6 +73,9 @@ module.exports = {
             });
         }],
 
+    /**
+     * GET Account Delete
+     */
     deleteAccount: [
         login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
         function (req, res) {
@@ -86,6 +91,9 @@ module.exports = {
             });
         }],
 
+    /**
+     * GET OAuth app autorization remove
+     */
     removeApp: [
         login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
         function (req, res) {
@@ -99,6 +107,9 @@ module.exports = {
             });
         }],
 
+    /**
+     * GET Plan Choose Page
+     */
     planChoose: [
         login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
         function (req, res) {
@@ -106,6 +117,9 @@ module.exports = {
         }
     ],
 
+    /**
+     * GET Payment page
+     */
     planPay: [
         login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
         function (req, res) {
@@ -115,6 +129,9 @@ module.exports = {
         }
     ],
 
+    /**
+     * GET redirect to paypal payment
+     */
     sendToPaypal: [
         login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
         function (req, res) {
@@ -178,6 +195,9 @@ module.exports = {
         }
     ],
 
+    /**
+     * GET Payment confirmation Page
+     */
     confirmPayment: [
         login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
         function (req, res) {
@@ -190,6 +210,9 @@ module.exports = {
         }
     ],
 
+    /**
+     * POST Validate payment
+     */
     executePaypal: [
         login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
         function (req, res) {
@@ -216,6 +239,9 @@ module.exports = {
         }
     ],
 
+    /**
+     * GET Account Page
+     */
     cancelPaypal: [
         login.ensureLoggedIn({ redirectTo: '/loginsignup', setReturnTo: true }),
         function (req, res) {
@@ -254,6 +280,7 @@ module.exports = {
         passport.authenticate('oauth2', function (err, user, info) {
             var redirectUrl = '/';
             if (err || !user) {
+                console.log(err, user);
                 req.flash("danger", "Login Failed !");
 
                 return res.redirect('/');

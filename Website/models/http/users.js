@@ -5,6 +5,7 @@
 var config = require('../../config/config'),
     https = require('https'),
     querystring = require('querystring'),
+    request = require('request'),
     Users = module.exports = {};
 
 /**
@@ -14,34 +15,23 @@ var config = require('../../config/config'),
  */
 Users.findByToken = function (accessToken, done) {
     var options = {
-        host: config.apiUrl,
-        port: config.apiPort,
-        path: "/api/account/details",
-        method: 'GET',
+        url: "https://" + config.apiUrl + ":" + config.apiPort + "/api/account/details",
+        method: "GET",
         headers: {
             'Authorization': 'Bearer ' + accessToken
         }
-    },
-        req = https.request(options, function (res) {
-            var body = "",
-                parsed = "";
-            res.on('data', function (d) {
-                body += d;
-            });
-            res.on('end', function () {
-                try {
-                    parsed = JSON.parse(body);
-                } catch (e) {
-                    return done(e, null);
-                }
-                if (parsed.id) {
-                    return done(null, parsed);
-                }
-                return done(new Error("Can't get user from API"), null);
-            });
-        });
-
-    req.end();
+    };
+    request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            try {
+                var parsed = JSON.parse(body);
+                return done(null, parsed);
+            } catch (e) {
+                return done(e, null);
+            }
+        }
+        return done(new Error(body || error.toString() || "Unknown error"), null);
+    });
 };
 
 /**
@@ -51,41 +41,30 @@ Users.findByToken = function (accessToken, done) {
  * @param {function} done
  */
 Users.updateByToken = function (accessToken, userToUpdate, done) {
-    var dataToSend = querystring.stringify(userToUpdate),
-        options = {
-            host: config.apiUrl,
-            port: config.apiPort,
-            path: "/api/account/details",
-            method: 'PUT',
-            headers: {
-                'Authorization': 'Bearer ' + accessToken,
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Content-Length': Buffer.byteLength(dataToSend)
-            }
+    var options = {
+        url: "https://" + config.apiUrl + ":" + config.apiPort + "/api/account/details",
+        method: "PUT",
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
         },
-        req = https.request(options, function (res) {
-            var body = "";
-            res.on('data', function (d) {
-                body += d;
-            });
-            res.on('end', function () {
-                try {
-                    var parsed = JSON.parse(body);
-                    if (parsed.id) {
-                        return done(null, parsed);
-                    }
-                    if (parsed.code) {
-                        return done(parsed, null);
-                    }
-                } catch (e) {
-                    return done(new Error("Can't get user from API"), null);
+        form: userToUpdate
+    };
+    request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            try {
+                var parsed = JSON.parse(body);
+                if (parsed.id) {
+                    return done(null, parsed);
                 }
-            });
-        });
-
-    req.write(dataToSend);
-
-    req.end();
+                if (parsed.code) {
+                    return done(parsed, null);
+                }
+            } catch (e) {
+                return done(e, null);
+            }
+        }
+        return done(new Error(body || error.toString() || "Unknown error"), null);
+    });
 };
 
 /**
@@ -95,28 +74,18 @@ Users.updateByToken = function (accessToken, userToUpdate, done) {
  */
 Users.deleteByToken = function (accessToken, done) {
     var options = {
-            host: config.apiUrl,
-            port: config.apiPort,
-            path: "/api/account",
-            method: 'DELETE',
-            headers: {
-                'Authorization': 'Bearer ' + accessToken
-            }
-        },
-        req = https.request(options, function (res) {
-            var body = "";
-            res.on('data', function (d) {
-                body += d;
-            });
-            res.on('end', function () {
-                if (res.statusCode == 200) {
-                    return done(null, {});
-                }
-                return done({ message: "Account deletion failed, please contact support !" }, null);
-            });
-        });
-
-    req.end();
+        url: "https://" + config.apiUrl + ":" + config.apiPort + "/api/account",
+        method: "DELETE",
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        }
+    };
+    request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            return done(null, {});
+        }
+        return done(new Error(body || error.toString() || "Unknown error"), null);
+    });
 };
 
 /**
@@ -127,32 +96,21 @@ Users.deleteByToken = function (accessToken, done) {
  */
 Users.findByTerms = function (terms, accessToken, done) {
     var options = {
-            host: config.apiUrl,
-            port: config.apiPort,
-            path: "/api/users/find/" + terms,
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + accessToken
+        url: "https://" + config.apiUrl + ":" + config.apiPort + "/api/users/find/" + terms,
+        method: "GET",
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        }
+    };
+    request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            try {
+                var parsed = JSON.parse(body);
+                return done(null, parsed);
+            } catch (e) {
+                return done(e, null);
             }
-        },
-        req = https.request(options, function (res) {
-            var body = "",
-                parsed = "";
-            res.on('data', function (d) {
-                body += d;
-            });
-            res.on('end', function () {
-                try {
-                    parsed = JSON.parse(body);
-                } catch (e) {
-                    return done(e, null);
-                }
-                if (res.statusCode == 200) {
-                    return done(null, parsed);
-                }
-                return done({ message: "Can't fetch users from api !" }, null);
-            });
-        });
-
-    req.end();
+        }
+        return done(new Error(body || error.toString() || "Unknown error"), null);
+    });
 };
