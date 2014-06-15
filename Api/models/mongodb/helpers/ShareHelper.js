@@ -126,8 +126,8 @@ ShareHelper.handlePublicShareResult = function (item, next) {
                     }
                     return false;
                 });
+                item.childFiles[j].shares = [];
             }
-            item.childFiles[j].shares = [];
         }
 
         return next(item);
