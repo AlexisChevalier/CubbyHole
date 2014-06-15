@@ -582,7 +582,7 @@ module.exports = {
                     },
                     function (next) {
                         /** SUPRESSION DES CHILDS FOLDERS **/
-                        mongooseModels.Folder.remove({"parents": { "$all": hierarchy } }, function (err, docsUpdated) {
+                        mongooseModels.Folder.remove({"parents": { $all: hierarchy } }, function (err, docsUpdated) {
                             if (err) {
                                 next(err);
                             }
@@ -591,7 +591,7 @@ module.exports = {
                     },
                     function (next) {
                         /** RECUPERATION DES CHILDS FILES **/
-                        mongooseModels.File.find({"parents": { "$all": hierarchy } }).exec(function (err, files) {
+                        mongooseModels.File.find({"parents": { $all: hierarchy } }).exec(function (err, files) {
                             if (err) {
                                 next(err);
                             }
@@ -614,7 +614,7 @@ module.exports = {
                     },
                     function (next) {
                         /** SUPRESSION DES CHILDS FILES **/
-                        mongooseModels.File.remove({"parents": { "$all": hierarchy } }, function (err, docsUpdated) {
+                        mongooseModels.File.remove({"parents": { $all: hierarchy } }, function (err, docsUpdated) {
                             if (err) {
                                 next(err);
                             }
@@ -648,7 +648,7 @@ module.exports = {
                     }
 
                     //Update date
-                    mongooseModels.Folder.update({"_id": { "$in": folder.parents } },
+                    mongooseModels.Folder.update({"_id": { $in: folder.parents } },
                         { updateDate: new Date() },
                         { multi: true },
                         function (err, docsUpdated) {
