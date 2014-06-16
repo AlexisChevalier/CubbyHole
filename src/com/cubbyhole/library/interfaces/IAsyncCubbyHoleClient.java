@@ -1,8 +1,12 @@
 package com.cubbyhole.library.interfaces;
 
+import java.util.ArrayList;
+
 import com.cubbyhole.library.api.entities.CHAccount;
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
+import com.cubbyhole.library.api.entities.CHItem;
+import com.cubbyhole.library.api.entities.CHShare.SharedCode;
 
 /**
  * Interface that defines all API methods exposed by the server API as async methods.
@@ -24,7 +28,7 @@ public interface IAsyncCubbyHoleClient {
 	 * Used to find one or a list of users using it's name or email.
 	 * @param term - the name or part of the name or an email
 	 */
-	public void findUser(IApiRequestHandler<CHAccount> handler, String term);
+	public void findUser(IApiRequestHandler<ArrayList<CHAccount>> handler, String term);
 
 	/**
 	 * Used to get the root folder of the account file system.
@@ -96,4 +100,14 @@ public interface IAsyncCubbyHoleClient {
 	 * @param destinationFolder - the destination of the copied file.
 	 */
 	public void copyFolder(IApiRequestHandler<CHFolder> handler, CHFolder folder, CHFolder destinationFolder);
+	
+	
+	
+	/**
+	 * Used to copy a folder.
+	 * @param item - the item to share
+	 * @param userId - the user you want to share with
+	 * @param accessType - the type of sharing
+	 */
+	public void addShare(IApiRequestHandler<Boolean> handler, CHItem item, String userId, SharedCode accessType);
 }
