@@ -102,7 +102,7 @@ module.exports = {
                     }
 
                     if (!existing) {
-                        /*mongooseModels.Folder.findOne({"_id": { "$in": item.parents }, "shares.userId":userId}, function (err, doc) {
+                        mongooseModels.Folder.findOne({"_id": { "$in": item.parents }, "shares.userId":userId}, function (err, doc) {
                             if (err || !doc || doc == null) {
                                 item.shares.push({
                                     userName: userToShare.name,
@@ -111,10 +111,10 @@ module.exports = {
                                     read: true
                                 });
                                 return next();
-                            } else {*/
+                            } else {
                                 return res.send(400, "Can't share this " + type + " to this user because a parent folder is already shared with him !");
-                            /*}
-                        });*/
+                            }
+                        });
                     } else {
                         return next();
                     }
