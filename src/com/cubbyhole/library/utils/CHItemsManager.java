@@ -28,13 +28,15 @@ public class CHItemsManager {
 
 	@SuppressWarnings("unchecked")
 	private CHItemsManager() {
-		Object fitems = cmgr.getObject(cacheKey);
-		if (fitems instanceof HashMap) {
-			mFilesystemItems = (HashMap<String, String>) fitems;
-			cleanFilesystemItems();
-		} else {
-			mFilesystemItems = new HashMap<String, String>();
+		if (cmgr != null) {
+			Object fitems = cmgr.getObject(cacheKey);
+			if (fitems instanceof HashMap) {
+				mFilesystemItems = (HashMap<String, String>) fitems;
+				cleanFilesystemItems();
+				return;
+			}
 		}
+		mFilesystemItems = new HashMap<String, String>();
 	}
 
 	public static CHItemsManager getInstance() {
@@ -52,7 +54,9 @@ public class CHItemsManager {
 	public void registerItem(String itemId, String systemPath) {
 		cleanFilesystemItems();
 		mFilesystemItems.put(itemId, systemPath);
-		cmgr.cacheObject(cacheKey, mFilesystemItems);
+		if (cmgr != null) {
+			cmgr.cacheObject(cacheKey, mFilesystemItems);
+		}
 	}
 
 	/**
@@ -63,7 +67,9 @@ public class CHItemsManager {
 		cleanFilesystemItems();
 		if (mFilesystemItems.containsKey(itemId)) {
 			mFilesystemItems.remove(itemId);
-			cmgr.cacheObject(cacheKey, mFilesystemItems);
+			if (cmgr != null) {
+				cmgr.cacheObject(cacheKey, mFilesystemItems);
+			}
 		}
 	}
 
