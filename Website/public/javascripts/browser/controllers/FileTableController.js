@@ -415,8 +415,11 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
             }
         });
 
-        modalInstance.result.then(function (item) {
-        }, function () {
+        modalInstance.result.then(function (itemUpdated) {
+            var index = $scope.items.indexOf(item);
+            $scope.items[index] = itemUpdated;
+        }, function (itemUpdated) {
+            $scope.refresh();
         });
     };
 

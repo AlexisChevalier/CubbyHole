@@ -153,6 +153,6 @@ cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams',
     };
 
     $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+        $modalInstance.close($scope.item);
     };
 }]);

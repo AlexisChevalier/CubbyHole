@@ -1,6 +1,7 @@
 cubbyHoleBrowser.config(function ($translateProvider) {
     $translateProvider.translations('en', {
         UPLOAD: 'Upload',
+        CLOSE: 'Close',
         UPLOADS: 'Uploads',
         FILES: 'file(s)',
         LOADING: 'loading ...',
@@ -131,8 +132,12 @@ cubbyHoleBrowser.config(function ($translateProvider) {
         'UPLOAD_ERROR': 'Error uploading your files !'
 
     });
+    $translateProvider.translations('tr', {
+
+    });
     $translateProvider.translations('fr', {
         UPLOAD: 'Envoyer',
+        CLOSE: 'Fermer',
         UPLOADS: 'Transferts',
         FILES: 'fichier(s)',
         LOADING: 'chargement ...',
