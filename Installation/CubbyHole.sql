@@ -35,8 +35,6 @@ CREATE TABLE `AccessTokens` (
 -- Contenu de la table `AccessTokens`
 --
 
-INSERT INTO `AccessTokens` (`id`, `userID`, `clientID`, `token`) VALUES
-(195, 85, 7, '1eGkNFtZKOrP01i5WoPOfy74u609yVyVH23J2wwBMssf5hNBk3LSSjFSWnhC7vvWYHY5tyEjRDnym10zt4iFfgm1NKq2oGg28WWw5xZhy9dp1jRRdInmRnVSkU8YmdJZPzVH5nT32I2pqB8H5GNBqYSehOfkPMevEoI53pjsQX968rKBppULFuLIrYo76AcSHfGQVS1lVWETwVAa6xLuarNzqqCRkWwICWqrI6J2E9SX13Muorix4zc3NxZwAH3G');
 
 -- --------------------------------------------------------
 
@@ -80,8 +78,7 @@ CREATE TABLE `Clients` (
 
 INSERT INTO `Clients` (`id`, `name`, `clientId`, `clientSecret`, `redirect_uri`, `dialog_disabled`, `userID`) VALUES
 (7, 'CubbyHole Website', 'cubbyh_b1175f3f-9c52-4205-adfd-c9a63f7cbecb', 'df8b08e6-215f-49ac-86fa-1212e7c9e0e6', 'https://localhost:8443/loginCallback', 1, 1),
-(9, 'CubbyHole Developer Center', 'cubbyh_28af8ca9-368e-4ce1-8586-e2690ead096f', 'd923c923-efa9-44bd-8980-eb541660b67e', 'https://localhost:8445/loginCallback', 0, 1),
-(10, 'lol', 'lol_95e865a6-1df3-4920-90e0-1c5955bd7c67', '159ed2b7-a785-4187-8834-60b220195607', 'lol', 0, 68);
+(9, 'CubbyHole Developer Center', 'cubbyh_28af8ca9-368e-4ce1-8586-e2690ead096f', 'd923c923-efa9-44bd-8980-eb541660b67e', 'https://localhost:8445/loginCallback', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -156,19 +153,8 @@ CREATE TABLE `Users` (
 -- Contenu de la table `Users`
 --
 
-INSERT INTO `Users` (`id`, `password`, `email`, `name`, `social_type`, `social_id`, `isAdmin`) VALUES
-(0, '$2a$10$KOuEH0nbB4rw8ABgsDWWtu8faO/WVJCz9avDsV1iYVWMxzah8rjza', 'admin@mail.com', 'admin', NULL, NULL, 0),
-(1, '$2a$10$qUq0NHXqei7QCF42gXdH7.FZHbgriukTE008Zyw7I27zv/HlOz5J2', 'bob@mail1.com', 'bobyd', NULL, NULL, 0),
-(54, '$2a$10$V5rYFeNOGd.ZtjL0wz/cUOFIrdI3PT4TRVZaJHTOTePF2qTn7z03a', 'alexis.chevalier.wtf@gmail.com', 'LOL', NULL, NULL, 0),
-(56, '$2a$10$WgooIdG8UHetqHl2.YKivOSuYCVaq9MVUcQCVBIkEEKPeFWHXRvqa', 'lol@mail.fr', 'SUP BRO', NULL, NULL, 0),
-(57, '$2a$10$d9eeJn5KXU6PTBRTJsSGpuCxAhBg/Krxd/UfX5MkGhk.sLvVaZFI2', 'lolilol@mul.com', 'sdojdsfji', NULL, NULL, 0),
-(58, '$2a$10$uoFKrcFb8/Mox9/jGOED2OY.maKL5fgS/4Hb0WgcAvxEEsQZT4lPK', 'lilililil@mail.com', 'sdfopsdfmsdflk', NULL, NULL, 0),
-(60, '$2a$10$xfPGdsqEwrPCFGKQbFXyGOz0EUDYCgnLHxeC9E4mPRBgr1RCH.CQq', 'sdfopsdfmsdflko@luuuul.fr', 'sdfopsdfmsdflko', NULL, NULL, 0),
-(63, '$2a$10$eBbmrT8VRqAHgjxoONslBOCOaK68H800BevbVm.mX/.t0mO4Zrq42', 'lolwut@mail.cru', 'LOL WUT', NULL, NULL, 0),
-(64, '$2a$10$ND.A3rikyIpP.KMMPCGlLOQ3U6zRde.2cPOVO5THimEHaEB2LIZN6', 'fjgjzepokgpzeokgpozk@fjzergpij.fr', 'meojqjgpqodmqkgmlkqfgoz', NULL, NULL, 0),
-(65, '$2a$10$rX3tlHBhg7xL5wzJV7DBFOz9WyyMXxUMQ4gl4u7P6fupK3klo6d6q', 'sdfosfsopfpozefopk@poksdfpok.fr', 'zeofjpzfjzpeofkpzoekf', NULL, NULL, 0),
-(76, '$2a$10$xDIXR6F3cqTCcMQdiGNjDumdJ9AWLOSok4u4741KvH801ETUm5aKC', 'alexis.chevalier1@gmail.com', 'Alexis Chevalier', 'GOOGLE', '103110585205049566726', 0),
-(85, '$2a$10$HGRbgYr5FIbmVwZ.otmB/O2aHTkcDg4xru5429djhBFZmp2FGnbK.', 'clear_sky@hotmail.fr', 'Alexis Chevalier', 'FACEBOOK', '1556201368', NULL);
+
+
 
 --
 -- Contraintes pour les tables exportées
