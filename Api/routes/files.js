@@ -134,6 +134,10 @@ module.exports = {
                             }
                             if (item.realFileData) {
 
+                                if (item.busyWrite) {
+                                    return res.send(423, "This file is locked by another update !");
+                                }
+
                                 if (item.userId != req.user.id) {
 
                                     ShareHelper.GetShareCode(item, req.user.id, function (code) {
@@ -308,7 +312,10 @@ module.exports = {
                                 return next();
                             }
                             if (item.realFileData) {
-                                //file
+
+                                if (item.busyWrite) {
+                                    return res.send(423, "This file is locked by another update !");
+                                }
 
                                 fileReference = item;
                                 newFile = false;
@@ -991,6 +998,12 @@ module.exports = {
 
                 async.series([
                     function (next) {
+                        if (fileReference.busyWrite) {
+                            return res.send(403, "You don't have any read access on this file");
+                        }
+                        return next();
+                    },
+                    function (next) {
                         if (fileReference.userId != req.user.id) {
                             ShareHelper.GetShareCode(fileReference, req.user.id, function (code) {
                                 if (code == 0) {
@@ -1015,7 +1028,6 @@ module.exports = {
                     gs = new mongo.GridStore(mongo_db_object, fileReference.realFileData.id, "r");
                     ActionHelper.Log('file', fileReference._id, req.user.id, "download", false, function (err, action) {
                         var bytes = 0;
-
                         gs.open(function (err, file) {
 
                             res.setHeader('Content-disposition', 'attachment; filename=' + fileReference.name);

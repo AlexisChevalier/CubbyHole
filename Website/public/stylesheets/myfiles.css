@@ -67,7 +67,7 @@ div#actionbar ul {
 }
 
 div#actionbar ul li{
-	font-size: 20px;
+	font-size: 17px;
 	font-weight: lighter;
 	margin-left: 5px;
 	display: inline-block;
@@ -103,8 +103,8 @@ div#actionbar ul li.action:hover {
 div#actionbar ul li.uploadSelector {
 	float: right;
 	vertical-align: middle;
-	font-size: medium;
-	padding: 5px;
+	font-size: 14px;
+	padding: 3px;
 	background-color: #f5f5f5;
 	border: 1px solid #e3e3e3;
 	border-radius: 4px;
@@ -113,7 +113,8 @@ div#actionbar ul li.uploadSelector {
 }
 
 div#actionbar ul li.uploadSelector input[type=file] {
-	width: 260px;
+	margin-top: 8px;
+	width: 230px;
 }
 
 div#actionbar ul li.addfolder {

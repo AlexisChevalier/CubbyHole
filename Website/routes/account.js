@@ -267,8 +267,7 @@ module.exports = {
         function (req, res) {
             res.clearCookie('apiOauthCookie');
             req.logout();
-            req.flash("success", "Successfully logged out !");
-            res.redirect('/');
+            res.redirect("https://" + config.apiUrl + ":" + config.apiPort + "/auth/logout");
         }],
 
     perform: [

@@ -1,7 +1,7 @@
 "use strict";
 /*global angular, cubbyHoleBrowser */
 
-cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modalInstance', 'item', 'flash', function ($scope, $routeParams, $http, $location, $timeout, $modalInstance, item, flash) {
+cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modalInstance', 'item', 'flash', '$translate', function ($scope, $routeParams, $http, $location, $timeout, $modalInstance, item, flash, $translate) {
     $scope.item = item;
 
     $scope.userToShareWithSelected = undefined;
@@ -29,18 +29,24 @@ cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams',
         $http.post(url, {
             writeAccess: $scope.allowWriteAccess
         }).success(function (result) {
-                result.data['type'] = item.type;
-                $scope.item = result.data;
-                $scope.allowWriteAccess = false;
-                $scope.userToShareWithSelected = undefined;
-                if (result.action == 'created') {
-                    flash('success', "Share successfully added !");
-                } else {
-                    flash('success', "The existing share for this user was successfully updated !");
-                }
-            }).error(function (data, status) {
-                flash('danger', data || "Unknown error");
+            result.data['type'] = item.type;
+            $scope.item = result.data;
+            $scope.allowWriteAccess = false;
+            $scope.userToShareWithSelected = undefined;
+            if (result.action == 'created') {
+                $translate('SHARE_SUCCESSFULLY_ADDED').then(function (message) {
+                    flash('success', message);
+                });
+            } else {
+                $translate('SHARE_ALTERNATIVELY_UPDATED').then(function (message) {
+                    flash('success', message);
+                });
+            }
+        }).error(function (data, status) {
+            $translate('UNKNOWN_ERROR').then(function (message) {
+                flash('danger', data || message);
             });
+        });
     };
 
     $scope.updateShare = function (share) {
@@ -49,17 +55,23 @@ cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams',
         $http.post(url, {
             writeAccess: share.write
         }).success(function (result) {
-                result.data['type'] = item.type;
-                $scope.item = result.data;
+            result.data['type'] = item.type;
+            $scope.item = result.data;
 
-                if (result.action == 'created') {
-                    flash('success', "This share wasn't existing, it was successfully created !");
-                } else {
-                    flash('success', "Share successfully updated !");
-                }
-            }).error(function (data, status) {
-                flash('danger', data || "Unknown error");
+            if (result.action == 'created') {
+                $translate('SHARE_ALTERNATIVELY_ADDED').then(function (message) {
+                    flash('success', message);
+                });
+            } else {
+                $translate('SHARE_SUCCESSFULLY_UPDATED').then(function (message) {
+                    flash('success', message);
+                });
+            }
+        }).error(function (data, status) {
+            $translate('UNKNOWN_ERROR').then(function (message) {
+                flash('danger', data || message);
             });
+        });
     };
 
     $scope.deleteShare = function (share) {
@@ -70,12 +82,16 @@ cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams',
                 enabled: share.userId
             }
         }).success(function (data) {
-                data.type = item.type;
-                $scope.item = data;
-                flash('success', "Share successfully removed !");
-            }).error(function (data, status) {
-                flash('danger', data || "Unknown error");
+            data.type = item.type;
+            $scope.item = data;
+            $translate('SHARE_SUCCESSFULLY_REMOVED').then(function (message) {
+                flash('success', message);
             });
+        }).error(function (data, status) {
+            $translate('UNKNOWN_ERROR').then(function (message) {
+                flash('danger', data || message);
+            });
+        });
     };
 
     $scope.handlePublicShareChange = function (isEnabled) {
@@ -85,18 +101,26 @@ cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams',
             $http.post(url, {}).success(function (data) {
                 data.type = item.type;
                 $scope.item = data;
-                flash('success', "Public sharing successfully enabled !");
-            }).error(function (data, status) {
-                    flash('danger', data || "Unknown error");
+                $translate('PUBLIC_SHARE_ENABLED').then(function (message) {
+                    flash('success', message);
                 });
+            }).error(function (data, status) {
+                $translate('UNKNOWN_ERROR').then(function (message) {
+                    flash('danger', data || message);
+                });
+            });
         } else {
             $http.delete(url).success(function (data) {
                 data.type = item.type;
                 $scope.item = data;
-                flash('success', "Public sharing successfully disabled !");
-            }).error(function (data, status) {
-                    flash('danger', data || "Unknown error");
+                $translate('PUBLIC_SHARE_DISABLED').then(function (message) {
+                    flash('success', message);
                 });
+            }).error(function (data, status) {
+                $translate('UNKNOWN_ERROR').then(function (message) {
+                    flash('danger', data || message);
+                });
+            });
         }
     };
 

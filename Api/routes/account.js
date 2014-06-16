@@ -171,10 +171,4 @@ module.exports = {
             });
         }
     ],
-
-    /**
-     * Logout
-     */
-    userLogout: function () {
-    }
 };

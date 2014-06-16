@@ -1,7 +1,7 @@
 "use strict";
 /*global angular, cubbyHoleBrowser */
 
-cubbyHoleBrowser.controller('MoveItemModalController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modalInstance', 'item', 'flash', function ($scope, $routeParams, $http, $location, $timeout, $modalInstance, item, flash) {
+cubbyHoleBrowser.controller('MoveItemModalController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modalInstance', 'item', 'flash', '$translate', function ($scope, $routeParams, $http, $location, $timeout, $modalInstance, item, flash, $translate) {
     $scope.item = item;
     $scope.oldFolderId = item.parent;
     $scope.currentFolder = null;
@@ -39,9 +39,12 @@ cubbyHoleBrowser.controller('MoveItemModalController', ['$scope', '$routeParams'
     $scope.ok = function () {
         var url = "/ajax/api/" + item.type + "s/" + item._id,
             successCallback = function (data) {
-                var itemName = item.type.substring(0,1).toUpperCase()+item.type.substring(1);
-                flash('success', itemName + " \"" + item.name + "\" successfully moved to \"" + $scope.currentFolder.name + "\" !");
-
+                var itemName = item.type.toUpperCase();
+                $translate(itemName).then(function (type) {
+                    $translate('ITEM_MOVED_SUCCESSFULLY', {type: type, itemName: item.name, destinationName: $scope.currentFolder.name}).then(function (message) {
+                        flash('success', message);
+                    });
+                });
 
                 $modalInstance.close({
                     item: data,
@@ -49,7 +52,9 @@ cubbyHoleBrowser.controller('MoveItemModalController', ['$scope', '$routeParams'
                 });
             },
             failureCallback = function(data, status) {
-                flash('danger', data || "Unknown error");
+                $translate('UNKNOWN_ERROR').then(function (message) {
+                    flash('danger', data || message);
+                });
             };
 
         $http.put(url, {

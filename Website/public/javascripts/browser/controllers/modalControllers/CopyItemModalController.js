@@ -1,7 +1,7 @@
 "use strict";
 /*global angular, cubbyHoleBrowser */
 
-cubbyHoleBrowser.controller('CopyItemModalController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modalInstance', 'item', 'flash', function ($scope, $routeParams, $http, $location, $timeout, $modalInstance, item, flash) {
+cubbyHoleBrowser.controller('CopyItemModalController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modalInstance', 'item', 'flash', '$translate', function ($scope, $routeParams, $http, $location, $timeout, $modalInstance, item, flash, $translate) {
     $scope.item = item;
     $scope.oldFolderId = item.parent;
     $scope.currentFolder = null;
@@ -39,14 +39,19 @@ cubbyHoleBrowser.controller('CopyItemModalController', ['$scope', '$routeParams'
     $scope.ok = function () {
         var url = "/ajax/api/" + item.type + "s/copy/" + item._id,
             successCallback = function (data) {
-                var itemName = item.type.substring(0,1).toUpperCase()+item.type.substring(1);
-                flash('success', itemName + " \"" + item.name + "\" successfully copied to \"" + $scope.currentFolder.name + "\" !");
-
+                var itemName = item.type.toUpperCase();
+                $translate(itemName).then(function (type) {
+                    $translate('ITEM_COPIED_SUCCESSFULLY', {type: type, itemName: item.name, destinationName: $scope.currentFolder.name}).then(function (message) {
+                        flash('success', message);
+                    });
+                });
 
                 $modalInstance.close(data);
             },
             failureCallback = function(data, status) {
-                flash('danger', data || "Unknown error");
+                $translate('UNKNOWN_ERROR').then(function (message) {
+                    flash('danger', data || message);
+                });
             };
 
         $http.post(url, {

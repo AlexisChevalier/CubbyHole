@@ -1,9 +1,12 @@
 "use strict";
 /*global angular, cubbyHoleBrowser */
 
-cubbyHoleBrowser.controller('AddFolderModalController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modalInstance', 'item', 'flash', function ($scope, $routeParams, $http, $location, $timeout, $modalInstance, item, flash) {
+cubbyHoleBrowser.controller('AddFolderModalController', ['$scope', '$routeParams', '$http', '$location', '$timeout', '$modalInstance', 'item', 'flash', '$translate', function ($scope, $routeParams, $http, $location, $timeout, $modalInstance, item, flash, $translate) {
     $scope.item = item;
     $scope.folder = "New Folder";
+    $translate('NEW_FOLDER').then(function (text) {
+        $scope.folder = text;
+    });
 
     $scope.ok = function (folderName) {
         var url = "/ajax/api/folders/";
@@ -13,9 +16,13 @@ cubbyHoleBrowser.controller('AddFolderModalController', ['$scope', '$routeParams
             parentId: item.id
         }).success(function (data) {
                 $modalInstance.close(data);
-                flash('success', "Folder \"" + data.name + "\" created successfully !");
+                $translate('FOLDER_CREATED_SUCCESSFULLY', { folderName: data.name }).then(function (message) {
+                    flash('success', message);
+                });
             }).error(function (data, status) {
-                flash('danger', data || "Unknown error");
+                $translate('UNKNOWN_ERROR').then(function (message) {
+                    flash('danger', data || message);
+                });
             });
     };
 

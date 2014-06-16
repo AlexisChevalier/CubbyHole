@@ -189,7 +189,7 @@ exports.login = [
  * GET /auth/logout -- Process logging out
  */
 exports.logout = [
-    login.ensureLoggedIn("/auth/login"),
+    //login.ensureLoggedIn("/auth/login"),
     function (req, res) {
         req.logout();
         req.flash("success", "Successfully logged out !");
