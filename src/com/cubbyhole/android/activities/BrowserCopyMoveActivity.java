@@ -103,7 +103,7 @@ public class BrowserCopyMoveActivity extends Activity {
 	}
 	
 	private void bindView() {
-		mListView = (ListView) findViewById(R.id.listview);
+		mListView = (ListView) findViewById(R.id.browsercm_listview);
 		mHScrollView = (HorizontalScrollView)findViewById(R.id.browsercm_url_HorizontalScrollView);
 		mBrowserUrlTextView = (TextView)findViewById(R.id.browsercm_url_textView);
 		mActionButton = (Button)findViewById(R.id.browsercm_action_button);

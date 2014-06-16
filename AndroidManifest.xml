@@ -34,6 +34,10 @@
             android:name="com.cubbyhole.android.activities.BrowserCopyMoveActivity"
             android:label="@string/title_activity_browser" >
         </activity>
+        <activity
+            android:name="com.cubbyhole.android.activities.ShareActivity"
+            android:label="@string/title_activity_share" >
+        </activity>
     </application>
 
 </manifest>

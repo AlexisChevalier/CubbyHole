@@ -97,7 +97,7 @@ public class BrowserActivity extends Activity {
 				return true;
 			}
 		});
-
+		
 		//long click common actions
 		mLongClickOptions.add("Rename");
 		mLongClickOptions.add("Move");
@@ -109,7 +109,7 @@ public class BrowserActivity extends Activity {
 	}
 
 	private void bindView() {
-		mListView = (ListView) findViewById(R.id.listview);
+		mListView = (ListView) findViewById(R.id.browser_listview);
 		mHScrollView = (HorizontalScrollView) findViewById(R.id.browser_url_HorizontalScrollView);
 		mBrowserUrlTextView = (TextView) findViewById(R.id.browser_url_textView);
 	}
@@ -289,6 +289,8 @@ public class BrowserActivity extends Activity {
 					moveToBrowserCopyMoveActivity("Move");
 				} else if (clickedOption.equals("Copy")) {
 					moveToBrowserCopyMoveActivity("Copy");
+				} else if (clickedOption.equals("Share")) {
+					moveToShareActivity();
 				}
 			}
 		});
@@ -367,6 +369,10 @@ public class BrowserActivity extends Activity {
 		intent.putExtra("action", action);
 		startActivity(intent);
 	}
+	private void moveToShareActivity() {
+		Intent intent = new Intent(this, ShareActivity.class);
+		startActivity(intent);
+	}
 
 	private void renameSelectedItem(String newName) {
 		if (mLongClickedItem.getType() == CHType.FILE) {
@@ -427,13 +433,6 @@ public class BrowserActivity extends Activity {
 		    	CubbyHoleClient.getInstance().getImplementation().cancelDownload();
 		    }
 		});
-		
-//		mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-//		    @Override
-//		    public void onCancel(DialogInterface dialog) {
-//		    	CubbyHoleClient.getInstance().getImplementation().cancelDownload();
-//		    }
-//		});
 		
 		mProgressDialog.show();
 		

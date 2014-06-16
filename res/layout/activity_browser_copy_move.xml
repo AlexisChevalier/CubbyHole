@@ -53,7 +53,7 @@
 	</LinearLayout>
 
         <ListView
-        android:id="@+id/listview"
+        android:id="@+id/browsercm_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/browsercm_action_linearLayout"

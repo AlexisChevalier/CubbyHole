@@ -1,5 +1,7 @@
 package com.cubbyhole.android.api;
 
+import java.util.ArrayList;
+
 import android.util.Log;
 
 import com.cubbyhole.library.api.CubbyHoleImpl;
@@ -60,9 +62,9 @@ public class CubbyHoleClient implements IAsyncCubbyHoleClient {
 	}
 
 	@Override
-	public void findUser(IApiRequestHandler<CHAccount> handler, String term) {
+	public void findUser(IApiRequestHandler<ArrayList<CHAccount>> handler, String term) {
 		final String method = "findUser";
-		new AsyncApiRequest<CHAccount>(handler, mImpl, method).execute(term);
+		new AsyncApiRequest<ArrayList<CHAccount>>(handler, mImpl, method).execute(term);
 	}
 
 	@Override
@@ -139,8 +141,9 @@ public class CubbyHoleClient implements IAsyncCubbyHoleClient {
 	@Override
 	public void addShare(IApiRequestHandler<Boolean> handler, CHItem item, String userId,
 			SharedCode accessType) {
-		// TODO Auto-generated method stub
-
+		final String method = "addShare";
+		new AsyncApiRequest<Boolean>(handler, mImpl, method).execute(item, userId, accessType);
+		
 	}
 
 }
