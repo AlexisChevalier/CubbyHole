@@ -9,30 +9,29 @@ import android.view.Menu;
 import com.cubbyhole.android.R;
 import com.cubbyhole.android.api.CubbyHoleClient;
 import com.cubbyhole.android.components.AuthWebView;
-import com.cubbyhole.android.components.AuthWebView.ICubbyHoleAuth;
 import com.cubbyhole.android.utils.CHC;
 import com.cubbyhole.android.utils.TokenStorer;
 import com.cubbyhole.library.api.entities.CHAccount;
 import com.cubbyhole.library.interfaces.IApiRequestHandler;
+import com.cubbyhole.library.interfaces.ICubbyHoleAuthHandler;
 import com.cubbyhole.library.ssl.SSLManager;
 
-public class LoginActivity extends Activity implements ICubbyHoleAuth {
-	private static final String	TAG	= LoginActivity.class.getName();
-	
-	private static boolean mComingFromBrowserActivity = false;
+public class LoginActivity extends Activity implements ICubbyHoleAuthHandler {
+	private static final String	TAG							= LoginActivity.class.getName();
+
+	private static boolean		mComingFromBrowserActivity	= false;
 
 	private AuthWebView			mAuthWebView;
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (mComingFromBrowserActivity)
-		{
+		if (mComingFromBrowserActivity) {
 			mComingFromBrowserActivity = false;
 			finish();
 		}
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,37 +47,32 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 				@Override
 				public void onApiRequestFailed() {
 					onInvalidToken();
-					
+
 				}
 
 				@Override
 				public void onApiRequestSuccess(CHAccount result) {
 					onValidToken(TokenStorer.getAccessToken());
 				}
-				
+
 			};
-			
+
 			CubbyHoleClient.getInstance().getAccount(handler);
-			
+
 		}
 
-
-		
-		
 	}
 
-	private void onValidToken(String token)
-	{
+	private void onValidToken(String token) {
 		CubbyHoleClient.getInstance().Initialize(token);
 		moveToBrowserActivity();
-		
+
 	}
-	
+
 	private void onInvalidToken() {
 		setContentView(R.layout.activity_login);
 		bindView();
-		
-		
+
 		if (CHC.IGNORE_NOT_TRUSTED_CERT) {
 			SSLManager.allowNotTrustedCertificates();
 		}
@@ -106,7 +100,7 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void bindView() {
 		mAuthWebView = (AuthWebView) findViewById(R.id.authWebView);
 	}
@@ -139,7 +133,7 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 		return mComingFromBrowserActivity;
 	}
 
-	public static void setComingFromBrowserActivity( boolean mComingFromBrowserActivity) {
+	public static void setComingFromBrowserActivity(boolean mComingFromBrowserActivity) {
 		LoginActivity.mComingFromBrowserActivity = mComingFromBrowserActivity;
 	}
 }

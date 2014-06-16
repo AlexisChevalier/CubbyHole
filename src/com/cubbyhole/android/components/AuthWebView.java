@@ -15,17 +15,12 @@ import com.cubbyhole.library.http.CHHeader;
 import com.cubbyhole.library.http.CHHttp;
 import com.cubbyhole.library.http.CHHttpDatas;
 import com.cubbyhole.library.http.CHHttpResponse;
+import com.cubbyhole.library.interfaces.ICubbyHoleAuthHandler;
 
 public class AuthWebView extends WebView {
-	private AuthWebViewClient	mAuthWebViewClient;
+	private AuthWebViewClient		mAuthWebViewClient;
 
-	private ICubbyHoleAuth		mContext;
-
-	public interface ICubbyHoleAuth {
-		public void onAuthSuccess(String token);
-
-		public void onAuthFailed();
-	}
+	private ICubbyHoleAuthHandler	mContext;
 
 	/**
 	 * Inner class only used by this specific {@link WebView} implementation
@@ -91,7 +86,7 @@ public class AuthWebView extends WebView {
 		}
 	}
 
-	public void setContext(ICubbyHoleAuth context) {
+	public void setContext(ICubbyHoleAuthHandler context) {
 		mContext = context;
 	}
 
