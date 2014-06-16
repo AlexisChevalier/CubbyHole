@@ -1,6 +1,5 @@
 package com.cubbyhole.android.activities;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -9,7 +8,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.RecoverySystem.ProgressListener;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +23,7 @@ import com.cubbyhole.android.R;
 import com.cubbyhole.android.adapters.StableArrayAdapter;
 import com.cubbyhole.android.api.CubbyHoleClient;
 import com.cubbyhole.android.utils.CHLoader;
+import com.cubbyhole.android.utils.TokenStorer;
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
 import com.cubbyhole.library.api.entities.CHItem;
@@ -43,9 +42,6 @@ public class BrowserActivity extends Activity {
 	private StableArrayAdapter		mArrayAdapter;
 
 	private ListView				mListView;
-	private MenuItem				mAddFolderBtn;
-	private MenuItem				mUploadBtn;
-	private MenuItem				mDisconnectBtn;
 
 	public static CHItem			mLongClickedItem;
 	private ArrayList<String>		mLongClickOptions	= new ArrayList<String>();
@@ -234,6 +230,10 @@ public class BrowserActivity extends Activity {
 		} else if (item.getItemId() == R.id.action_upload) {
 
 		} else if (item.getItemId() == R.id.action_disconnect) {
+			
+			LoginActivity.logOut();
+			TokenStorer.setAccessToken(null);
+			finish();
 
 		}
 		return false;

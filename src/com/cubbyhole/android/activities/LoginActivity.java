@@ -21,7 +21,7 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 	
 	private static boolean mComingFromBrowserActivity = false;
 
-	private AuthWebView			mAuthWebView;
+	public static AuthWebView			mAuthWebView;
 	
 	@Override
 	protected void onResume() {
@@ -36,7 +36,9 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		setContentView(R.layout.activity_login);
+		bindView();
+		
 		//If we already have the token ...
 		String accessToken = TokenStorer.getAccessToken();
 		if (accessToken != null) {
@@ -61,6 +63,9 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 			CubbyHoleClient.getInstance().getAccount(handler);
 			
 		}
+		else {
+			onInvalidToken();
+		}
 
 
 		
@@ -75,8 +80,7 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 	}
 	
 	private void onInvalidToken() {
-		setContentView(R.layout.activity_login);
-		bindView();
+		
 		
 		
 		if (CHC.IGNORE_NOT_TRUSTED_CERT) {
@@ -101,7 +105,6 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 
 		try {
 			mAuthWebView.loadUrl(url);
-			//mAuthWebView.loadUrl("https://localhost:8444/auth/logout");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -125,7 +128,7 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 
 	@Override
 	public void onAuthFailed() {
-		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -141,5 +144,9 @@ public class LoginActivity extends Activity implements ICubbyHoleAuth {
 
 	public static void setComingFromBrowserActivity( boolean mComingFromBrowserActivity) {
 		LoginActivity.mComingFromBrowserActivity = mComingFromBrowserActivity;
+	}
+	public static void logOut()
+	{
+		mAuthWebView.loadUrl("https://localhost:8444/auth/logout");
 	}
 }
