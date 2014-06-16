@@ -141,7 +141,7 @@ ActionHelper.GetActionsForUserAndTime = function (userId, timestamp, next) {
             $gte: new Date(parseInt(timestamp, 10))
         },
         "finished": true
-    }).exec(function(err, results) {
+    }).sort({ time: 1 }).exec(function(err, results) {
         next(err, results);
     });
 };
