@@ -1,10 +1,10 @@
 package com.cubbyhole.android.activities;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +23,7 @@ import com.cubbyhole.android.R;
 import com.cubbyhole.android.adapters.StableArrayAdapter;
 import com.cubbyhole.android.api.CubbyHoleClient;
 import com.cubbyhole.android.utils.CHLoader;
+import com.cubbyhole.android.utils.TokenStorer;
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
 import com.cubbyhole.library.api.entities.CHItem;
@@ -41,9 +42,6 @@ public class BrowserActivity extends Activity {
 	private StableArrayAdapter		mArrayAdapter;
 
 	private ListView				mListView;
-	private MenuItem				mAddFolderBtn;
-	private MenuItem				mUploadBtn;
-	private MenuItem				mDisconnectBtn;
 
 	public static CHItem			mLongClickedItem;
 	private ArrayList<String>		mLongClickOptions	= new ArrayList<String>();
@@ -55,6 +53,8 @@ public class BrowserActivity extends Activity {
 	public static boolean mNeedToRefresh = false;
 	public static CHFolder mNewFolderLocation;
 	public static String mNewURL;
+	
+	private ProgressDialog mProgressDialog;
 
 	@Override
 	protected void onResume() {
@@ -104,6 +104,8 @@ public class BrowserActivity extends Activity {
 		mLongClickOptions.add("Copy");
 		mLongClickOptions.add("Share");
 		mLongClickOptions.add("Remove");
+		
+		
 	}
 
 	private void bindView() {
@@ -228,6 +230,10 @@ public class BrowserActivity extends Activity {
 		} else if (item.getItemId() == R.id.action_upload) {
 
 		} else if (item.getItemId() == R.id.action_disconnect) {
+			
+			LoginActivity.logOut();
+			TokenStorer.setAccessToken(null);
+			finish();
 
 		}
 		return false;
@@ -355,10 +361,7 @@ public class BrowserActivity extends Activity {
 		alert.show();
 	}
 
-	private void showDownloadDialog() {
-		//Afficher un fenêtre de comfirmation ?
-	}
-
+	
 	private void moveToBrowserCopyMoveActivity(String action) {
 		Intent intent = new Intent(this, BrowserCopyMoveActivity.class);
 		intent.putExtra("action", action);
@@ -411,45 +414,79 @@ public class BrowserActivity extends Activity {
 	}
 
 	private void downloadFile(CHFile file) {
-		//TODO: Afficher un loader (Initializing download...)
+		
+		mProgressDialog = new ProgressDialog(this);
+		mProgressDialog.setMessage("Dowloading progress:");
+		mProgressDialog.setIndeterminate(true);
+		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		mProgressDialog.setCancelable(true);
+		
+		mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+		    @Override
+		    public void onClick(DialogInterface dialog, int which) {
+		    	CubbyHoleClient.getInstance().getImplementation().cancelDownload();
+		    }
+		});
+		
+//		mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//		    @Override
+//		    public void onCancel(DialogInterface dialog) {
+//		    	CubbyHoleClient.getInstance().getImplementation().cancelDownload();
+//		    }
+//		});
+		
+		mProgressDialog.show();
+		
 		final IDownloadHandler handler = new IDownloadHandler() {
 
 			@Override
 			public void onDownloadSuccess(CHFile file) {
-				String text = "Download succeeded !";
-				Toast.makeText(BrowserActivity.this, text, Toast.LENGTH_SHORT).show();
+				showToast("Download succeeded !");
 
 				CHItemsManager.getInstance().registerItem(file.getId(), file.getSystemPath());
-
-				//TODO: Cacher la progression
+				
+				mProgressDialog.dismiss();
+				
 			}
 
 			@Override
 			public void onDownloadStarted() {
 				Log.d(TAG, "Started");
-				//TODO: Cacher le loader et afficher un alertdialog avec une progression
+				
+				mProgressDialog.show();
 			}
 
 			@Override
 			public void onDownloadProgress(int percentage) {
-				//TODO: Mettre a jour la progression
-				Log.d(TAG, "Progress: " + percentage);
+				mProgressDialog.setIndeterminate(false);
+		        mProgressDialog.setMax(100);
+		        mProgressDialog.setProgress(percentage);
 			}
 
 			@Override
 			public void onDownloadFailed() {
-				Log.d(TAG, "Failed");
-				//TODO: Afficher une erreur (Utilise Toast.makeText)
-				//TODO: cacher la progression
+				mProgressDialog.dismiss();
+				showToast("Download failed.");
+				Log.d(TAG, "Download failed");
 			}
 
 			@Override
 			public void onDownloadCanceled() {
-				//TODO: Afficher un Toast en marquant genre Canceled by user
-				Log.d(TAG, "Canceled");
+				mProgressDialog.dismiss();
+				showToast("Download canceled.");
+				Log.d(TAG, "Download canceled");
 			}
 		};
 		CubbyHoleClient.getInstance().downloadFile(handler, file, file.generateSystemPath());
+	}
+	public void showToast(final String toast)
+	{
+	    runOnUiThread(new Runnable() {
+	        public void run()
+	        {
+	            Toast.makeText(BrowserActivity.this, toast, Toast.LENGTH_SHORT).show();
+	        }
+	    });
 	}
 
 	private void deleteSelectedItem() {

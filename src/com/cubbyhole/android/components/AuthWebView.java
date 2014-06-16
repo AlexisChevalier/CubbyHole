@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.cubbyhole.android.utils.CHC;
+import com.cubbyhole.android.utils.TokenStorer;
 import com.cubbyhole.library.http.CHHeader;
 import com.cubbyhole.library.http.CHHttp;
 import com.cubbyhole.library.http.CHHttpDatas;
@@ -28,7 +29,6 @@ public class AuthWebView extends WebView {
 	public final class AuthWebViewClient extends WebViewClient {
 		private final String	TAG		= AuthWebViewClient.class.getName();
 
-		private String			token	= null;
 
 		@Override
 		public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
@@ -63,7 +63,8 @@ public class AuthWebView extends WebView {
 						null);
 
 				try {
-					token = response.getJson().asText(CHC.OAUTH_PARAM_ACESS_TOKEN);
+					String token = response.getJson().asText(CHC.OAUTH_PARAM_ACESS_TOKEN);
+					TokenStorer.setAccessToken(token);
 					Log.d(TAG, token);
 				} catch (Exception e) {
 					Log.e(TAG, "Failed to get the access_token from the response !");
@@ -77,7 +78,10 @@ public class AuthWebView extends WebView {
 		@Override
 		public void onPageFinished(WebView view, String url) {
 			super.onPageFinished(view, url);
-
+			if (mContext == null) {
+			    return;
+			}
+			String token = TokenStorer.getAccessToken();
 			if (token != null) {
 				mContext.onAuthSuccess(token);
 			} else {
