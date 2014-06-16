@@ -263,5 +263,12 @@ cubbyHoleBrowser.config(function ($translateProvider) {
         'UPLOAD_ERROR': 'Une erreur a été rencontrée durant le transfert des fichiers !'
 
     });
-    $translateProvider.determinePreferredLanguage();
+
+    $translateProvider.fallbackLanguage('en');
+
+    $translateProvider.registerAvailableLanguageKeys(['en', 'de'], {
+        'en_US': 'en',
+        'en_UK': 'en',
+        'fr_FR': 'fr'
+    }).determinePreferredLanguage();
 });
