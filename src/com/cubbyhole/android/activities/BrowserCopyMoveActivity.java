@@ -14,6 +14,8 @@ import com.cubbyhole.library.interfaces.IApiRequestHandler;
 import com.cubbyhole.library.logger.Log;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -221,6 +223,7 @@ private void changeFolder(final CHFolder newFolder, String action) {
 				public void onApiRequestFailed() {
 					Log.e(TAG, "Async moveFile failed !");
 					CHLoader.hide();
+					ShowActionFailedDialog();
 				}
 
 				@Override
@@ -243,6 +246,7 @@ private void changeFolder(final CHFolder newFolder, String action) {
 				public void onApiRequestFailed() {
 					Log.e(TAG, "Async moveFolder failed !");
 					CHLoader.hide();
+					ShowActionFailedDialog();
 				}
 
 				@Override
@@ -258,6 +262,7 @@ private void changeFolder(final CHFolder newFolder, String action) {
 			CubbyHoleClient.getInstance().updateFolder(handler, (CHFolder) mActionItem);
 		}
 	}
+	
 	private void copyItem() {
 		if (mActionItem.getType() == CHType.FILE) {
 			CHLoader.show(this, "Loading...", "Refreshing folder's content");
@@ -267,6 +272,7 @@ private void changeFolder(final CHFolder newFolder, String action) {
 				public void onApiRequestFailed() {
 					Log.e(TAG, "Async copyFile failed !");
 					CHLoader.hide();
+					ShowActionFailedDialog();
 				}
 
 				@Override
@@ -275,6 +281,7 @@ private void changeFolder(final CHFolder newFolder, String action) {
 					informBrowserActivity();
 					doFinish();
 					CHLoader.hide();
+					ShowActionFailedDialog();
 				}
 			};
 
@@ -302,6 +309,28 @@ private void changeFolder(final CHFolder newFolder, String action) {
 			CubbyHoleClient.getInstance().copyFolder(handler, (CHFolder)mActionItem, mCurrentFolder);
 		}
 		
+	}
+	private void ShowActionFailedDialog()
+	{
+		String item;
+		if (mActionItem.getType() == CHType.FILE){
+			item = "file";
+		}
+		else{
+			item = "folder";
+		}
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(mAction + " Error");
+		builder.setMessage("Can't perform the "+ mAction +". Maybe a " + item + " with the same name already exists ?");
+		builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int whichButton) {
+			}
+		});
+		AlertDialog alert = builder.create();
+		alert.setCanceledOnTouchOutside(true);
+		alert.show();
 	}
 	
 	private void informBrowserActivity() {
