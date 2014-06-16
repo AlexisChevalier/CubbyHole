@@ -6,6 +6,8 @@ import com.cubbyhole.library.api.CubbyHoleImpl;
 import com.cubbyhole.library.api.entities.CHAccount;
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
+import com.cubbyhole.library.api.entities.CHItem;
+import com.cubbyhole.library.api.entities.CHShare.SharedCode;
 import com.cubbyhole.library.interfaces.IApiRequestHandler;
 import com.cubbyhole.library.interfaces.IAsyncCubbyHoleClient;
 import com.cubbyhole.library.interfaces.IDownloadHandler;
@@ -120,17 +122,25 @@ public class CubbyHoleClient implements IAsyncCubbyHoleClient {
 		final String method = "deleteFile";
 		new AsyncApiRequest<Boolean>(handler, mImpl, method).execute(file);
 	}
-	
+
 	@Override
 	public void copyFile(IApiRequestHandler<CHFile> handler, CHFile file, CHFolder destinationFolder) {
 		final String method = "copyFile";
 		new AsyncApiRequest<CHFile>(handler, mImpl, method).execute(file, destinationFolder);
 	}
-	
+
 	@Override
-	public void copyFolder(IApiRequestHandler<CHFolder> handler, CHFolder folder, CHFolder destinationFolder) {
+	public void copyFolder(IApiRequestHandler<CHFolder> handler, CHFolder folder,
+			CHFolder destinationFolder) {
 		final String method = "copyFolder";
 		new AsyncApiRequest<CHFolder>(handler, mImpl, method).execute(folder, destinationFolder);
+	}
+
+	@Override
+	public void addShare(IApiRequestHandler<Boolean> handler, CHItem item, String userId,
+			SharedCode accessType) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
