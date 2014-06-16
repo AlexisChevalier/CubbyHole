@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.cubbyhole.library.api.CubbyHoleImpl;
 import com.cubbyhole.library.api.entities.CHAccount;
 import com.cubbyhole.library.api.entities.CHFolder;
+import com.cubbyhole.library.api.entities.CHShare.SharedCode;
 import com.cubbyhole.library.logger.Log;
 
 public class Launcher {
@@ -19,7 +20,7 @@ public class Launcher {
 
 		CubbyHoleImpl.getInstance().Initialize(accessToken);
 
-		ArrayList<CHAccount> accounts = CubbyHoleImpl.getInstance().findUser("alexis");
+		ArrayList<CHAccount> accounts = CubbyHoleImpl.getInstance().findUser("Test2");
 		if (accounts != null) {
 			for (CHAccount chAccount : accounts) {
 				Log.d(TAG, chAccount.toString());
@@ -35,24 +36,20 @@ public class Launcher {
 			Log.e(TAG, "Failed to get the root folder !");
 		}
 
-		CHFolder folder = CubbyHoleImpl.getInstance().createFolder(rootFolder, "My new Folder2");
-		if (folder != null) {
-			Log.d(TAG, "Folder successfully created !");
-		} else {
-			Log.e(TAG, "Failed to create the folder !");
-		}
-
-		folder.setName("Renamed2");
-		CHFolder newfolder = null;
 		try {
-			newfolder = CubbyHoleImpl.getInstance().updateFolder(folder);
+			String userId = accounts.get(0).getId().toString();
+			CHFolder folder = rootFolder.getChildFolders().get(0);
+			if (folder != null) {
+				boolean success = CubbyHoleImpl.getInstance().addShare(folder, userId,
+						SharedCode.READ_WRITE);
+				if (success) {
+					Log.d(TAG, "Got the share !");
+				} else {
+					Log.d(TAG, "Failed to share !");
+				}
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (newfolder != null) {
-			Log.d(TAG, "Folder successfully renamed !");
-		} else {
-			Log.e(TAG, "Failed to rename the folder !");
+			// TODO: handle exception
 		}
 	}
 }

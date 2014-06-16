@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import com.cubbyhole.library.api.entities.CHAccount;
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
+import com.cubbyhole.library.api.entities.CHItem;
+import com.cubbyhole.library.api.entities.CHItem.CHType;
+import com.cubbyhole.library.api.entities.CHShare.SharedCode;
 import com.cubbyhole.library.http.CHHeader;
 import com.cubbyhole.library.http.CHHttp;
 import com.cubbyhole.library.http.CHHttpDatas;
@@ -246,16 +249,16 @@ public class CubbyHoleImpl implements ICubbyHoleClient, IApiRequester {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public CHFolder copyFolder(CHFolder folder, CHFolder destinationFolder) {
 		CHJsonNode json = null;
 		if (folder != null) {
 			try {
 				CHHttpDatas datas = new CHHttpDatas()//
-				.add("destinationID", destinationFolder.getId());
+						.add("destinationID", destinationFolder.getId());
 				json = apiPost(API_ENDPOINT + FOLDERS_COPY + folder.getId(), datas);
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -385,16 +388,16 @@ public class CubbyHoleImpl implements ICubbyHoleClient, IApiRequester {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public CHFile copyFile(CHFile file, CHFolder destinationFolder) {
 		CHJsonNode json = null;
 		if (file != null) {
 			try {
 				CHHttpDatas datas = new CHHttpDatas()//
-				.add("destinationID", destinationFolder.getId());
+						.add("destinationID", destinationFolder.getId());
 				json = apiPost(API_ENDPOINT + FILES_COPY + file.getId(), datas);
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -402,4 +405,22 @@ public class CubbyHoleImpl implements ICubbyHoleClient, IApiRequester {
 		return CHFile.fromJson(json);
 	}
 
+	@Override
+	public boolean addShare(CHItem item, String userId, SharedCode accessType) {
+		if (item != null) {
+			try {
+				String shareType = (accessType == SharedCode.READ_WRITE) ? "true" : "false";
+				String type = (item.getType() == CHType.FOLDER) ? "folder" : "file";
+				String itemId = item.getId();
+
+				CHHttpDatas datas = new CHHttpDatas().add("writeAccess", shareType);
+				CHJsonNode json = apiPost(API_ENDPOINT + SHARES + "/" + type + "/" + itemId + "/"
+						+ userId, datas);
+				return json != null;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
 }

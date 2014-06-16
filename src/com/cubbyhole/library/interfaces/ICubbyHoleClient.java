@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.cubbyhole.library.api.entities.CHAccount;
 import com.cubbyhole.library.api.entities.CHFile;
 import com.cubbyhole.library.api.entities.CHFolder;
+import com.cubbyhole.library.api.entities.CHItem;
+import com.cubbyhole.library.api.entities.CHShare.SharedCode;
 
 /**
  * Interface that defines all API methods exposed by the server API.
@@ -33,7 +35,7 @@ public interface ICubbyHoleClient {
 	public static final String	FILES_DOWNLOAD	= FILES + "/";
 	public static final String	FILES_UPDATE	= FILES + "/";
 	public static final String	FILES_DELETE	= FILES + "/";
-	public static final String 	FILES_COPY		= FILES + "/copy/";
+	public static final String	FILES_COPY		= FILES + "/copy/";
 
 	//folders
 	public static final String	FOLDERS			= "/folders";
@@ -41,7 +43,12 @@ public interface ICubbyHoleClient {
 	public static final String	FOLDERS_CREATE	= FOLDERS;
 	public static final String	FOLDERS_UPDATE	= FOLDERS + "/";
 	public static final String	FOLDERS_DELETE	= FOLDERS + "/";
-	public static final String 	FOLDERS_COPY	= FOLDERS + "/copy/";
+	public static final String	FOLDERS_COPY	= FOLDERS + "/copy/";
+
+	//shares
+	public static final String	SHARES			= "/shares";
+	public static final String	SHARES_FOLDER	= SHARES + "/folder/";
+	public static final String	SHARES_FILE		= SHARES + "/file/";
 
 	/// END OF API ROUTES DEFINITION ///
 
@@ -105,7 +112,7 @@ public interface ICubbyHoleClient {
 	 * @return <code>true</code> if the folder has been deleted, <code>false</code> otherwise.
 	 */
 	public boolean deleteFolder(CHFolder folder);
-	
+
 	/**
 	 * Used to copy a folder.
 	 * @param folder - the folder you want to copy.
@@ -144,7 +151,7 @@ public interface ICubbyHoleClient {
 	 * @return <code>true</code> if it has been deleted, <code>false</code> otherwise.
 	 */
 	public boolean deleteFile(CHFile file);
-	
+
 	/**
 	 * Used to copy a file.
 	 * @param file - the file you want to copy.
@@ -152,4 +159,13 @@ public interface ICubbyHoleClient {
 	 * @return a {@link CHFile} instance on success.
 	 */
 	public CHFile copyFile(CHFile file, CHFolder destinationFolder);
+
+	/**
+	 * Used to share an item with a user (using their id)
+	 * @param item - the item to share.
+	 * @param userId - the user id to share the item with.
+	 * @return <code>true</code> if shared succeeded, <code>false</code> otherwise.
+	 */
+	public boolean addShare(CHItem item, String userId, SharedCode accessType);
+
 }
