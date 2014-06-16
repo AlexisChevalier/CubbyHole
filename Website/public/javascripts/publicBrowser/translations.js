@@ -1,4 +1,4 @@
-cubbyHoleBrowser.config(function ($translateProvider) {
+cubbyHolePublicBrowser.config(function ($translateProvider) {
     $translateProvider.translations('en', {
         UPLOAD: 'Upload',
         UPLOADS: 'Uploads',

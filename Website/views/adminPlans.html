@@ -13,44 +13,44 @@
             <ul class="list-group">
                 <li class="list-group-item">
                     <div class="form-group">
-                        <label for="name">Name</label>
+                        <label for="name">{{__("Name")}}</label>
                         <input type="text" class="form-control" id="name" name="name" value="{{ plan.name }}">
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div class="form-group">
-                        <label for="pricePerMonth">Price</label>
+                        <label for="pricePerMonth">{{__("Price")}}</label>
                         <input type="text" class="form-control" id="pricePerMonth" name="pricePerMonth" value="{{ plan.pricePerMonth }}">
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div class="form-group">
-                        <label for="diskSpace">Disk space</label>
+                        <label for="diskSpace">{{__("Disk space")}}</label>
                         <input type="text" class="form-control" id="diskSpace" name="diskSpace" value="{{ plan.diskSpace }}">
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div class="form-group">
-                        <label for="bandwidthPerDay">Bandwidth per day</label>
+                        <label for="bandwidthPerDay">{{__("Bandwidth per day")}}</label>
                         <input type="text" class="form-control" id="bandwidthPerDay" name="bandwidthPerDay" value="{{ plan.bandwidthPerDay }}">
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div class="form-group">
-                        <label for="bandwidthSpeed">Bandwidth speed limit</label>
+                        <label for="bandwidthSpeed">{{__("Bandwidth speed limit")}}</label>
                         <input type="text" class="form-control" id="bandwidthSpeed" name="bandwidthSpeed" value="{{ plan.bandwidthSpeed }}">
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div class="form-group">
-                        <label for="description">Description</label>
+                        <label for="description">{{__("Description")}}</label>
 
                         <textarea rows="15" class="form-control" id="description" name="description">{{ plan.description }}</textarea>
                     </div>
                 </li>
                 <li class="list-group-item">
                     <div class="form-group">
-                        <label>Status</label>
+                        <label>{{__("Status")}}</label>
                         <div class="radio">
                             <label>
                                 {% if plan.available == 1 %}
@@ -58,7 +58,7 @@
                                 {% else %}
                                 <input type="radio" name="available" id="available1" value="true">
                                 {% endif %}
-                                Available
+                                {{__("Available")}}
                             </label>
                         </div>
                         <div class="radio">
@@ -68,14 +68,14 @@
                                 {% else %}
                                 <input type="radio" name="available" id="available2" value="false" checked>
                                 {% endif %}
-                                Unavailable
+                                {{__("Unavailable")}}
                             </label>
                         </div>
                     </div>
 
                 </li>
                 <li class="list-group-item">
-                    <button type="submit" class="btn btn-success btn-block">Update plan</button>
+                    <button type="submit" class="btn btn-success btn-block">{{__("Update plan")}}</button>
                 </li>
             </ul>
         </form>

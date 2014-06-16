@@ -49,9 +49,15 @@ cubbyHoleBrowser.controller('CopyItemModalController', ['$scope', '$routeParams'
                 $modalInstance.close(data);
             },
             failureCallback = function(data, status) {
-                $translate('UNKNOWN_ERROR').then(function (message) {
-                    flash('danger', data || message);
-                });
+                if (data) {
+                    $translate(data).then(function (message) {
+                        flash('danger', message);
+                    });
+                } else {
+                    $translate('UNKNOWN_ERROR').then(function (message) {
+                        flash('danger', message);
+                    });
+                }
             };
 
         $http.post(url, {

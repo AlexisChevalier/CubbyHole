@@ -5,10 +5,10 @@
     <div id="headbar">
         <div id="path" type="text">
             <p>
-                            <span ng-repeat="part in parentFolders">
-                                <a ng-click="handleItemClick('folder', part._id)">[[part.name]]</a> /
-                            </span>
-                <span>[[folderName]]</span>
+                <span ng-repeat="part in parentFolders">
+                    <a ng-click="handleItemClick('folder', part._id)">[[part.name]]</a> /
+                </span>
+                <a ng-click="handleItemClick('folder', folderId)">[[folderName]]</a>
             </p>
         </div>
         <div class="clearfix"></div>
@@ -18,13 +18,13 @@
         <table>
             <thead>
             <tr>
-                <th colspan="2" ng-click="sort('name')">Name
+                <th colspan="2" ng-click="sort('name')">[['NAME' | translate]]
                     <div ng-if="orderProp=='name'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
                 </th>
-                <th ng-click="sort('type')">Type
+                <th ng-click="sort('type')">[['TYPE' | translate]]
                     <div ng-if="orderProp=='type'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
                 </th>
-                <th ng-click="sort('updateDate')">Modified
+                <th ng-click="sort('updateDate')">[['MODIFIED' | translate]]
                     <div ng-if="orderProp=='updateDate'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
                 </th>
             </tr>
@@ -32,8 +32,8 @@
             <tbody ng-hide="appLoading">
             <tr class="parent-folder-row" ng-show="hasParent()" ng-click="handleItemClick('folder', parentFolder()._id)">
                 <td class="parent-folder"></td>
-                <td>Parent Folder</td>
-                <td>Folder</td>
+                <td>[['PARENT_FOLDER' | translate]]</td>
+                <td>[['FOLDER' | translate]]</td>
                 <td>[[parentFolder().date | date:"medium"]]</td>
             </tr>
             <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-class="{false: '', true: 'busyWriteFile' }[item.busyWrite]">
@@ -51,7 +51,7 @@
                     <span ng-if="item.busyWrite">[[item.name]]</span>
                 </td>
 
-                <td>[[item.type | Capitalize]]</td>
+                <td>[[item.type | uppercase | translate | Capitalize]]</td>
 
                 <td>[[item.updateDate | date:"short"]]</td>
 
@@ -61,7 +61,7 @@
         <div id="loader" ng-show="appLoading">
             <div id="textLoader">
                 <img src="/images/ajax-loader.gif" />
-                loading ...
+                [['LOADING' | translate]]
             </div>
         </div>
     </div>

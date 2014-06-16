@@ -1,7 +1,7 @@
 "use strict";
 /*global angular, cubbyHolePublicBrowser */
 
-cubbyHolePublicBrowser.controller('PublicFileTableController', ['$scope', '$rootScope', '$routeParams', '$http', '$location', '$timeout', 'flash', function ($scope, $rootScope, $routeParams, $http, $location, $timeout, flash) {
+cubbyHolePublicBrowser.controller('PublicFileTableController', ['$scope', '$rootScope', '$routeParams', '$http', '$location', '$timeout', 'flash', '$translate', function ($scope, $rootScope, $routeParams, $http, $location, $timeout, flash, $translate) {
 
     $scope.items = [];
 
@@ -55,7 +55,15 @@ cubbyHolePublicBrowser.controller('PublicFileTableController', ['$scope', '$root
 
                 $rootScope.appLoading = false;
             }).error(function(data) {
-                flash("danger", data),
+                if (data) {
+                    $translate(data).then(function (message) {
+                        flash('danger', message);
+                    });
+                } else {
+                    $translate('UNKNOWN_ERROR').then(function (message) {
+                        flash('danger', message);
+                    });
+                }
                 $location.search("id", "");
             });
     };
@@ -70,12 +78,22 @@ cubbyHolePublicBrowser.controller('PublicFileTableController', ['$scope', '$root
                     var hiddenElement = document.createElement('a');
                     hiddenElement.href = '/ajax/download/' + id;
                     hiddenElement.click();
-                    flash('success', "Your download started !");
+                    $translate('DOWNLOAD_STARTED').then(function (message) {
+                        flash('success', message);
+                    });
                     setTimeout(function() {
                         $scope.refreshQuotas();
                     }, 1000);
                 }).error(function (data) {
-                    flash('danger', data || "Unknown error");
+                    if (data) {
+                        $translate(data).then(function (message) {
+                            flash('danger', message);
+                        });
+                    } else {
+                        $translate('UNKNOWN_ERROR').then(function (message) {
+                            flash('danger', message);
+                        });
+                    }
                 });
         }
     };

@@ -16,9 +16,15 @@ cubbyHoleBrowser.controller('DeleteModalController', ['$scope', '$routeParams', 
                     });
                 });
             }).error(function (data, status) {
-                $translate('UNKNOWN_ERROR').then(function (message) {
-                    flash('danger', data || message);
-                });
+                if (data) {
+                    $translate(data).then(function (message) {
+                        flash('danger', message);
+                    });
+                } else {
+                    $translate('UNKNOWN_ERROR').then(function (message) {
+                        flash('danger', message);
+                    });
+                }
             });
     };
 

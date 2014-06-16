@@ -5,6 +5,7 @@ var cubbyHolePublicBrowser = angular.module('cubbyHolePublicBrowser', [
     'ngRoute',
     'ngAnimate',
     'textFilters',
+    'pascalprecht.translate',
     'flash'
 ]);
 

@@ -43,9 +43,15 @@ cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams',
                 });
             }
         }).error(function (data, status) {
-            $translate('UNKNOWN_ERROR').then(function (message) {
-                flash('danger', data || message);
-            });
+            if (data) {
+                $translate(data).then(function (message) {
+                    flash('danger', message);
+                });
+            } else {
+                $translate('UNKNOWN_ERROR').then(function (message) {
+                    flash('danger', message);
+                });
+            }
         });
     };
 
@@ -68,9 +74,15 @@ cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams',
                 });
             }
         }).error(function (data, status) {
-            $translate('UNKNOWN_ERROR').then(function (message) {
-                flash('danger', data || message);
-            });
+            if (data) {
+                $translate(data).then(function (message) {
+                    flash('danger', message);
+                });
+            } else {
+                $translate('UNKNOWN_ERROR').then(function (message) {
+                    flash('danger', message);
+                });
+            }
         });
     };
 
@@ -88,9 +100,15 @@ cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams',
                 flash('success', message);
             });
         }).error(function (data, status) {
-            $translate('UNKNOWN_ERROR').then(function (message) {
-                flash('danger', data || message);
-            });
+            if (data) {
+                $translate(data).then(function (message) {
+                    flash('danger', message);
+                });
+            } else {
+                $translate('UNKNOWN_ERROR').then(function (message) {
+                    flash('danger', message);
+                });
+            }
         });
     };
 
@@ -117,9 +135,15 @@ cubbyHoleBrowser.controller('SharingModalController', ['$scope', '$routeParams',
                     flash('success', message);
                 });
             }).error(function (data, status) {
-                $translate('UNKNOWN_ERROR').then(function (message) {
-                    flash('danger', data || message);
-                });
+                if (data) {
+                    $translate(data).then(function (message) {
+                        flash('danger', message);
+                    });
+                } else {
+                    $translate('UNKNOWN_ERROR').then(function (message) {
+                        flash('danger', message);
+                    });
+                }
             });
         }
     };

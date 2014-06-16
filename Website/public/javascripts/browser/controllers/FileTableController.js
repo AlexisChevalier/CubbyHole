@@ -1,7 +1,7 @@
 "use strict";
 /*global angular, cubbyHoleBrowser */
 
-cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$routeParams', '$http', '$location', '$timeout', '$modal', '$upload', 'flash', function ($scope, $rootScope, $routeParams, $http, $location, $timeout, $modal, $upload, flash) {
+cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$routeParams', '$http', '$location', '$timeout', '$modal', '$upload', 'flash', '$translate', function ($scope, $rootScope, $routeParams, $http, $location, $timeout, $modal, $upload, flash, $translate) {
 
     $scope.items = [];
 
@@ -16,9 +16,13 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
     $scope.tempFiles = [];
     $scope.quotas = {};
 
+    $translate('WARNING_LEAVING_PAGE').then(function (message) {
+        $scope.beforeUnloadMessage = message;
+    });
+
     window.onbeforeunload = function(){
         if ($scope.uploads.length > 0){
-            return 'Are you sure you want to leave now ? your upload will be stopped !';
+            return $scope.beforeUnloadMessage;
         }
     };
 
@@ -80,7 +84,15 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
 
                 $rootScope.appLoading = false;
             }).error(function(data) {
-                flash("danger", data);
+                if (data) {
+                    $translate(data).then(function (message) {
+                        flash('danger', message);
+                    });
+                } else {
+                    $translate('UNKNOWN_ERROR').then(function (message) {
+                        flash('danger', message);
+                    });
+                }
                 $location.search("id", "");
             });
     };
@@ -95,12 +107,22 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                     var hiddenElement = document.createElement('a');
                     hiddenElement.href = '/ajax/download/' + id;
                     hiddenElement.click();
-                    flash('success', "Your download started !");
+                    $translate('DOWNLOAD_STARTED').then(function (message) {
+                        flash('success', message);
+                    });
                     setTimeout(function() {
                         $scope.refreshQuotas();
                     }, 1000);
                 }).error(function (data) {
-                    flash('danger', data || "Unknown error");
+                    if (data) {
+                        $translate(data).then(function (message) {
+                            flash('danger', message);
+                        });
+                    } else {
+                        $translate('UNKNOWN_ERROR').then(function (message) {
+                            flash('danger', message);
+                        });
+                    }
                 });
         }
     };
@@ -194,7 +216,9 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                     }
 
                     $scope.uploads.push(fileObject);
-                    flash('success', 'File upload started !');
+                    $translate('UPLOAD_STARTED').then(function (message) {
+                        flash('success', message);
+                    });
                     setTimeout(function () {
                         $scope.refreshQuotas();
                     }, 1000);
@@ -234,7 +258,9 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                                 }
 
                                 $scope.uploads.splice($scope.uploads.indexOf(fileObject), 1);
-                                flash('success', 'File ' + item.name + ' uploaded successfully !');
+                                $translate('UPLOAD_SUCCESS', {fileName: item.name}).then(function (message) {
+                                    flash('success', message);
+                                });
                                 $scope.refreshQuotas();
                             }
                         } else {
@@ -257,17 +283,29 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                                 }
 
                                 $scope.uploads.splice($scope.uploads.indexOf(fileObject), 1);
-                                flash('success', 'File ' + item.name + ' updated successfully !');
+                                $translate('UPLOAD_SUCCESS', {fileName: item.name}).then(function (message) {
+                                    flash('success', message);
+                                });
                                 $scope.refreshQuotas();
                             }
                         }
                     }, function(response) {
                         if (response.data) {
                             $scope.uploads.splice($scope.uploads.indexOf(fileObject), 1);
-                            flash('danger', response.data);
+                            if (data) {
+                                $translate(data).then(function (message) {
+                                    flash('danger', message);
+                                });
+                            } else {
+                                $translate('UNKNOWN_ERROR').then(function (message) {
+                                    flash('danger', message);
+                                });
+                            }
                         } else {
                             $scope.uploads.splice($scope.uploads.indexOf(fileObject), 1);
-                            flash('danger', "Error uploading your files !");
+                            $translate('UPLOAD_ERROR').then(function (message) {
+                                flash('success', message);
+                            });
                         }
 
                     }, function(evt) {
@@ -278,15 +316,18 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
                         xhr.upload.addEventListener('abort', function() {console.log('abort complete')}, false);
                     });
                 }).error(function (data) {
-                    flash('danger', data || "Unknown error");
+                    if (data) {
+                        $translate(data).then(function (message) {
+                            flash('danger', message);
+                        });
+                    } else {
+                        $translate('UNKNOWN_ERROR').then(function (message) {
+                            flash('danger', message);
+                        });
+                    }
                 });
             }());
         }
-    };
-
-    $scope.cancelUpload = function ($index) {
-        flash('warning', 'Upload for file ' + $scope.uploads[$index].file.name + ' canceled successfully !');
-        $scope.uploads.splice($index, 1);
     };
 
     //Remove Item
@@ -304,6 +345,7 @@ cubbyHoleBrowser.controller('FileTableController', ['$scope', '$rootScope', '$ro
         modalInstance.result.then(function (item) {
             var index = $scope.items.indexOf(item);
             $scope.items.splice(index, 1);
+            $scope.refreshQuotas();
         }, function () {});
     };
 
