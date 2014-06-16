@@ -18,6 +18,7 @@ public interface ICubbyHoleClient {
 
 	//	public static final String	API_ENDPOINT	= "https://auth.dev.cubby-hole.me:8444/api";
 	public static final String	API_ENDPOINT	= "https://localhost:8444/api";
+	public static final String  AUTH_LOGOUT 	= "https://localhost:8444/auth/logout";
 
 	//account
 	public static final String	ACCOUNT			= "/account";
