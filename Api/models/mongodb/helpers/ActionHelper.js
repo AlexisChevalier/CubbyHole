@@ -5,14 +5,16 @@ var mongooseModels = require('../schemas'),
 
 ActionHelper.Log = function (itemType, itemId, actorId, action, finished, next) {
     var item,
-        usersConcerned = [];
+        usersConcerned = [],
+        deletion = true;
     async.series([
         /** GET ITEM **/
         function (innerNext) {
             if (itemType == "file") {
                 mongooseModels.File.findOne({"_id": itemId}).populate('parents').exec(function (err, result) {
                     if (err || !result || result == null) {
-                        return;
+                        deletion = true;
+                        return innerNext();
                     }
 
                     item = result;
@@ -21,7 +23,8 @@ ActionHelper.Log = function (itemType, itemId, actorId, action, finished, next) 
             } else {
                 mongooseModels.Folder.findOne({"_id": itemId}).populate('parents').exec(function (err, result) {
                     if (err || !result || result == null) {
-                        return;
+                        deletion = true;
+                        return innerNext();
                     }
 
                     item = result;
@@ -31,24 +34,26 @@ ActionHelper.Log = function (itemType, itemId, actorId, action, finished, next) 
         },
         /** GET SHARES **/
         function (innerNext) {
-            var i, j;
+            if (!deletion) {
+                var i, j;
 
-            usersConcerned.push(actorId);
-            if (action != "download") {
-                usersConcerned.push(item.userId);
+                usersConcerned.push(actorId);
+                if (action != "download") {
+                    usersConcerned.push(item.userId);
 
-                for (i = 0; i < item.shares; i++) {
-                    usersConcerned.push(item.shares[i].userId);
-                }
+                    for (i = 0; i < item.shares; i++) {
+                        usersConcerned.push(item.shares[i].userId);
+                    }
 
-                for (i = 0; i < item.parents; i++) {
-                    for (j = 0; j < item.parents[i].shares; j++) {
-                        usersConcerned.push(item.parents[i].shares[j].userId);
+                    for (i = 0; i < item.parents; i++) {
+                        for (j = 0; j < item.parents[i].shares; j++) {
+                            usersConcerned.push(item.parents[i].shares[j].userId);
+                        }
                     }
                 }
-            }
 
-            usersConcerned = _.uniq(usersConcerned);
+                usersConcerned = _.uniq(usersConcerned);
+            }
 
             innerNext();
         },
@@ -56,8 +61,12 @@ ActionHelper.Log = function (itemType, itemId, actorId, action, finished, next) 
         function () {
 
             var length = 0;
-            if (itemType == "file") {
+            if (itemType == "file" && !deletion) {
                 length = item.realFileData.length;
+            }
+
+            if (!finished) {
+                finished = true;
             }
 
             mongooseModels.Action.create({
@@ -116,6 +125,10 @@ ActionHelper.LogShare = function (itemType, itemId, actorId, action, shareUserCo
                 length = item.realFileData.length;
             }
 
+            if (!finished) {
+                finished = true;
+            }
+
             mongooseModels.Action.create({
                 "relatedId": itemId,
                 "actorUserId": actorId,
@@ -142,6 +155,7 @@ ActionHelper.GetActionsForUserAndTime = function (userId, timestamp, next) {
         },
         "finished": true
     }).sort({ time: 1 }).exec(function(err, results) {
+        console.log(results);
         next(err, results);
     });
 };
