@@ -1,3 +1,9 @@
+<<<<<<<<<<<<< IMPORTANT : NE SURTOUT PAS ESSAYER DE METTRE A JOUR LES MODULES NPM, CERTAINES DEPENDANCES DE MODULES ONT DU ÊTRE MISES A JOUR MANUELLEMENT  >>>>>>>>>>>>>
+
+Fonctionne avec MongoDB 2.6.1
+
+<<<<<<<<<<<<< INSTALLATION >>>>>>>>>>>>>
+
 Pour mettre en place l'API et le site de CubbyHole :
 
 Installer les logiciels suivants :
@@ -30,3 +36,14 @@ Lancement des applications :
 Si l'une des deux fenêtre affiche une erreur vérifiez les étapes précédentes ou envoyer un message à alexis
 
 Naviguez vers https://localhost:8443, (acceptez l'erreur de certificat), si vous voyez le site, essayez de vous connecter via facebook ou google et tout est bon si ça fonctionne !
+
+<<<<<<<<<<<<< AUTRES >>>>>>>>>>>>>
+
+Pour passer un utilisateur en admin (pour modifier les plans), passez la colonne isAdmin a 1 dans mysql (il n'étais pas demandé de crud pour la gestion de users)
+
+SITES :
+https://localhost:8443 --> Website + Web Client
+https://localhost:8444 --> API and oAuth2
+https://localhost:8445 --> Developer Center
+
+Pour toute question ou probléme lors du lancement, contactez alexis.chevalier@supinfo.com

@@ -9,5 +9,5 @@ module.exports = new Schema({
     "type": String, //file or folder
     "time": { type: Date, index: true },
     "length": Number,
-    "finished": Boolean
+    "finished": { type: Boolean, default: true }
 });
