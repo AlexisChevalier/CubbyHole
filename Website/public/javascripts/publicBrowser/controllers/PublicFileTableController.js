@@ -76,7 +76,7 @@ cubbyHolePublicBrowser.controller('PublicFileTableController', ['$scope', '$root
             $http.get('/shares/ajax/file/test/' + id)
                 .success(function (data) {
                     var hiddenElement = document.createElement('a');
-                    hiddenElement.href = '/ajax/download/' + id;
+                    hiddenElement.href = '/shares/ajax/file/download/' + id;
                     hiddenElement.click();
                     $translate('DOWNLOAD_STARTED').then(function (message) {
                         flash('success', message);
