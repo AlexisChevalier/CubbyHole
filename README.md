@@ -11,6 +11,8 @@ Here is the list of the group members:
 - Cholin Théodore
 - Chevalier Alexis
 
+**The project's documentation and subject are available in the folder [Documentations](https://github.com/AlexisChevalier/CubbyHole/tree/master/Documentations), unfortunately, the documentation is written in French**
+
 **This project is now somewhat old, and is not expected (nor tested) to work anymore on the current versions of Node.JS and Android, it has been open sourced to show the work done by our team and can potentially help someone wishing to build something similar.**
 
 ### Installation guide for the web system
