@@ -1,52 +1,42 @@
 # CubbyHole
 CubbyHole is a file storage platform made during a student project at Supinfo 
 
-<<<<<<<<<<<<< IMPORTANT : NE SURTOUT PAS ESSAYER DE METTRE A JOUR LES MODULES NPM, CERTAINES DEPENDANCES DE MODULES ONT DU ÊTRE MISES A JOUR MANUELLEMENT  >>>>>>>>>>>>>
+MewPipe was built as a final year student project (3rd year) at Supinfo Lyon, France. The subject was to design and build a file storage platform following the concept of Dropbox (Software and Architecture).
 
-Fonctionne avec MongoDB 2.6.1
+Here is the list of the group members:
 
-<<<<<<<<<<<<< INSTALLATION >>>>>>>>>>>>>
+- Yilmaz Fatma
+- Huynh Eddy
+- Evieux Jean-Baptiste
+- Cholin Théodore
+- Chevalier Alexis
 
-Pour mettre en place l'API et le site de CubbyHole :
+**This project is now somewhat old, and is not expected (nor tested) to work anymore on the current versions of Node.JS and Android, it has been open sourced to show the work done by our team and can potentially help someone wishing to build something similar.**
 
-Installer les logiciels suivants :
+### Installation guide for the web system
 
-- Node.js & npm
-- Un serveur MySQL (Compris dans Wamp ou Mamp)
-- MongoDB
+**Be careful : Do not try to upgrade node packages since some of them have been modified manually, this is a bad practice but the deadline left us no choice.**
 
-Lancer les logiciels suivants :
+- Install the following softwares and start them:
+            - Node.js, npm, grunt and grunt-cli
+            - A MySQL Server
+            - MongoDB
+- Create a SQL DB 'CubbyHole' and import the CubbyHole.sql dump file present in the repository
+- Copy the file CubbyHole.Web/globalConf.json.default to CubbyHole.Web/globalConf.json and update the values accordingly to your configuration
+- Start the applications
+            - Open three command line interfaces
+            - In the first one, move into the folder CubbyHole.Web/Api/ and type 'grunt'
+            - In the second one, move into the folder CubbyHole.Web/Website/ and type 'grunt'
+            - In the third one, move into the folder CubbyHole.Web/Dev/ and type 'grunt'
 
-- Serveur MySQL
-- Serveur MongoDB :
-            - (WINDOWS) Ouvrir une interface de ligne de commande et tapez LE_CHEMIN_D'INSTALLATION\mongodb\bin\mongod.exe
-            - (UNIX) Serveur MongoDB (Ouvrir une interace de ligne de commande et taper mongod)
+- Open https://localhost:8443, (Will trigger a certificate error), the website should work.
+- If you want an admin user, change the column isAdmin to 1 in the database.
 
-Effectuer les tâches suivantes :
 
-- (MYSQL) Créer une Base de données CubbyHole
-- (MYSQL) Importer le fichier CubbyHole.sql présent dans ce dossier via PhpMyAdmin
+### Different sites :
+- https://localhost:8443 : Main website, includes dynamic file browser
+- https://localhost:8444 : Api and OAuth2.0 endpoints, handles authentication and REST API calls
+- https://localhost:8445 : Developer center, allows an external developer to register an application with CubbyHole's OAuth2.0 provider.
 
-- Copier le fichier /globalConf.json.default vers /globalConf.json et changer les valeurs nécéssaires
 
-Lancement des applications :
-- Ouvrez trois nouvelles interfaces de ligne de commande :
-
-    Premiére interface : Déplacez vous dans le dossier /Api/ et tapez 'grunt'
-    Seconde interface : Déplacez vous dans le dossier /Website/ et tapez 'grunt'
-    Troisiéme interface : Déplacez vous dans le dossier /Dev/ et tapez 'grunt'
-
-Si l'une des deux fenêtre affiche une erreur vérifiez les étapes précédentes ou envoyer un message à alexis
-
-Naviguez vers https://localhost:8443, (acceptez l'erreur de certificat), si vous voyez le site, essayez de vous connecter via facebook ou google et tout est bon si ça fonctionne !
-
-<<<<<<<<<<<<< AUTRES >>>>>>>>>>>>>
-
-Pour passer un utilisateur en admin (pour modifier les plans), passez la colonne isAdmin a 1 dans mysql (il n'étais pas demandé de crud pour la gestion de users)
-
-SITES :
-https://localhost:8443 --> Website + Web Client
-https://localhost:8444 --> API and oAuth2
-https://localhost:8445 --> Developer Center
-
-Pour toute question ou probléme lors du lancement, contactez alexis.chevalier@supinfo.com
+**This project is not maintained anymore by our team, but you can open issues, if we have the time we will reply !**
