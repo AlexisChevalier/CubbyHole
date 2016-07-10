@@ -1,0 +1,68 @@
+<flash-message></flash-message>
+
+<div class="mainBrowserDiv">
+
+    <div id="headbar">
+        <div id="path" type="text">
+            <p>
+                <span ng-repeat="part in parentFolders">
+                    <a ng-click="handleItemClick('folder', part._id)">[[part.name]]</a> /
+                </span>
+                <a ng-click="handleItemClick('folder', folderId)">[[folderName]]</a>
+            </p>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div id="filebrowser" style="position: relative;">
+        <table>
+            <thead>
+            <tr>
+                <th colspan="2" ng-click="sort('name')">[['NAME' | translate]]
+                    <div ng-if="orderProp=='name'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                </th>
+                <th ng-click="sort('type')">[['TYPE' | translate]]
+                    <div ng-if="orderProp=='type'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                </th>
+                <th ng-click="sort('updateDate')">[['MODIFIED' | translate]]
+                    <div ng-if="orderProp=='updateDate'" ng-class="{true:'arrow-down', false:'arrow-up'}[orderDirection]"></div>
+                </th>
+            </tr>
+            </thead>
+            <tbody ng-hide="appLoading">
+            <tr class="parent-folder-row" ng-show="hasParent()" ng-click="handleItemClick('folder', parentFolder()._id)">
+                <td class="parent-folder"></td>
+                <td>[['PARENT_FOLDER' | translate]]</td>
+                <td>[['FOLDER' | translate]]</td>
+                <td>[[parentFolder().date | date:"medium"]]</td>
+            </tr>
+            <tr ng-repeat="item in items | orderBy:orderProp:orderDirection" ng-class="{false: '', true: 'busyWriteFile' }[item.busyWrite]">
+
+                <td class="[[item.type]]"></td>
+
+
+                <td ng-if="item.type == 'folder'" ng-click="handleItemClick(item.type, item._id)">
+                    [[item.name]]
+                </td>
+
+
+                <td ng-if="item.type == 'file'" >
+                    <a ng-if="!item.busyWrite" ng-click="handleItemClick(item.type, item._id)">[[item.name]]</a>
+                    <span ng-if="item.busyWrite">[[item.name]]</span>
+                </td>
+
+                <td>[[item.type | uppercase | translate | Capitalize]]</td>
+
+                <td>[[item.updateDate | date:"short"]]</td>
+
+            </tr>
+            </tbody>
+        </table>
+        <div id="loader" ng-show="appLoading">
+            <div id="textLoader">
+                <img src="/images/ajax-loader.gif" />
+                [['LOADING' | translate]]
+            </div>
+        </div>
+    </div>
+</div>

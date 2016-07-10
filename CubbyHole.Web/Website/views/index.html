@@ -1,0 +1,46 @@
+{% extends 'layouts/layout.html' %}
+
+{% block body %}
+	<div id="topindex">
+    	<div class="register-login">
+    		<a class="button large inline" href="/loginsignup">{{__("Register or Sign in")}}</a>
+    	</div>
+	</div>
+	<div class="index-section">
+		<img class="pull-left" src="/images/home1.png" alt="">
+		<div class="pull-right">
+			<h1>{{__("Fast and secure access to all your files !")}}</h1>
+			<p>
+
+                {{__("You don't want to use your USB key or hard drive disks to work with your friens anymore, <strong> CubbyHole </strong> is just for you! <br/> Through our multiple applications, you can access your files on all your devices, and share them with your friends! Do not hesitate, just try!")}}
+			</p>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="index-section">
+		<img class="pull-right" src="/images/home2.png" alt="">
+		<div class="pull-left">
+            <h1>{{__("Get everything you need, in real time !")}}</h1>
+			<p>
+                {{__("In one click, you will be served, our applications have been designed with <strong> fluidity and speed </strong> in mind, you are kept infofmed about progressions of your file uploads or any other informations !")}}
+			</p>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="index-section">
+		<img class="pull-left" src="/images/home3.png" alt="">
+		<div class="pull-right">
+            <h1>{{__("As simple as... a folder. With more features !")}}</h1>
+			<p>
+                {{__("We built you a <strong>simple but powerful</strong> application, you will find your marks the first glance and will never get lost in our applications. <br/><br/> Enjoy the <strong>advanced shating feature</strong> to work effectively with your friends and colleagues!")}}
+			</p>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+<div id="topindex">
+    <div class="register-login">
+        <a class="button large inline" href="/loginsignup">{{__("Register or Sign in")}}</a>
+    </div>
+</div>
+
+{% endblock %}

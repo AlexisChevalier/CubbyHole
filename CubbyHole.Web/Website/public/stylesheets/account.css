@@ -1,0 +1,11 @@
+.h2Account {
+	width:100%;
+	text-align: center;
+}
+
+.btnUpdateAccount {
+	width:100%;
+	text-align: center;
+	background-color: #3eaafd;
+	color:white;
+} 

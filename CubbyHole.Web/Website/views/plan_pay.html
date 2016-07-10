@@ -1,0 +1,43 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+<link href="/stylesheets/paiement.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+        {% if !plan %}
+    <h1>{{__("This plan doesn't exists !")}}</h1>
+        {% else %}
+<div class="page-header">
+    <h1 id="pricingtitle">{{__("Payment")}}</h1>
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <p>{{__("You are going to buy this plan for a month :")}}</p>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title  active">
+                    <span class="badge pull-right" style="background-color: #FFF; color:#428bca;"> {{ plan.pricePerMonth }} €</span>CubbyHole - {{ __(plan.name) }} (1 month)
+                </h3>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item text-center">
+                        {{ plan.diskSpace|humanReadableSize }} {{__("of disk space")}}
+                    </li>
+                    <li class="list-group-item text-center">
+                        {{ plan.bandwidthPerDay|humanReadableSize }} {{__("of bandwidth per day")}}
+                    </li>
+                    <li class="list-group-item text-center">
+                        {{ plan.bandwidthSpeed|humanReadableSize }}{{__("/S of bandwidth limit")}}
+                    </li>
+                </ul>
+                <br/>
+                <a href="/account/sendToPaypal/{{plan.id}}" class="btn btn-success btn-lg btn-block" role="button">{{__("Checkout with PayPal")}} ({{ plan.pricePerMonth }} €)</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}

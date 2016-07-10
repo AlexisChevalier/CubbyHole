@@ -1,0 +1,9 @@
+Password reinitialized !\n\n
+
+Hi, {{ username }}\n
+You requested a reinitialization of your password.\n
+Here is your new password : {{ password }}\n\n
+
+If you have any questions, send a mail at team.cubbyhole@gmail.com !\n\n
+
+The CubbyHole Team,

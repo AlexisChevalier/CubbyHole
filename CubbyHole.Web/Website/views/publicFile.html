@@ -1,0 +1,29 @@
+{% extends 'layouts/minilayout.html' %}
+
+{% block css %}
+<link href="/stylesheets/publicFiles.css" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+
+<!-- This should be compiled and minified, but hey, it's a school project and i'm nearly sure you'll prefer this version :) -->
+
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            {% if error %}
+                <h1>{{__("An error occured")}}</h1>
+                <p>{{__("The specified file doesn't exists or isn't publicly available !")}}</p>
+            {% endif %}
+            {% if file %}
+                <h1>{{__("Download")}} {{ file.name }}</h1>
+                    <p>{{__("Size :")}} {{ file.realFileData.length|humanReadableSize }}</p>
+                    <p>{{__("Mime Type :")}} {{ file.realFileData.contentType }}</p>
+                    <p>{{__("Last Updated :")}} {{ file.updateDate|date('d M Y, H:m:s') }}</p>
+                <a type="button" href="{{downloadUrl}}" class="btn btn-primary btn-lg btn-block">{{__("Download file !")}}</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

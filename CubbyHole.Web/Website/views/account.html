@@ -1,0 +1,108 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+<link href="/stylesheets/account.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+<div class="page-header">
+
+    <h2 class="h2Account">{{__("Update your profile")}}</h2>
+
+    <div class="bs-callout bs-callout-info">
+        <h4>Information</h4>
+
+        <p>{{__("Feel free to change your mail or your username.")}} <br/><br/>
+            {% if !userAccount.socialAccount %}
+            {{__("If you want to change your password you'll have to fill the two password fields !")}}
+            {% else %}
+            {{__("You are using a facebook or google account so you can't set or change a password !")}}
+            {% endif %}</p>
+    </div>
+
+    <form method="post" role="form" id="formRegister">
+        <div class="form-group">
+            <label for="username">{{__("Firstname and lastname")}}</label>
+            <input type="text" name="name" value="{{ userAccount.name }}" class="form-control" id="username"
+                   placeholder="Username">
+        </div>
+
+        <div class="form-group">
+            <label for="email">{{__("Email")}}</label>
+            <input type="email" name="email" value="{{ userAccount.email }}" class="form-control" id="email"
+                   placeholder="Email">
+        </div>
+        {% if !userAccount.socialAccount %}
+        <div class="form-group">
+            <label for="pwd">{{__("Password")}}</label>
+            <input type="password" name="password" class="form-control" id="pwd" placeholder="Password">
+        </div>
+
+        <div class="form-group">
+            <label for="confPwd">{{__("Confirm password")}}</label>
+            <input type="password" name="passwordConfirm" class="form-control" id="confPwd" placeholder="Password">
+        </div>
+        {% endif %}
+        <div class="form-group">
+            <button type="submit" class="btnUpdateAccount btn inline">{{__("Update")}}</button>
+        </div>
+
+    </form>
+
+    <hr/>
+
+    <h2 class="h2Account">{{__("Pricing and Plans")}}</h2>
+
+    <h3>{{__("Actual Plan")}} : {{ __(userAccount.actualPlan.name) }} (<a href="/pricing">{{__("Update or renew")}}</a>)
+    </h3>
+    {% if userAccount.actualPlan.expirationTime %}
+    <p>{{__("Expires on")}} {{ userAccount.actualPlan.expirationTime|date('d M Y, H:m:s') }}</p>
+    {% else %}
+    <p>{{__("Never expires")}}</p>
+    {% endif %}
+    <hr/>
+
+    <h2 class="h2Account">{{__("Applications authorized for this account")}}</h2>
+
+    <div class="bs-callout bs-callout-info">
+        <h4>Information</h4>
+
+        <p>{{__("You can connect to your account with these applications and then they can access your files, you can remove these application's authorizations here.")}}</p>
+    </div>
+    {% if userAccount.authorizedApps.length > 0 %}
+    {% for app in userAccount.authorizedApps %}
+    <table class="table table-hover">
+        <tr>
+            <th>{{__("Application Name")}}</th>
+            <th>{{__("Option")}}</th>
+        </tr>
+        <tr>
+            <td>{{app.name}}</td>
+            <td><a href="/account/removeApp/{{ app.tokenID }}" type="button" class="btn btn-danger">{{__("Remove authorization")}}</a></td>
+        </tr>
+    </table>
+    {% endfor %}
+    {% else %}
+    {{__("You didn't give any authorization yet !")}}
+    {% endif %}
+
+
+    <hr/>
+
+    <h2 class="h2Account">{{__("Delete Account")}}</h2>
+
+    <form class="form-horizontal" method="post" role="form" action="/account/delete">
+        <div class="bs-callout bs-callout-info">
+            <h4>Information</h4>
+
+            <p>{{__("This action is irreversible, you will lost all your files (Including your shared files).")}}</p>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btnUpdateAccount btn inline">{{__("Delete account (Irreversible)")}}</button>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'layouts/layout.html' %}
+{% block css %}
+	<link href="/stylesheets/pricing.css" rel="stylesheet">
+{% endblock %}
+{% block body %}
+<div class="page-header">
+    <h1 id="pricingtitle">{{__("We have many plans for you, <br />pick one of them !")}}</h1>
+</div>
+{% if plans.length <= 1 %}
+<div id="allplans" style="width: 26%;">
+{% endif %}
+{% if plans.length == 2 %}
+<div id="allplans" style="width: 50%;">
+{% endif %}
+{% if plans.length == 3 %}
+<div id="allplans" style="width: 76%;">
+{% endif %}
+{% if plans.length == 4 %}
+<div id="allplans" style="width: 100%;">
+{% endif %}
+    {% for plan in plans %}
+            {% if loop.index0%2 == 0 %}
+                <div class="even">
+                <div class="deep">
+            {% else %}
+                <div class="odd">
+            {% endif %}
+            <div class="titleplan">
+                {% if plan.pricePerMonth == 0 %}
+                    <a href="/browser">{{__(plan.name)}}</a>
+                {% else %}
+                    <a href="/account/payPlan/{{ plan.id }}">{{ __(plan.name) }}</a>
+                {% endif %}
+            </div>
+            <div class="priceplan">
+                <p>{{ plan.pricePerMonth }}$</p>
+                <p class="perMonth">{{__("Per month")}}</p>
+            </div>
+            <div class="descplan">
+                <p>{{ plan.diskSpace|humanReadableSize }} {{__("of disk space")}}</p>
+                <p>{{ plan.bandwidthPerDay|humanReadableSize }} {{__("of bandwidth per day")}}</p>
+                <p>{{ plan.bandwidthSpeed|humanReadableSize }}{{__("/S of bandwidth limit")}}</p>
+            </div>
+            <div class="getplan">
+                {% if plan.pricePerMonth == 0 %}
+                <a href="/browser">{{__("Default Plan")}}</a>
+                {% else %}
+                    <a href="/account/payPlan/{{ plan.id }}">{{__("Get this")}}</a>
+                {% endif %}
+            </div>
+            {% if loop.index0%2 == 0 %}
+            </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <div class="clearfix"></div>
+	</div>
+</div>
+<div id="contentplan">
+    <h1 id="questionpricing">{{__("Which plan should I use ?")}}</h1><br/>
+    {% for plan in plans %}
+        {% if !loop.first %}
+            <img class="lbrand-logo" src="/images/logo.png" alt="Logo Cubbyhole" />
+        {% endif %}
+        <p>
+            {{__(plan.description)}}
+        </p>
+    {% endfor %}
+
+    <hr/>
+    <small>{{__("* A month = 30 days")}}</small>
+</div>
+
+</div>
+{% endblock %}

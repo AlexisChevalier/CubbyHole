@@ -1,0 +1,11 @@
+New share available !\n\n
+
+Hi, {{ to.name }}\n
+{{ from.name }} just shared the {{type}} {{item.name}} with you !\n
+Here's the link : {{shareUri}}\n\n
+
+Feel free to look at it and collaborate with your friends !\n\n
+
+If you have any questions, send a mail at team.cubbyhole@gmail.com !\n\n
+
+The CubbyHole Team,

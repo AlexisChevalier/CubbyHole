@@ -1,0 +1,48 @@
+{% if isLoggedIn() == true %}
+        <div id="nav-left">
+            {% if active == "fileBrowser" %}
+                <a class="active" href="/browser">{{__("FILES")}}</a>
+            {% else %}
+                <a href="/browser">{{__("FILES")}}</a>
+            {% endif %}
+            {% if active == "apps" %}
+                <a class="active" href="/apps">{{__("APPS")}}</a>
+            {% else %}
+                <a href="/apps">{{__("APPS")}}</a>
+            {% endif %}
+        </div>
+        <div id="nav-right">
+            {% if active == "account" %}
+                <a class="active" href="/account">{{__("ACCOUNT")}}</a>
+            {% else %}
+                <a href="/account">{{__("ACCOUNT")}}</a>
+            {% endif %}
+
+            <a href="/logout">{{__("LOGOUT")}}</a>
+        </div>
+{% else %}
+        <div id="nav-left">
+            {% if active == "home" %}
+                <a class="active" href="/">{{__("HOME")}}</a>
+            {% else %}
+                <a href="/">{{__("HOME")}}</a>
+            {% endif %}
+            {% if active == "pricing" %}
+                <a class="active" href="/pricing">{{__("PRICING")}}</a>
+            {% else %}
+                <a href="/pricing">{{__("PRICING")}}</a>
+            {% endif %}
+        </div>
+        <div id="nav-right">
+            {% if active == "apps" %}
+                <a class="active" href="/apps">{{__("APPS")}}</a>
+            {% else %}
+                <a href="/apps">{{__("APPS")}}</a>
+            {% endif %}
+            {% if active == "account" %}
+                <a class="active" href="/loginsignup">{{__("LOGIN/SIGNUP")}}</a>
+            {% else %}
+                <a href="/loginsignup">{{__("LOGIN/SIGNUP")}}</a>
+            {% endif %}
+        </div>
+{% endif %}

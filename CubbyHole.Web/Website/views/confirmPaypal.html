@@ -1,0 +1,37 @@
+{% extends 'layouts/layout.html' %}
+
+{% block css %}
+<link href="/stylesheets/paiement.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+{% if !plan %}
+<h1>{{__("Can't found this payment !")}}</h1>
+{% else %}
+<div class="page-header">
+    <h1 id="pricingtitle">{{__("Payment confirmation")}}</h1>
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+
+        <p>{{__("You are going to buy the following plan with your Paypal account :")}}</p>
+
+        <div class="panel panel-primary">
+            <form action="/account/executePaypal" method="post">
+                <input type="hidden" name="paymentId" value="{{paymentId}}"/>
+                <input type="hidden" name="payerId" value="{{payerId}}"/>
+                <div class="panel-heading">
+                    <h3 class="panel-title  active">
+                        <span class="badge pull-right"> {{ plan.pricePerMonth }} €</span>CubbyHole - {{ __(plan.name) }} (1 month)
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <input type="submit" class="btn btn-success btn-lg btn-block" value="{{__('Proceed to payment !')}}" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}

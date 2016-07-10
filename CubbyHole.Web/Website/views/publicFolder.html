@@ -1,0 +1,31 @@
+{% extends 'layouts/minilayout.html' %}
+
+{% block css %}
+<link href="/stylesheets/publicFiles.css" rel="stylesheet">
+<link href="/stylesheets/myfiles.css" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+
+<!-- This should be compiled and minified, but hey, it's a school project and i'm nearly sure you'll prefer this version :) -->
+
+<script type="text/javascript" src="/javascripts/browser/libs/angular.js"></script>
+<script type="text/javascript" src="/javascripts/browser/libs/angular-route.js"></script>
+<script type="text/javascript" src="/javascripts/browser/libs/angular-animate.js"></script>
+<script type="text/javascript" src="/javascripts/browser/libs/angular-translate.min.js"></script>
+<script type="text/javascript" src="/javascripts/browser/libs/angular-flash.js"></script>
+<script type="text/javascript" src="/javascripts/browser/filters/TextFilters.js"></script>
+
+<script type="text/javascript" src="/javascripts/publicBrowser/app.js"></script>
+<script type="text/javascript" src="/javascripts/publicBrowser/translations.js"></script>
+<script type="text/javascript" src="/javascripts/publicBrowser/controllers/PublicFileTableController.js"></script>
+{% endblock %}
+
+{% block body %}
+    {% if error %}
+        <h1>{{__("An error occured")}}</h1>
+        <p>{{__("The specified folder doesn't exists or isn't publicly available !")}}</p>
+    {% else %}
+        <ng-view></ng-view>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,247 @@
+/*--------------------------------------
+------- CSS rules for cubbyhole --------
+--------------------------------------*/
+
+/*----------- Custom Fonts (CSS3) -----------*/
+/* Helvetica neue */
+@font-face
+{
+    font-family: HelveticaNeue;
+    src: url(/fonts/HelveticaNeue.woff);
+}
+
+@font-face
+{
+    font-family: HelveticaNeue-Bold;
+    src: url(/fonts/HelveticaNeue.woff);
+    font-weight: bold;
+}
+
+html {
+    padding-top: 0px;
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    font: 16px Helvetica, Arial, sans-serif;
+    margin: 0 0 100px;
+}
+
+a {
+    color: #00B7FF;
+}
+
+.wrapper {
+    /*width: 1140px; et pk pas 980 ?? */
+    width: 880px;
+    margin: auto;
+    /*padding: 0px 20px;  avec un padding de 40 ? */
+    padding: 0px 40px;
+}
+
+nav {
+    border-top: 16px solid #fcb735;
+    width: 100%;
+    padding-bottom: 10px;
+    border-bottom: 5px solid #fcb735;
+    margin-bottom: 40px;
+    min-width: 880px;
+}
+
+nav a {
+    display: block;
+    width: 176px;
+    height: 62px;
+    color: black;
+    font-size: 21px;
+    text-transform: uppercase;
+    font-weight: lighter;
+    float: left;
+    text-align: center;
+    padding-top: 28px;
+}
+
+nav a:hover {
+    color: #3da9fc;
+    text-decoration: none;
+}
+
+nav a.active {
+    background-color: #fcb735;
+    color: white;
+}
+
+nav #nav-right {
+    float: right;
+}
+
+nav img#brand-logo {
+	-webkit-backface-visibility: hidden;
+    margin: auto;
+    margin-top: -45px;
+    display: block; /* needed for margin auto */
+    -webkit-transition-duration: 2s;
+    -moz-transition-duration: 2s;
+    -o-transition-duration: 2s;
+    transition-duration: 2s;
+
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+
+    overflow:hidden;
+
+}
+
+nav img#brand-logo:hover
+{
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg);
+    -o-transform:rotate(360deg);
+}
+
+nav #brand-text {
+    width: 518px;
+    margin: auto;
+}
+
+nav #brand-text #brand {
+    font-size: 60px;
+    margin-bottom: -10px
+}
+
+nav #brand-text #slogan {
+    font-size: 31px;
+    font-weight: lighter;
+    color: #fcb735;
+    float: right;
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+    min-height: 100%;
+    height: auto;
+    /* Negative indent footer by its height */
+    margin: 0 auto -60px;
+    /* Pad bottom by footer height */
+    padding: 0 0 60px;
+}
+
+/* Set the fixed height of the footer here */
+footer {
+    height: 60px;
+    background-color: #f5f5f5;
+}
+
+footer p {
+	margin: 0;
+}
+
+#topindex {
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+#topindex p {
+    padding: 0 20px;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+}
+
+#topindex .register-login p {
+	font-size: 20px;
+}
+
+.button {
+    display: block;
+    padding: 12px;
+    font-size: 18px;
+    color: white;
+    background-color: #3eaafd;
+    text-align: center;
+    -webkit-box-shadow: 0 0 2px 0 rgba(50,50,50,80);
+    box-shadow: 0 0 2px 0 rgba(50,50,50,80);
+}
+
+.large {
+    width: 450px;
+}
+
+.button:hover {
+	background-color: #6CC0FF;
+    text-decoration: none;
+    color: white;
+}
+
+.button:active {
+    -webkit-box-shadow: 0 0 2px 0 rgba(50,50,50,0);
+    box-shadow: 0 0 2px 0 rgba(50,50,50,0);
+}
+
+.inline {
+    display: inline-block;
+}
+
+h1 {
+    color: #333;
+    font-size: 30px;
+}
+
+.index-section {
+    margin: 40px 0px;
+}
+
+.index-section div {
+    width: 475px;
+}
+
+.index-section img{
+    width: 280px;
+    margin: 4px 0px;
+	-moz-box-shadow: 0px 0px 5px 0px #656565;
+	-webkit-box-shadow: 0px 0px 5px 0px #656565;
+	-o-box-shadow: 0px 0px 5px 0px #656565;
+	box-shadow: 0px 0px 5px 0px #656565;
+	filter: progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=NaN, Strength=5);
+}
+
+.index-section div h1 {
+    margin-top: 0px;
+}
+
+.index-section div p {
+    font-family: Helvetica;
+    font-size: 18px;
+	line-height: 24px;
+}
+
+footer {
+    margin-top: 10px;
+    line-height: 60px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    min-width: 880px;
+}
+
+.topLoginBar {
+    background-color: #3daaf8;
+}
+
+.topLoginBar .wrapper p {
+    color: #ffffff;
+    text-align: center;
+	padding: 2px;
+	margin: 0;
+}
+
+.topLoginBar .wrapper a {
+	color: #fcd63b;
+	text-align: center;
+	padding: 2px;
+	margin: 0;
+}

@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h3>[['EDIT_THE' | translate]] [[item.type | uppercase | translate]] <span class="name">[[item.name]]</span></h3>
+</div>
+<form>
+<div class="modal-body">
+    <div class="form-group">
+        <label for="EditName">[['EDIT_NAME' | translate]]</label>
+        <input type="text" class="form-control" id="EditName" placeholder="Item name" ng-model="name" select-on-click>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok(name)">[['OK' | translate]]</button>
+    <button class="btn btn-warning" ng-click="cancel()">[['CANCEL' | translate]]</button>
+</div>
+</form>

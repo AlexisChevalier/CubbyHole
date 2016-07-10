@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h3>[['COPY_THE_FOLDER' | translate]] [[item.type | uppercase | translate]] <span class="name">[[item.name]]</span></h3>
+</div>
+<form>
+    <div class="modal-body">
+        <p class="lead">[['CURRENT_FOLDER' | translate]] : <strong>[[ currentFolder.name ]]</strong></p>
+
+        <table class="table table-hover iconTable">
+            <thead>
+            <tr>
+                <th colspan="2">[['NAME' | translate]]
+
+                </th>
+                <th>[['MODIFIED' | translate]]
+
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="parent-folder-row" ng-show="hasParent()" ng-click="handleFolderClick(parentFolder())">
+                <td class="parent-folder"></td>
+                <td>[['PARENT_FOLDER' | translate]]</td>
+                <td>[[parentFolder().date | date:"medium"]]</td>
+            </tr>
+            <tr ng-repeat="folder in folders | orderBy:orderProp:orderDirection" ng-click="handleFolderClick(folder)">
+                <td class="folder"></td>
+                <td>
+                    [[folder.name]]
+                </td>
+                <td>[[folder.updateDate | date:"short"]]</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok(folder)">[['COPY_TO_THIS_FOLDER' | translate]]</button>
+        <button class="btn btn-warning" ng-click="cancel()">[['CANCEL' | translate]]</button>
+    </div>
+</form>

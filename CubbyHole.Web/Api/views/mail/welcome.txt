@@ -1,0 +1,9 @@
+Welcome on CubbyHole\n\n
+
+Hi, {{ username }}\n
+Welcome on our awesome service !\n
+Now you are registered you can start upload or download files. Then you can share them or synchronize them on other devices !\n\n
+
+If you have any questions, send a mail at team.cubbyhole@gmail.com !\n\n
+
+The CubbyHole Team,

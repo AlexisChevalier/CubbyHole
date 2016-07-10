@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+  <title>{% block title %}{{ title }}{% endblock %}</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/stylesheets/style.css" rel="stylesheet">
+  <link href="/stylesheets/smallheader.css" rel="stylesheet">
+
+  {% block css %}{% endblock %}
+
+  <!--[if lt IE 9]>
+  <script src="/javascripts/html5shiv.js"></script>
+  <script src="/javascripts/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body ng-app="{{angularModule}}" id="ng-app">
+  <!-- Navigation header -->
+  {% if isLoggedIn() == true %}
+  <div class="topLoginBar">
+      <div class="wrapper">
+          <p>
+              {{__("Logged as")}} {{ loggedUser.name }}
+              {% if isAdmin() == true %}
+                - <a href="/administration">{{__("Administration")}}</a>
+              {% endif %}
+          </p>
+      </div>
+  </div>
+  {% endif %}
+  <nav>
+    <div class="wrapper">
+        {% include "./menu.html" %}
+      <div class="clearfix"></div>
+      <img id="brand-logo" src="/images/minilogo.png" alt="Logo Cubbyhole" />
+      <div class="clearfix"></div>
+    </div>
+  </nav>
+
+  <!-- Wrap all page content here -->
+  <div id="content">
+    <!-- Begin page content -->
+    <div class="wrapper">
+      {% for key, values in messages() %}
+        {% for message in values %}
+          {% if key == 'danger' || key == 'success' || key == 'info' || key == 'warning' %}
+            <div class="alert alert-{{ key }} alert-dismissable">
+          {% elseif key == 'error' %}
+            <div class="alert alert-danger alert-dismissable">
+          {% else %}
+            <div class="alert alert-info alert-dismissable">
+          {% endif %}
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ __(message) }}
+          </div>
+        {% endfor %}
+      {% endfor %}
+      {% block body %}{% endblock %}
+    </div>
+  </div>
+
+  <script src="/javascripts/jquery.min.js"></script>
+  <script src="/javascripts/bootstrap.min.js"></script>
+  {% block js %}{% endblock %}
+  </body>
+</html>

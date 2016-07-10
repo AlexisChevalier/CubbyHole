@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h3>[['ADD_FOLDER_IN' | translate]] <span class="name">[[item.name]]</span></h3>
+</div>
+<form>
+<div class="modal-body">
+    <div class="form-group">
+        <label for="AddFolder">[['FOLDER_NAME' | translate]]</label>
+        <input type="text" class="form-control" id="AddFolder" ng-model="folder" placeholder="[['FOLDER_NAME' | translate]]" select-on-click>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok(folder)">[['OK' | translate]]</button>
+    <button class="btn btn-warning" ng-click="cancel()">[['CANCEL' | translate]]</button>
+</div>
+</form>

@@ -1,0 +1,1318 @@
+{% extends '../layouts/devLayout.html' %}
+{% block body %}
+
+<div class="page-header">
+    <h1>CubbyHole API Documentation</h1>
+</div>
+<blockquote>
+    <p>{{__('API Documentation is only available in english at the moment !')}}</p>
+</blockquote>
+        <div class="row">
+<div class="col-md-12" style="margin-bottom: 30px;">
+<div class="doc-group">
+    <h1 id="auth">I - Authentication</h1>
+
+    <div class="doc-group-item">
+        <blockquote>
+            <p>Go <a href="/addApp">there</a> if you want to register your new application !</p>
+        </blockquote>
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#authProcess">
+                            1 - oAuth2 authentication process
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="authProcess">
+                    <div class="panel-body">
+                        <p>
+                            We use oAuth2 as authentication system for our API, here's a few steps to learn using it.
+                        </p>
+
+                        <h3>1 - Creating redirection URL and redirect the user</h3>
+
+                        <p>The following URL must me customized with your redirection URI (on your application) and your client id.</p>
+                        <pre>https://api.cubby-hole.me/auth/dialog/authorize?redirect_uri={REDIRECT_URI}&response_type=code&client_id={CLIENT_ID}</pre>
+                        <p>You have to redirect the user to this url where he will have to log on our application and authorize your
+                            application, he will be redirected to your redirection URI then with a code :</p>
+                        <pre>http://your-redirect.uri/?code=0aPqiS649G9TcEaJ</pre>
+                        <p>Keep this code, you will need it in the next step !</p>
+
+                        <h3>2 - Getting Access Token</h3>
+
+                        <p>Well, now you get an Authorization Code (valid for 5 minutes) you must get the access token to communicate
+                            with the API. To achieve this, just send a post request to :</p>
+                        <pre>https://api.cubby-hole.me/auth/oauth/token</pre>
+                        <p>You need to precise the Content-Type as application/x-www-form-urlencoded with a HTTP header</p>
+
+                        <p>Finally, you just have to add this as a request body, replace the Authorization Code with the one you got
+                            before, and the Client Secret with the one which was given to you when you registered the application.</p>
+                        <pre>code={AUTHORIZATION_CODE}&redirect_uri={REDIRECT_URI}&client_id={CLIENT_ID}&client_secret={CLIENT_SECRET}&grant_type=authorization_code</pre>
+                        <p>If all your informations are right, you will get an access token in the body of the response :</p>
+            <pre>{
+    "access_token": "8LFxvvqtPslmxcSDSrEYM6dSbRSCzdAMkY0zPAKmJ6xvQJRpHxCBIYCs8EcBuIdRA5KfwMMKpsPlEJINSG1AADuQHcnYTvmVSr6NwP4jttHCu35hwYaIWovMu8H9lvseSKigtJHeMgprekFGov87uvz5t4vqJConWkKP07ToqPrwV7vSE0x3fpthVy4z9qbFxjx7oRWoyp87LDQohRFlClAiE3DlTHTqKK36FbTguLf5z3un7RjACynO3CGLsutj",
+    "token_type": "bearer"
+}</pre>
+                        This token is valid as long as your user doesn't remove the authorization for your application on its account,
+                        so keep it preciously !
+                        <h3>3 - Request the API</h3>
+
+                        <p>This is the easiest part, you just have to do a GET/POST/PUT/DELETE request on our api with adding the
+                            Authorization HTTP Header (Don't forget to add the keyword 'Bearer' followed by the Access Token) : </p>
+                        <pre>Authorization: Bearer 8LFxvvqtPslmxcSDSrEYM6dSbRSCzdAMkY0zPAKmJ6xvQJRpHxCBIYCs8EcBuIdRA5KfwMMKpsPlEJINSG1AADuQHcnYTvmVSr6NwP4jttHCu35hwYaIWovMu8H9lvseSKigtJHeMgprekFGov87uvz5t4vqJConWkKP07ToqPrwV7vSE0x3fpthVy4z9qbFxjx7oRWoyp87LDQohRFlClAiE3DlTHTqKK36FbTguLf5z3un7RjACynO3CGLsutj</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <br/><br/> -->
+<div class="doc-group">
+<h1 id="account">II - User account</h1>
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#getUser">
+                        1 - Get user infos
+                    </a>
+                </h4>
+            </div>
+            <div id="getUser" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/account/details</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                        <li>Additional parameters : No</li>
+                    </ul>
+                    <p>Typical response : </p>
+                <pre>{
+  "id": 81,
+  "email": "alexis.chevalier@cubby-hole.me",
+  "name": "Alexis Chevalier",
+  "socialAccount": true,
+  "actualPlan": {
+    "id": 1,
+    "name": "Free",
+    "pricePerMonth": 0,
+    "bandwidthPerDay": 1073741824,
+    "diskSpace": 52428800,
+    "bandwidthSpeed": 262144,
+    "description": "The free plan is perfect if you want to try our solution or synchronize some small files over two or three devices",
+    "available": 1
+  }
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#putUser">
+                        2 - Update user infos
+                    </a>
+                </h4>
+            </div>
+            <div id="putUser" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/account/details</pre>
+                    <ul>
+                        <li>Method : PUT</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>id: The id of the user to update</li>
+                            </ul>
+                        </li>
+                        <li>Optional parameters :
+                            <ul>
+                                <li>email : The id of the user to update</li>
+                                <li>name : The fullname of the user to update</li>
+                                <li>password : The password of the user to update</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                <pre>{
+        "id": 1,
+        "email": "bob@mail.com",
+        "name": "bob"
+    }</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#removeUser">
+                        3 - Delete user account
+                    </a>
+                </h4>
+            </div>
+            <div id="removeUser" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/account</pre>
+                    <ul>
+                        <li>Method : DELETE</li>
+                        <li>Authentication : Required</li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{status: 'deleted'}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#userQuotas">
+                        4 - Get user quotas
+                    </a>
+                </h4>
+            </div>
+            <div id="userQuotas" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/account/quotas</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{
+  "disk": {
+    "limit": 52428800,
+    "used": 43515470,
+    "available": 8913330
+  },
+  "bandwidth": {
+    "limit": 1073741824,
+    "used": 43515470,
+    "available": 1030226354
+  }
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#userActions">
+                        3 - Get user actions
+                    </a>
+                </h4>
+            </div>
+            <div id="userActions" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/account/actions/:time</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>time : The timestamp (With milliseconds) from when you want to get the user's actions (the last time you fetched)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="well well-sm">
+                        Typical actions : create, edit, update, move, copy, delete, shareAdded, shareRemoved, shareUpdated, download, publicDownload
+                    </div>
+                    <div class="alert alert-danger">
+                        You won't get an action if someone who shared/file a folder with you delete its account. That's why you should also check your root folder for outdated shares.
+                    </div>
+                    <p>Typical response : </p>
+                    <pre>[
+  {
+    "relatedId": "539cf0f80a0c8748c4fbfa50",
+    "actorUserId": 81,
+    "action": "create",
+    "type": "file",
+    "time": "2014-06-15T01:03:52.305Z",
+    "length": 78642,
+    "finished": true,
+    "_id": "539cf0f80a0c8748c4fbfa52",
+    "__v": 0,
+    "concernedUsers": [
+      81
+    ]
+  },
+  {
+    "relatedId": "539d640d098f025c06af0b7e",
+    "actorUserId": 81,
+    "action": "create",
+    "type": "file",
+    "time": "2014-06-15T09:14:53.801Z",
+    "length": 43436828,
+    "finished": true,
+    "_id": "539d640d098f025c06af0b80",
+    "__v": 0,
+    "concernedUsers": [
+      81
+    ]
+  }
+]</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="doc-group">
+    <h1 id="users">III - Users</h1>
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#findUser">
+                        1 - Find a user
+                    </a>
+                </h4>
+            </div>
+            <div id="findUser" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/users/find/:terms</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                        <li>Required url parameters :
+                            <ul>
+                                <li>:terms : a string that will be used to find users</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Examples:</p>
+            <pre>https://api.cubby-hole.me/api/users/find/bob
+or
+https://api.cubby-hole.me/api/users/find/bob%40mail.com</pre>
+                    <p>Typical response :</p>
+            <pre>{
+    "id": 1,
+    "email": "bob@mail.com",
+    "name": "bob"
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="doc-group">
+    <h1 id="files">IV - Files</h1>
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#getFileInfo">
+                        1 - Get file metadatas
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-collapse collapse" id="getFileInfo">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/files/metadata/:fileID</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>fileID: The id of the file to get the metadatas</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "__v": 0,
+  "_id": ObjectId("5394b8a5d57dfadd2cf49d81"),
+  "busyWrite": false,
+  "name": "test.png",
+  "parent": ObjectId("5394b85fd57dfadd2cf49d7c"),
+  "parents": [
+    ObjectId("53907779068b7400000416ce"),
+    ObjectId("5394b85fd57dfadd2cf49d7c")
+  ],
+  "publicShareEnabled": false,
+  "readers": 0,
+  "realFileData": {
+    "chunkSize": 262144,
+    "contentType": "image/png",
+    "id": ObjectId("5394b8a5d57dfadd2cf49d82"),
+    "length": 524285,
+    "md5": "b768ac0e338ef116089452fc90582dcf",
+    "uploadDate": new Date(1402255525409)
+  },
+  "sharedCode": 0,
+  "shares": [
+
+  ],
+  "updateDate": new Date(1402255525402),
+  "userId": 75
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#downloadFile">
+                        2 - Download file
+                    </a>
+                </h4>
+            </div>
+            <div id="downloadFile" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/files/:fileID</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>fileID: The id of the file to download</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : A binary stream of the file</p>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#postFile">
+                        3 - Upload File (Overwrite if exists (needs write rights))
+                    </a>
+                </h4>
+            </div>
+            <div id="postFile" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/files</pre>
+                    <ul>
+                        <li>Method : POST</li>
+                        <li>Authentication : Required</li>
+                        <li>Required <strong>headers</strong> :
+                            <ul>
+                                <li>cb-file-name: Real name of the file</li>
+                                <li>cb-file-parent-folder-id: Id of the file's parent folder</li>
+                                <li>Content-Type: Real file mime/type</li>
+                                <li>Content-Length: Real file size in Bytes</li>
+                            </ul>
+                        </li>
+                        <li>Required parameters
+                            <ul>
+                                <li>A binary stream representing the file you want to upload (We don't accept form/multipart data)</li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "action": "create",
+  "data": {
+    "__v": 0,
+    "_id": "53978013fadcb2c2062ad570",
+    "name": "mickambp.png",
+    "parent": "53907779068b7400000416ce",
+    "userId": 75,
+    "realFileData": {
+      "chunkSize": 262144,
+      "contentType": "image/png",
+      "id": "53978013fadcb2c2062ad571",
+      "length": 524285,
+      "md5": "b768ac0e338ef116089452fc90582dcf",
+      "uploadDate": "2014-06-10T22:00:51.294Z"
+    },
+    "readers": 0,
+    "busyWrite": false,
+    "updateDate": "2014-06-10T22:00:51.248Z",
+    "parents": [
+      "53907779068b7400000416ce"
+    ],
+    "sharedCode": 0,
+    "publicShareEnabled": false,
+    "shares": []
+  }
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#putFile">
+                        4 - Rename or/and Move file
+                    </a>
+                </h4>
+            </div>
+            <div id="putFile" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/files/:fileID</pre>
+                    <ul>
+                        <li>Method : PUT</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>fileID: ID of the file you want to update</li>
+                            </ul>
+                        </li>
+                        <li>Required body values <strong>(At least one is required)</strong> :
+                            <ul>
+                                <li>newName: New Real name of the file</li>
+                                <li>newParentId: Id of the file's new parent folder</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "__v": 0,
+  "_id": "5394ed47ab4b7bdac64da611",
+  "name": "android2.png",
+  "parent": "53907779068b7400000416ce",
+  "userId": 75,
+  "realFileData": {
+    "id": "5394c166ca482eb048354ee0",
+    "contentType": "image/png",
+    "length": 2377,
+    "chunkSize": 262144,
+    "uploadDate": "2014-06-08T20:02:46.631Z",
+    "md5": "bddc7dd2dc3e3b8a659cc34211b4e906"
+  },
+  "readers": 0,
+  "busyWrite": false,
+  "updateDate": "2014-06-10T22:07:58.694Z",
+  "parents": [
+    "53907779068b7400000416ce"
+  ],
+  "sharedCode": 0,
+  "publicShareEnabled": false,
+  "shares": []
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#deleteFile">
+                        5 - Remove file
+                    </a>
+                </h4>
+            </div>
+            <div id="deleteFile" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/files/:fileID</pre>
+                    <ul>
+                        <li>Method : DELETE</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>fileID: The id of the file to delete</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{
+  "status": "deleted"
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#copyFile">
+                        6 - Copy file
+                    </a>
+                </h4>
+            </div>
+            <div id="copyFile" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/files/copy/:fileID'</pre>
+                    <ul>
+                        <li>Method : POST</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>fileID: The id of the file to delete</li>
+                            </ul>
+                        </li>
+                        <li>Required body values :
+                            <ul>
+                                <li>destinationID: The id of the folder where you want to copy the file</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{
+  "name": "IMG_1445.JPG",
+  "userId": 76,
+  "parent": "539598d33748c92a41179b81",
+  "_id": "5397887dfadcb2c2062ad576",
+  "__v": 0,
+  "realFileData": {
+    "id": "5394f46c7131c85ddbb32fbe",
+    "contentType": "image/jpeg",
+    "length": 1361238,
+    "chunkSize": 262144,
+    "uploadDate": "2014-06-08T23:40:28.551Z",
+    "md5": "426a1098479b871eb5d110034a317454"
+  },
+  "readers": 0,
+  "busyWrite": false,
+  "updateDate": "2014-06-10T22:36:45.888Z",
+  "parents": [
+    "53907779068b7400000416ce",
+    "539598d33748c92a41179b81"
+  ],
+  "sharedCode": 2,
+  "publicShareEnabled": false,
+  "shares": []
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="doc-group">
+    <h1 id="folders">V - Folders</h1>
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#getFolder">
+                        1 - Get folder details
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-collapse collapse" id="getFolder">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/folders/:folderID?</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>folderID: The id of the folder to get (if not precised, will return the root folder)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "__v": 0,
+  "_id": "53907779068b7400000416ce",
+  "isShared": false,
+  "name": "CubbyHole",
+  "parent": null,
+  "share": null,
+  "userId": 75,
+  "updateDate": "2014-06-08T23:40:29.864Z",
+  "parents": [],
+  "sharedCode": 0,
+  "publicShareEnabled": false,
+  "shares": [],
+  "isRoot": true,
+  "childFolders": [
+    {
+      "__v": 0,
+      "_id": "5394b85fd57dfadd2cf49d7c",
+      "name": "Movies",
+      "parent": "53907779068b7400000416ce",
+      "userId": 75,
+      "updateDate": "2014-06-08T22:16:24.362Z",
+      "parents": [
+        "53907779068b7400000416ce"
+      ],
+      "sharedCode": 0,
+      "publicShareEnabled": false,
+      "shares": [],
+      "isRoot": false,
+      "childFolders": [
+        "5394ded3f9751e61982d7ab4",
+        "5394e0b8b97d7e1ca3415356"
+      ],
+      "childFiles": [
+        "5394b8a5d57dfadd2cf49d81"
+      ]
+    },
+  ],
+  "childFiles": [
+    {
+      "name": "android.png",
+      "userId": 75,
+      "parent": "53907779068b7400000416ce",
+      "_id": "5394ed47ab4b7bdac64da611",
+      "__v": 0,
+      "realFileData": {
+        "id": "5394c166ca482eb048354ee0",
+        "contentType": "image/png",
+        "length": 2377,
+        "chunkSize": 262144,
+        "uploadDate": "2014-06-08T20:02:46.631Z",
+        "md5": "bddc7dd2dc3e3b8a659cc34211b4e906"
+      },
+      "readers": 0,
+      "busyWrite": false,
+      "updateDate": "2014-06-08T23:09:59.625Z",
+      "parents": [
+        "53907779068b7400000416ce"
+      ],
+      "sharedCode": 0,
+      "publicShareEnabled": false,
+      "shares": []
+    },
+  ]
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#postFolder">
+                        2 - Create folder
+                    </a>
+                </h4>
+            </div>
+            <div id="postFolder" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/folders</pre>
+                    <ul>
+                        <li>Method : POST</li>
+                        <li>Authentication : Required</li>
+                        <li>Required body parameters :
+                            <ul>
+                                <li>parentId: The id of the new folder's parent folder</li>
+                                <li>name: The new name of the new folder</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "__v": 0,
+  "name": "New Folder",
+  "parent": "53907779068b7400000416ce",
+  "userId": 75,
+  "_id": "53978a28fadcb2c2062ad577",
+  "updateDate": "2014-06-10T22:43:52.592Z",
+  "parents": [
+    "53907779068b7400000416ce"
+  ],
+  "sharedCode": 0,
+  "publicShareEnabled": false,
+  "shares": [],
+  "isRoot": false,
+  "childFolders": [],
+  "childFiles": []
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#putFolder">
+                        3 - Update or/and move folder
+                    </a>
+                </h4>
+            </div>
+            <div id="putFolder" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/folders/:folderID</pre>
+                    <ul>
+                        <li>Method : PUT</li>
+                        <li>Authentication : Required</li>
+                        <li>Required uri parameters :
+                            <ul>
+                                <li>folderID: The id of the folder to update or move</li>
+                            </ul>
+                        </li>
+                        <li>Optional body parameters :
+                            <ul>
+                                <li>newParentID: The id of the folder's new parent folder (if moving)</li>
+                                <li>newName: The new name of the folder</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "__v": 0,
+  "_id": "53978a28fadcb2c2062ad577",
+  "name": "New Folder",
+  "parent": "5394b85fd57dfadd2cf49d7c",
+  "userId": 75,
+  "updateDate": "2014-06-10T22:46:22.780Z",
+  "parents": [
+    {
+      "__v": 0,
+      "_id": "53907779068b7400000416ce",
+      "isShared": false,
+      "name": "CubbyHole",
+      "parent": null,
+      "share": null,
+      "userId": 75,
+      "updateDate": "2014-06-10T22:43:52.596Z",
+      "parents": [],
+      "sharedCode": 0,
+      "publicShareEnabled": false,
+      "shares": [],
+      "isRoot": true,
+      "childFolders": [
+        "5394b85fd57dfadd2cf49d7c",
+        "5394b863d57dfadd2cf49d7d"
+      ],
+      "childFiles": [
+        "5394f4667131c85ddbb32fb5",
+        "53978013fadcb2c2062ad570"
+      ]
+    },
+    {
+      "__v": 0,
+      "_id": "5394b85fd57dfadd2cf49d7c",
+      "name": "Movies",
+      "parent": "53907779068b7400000416ce",
+      "userId": 75,
+      "updateDate": "2014-06-08T22:16:24.362Z",
+      "parents": [
+        "53907779068b7400000416ce"
+      ],
+      "sharedCode": 0,
+      "publicShareEnabled": false,
+      "shares": [],
+      "isRoot": false,
+      "childFolders": [
+        "5394ded3f9751e61982d7ab4",
+        "5394e0b8b97d7e1ca3415356",
+        "53978a28fadcb2c2062ad577"
+      ],
+      "childFiles": [
+        "5394b8a5d57dfadd2cf49d81"
+      ]
+    }
+  ],
+  "sharedCode": 0,
+  "publicShareEnabled": false,
+  "shares": [],
+  "isRoot": false,
+  "childFolders": [],
+  "childFiles": []
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#deleteFolder">
+                        4 - Remove folder
+                    </a>
+                </h4>
+            </div>
+            <div id="deleteFolder" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/folders/:folderID</pre>
+                    <ul>
+                        <li>Method : DELETE</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>folderID: The id of the folder to delete</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "status": "deleted"
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#copyFolder">
+                        5 - Copy folder
+                    </a>
+                </h4>
+            </div>
+            <div id="copyFolder" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/folders/copy/:folderID</pre>
+                    <ul>
+                        <li>Method : POST</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>folderID: The id of the folder to copy</li>
+                            </ul>
+                        </li>
+                        <li>Required body values :
+                            <ul>
+                                <li>destinationID: The id of the folder where you want to copy the folder</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "__v": 0,
+  "_id": "53979014fadcb2c2062ad578",
+  "name": "Pictures",
+  "parent": "5394b86dd57dfadd2cf49d7f",
+  "userId": 76,
+  "updateDate": "2014-06-10T23:09:08.076Z",
+  "parents": [
+    {
+      "userId": 75,
+      "parent": null,
+      "name": "CubbyHole",
+      "_id": "53907779068b7400000416ce",
+      "__v": 0,
+      "updateDate": "2014-06-10T23:06:55.370Z",
+      "parents": [],
+      "sharedCode": 0,
+      "publicShareEnabled": false,
+      "shares": [],
+      "isRoot": true,
+      "childFolders": [],
+      "childFiles": []
+    },
+    {
+      "__v": 3,
+      "_id": "5394b86dd57dfadd2cf49d7f",
+      "name": "Alexis",
+      "parent": "53922dc4b33f11de2d7cf4e1",
+      "userId": 76,
+      "updateDate": "2014-06-08T23:05:39.985Z",
+      "parents": [
+        "53922dc4b33f11de2d7cf4e1"
+      ],
+      "sharedCode": 0,
+      "publicShareEnabled": false,
+      "shares": [
+        {
+          "userName": "Alexis Chevalier",
+          "userId": 75,
+          "write": true,
+          "read": true,
+          "_id": "5394e512a3caf0b8af3550d3"
+        }
+      ],
+      "isRoot": false,
+      "childFolders": [
+        "5394b8e8d57dfadd2cf49d94",
+        "53979014fadcb2c2062ad578"
+      ],
+      "childFiles": [
+        "5394c166ca482eb048354edf",
+        "5394ec433dcab01bc4250713"
+      ]
+    }
+  ],
+  "sharedCode": 2,
+  "publicShareEnabled": false,
+  "shares": [],
+  "isRoot": false,
+  "childFolders": [],
+  "childFiles": [
+    {
+      "name": "tumblr_n6c6s6fJSe1r00l9eo6_500.jpg",
+      "userId": 76,
+      "parent": "53979014fadcb2c2062ad578",
+      "_id": "53979014fadcb2c2062ad579",
+      "__v": 0,
+      "realFileData": {
+        "id": "5394b8a9d57dfadd2cf49d88",
+        "contentType": "image/jpeg",
+        "length": 24995,
+        "chunkSize": 262144,
+        "uploadDate": "2014-06-08T19:25:29.195Z",
+        "md5": "f2554b0d908d9d87704737961e73428d"
+      },
+      "readers": 0,
+      "busyWrite": false,
+      "updateDate": "2014-06-10T23:09:08.079Z",
+      "parents": [
+        "53907779068b7400000416ce",
+        "5394b86dd57dfadd2cf49d7f",
+        "53979014fadcb2c2062ad578"
+      ],
+      "sharedCode": 2,
+      "publicShareEnabled": false,
+      "shares": []
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="doc-group">
+    <h1 id="shares">VI - Shares</h1>
+    <div class="well">
+        About Share Codes <br/>
+        A share code describes the internal sharing status of a file or a folder <br/><br>
+        <ul>
+            <li>0 - Not shared</li>
+            <li>1 - Shared in Read Only mode</li>
+            <li>2 - Shared in Read-Write mode</li>
+            <li>3 - Root of the Share, in Read Only mode</li>
+            <li>4 - Root of the Share, in Read-Write mode</li>
+        </ul>
+    </div>
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#addShare">
+                        1 - Add share
+                    </a>
+                </h4>
+            </div>
+            <div id="addShare" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/shares/:TYPE/:ID/:USERID</pre>
+                    <ul>
+                        <li>Method : POST</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>TYPE: folder or file, depending on what you need to share</li>
+                                <li>ID: id of the folder or file you need to share</li>
+                                <li>USERID: id of the user who you want to share with</li>
+                            </ul>
+                        </li>
+                        <li>Required body values :
+                            <ul>
+                                <li>writeAccess: (boolean) Allows or not the write access</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+        <pre>{
+  "action": "created",
+  "data": {
+    "__v": 1,
+    "_id": "5394b863d57dfadd2cf49d7d",
+    "name": "Pictures",
+    "parent": "53907779068b7400000416ce",
+    "userId": 75,
+    "updateDate": "2014-06-08T22:08:19.431Z",
+    "parents": [
+      "53907779068b7400000416ce"
+    ],
+    "sharedCode": 0,
+    "publicShareEnabled": false,
+    "shares": [
+      {
+        "userName": "Alexis Chevalier",
+        "userId": 76,
+        "write": true,
+        "read": true,
+        "_id": "5397932e631fa2126e35cfd0"
+      }
+    ],
+    "isRoot": false,
+    "childFolders": [],
+    "childFiles": [
+      "5394b8a9d57dfadd2cf49d87"
+    ]
+  }
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#removeShare">
+                        2 - Remove share
+                    </a>
+                </h4>
+            </div>
+            <div id="removeShare" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/shares/:TYPE/:ID/:USERID</pre>
+                    <ul>
+                        <li>Method : DELETE</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>TYPE: folder or file, depending on what you need to 'unshare'</li>
+                                <li>ID: id of the folder or file you need to 'unshare'</li>
+                                <li>USERID: id of the user who you want to 'unshare' with</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{
+  "__v": 2,
+  "_id": "5394b863d57dfadd2cf49d7d",
+  "name": "Pictures",
+  "parent": "53907779068b7400000416ce",
+  "userId": 75,
+  "updateDate": "2014-06-08T22:08:19.431Z",
+  "parents": [
+    "53907779068b7400000416ce"
+  ],
+  "sharedCode": 0,
+  "publicShareEnabled": false,
+  "shares": [],
+  "isRoot": false,
+  "childFolders": [],
+  "childFiles": [
+    "5394b8a9d57dfadd2cf49d87"
+  ]
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#enablePublicShare">
+                        3 - Enable public sharing
+                    </a>
+                </h4>
+            </div>
+            <div id="enablePublicShare" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/publicShares/:TYPE/:ID</pre>
+                    <ul>
+                        <li>Method : POST</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>TYPE: folder or file, depending on what you need to share</li>
+                                <li>ID: id of the folder or file you need to share</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>
+                        {
+  "__v": 2,
+  "_id": "5394b863d57dfadd2cf49d7d",
+  "name": "Pictures",
+  "parent": "53907779068b7400000416ce",
+  "userId": 75,
+  "updateDate": "2014-06-08T22:08:19.431Z",
+  "parents": [
+    "53907779068b7400000416ce"
+  ],
+  "sharedCode": 0,
+  "publicShareEnabled": true,
+  "shares": [],
+  "isRoot": false,
+  "childFolders": [],
+  "childFiles": [
+    "5394b8a9d57dfadd2cf49d87"
+  ]
+}
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#disablePublicShare">
+                        4 - Disable public sharing
+                    </a>
+                </h4>
+            </div>
+            <div id="disablePublicShare" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/publicShares/:TYPE/:ID</pre>
+                    <ul>
+                        <li>Method : DELETE</li>
+                        <li>Authentication : Required</li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>TYPE: folder or file, depending on what you need to 'unshare'</li>
+                                <li>ID: id of the folder or file you need to 'unshare'</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{
+  "__v": 2,
+  "_id": "5394b863d57dfadd2cf49d7d",
+  "name": "Pictures",
+  "parent": "53907779068b7400000416ce",
+  "userId": 75,
+  "updateDate": "2014-06-08T22:08:19.431Z",
+  "parents": [
+    "53907779068b7400000416ce"
+  ],
+  "sharedCode": 0,
+  "publicShareEnabled": false,
+  "shares": [],
+  "isRoot": false,
+  "childFolders": [],
+  "childFiles": [
+    "5394b8a9d57dfadd2cf49d87"
+  ]
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="doc-group">
+    <h1 id="public">VII - Public</h1>
+
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#publicMeta">
+                        1 - Get public file metadatas
+                    </a>
+                </h4>
+            </div>
+            <div id="publicMeta" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/public/file/:fileID</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : <strong>Not required</strong></li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>fileID: The file you want to access</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{
+  "__v": 0,
+  "_id": "53978013fadcb2c2062ad570",
+  "name": "mickambp.png",
+  "parent": null,
+  "userId": 75,
+  "realFileData": {
+    "chunkSize": 262144,
+    "contentType": "image/png",
+    "id": "53978013fadcb2c2062ad571",
+    "length": 524285,
+    "md5": "b768ac0e338ef116089452fc90582dcf",
+    "uploadDate": "2014-06-10T22:00:51.294Z"
+  },
+  "readers": 0,
+  "busyWrite": false,
+  "updateDate": "2014-06-10T22:00:51.248Z",
+  "parents": [],
+  "sharedCode": 0,
+  "publicShareEnabled": true,
+  "shares": []
+}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#publicDownload">
+                        2 - Download public file
+                    </a>
+                </h4>
+            </div>
+            <div id="publicDownload" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/public/file/download/:fileID</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : <strong>Not required</strong></li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>fileID: The file you want to access</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : A binary stream of the file</p>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#publicFolderDetails">
+                        3 - Public folder details
+                    </a>
+                </h4>
+            </div>
+            <div id="publicFolderDetails" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <pre>https://api.cubby-hole.me/api/public/folder/:folderID</pre>
+                    <ul>
+                        <li>Method : GET</li>
+                        <li>Authentication : <strong>Not required</strong></li>
+                        <li>Required parameters :
+                            <ul>
+                                <li>folderID: The folder you want to access</li>
+                            </ul>
+                        </li>
+                        <li>Required body values :
+                            <ul>
+                                <li>Body: values</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>Typical response : </p>
+                    <pre>{
+  "__v": 2,
+  "_id": "5394b863d57dfadd2cf49d7d",
+  "name": "Pictures",
+  "parent": null,
+  "userId": 75,
+  "updateDate": "2014-06-08T22:08:19.431Z",
+  "parents": [],
+  "sharedCode": 0,
+  "publicShareEnabled": true,
+  "shares": [],
+  "isRoot": true,
+  "childFolders": [],
+  "childFiles": [
+    {
+      "__v": 0,
+      "_id": "5394b8a9d57dfadd2cf49d87",
+      "name": "tumblr_n6c6s6fJSe1r00l9eo6_500.jpg",
+      "parent": "5394b863d57dfadd2cf49d7d",
+      "userId": 75,
+      "realFileData": {
+        "chunkSize": 262144,
+        "contentType": "image/jpeg",
+        "id": "5394b8a9d57dfadd2cf49d88",
+        "length": 24995,
+        "md5": "f2554b0d908d9d87704737961e73428d",
+        "uploadDate": "2014-06-08T19:25:29.195Z"
+      },
+      "readers": 0,
+      "busyWrite": false,
+      "updateDate": "2014-06-08T19:25:29.190Z",
+      "parents": [
+        "53907779068b7400000416ce",
+        "5394b863d57dfadd2cf49d7d"
+      ],
+      "sharedCode": 0,
+      "publicShareEnabled": false,
+      "shares": []
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</div><!--/row-->
+{% endblock %}

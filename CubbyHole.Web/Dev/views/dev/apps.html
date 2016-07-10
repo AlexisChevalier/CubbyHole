@@ -1,0 +1,24 @@
+{% extends '../layouts/devLayout.html' %}
+{% block body %}
+<div class="page-header">
+    <h1>{{__('My Applications')}}</h1>
+</div>
+{% if clients %}
+<table class="table table-striped">
+    <tbody>
+    {% for client in clients %}
+    <tr>
+        <td>
+            <p class="lead"><b>{{__('Name :')}} </b>{{ client.name }}</p>
+            <p><b>{{__('App ID:')}} </b>{{ client.clientId }}</p>
+            <p><b>{{__('App Secret :')}} </b>{{ client.clientSecret }}</p>
+            <p><b>{{__('Redirection URI :')}} </b>{{ client.redirect_uri }}</p>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<h4>You don't have any applications yet !</h4>
+{% endif %}
+{% endblock %}
