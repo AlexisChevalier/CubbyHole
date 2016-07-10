@@ -1,0 +1,79 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ShareActivity" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="24dp"
+        android:text="Find a user" />
+
+    <EditText
+        android:id="@+id/search_user_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/textView1"
+        android:ems="10"
+        android:inputType="textPersonName" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/search_user_button"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/search_user_editText"
+        android:layout_marginRight="14dp"
+        android:text="Search" />
+
+        <ListView
+        android:id="@+id/search_user_listview"
+        android:layout_width="wrap_content"
+        android:layout_height="130dp"
+        android:layout_alignLeft="@+id/search_user_editText"
+        android:layout_alignRight="@+id/search_user_button"
+        android:layout_below="@+id/search_user_editText" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/search_user_listview"
+            android:layout_below="@+id/search_user_listview"
+            android:layout_marginTop="10dp"
+            android:text="Selected user:" 
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/selected_user_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView2"
+            android:layout_alignBottom="@+id/textView2"
+            android:layout_toRightOf="@+id/textView2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="" 
+            android:textColor="#3DAAF8"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/add_shared_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Share" />
+
+        
+</RelativeLayout>
